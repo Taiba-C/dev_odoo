@@ -69,3 +69,8 @@ msgstr "Prix total d'achat"
 #: model:ir.model.fields,field_description:custom_stock.field_sale_order_option__total_sale_price
 msgid "Total sale price"
 msgstr "Prix total de vente"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Add BOM"
+msgstr "Ajouter les nomenclatures"
