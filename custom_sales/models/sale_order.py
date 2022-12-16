@@ -5,7 +5,7 @@ from odoo import models, fields, api
 class Sale_order(models.Model):
     _inherit = "sale.order"
     
-    total_puchase = fields.Float('Total puchase price', readonly = True)
+    total_purchase = fields.Float('Total puchase price', readonly = True)
     total_sale = fields.Float('Total sale price', readonly = True)
     margin = fields.Float('Margin', readonly = True)
     margin_percent = fields.Float('Margin %', readonly = True)
@@ -114,11 +114,11 @@ class Sale_order(models.Model):
         """
             make calcul to get total purchase or sale
         """
-        total_puchase = 0
+        total_purchase = 0
         total_sale = 0
         margin = 0
         for line in self.sale_order_option_ids:
-            total_puchase += line.total_purchase_price
+            total_purchase += line.total_purchase_price
             total_sale += line.total_sale_price
             margin += line.margin
             if total_sale > 0:
@@ -126,7 +126,7 @@ class Sale_order(models.Model):
             else:
                 self.margin_percent = 0
         
-        self.total_puchase = total_puchase
+        self.total_purchase = total_purchase
         self.total_sale = total_sale
         self.margin = margin
         
