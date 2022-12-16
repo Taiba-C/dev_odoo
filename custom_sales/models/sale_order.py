@@ -130,9 +130,6 @@ class Sale_order(models.Model):
         self.total_sale = total_sale
         self.margin = margin
         
-                
-
-
 class SaleOrderOption(models.Model):
     _inherit = 'sale.order.option'
         
