@@ -26,21 +26,7 @@ class Sale_order(models.Model):
                 
                 self.create_sale_order_option(boms, self.id, line.product_id.id)
                 
-        total_purchase = 0
-        total_sale = 0
-        margin = 0
-        for line in self.sale_order_option_ids:
-            total_purchase += line.total_purchase_price
-            total_sale += line.total_sale_price
-            margin += line.margin
-            if total_sale > 0:
-                self.margin_percent = margin / total_sale
-            else:
-                self.margin_percent = 0
-        
-        self.total_purchase = total_purchase
-        self.total_sale = total_sale
-        self.margin = margin
+        self._onchange_sale_order_option_ids()
         
     
     def clear_sale_order_option(self):
@@ -133,6 +119,7 @@ class Sale_order(models.Model):
         total_sale = 0
         margin = 0
         for line in self.sale_order_option_ids:
+            
             total_purchase += line.total_purchase_price
             total_sale += line.total_sale_price
             margin += line.margin
@@ -140,11 +127,18 @@ class Sale_order(models.Model):
                 self.margin_percent = margin / total_sale
             else:
                 self.margin_percent = 0
+                
+            for order_line in self.order_line:
+                if order_line.product_template_id == line.parent_id:
+                   order_line.product_uom_qty = 1
+                   order_line.price_unit = total_sale
+        
         
         self.total_purchase = total_purchase
         self.total_sale = total_sale
         self.margin = margin
-        
+    
+    
 class SaleOrderOption(models.Model):
     _inherit = 'sale.order.option'
         
