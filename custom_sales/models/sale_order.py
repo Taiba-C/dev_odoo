@@ -25,7 +25,30 @@ class Sale_order(models.Model):
                 boms = self.get_product_bom(line.product_id[last_product].id)
                 
                 self.create_sale_order_option(boms, self.id, line.product_id.id)
-                 
+                
+        total_purchase = 0
+        total_sale = 0
+        margin = 0
+        for line in self.sale_order_option_ids:
+            total_purchase += line.total_purchase_price
+            total_sale += line.total_sale_price
+            margin += line.margin
+            if total_sale > 0:
+                self.margin_percent = margin / total_sale
+            else:
+                self.margin_percent = 0
+        
+        self.total_purchase = total_purchase
+        self.total_sale = total_sale
+        self.margin = margin
+        
+    
+    def clear_sale_order_option(self):
+        """
+            clear sale_order_option every time trigger button add boms
+        """
+        for rec in self:
+            rec.sale_order_option_ids = [(5,0,0)]         
         
     def get_product_bom(self, id):
         """
@@ -36,7 +59,6 @@ class Sale_order(models.Model):
         
         for line in boms.bom_line_ids:
             
-            # boms.append(line.product_id.product_tmpl_id)
             id = line.product_id.id
             quantity = line.product_qty
             
@@ -45,12 +67,6 @@ class Sale_order(models.Model):
         return product_boms
     
     
-    def clear_sale_order_option(self):
-        """
-            clear sale_order_option every time trigger button add boms
-        """
-        for rec in self:
-            rec.sale_order_option_ids = [(5,0,0)]
     
     
     def create_sale_order_option(self, boms, order_id, parent_id):
@@ -60,7 +76,6 @@ class Sale_order(models.Model):
         """
         
         for data in boms:
-            
             product_id = self.env['product.product'].search([('id', '=', data['id'])])
             product_qty = data['quantity']
             
