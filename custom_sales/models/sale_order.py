@@ -128,10 +128,15 @@ class Sale_order(models.Model):
             else:
                 self.margin_percent = 0
                 
-            for order_line in self.order_line:
+        for order_line in self.order_line:
+            total = 0
+            for line in self.sale_order_option_ids:
+            
+            # print(sum(bom_product.mapped(order_line.product_template_id)))
                 if order_line.product_template_id == line.parent_id:
-                   order_line.product_uom_qty = 1
-                   order_line.price_unit = total_sale
+                    total += line.total_sale_price
+                    order_line.product_uom_qty = 1
+                    order_line.price_unit = total
         
         
         self.total_purchase = total_purchase
