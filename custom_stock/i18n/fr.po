@@ -19,3 +19,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:custom_stock.field_product_product__margin_product
 msgid "Margin"
 msgstr "Marge"
+
+#. module: mrp
+#: model:ir.ui.menu,name:custom_stock.menu_mrp_bom_form_action2
+msgid "Reference quote"
+msgstr "Referentiel Devis"
+
+#. module: mrp
+#: model_terms:ir.ui.view,arch_db:custom_stock.mrp_bom_line_view_filter
+msgid "Bill Of Material"
+msgstr "Nomenclature"
+#. module: mrp
+#: model_terms:ir.ui.view,arch_db:custom_stock.mrp_bom_line_view_filter
+msgid "Search Bill Of Material Components"
+msgstr "Recherche nomenclature"

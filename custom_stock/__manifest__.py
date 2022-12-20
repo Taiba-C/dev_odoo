@@ -21,7 +21,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','stock','product'],
+    'depends': ['base','stock','product','mrp'],
 
     # always loaded
     'data': [
@@ -29,6 +29,7 @@
         'views/views.xml',
         'views/templates.xml',
         'views/product.xml',
+        'views/mrp_bom_component_view.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
