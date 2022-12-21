@@ -33,34 +33,6 @@
         </field>
     </record>
 
-    <!-- <record id="mrp_bom_line_view_filter" model="ir.ui.view">
-        <field name="name">mrp.bom.line.view.filter</field>
-        <field name="model">mrp.bom.line</field>
-        <field name="arch" type="xml">
-            <search string="Search Bill Of Material Components">
-                <field name="bom_id" />
-                <field name="product_id" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        name="bom"
-                        string="Bill Of Material"
-                        context="{'group_by':'bom_id'}"
-                    />
-                    <filter
-                        name="product"
-                        string="Product"
-                        context="{'group_by':'product_id'}"
-                    />
-                    <filter
-                        name="uom"
-                        string='Default Unit of Measure'
-                        context="{'group_by' : 'product_uom_id'}"
-                    />
-                </group>
-            </search>
-        </field>
-    </record> -->
-
     <menuitem
         action="reference_quote_action"
         id="menu_reference_quote"
