@@ -29,7 +29,6 @@
         'views/views.xml',
         'views/templates.xml',
         'views/product.xml',
-        'views/mrp_bom_component_view.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

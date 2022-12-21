@@ -60,7 +60,6 @@ class Sale_order(models.Model):
             create in model sale order option
             each line is from product as a bom's parent
         """
-        
         for data in boms:
             product_id = self.env['product.product'].search([('id', '=', data['id'])])
             product_qty = data['quantity']

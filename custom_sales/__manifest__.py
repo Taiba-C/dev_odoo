@@ -21,7 +21,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale','sale_management'],
+    'depends': ['base','sale','sale_management','product'],
 
     # always loaded
     'data': [
@@ -30,6 +30,7 @@
         'views/templates.xml',
         'views/sale_order.xml',
         'views/sale_management.xml',
+        'views/reference_quote.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

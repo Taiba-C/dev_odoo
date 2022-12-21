@@ -74,3 +74,10 @@ msgstr "Prix total de vente"
 #: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
 msgid "Add BOM"
 msgstr "Ajouter les nomenclatures"
+
+
+#. module: product_template
+#: model:ir.ui.menu,name:custom_sales.menu_reference_quote
+#: model:ir.actions.act_window,name:custom_sales.reference_quote_action
+msgid "Reference quote"
+msgstr "Referentiel Devis"

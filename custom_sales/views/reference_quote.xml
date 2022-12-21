@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="reference_quote_line_tree_view" model="ir.ui.view">
+        <field name="name">reference_quote.tree.view</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <tree string="Components" editable="bottom" create="0" edit="1" import="0" delete="false">
+                <field name="name" options="{'no_create': True}"  attrs="{'readonly': [('id', '!=', False)]}" />
+                <field name="margin_product" can_create="false" widget="percentage" can_write="true"/>
+                <field name="standard_price" widget="monetary" can_create="false" can_write="true"/>
+                
+            </tree>
+        </field>
+    </record>
+
+    <record id="reference_quote_action" model="ir.actions.act_window">
+        <field name="name">Reference quote</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" eval="ref('reference_quote_line_tree_view')" />
+        <field name="search_view_id" ref="stock.product_template_search_form_view_stock"/>
+        <field name="context">{"search_default_consumable": 1, 'default_detailed_type': 'product'}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a component to a bill of material.
+            </p>
+            <p>
+                Bills of materials components are components and by-products
+                used to create master bills of materials.  Use this menu to
+                search in which BoM a specific component is used.
+            </p>
+        </field>
+    </record>
+
+    <!-- <record id="mrp_bom_line_view_filter" model="ir.ui.view">
+        <field name="name">mrp.bom.line.view.filter</field>
+        <field name="model">mrp.bom.line</field>
+        <field name="arch" type="xml">
+            <search string="Search Bill Of Material Components">
+                <field name="bom_id" />
+                <field name="product_id" />
+                <group expand="0" string="Group By...">
+                    <filter
+                        name="bom"
+                        string="Bill Of Material"
+                        context="{'group_by':'bom_id'}"
+                    />
+                    <filter
+                        name="product"
+                        string="Product"
+                        context="{'group_by':'product_id'}"
+                    />
+                    <filter
+                        name="uom"
+                        string='Default Unit of Measure'
+                        context="{'group_by' : 'product_uom_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record> -->
+
+    <menuitem
+        action="reference_quote_action"
+        id="menu_reference_quote"
+        parent="sale.product_menu_catalog"
+        sequence="14"
+    />
+</odoo>
