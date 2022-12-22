@@ -72,8 +72,8 @@ msgstr "Prix total de vente"
 
 #. module: custom_sales
 #: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
-msgid "Add BOM"
-msgstr "Ajouter les nomenclatures"
+msgid "Encryption"
+msgstr "Chiffrage"
 
 
 #. module: product_template
