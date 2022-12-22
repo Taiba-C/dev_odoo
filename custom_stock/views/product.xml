@@ -5,7 +5,10 @@
             <field name="inherit_id" ref="product.product_template_only_form_view" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='categ_id']" position="before">
-                    <field name="margin_product" widget ="percentage"/>
+                    <field name="margin_product"/>
+                </xpath>
+                <xpath expr="//field[@name='standard_price']" position="attributes">
+                    <attribute name="string">Prix d'achat</attribute>
                 </xpath>
             </field>
         </record>
