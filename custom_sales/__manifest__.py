@@ -21,7 +21,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale','sale_management','product','industry_fsm_sale'],
+    'depends': ['base','sale','sale_management','product','industry_fsm_sale','custom_stock'],
 
     # always loaded
     'data': [
