@@ -59,7 +59,7 @@
                     <field name="total_purchase_price" force_save = "1"/>
                     <field name="total_sale_price" force_save = "1"/>
                     <field name="margin" force_save = "1"/>
-                    <field name="margin_percent"  force_save = "1"/>
+                    <field name="margin_percent" widget="percentage" force_save = "1"/>
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']" position="after">
