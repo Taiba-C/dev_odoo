@@ -152,7 +152,7 @@ class SaleOrderOption(models.Model):
     
     margin = fields.Float('Margin €', readonly=True)
     
-    margin_product = fields.Float('Margin')
+    margin_product = fields.Float('Taux Com')
     
     margin_percent = fields.Float('Margin %', readonly=True)
     
