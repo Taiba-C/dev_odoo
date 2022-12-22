@@ -10,4 +10,4 @@ class Product_template(models.Model):
     """
     _inherit = "product.template"
     
-    margin_product = fields.Float('Marge')
+    margin_product = fields.Float('Taux Com')
