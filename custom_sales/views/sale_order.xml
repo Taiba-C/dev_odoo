@@ -11,7 +11,7 @@
                     
                     <button name="generate_bom_order" 
                     attrs="{ 'invisible': [('state', '!=', 'draft')] }"
-                    string="Add BOM" type="object" class="oe_highlight"/>
+                    string="Encryption" type="object" class="oe_highlight"/>
                     
                 </xpath>
 
@@ -55,11 +55,11 @@
 
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="after">
-                    <field name="margin_product"/>
+                    <field name="margin_product" string =" Taux Com"/>
                     <field name="total_purchase_price" force_save = "1"/>
                     <field name="total_sale_price" force_save = "1"/>
                     <field name="margin" force_save = "1"/>
-                    <field name="margin_percent" widget="percentage" force_save = "1"/>
+                    <field name="margin_percent"  force_save = "1"/>
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']" position="after">
@@ -91,8 +91,17 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="attributes">
-                    <attribute name="optional">hide</attribute>
+                <xpath expr="//field[@name='order_line']/form/group/group/div[@name='ordered_qty']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page/field[@name='order_line']/tree/field[@name='product_uom'][2]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='customer_lead']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -107,8 +116,24 @@
                 <!-- change name -->
                 <xpath expr="//page[@name='optional_products']" position="attributes">
 
-                    <attribute name="string">Nomenclature</attribute>
+                    <attribute name="string">Tableau de chiffrage</attribute>
 
+                </xpath>
+                <xpath expr="//page[@name='order_lines']" position="attributes">
+
+                    <attribute name="string">Détails du devis</attribute>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_order_form_inherit_sale_project_inherited" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.project</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="industry_fsm_sale.view_order_form_inherit_sale_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree/field[@name='task_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
             </field>
         </record>
