@@ -16,6 +16,12 @@
                 </xpath>
 
                 
+                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="attributes">
+
+                    <attribute name="domain">[('is_bom_parent', '=', False)]</attribute>
+
+                </xpath>
+                
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='name']" position="attributes">
 
                     <attribute name="invisible">1</attribute>
@@ -41,7 +47,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="before">
-                    <field name="parent_id" />
+                    <field name="parent_id" domain="[('is_bom_parent', '=', True)]" />
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="before">
@@ -85,9 +91,9 @@
                 </xpath>
 
                 <!-- hide field in order line -->
-                <!-- <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath> -->
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="attributes">
+                    <attribute name="domain">[('is_bom_parent', '=', True)]</attribute>
+                </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
