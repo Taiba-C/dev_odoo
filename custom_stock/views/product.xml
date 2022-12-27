@@ -6,10 +6,21 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='categ_id']" position="before">
                     <field name="margin_product"/>
-                    <field name="is_bom_parent" />
+                    <field name="is_bom_parent" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='standard_price']" position="attributes">
                     <attribute name="string">Prix d'achat</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_normal_form_view_inherit_product_product" model="ir.ui.view">
+            <field name="name">product.product.view.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='categ_id']" position="before">
+                    <field name="is_bom_parent" invisible="1"/>
                 </xpath>
             </field>
         </record>
