@@ -12,7 +12,7 @@ class Product_template(models.Model):
     """
     _inherit = "product.template"
     
-    margin_product = fields.Float('Taux Com')
+    margin_product = fields.Float('Coefficient')
     is_bom_parent = fields.Boolean('Is BOM Parent')
 class Product_product(models.Model):
     """inherit product template for customization
