@@ -130,8 +130,6 @@ class Sale_order(models.Model):
         for order_line in self.order_line:
             total = 0
             for line in self.sale_order_option_ids:
-            
-            # print(sum(bom_product.mapped(order_line.product_template_id)))
                 if order_line.product_template_id == line.parent_id:
                     total += line.total_sale_price
                     order_line.product_uom_qty = 1
