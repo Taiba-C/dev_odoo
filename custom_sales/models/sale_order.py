@@ -62,7 +62,7 @@ class Sale_order(models.Model):
         """
         for data in boms:
             product_id = self.env['product.product'].search([('id', '=', data['id'])])
-            product_qty = 0
+            product_qty = data['quantity']
             
             total_price_purchase = 0
             total_price_sale = 0
