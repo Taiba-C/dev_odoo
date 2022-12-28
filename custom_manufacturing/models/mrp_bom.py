@@ -4,6 +4,8 @@ from odoo import models, fields, api, _
 
 class Mrp_bom(models.Model):
     _inherit = "mrp.bom"
+    _description = 'custom manufacturing'
+    
     
     @api.model
     def create(self, vals):
