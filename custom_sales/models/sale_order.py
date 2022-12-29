@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
+
 
 class Sale_order(models.Model):
     _inherit = "sale.order"
@@ -119,13 +121,21 @@ class Sale_order(models.Model):
         margin = 0
         for line in self.sale_order_option_ids:
             
-            total_purchase += line.total_purchase_price
-            total_sale += line.total_sale_price
-            margin += line.margin
-            if total_sale > 0:
-                self.margin_percent = margin / total_sale
+            if line.product_id.detailed_type == 'service':
+                line.is_mo = True
+            if line.is_mo != True:
+                total_purchase += line.total_purchase_price
+                total_sale += line.total_sale_price
+                margin += line.margin
+                if total_sale > 0:
+                    self.margin_percent = margin / total_sale
+                else:
+                    self.margin_percent = 0
             else:
-                self.margin_percent = 0
+                if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product:
+                    line.purchase_price = line.product_id.product_tmpl_id.standard_price
+                    line.margin_product = line.product_id.product_tmpl_id.margin_product
+                
                 
         for order_line in self.order_line:
             total = 0
@@ -158,6 +168,7 @@ class SaleOrderOption(models.Model):
     
     total_sale_price = fields.Float('Total sale price', readonly=True)
     
+    is_mo = fields.Boolean('MO')
     
     @api.onchange('purchase_price')
     def _onchange_purchase_price(self):
