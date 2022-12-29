@@ -3,9 +3,7 @@
 from odoo import models, fields, api, _
 
 class Mrp_bom(models.Model):
-    _inherit = "mrp.bom"
-    _description = 'custom manufacturing'
-    
+    _inherit = "mrp.bom"    
     
     @api.model
     def create(self, vals):
