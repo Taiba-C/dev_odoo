@@ -51,6 +51,16 @@ msgid "Margin €"
 msgstr "Marge €"
 
 #. module: custom_sales
+#: model:ir.model.fields,field_description:custom_stock.field_sale_order__date_of_exhibition
+msgid "Date of exhibition"
+msgstr "Date de salon"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_stock.field_sale_order__validity_quotation
+msgid "Validity of the quotation"
+msgstr "Validité du devis"
+
+#. module: custom_sales
 #: model:ir.model.fields,field_description:custom_stock.field_sale_order_option__margin_product
 msgid "Margin"
 msgstr "Marge"
