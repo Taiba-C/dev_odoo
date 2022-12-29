@@ -11,6 +11,10 @@ class Sale_order(models.Model):
     total_sale = fields.Float('Total sale price', readonly = True)
     margin = fields.Float('Margin', readonly = True)
     margin_percent = fields.Float('Margin %', readonly = True)
+    date_of_exhibition = fields.Datetime('Date of exhibition')
+    
+    validity_quotation = fields.Char('Validity of the quotation', compute='_compute_duration')
+    duration = fields.Integer('Duration', compute='_compute_duration')
     
     def generate_bom_order(self):
         """
@@ -149,6 +153,23 @@ class Sale_order(models.Model):
         self.total_purchase = total_purchase
         self.total_sale = total_sale
         self.margin = margin
+        
+    @api.depends('date_order', 'date_of_exhibition')
+    def _compute_duration(self):
+        for event in self:
+            event.duration = self._get_duration(event.date_order, event.date_of_exhibition)
+            
+            if event.duration >= 45:
+                event.validity_quotation = "2 weeks"
+            if event.duration < 45:
+                event.validity_quotation = "1 week"
+    
+    def _get_duration(self, start, stop):
+        """ Get the duration value between the 2 given dates. """
+        if not start or not stop:
+            return 0
+        duration = (((stop - start).total_seconds() / 3600)/24)+1
+        return round(duration, 2)
     
     
 class SaleOrderOption(models.Model):
