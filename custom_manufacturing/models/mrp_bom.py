@@ -5,7 +5,7 @@ from odoo import models, fields, api, _
 class Mrp_bom(models.Model):
     _inherit = "mrp.bom"    
     
-    @api.model
+    # @api.model
     def create(self, vals):
         """
             change product template and product product as bom parent
