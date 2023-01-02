@@ -58,7 +58,6 @@
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="before">
-                    <field name="is_mo" invisible ="1"/>
                     <field name="purchase_price" />
 
                 </xpath>

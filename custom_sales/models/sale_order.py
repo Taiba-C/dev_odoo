@@ -32,7 +32,7 @@ class Sale_order(models.Model):
                 
                 self.create_sale_order_option(boms, self.id, line.product_id.id)
                 
-        self._onchange_sale_order_option_ids()
+        self.compute_sale_order_option_ids()
         
     
     def clear_sale_order_option(self):
@@ -117,6 +117,9 @@ class Sale_order(models.Model):
     
     @api.onchange('sale_order_option_ids')
     def _onchange_sale_order_option_ids(self):
+        self.compute_sale_order_option_ids()
+        
+    def compute_sale_order_option_ids(self):
         """
             make calcul to get total purchase or sale
         """
@@ -125,9 +128,7 @@ class Sale_order(models.Model):
         margin = 0
         for line in self.sale_order_option_ids:
             
-            if line.product_id.detailed_type == 'service':
-                line.is_mo = True
-            if line.is_mo != True:
+            if line.product_id.detailed_type != 'service':
                 total_purchase += line.total_purchase_price
                 total_sale += line.total_sale_price
                 margin += line.margin
@@ -188,9 +189,7 @@ class SaleOrderOption(models.Model):
     total_purchase_price = fields.Float('Total purchase price', readonly=True)
     
     total_sale_price = fields.Float('Total sale price', readonly=True)
-    
-    is_mo = fields.Boolean('MO')
-    
+        
     @api.onchange('purchase_price')
     def _onchange_purchase_price(self):
         self.update_option_line()
@@ -209,20 +208,25 @@ class SaleOrderOption(models.Model):
             update total on change
         """
         if self.product_id:
-            # prix total achat
-            self.total_purchase_price = self.purchase_price * self.quantity
-            
-            # prix total vente
-            if self.margin_product > 0:
-                self.total_sale_price = self.total_purchase_price / self.margin_product
-            
-            # marge en €
-            self.margin = self.total_sale_price - self.total_purchase_price
-            if self.margin < 0:
-                self.margin = 0
-            
-            # marge %
-            if self.total_sale_price > 0:
-                self.margin_percent = self.margin / self.total_sale_price
+            if self.product_id.detailed_type != 'service':
+                # prix total achat
+                self.total_purchase_price = self.purchase_price * self.quantity
+                
+                # prix total vente
+                if self.margin_product > 0:
+                    self.total_sale_price = self.total_purchase_price / self.margin_product
+                    
+                if self.margin_product == 0:
+                    raise UserError("You cannot set this value to margin as 0, set margin > 0 and < 1!")
+                    
+                
+                # marge en €
+                self.margin = self.total_sale_price - self.total_purchase_price
+                if self.margin < 0:
+                    self.margin = 0
+                
+                # marge %
+                if self.total_sale_price > 0:
+                    self.margin_percent = self.margin / self.total_sale_price
                 
     
