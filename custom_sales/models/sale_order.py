@@ -216,8 +216,10 @@ class SaleOrderOption(models.Model):
                 if self.margin_product > 0:
                     self.total_sale_price = self.total_purchase_price / self.margin_product
                     
-                if self.margin_product == 0:
-                    raise UserError("You cannot set this value to margin as 0, set margin > 0 and < 1!")
+                if self.margin_product == 0 :
+                    raise UserError("You cannot set this value to margin as 0!")
+                if self.margin_product > 1 :
+                    raise UserError("You cannot set this value up to 1!")
                     
                 
                 # marge en €
