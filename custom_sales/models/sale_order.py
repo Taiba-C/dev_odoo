@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, date, timedelta
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
@@ -13,7 +14,7 @@ class Sale_order(models.Model):
     margin_percent = fields.Float('Margin %', readonly = True)
     date_of_exhibition = fields.Datetime('Date of exhibition')
     
-    validity_quotation = fields.Char('Validity of the quotation', compute='_compute_duration')
+    validity_quotation = fields.Datetime('Validity of the quotation', compute='_compute_duration')
     duration = fields.Integer('Duration', compute='_compute_duration')
     
     def generate_bom_order(self):
@@ -159,11 +160,10 @@ class Sale_order(models.Model):
     def _compute_duration(self):
         for event in self:
             event.duration = self._get_duration(event.date_order, event.date_of_exhibition)
-            
             if event.duration >= 45:
-                event.validity_quotation = "2 weeks"
+                event.validity_quotation = event.date_order + timedelta(days = 14)
             if event.duration < 45:
-                event.validity_quotation = "1 week"
+                event.validity_quotation = event.date_order + timedelta(days = 7)
     
     def _get_duration(self, start, stop):
         """ Get the duration value between the 2 given dates. """
