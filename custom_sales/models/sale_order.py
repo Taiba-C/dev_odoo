@@ -171,10 +171,8 @@ class Sale_order(models.Model):
     
     @api.onchange('order_line')
     def _onchange_order_line(self):
-        # result = super(Sale_order, self)._onchange_order_line()
         for value in self.order_line:
             if value.product_template_id.detailed_type == 'service':
                 value.price_subtotal = 0
-        # return result
     
    
