@@ -101,7 +101,7 @@
 
                 <!-- hide field in order line -->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="attributes">
-                    <attribute name="domain">[('is_bom_parent', '=', True)]</attribute>
+                    <attribute name="domain">['|', ('is_bom_parent', '=', True),('detailed_type', '=', 'service')]</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
                     <attribute name="invisible">1</attribute>
