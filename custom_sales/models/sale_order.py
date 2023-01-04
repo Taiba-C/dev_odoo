@@ -59,9 +59,6 @@ class Sale_order(models.Model):
             
         return product_boms
     
-    
-    
-    
     def create_sale_order_option(self, boms, order_id, parent_id):
         """
             create in model sale order option
@@ -172,63 +169,12 @@ class Sale_order(models.Model):
         duration = (((stop - start).total_seconds() / 3600)/24)+1
         return round(duration, 2)
     
+    @api.onchange('order_line')
+    def _onchange_order_line(self):
+        # result = super(Sale_order, self)._onchange_order_line()
+        for value in self.order_line:
+            if value.product_template_id.detailed_type == 'service':
+                value.price_subtotal = 0
+        # return result
     
-class SaleOrderOption(models.Model):
-    _inherit = 'sale.order.option'
-        
-    parent_id = fields.Many2one('product.template', string='Parent')
-    
-    purchase_price = fields.Float('Purchase price')
-    
-    margin = fields.Float('Margin €', readonly=True)
-    
-    margin_product = fields.Float('Coefficient')
-    
-    margin_percent = fields.Float('Margin %', readonly=True)
-    
-    total_purchase_price = fields.Float('Total purchase price', readonly=True)
-    
-    total_sale_price = fields.Float('Total sale price', readonly=True)
-        
-    @api.onchange('purchase_price')
-    def _onchange_purchase_price(self):
-        self.update_option_line()
-    
-    @api.onchange('quantity')
-    def _onchange_quantity(self):
-        self.update_option_line()
-
-    
-    @api.onchange('margin_product')
-    def _onchange_margin_product(self):
-        self.update_option_line()
-        
-    def update_option_line(self):
-        """
-            update total on change
-        """
-        if self.product_id:
-            if self.product_id.detailed_type != 'service':
-                # prix total achat
-                self.total_purchase_price = self.purchase_price * self.quantity
-                
-                # prix total vente
-                if self.margin_product > 0:
-                    self.total_sale_price = self.total_purchase_price / self.margin_product
-                    
-                if self.margin_product == 0 :
-                    raise UserError("You cannot set this value to margin as 0!")
-                if self.margin_product > 1 :
-                    raise UserError("You cannot set this value up to 1!")
-                    
-                
-                # marge en €
-                self.margin = self.total_sale_price - self.total_purchase_price
-                if self.margin < 0:
-                    self.margin = 0
-                
-                # marge %
-                if self.total_sale_price > 0:
-                    self.margin_percent = self.margin / self.total_sale_price
-                
-    
+   
