@@ -1,0 +1,43 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* custom_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-01-04 13:27+0000\n"
+"PO-Revision-Date: 2023-01-04 13:27+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: custom_account
+#: model:ir.model.fields.selection,name:custom_account.selection__account_move__payment_deadline_options__month
+msgid "30 days  "
+msgstr "30 jours"
+
+#. module: custom_account
+#: model:ir.model.fields.selection,name:custom_account.selection__account_move__payment_deadline_options__end_month
+msgid "30 days end of month "
+msgstr "30 jours fin du mois"
+
+#. module: custom_account
+#: model:ir.model.fields.selection,name:custom_account.selection__account_move__payment_deadline_options__receipt
+msgid "In receipt"
+msgstr "A la réception"
+
+#. module: custom_account
+#: model:ir.model,name:custom_account.model_account_move
+msgid "Journal Entry"
+msgstr "Pièce comptable"
+
+#. module: custom_account
+#: model:ir.model.fields,field_description:custom_account.field_account_bank_statement_line__payment_deadline_options
+#: model:ir.model.fields,field_description:custom_account.field_account_move__payment_deadline_options
+#: model:ir.model.fields,field_description:custom_account.field_account_payment__payment_deadline_options
+msgid "Term options"
+msgstr "Options"
