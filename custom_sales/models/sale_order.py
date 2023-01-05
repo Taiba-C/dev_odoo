@@ -2,7 +2,6 @@
 from datetime import datetime, date, timedelta
 
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
 
 
 class Sale_order(models.Model):
@@ -168,7 +167,6 @@ class Sale_order(models.Model):
                         
                 else:
                     event.validity_quotation = date.today()
-                    raise UserError("You cannot choose a date lower than the date of the quotation")
                     
                     
             else:
