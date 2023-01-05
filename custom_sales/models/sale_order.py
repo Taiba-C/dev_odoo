@@ -12,9 +12,9 @@ class Sale_order(models.Model):
     total_sale = fields.Float('Total sale price', readonly = True)
     margin = fields.Float('Margin', readonly = True)
     margin_percent = fields.Float('Margin %', readonly = True)
-    date_of_exhibition = fields.Datetime('Date of exhibition')
+    date_of_exhibition = fields.Date('Date of exhibition',default=date.today())
     
-    validity_quotation = fields.Datetime('Validity of the quotation', compute='_compute_duration')
+    validity_quotation = fields.Date('Validity of the quotation', compute='_compute_duration')
     duration = fields.Integer('Duration', compute='_compute_duration')
     
     def generate_bom_order(self):
@@ -156,18 +156,33 @@ class Sale_order(models.Model):
     @api.depends('date_order', 'date_of_exhibition')
     def _compute_duration(self):
         for event in self:
-            event.duration = self._get_duration(event.date_order, event.date_of_exhibition)
-            if event.duration >= 45:
-                event.validity_quotation = event.date_order + timedelta(days = 14)
-            if event.duration < 45:
-                event.validity_quotation = event.date_order + timedelta(days = 7)
+            if event.date_order and event.date_of_exhibition:
+                duration = self._get_duration(event.date_order.date(), event.date_of_exhibition)
+                
+                if duration >= 0:
+                    event.duration = duration
+                    if event.duration >= 45:
+                        event.validity_quotation = event.date_order + timedelta(days = 14)
+                    if event.duration < 45:
+                        event.validity_quotation = event.date_order + timedelta(days = 7)
+                        
+                else:
+                    event.validity_quotation = date.today()
+                    raise UserError("You cannot choose a date lower than the date of the quotation")
+                    
+                    
+            else:
+                event.validity_quotation = date.today()
     
     def _get_duration(self, start, stop):
         """ Get the duration value between the 2 given dates. """
+        
+        nb_day = stop - start
+        
         if not start or not stop:
             return 0
-        duration = (((stop - start).total_seconds() / 3600)/24)+1
-        return round(duration, 2)
+        duration = nb_day.days+1
+        return duration
     
     @api.onchange('order_line')
     def _onchange_order_line(self):
