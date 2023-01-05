@@ -91,3 +91,10 @@ msgstr "Chiffrage"
 #: model:ir.actions.act_window,name:custom_sales.reference_quote_action
 msgid "Reference quote"
 msgstr "Referentiel Devis"
+
+#. module: custom_sales
+#. odoo-python
+#: code:custom_sales/models/sale_order.py:0
+#, python-format
+msgid "You cannot choose a date lower than the date of the quotation."
+msgstr "Vous ne pouvez pas choisir une date inferieur à la date du devis."
