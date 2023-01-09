@@ -26,11 +26,12 @@ class Sale_order(models.Model):
         
         for line in self.order_line:
             if line.product_id:
-                last_product = len(line.product_id) -1
+                # print(line.product_id.product_tmpl_id.id)
+                # last_product = len(line.product_id) -1
                 
-                boms = self.get_product_bom(line.product_id[last_product].id)
+                boms = self.get_product_bom(line.product_id.product_tmpl_id.id)
                 
-                self.create_sale_order_option(boms, self.id, line.product_id.id)
+                self.create_sale_order_option(boms, self.id, line.product_id.product_tmpl_id.id)
                 
         self.compute_sale_order_option_ids()
         
