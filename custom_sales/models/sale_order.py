@@ -190,5 +190,4 @@ class Sale_order(models.Model):
         for value in self.order_line:
             if value.product_template_id.detailed_type == 'service':
                 value.price_subtotal = 0
-    
    
