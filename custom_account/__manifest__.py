@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account_payment'],
+    'depends': ['base'],
 
     'license': 'AGPL-3',
     # always loaded
@@ -28,7 +28,6 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'views/account_move_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
