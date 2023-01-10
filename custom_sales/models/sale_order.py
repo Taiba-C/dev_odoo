@@ -11,7 +11,7 @@ class Sale_order(models.Model):
     total_sale = fields.Float('Total sale price', readonly = True)
     margin = fields.Float('Margin', readonly = True)
     margin_percent = fields.Float('Margin %', readonly = True)
-    date_of_exhibition = fields.Date('Date of exhibition',default=date.today())
+    date_of_exhibition = fields.Date('Date of exhibition', related="opportunity_id.x_studio_dbut_salon")
     
     validity_quotation = fields.Date('Validity of the quotation', compute='_compute_duration')
     duration = fields.Integer('Duration', compute='_compute_duration')
@@ -155,6 +155,7 @@ class Sale_order(models.Model):
         
     @api.depends('date_order', 'date_of_exhibition')
     def _compute_duration(self):
+        print(self.opportunity_id.x_studio_dbut_salon)
         for event in self:
             if event.date_order and event.date_of_exhibition:
                 duration = self._get_duration(event.date_order.date(), event.date_of_exhibition)
