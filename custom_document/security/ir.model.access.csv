@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_custom_document_custom_document,custom_document.custom_document,model_custom_document_custom_document,base.group_user,1,1,1,1
