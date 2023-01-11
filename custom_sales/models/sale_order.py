@@ -128,24 +128,58 @@ class Sale_order(models.Model):
         # parent boms are ids of BOM in order line it is a list
         parent_boms = self.order_line.product_template_id
         boms = self.env['mrp.bom']
-        new_product = False
         list_boms = []
-        prod_ids = []
         product_id_lists = []
         
         for parent_bom in parent_boms:
             # create dict of boms
             bom = boms.search([('product_tmpl_id', '=', parent_bom.id)])
-            print(bom.product_tmpl_id.id)
             for product in bom.bom_line_ids:
-                product_id_lists.append(product.id)
+                product_id_lists.append(product.product_tmpl_id.id)
             list_boms.append({
-                'parent_id':bom.product_tmpl_id.id,
+                'parent_bom':bom.product_tmpl_id.id,
                 'bom_products': product_id_lists
             })
         
-        for bom in list_boms:
-        # for line in self.sale_order_option_ids:
+        for line in self.sale_order_option_ids:
+            for bom in list_boms:
+                if line.parent_id.id == bom['parent_bom']:
+                    if line.product_id.product_tmpl_id.id in bom['bom_products']:
+                        # TODO: make condition about or line.quantity != line.product_id.product_tmpl_id.margin_product
+                        if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product :
+                            line.purchase_price = line.product_id.product_tmpl_id.standard_price
+                            line.margin_product = line.product_id.product_tmpl_id.margin_product                      
+                        
+                    # prix total achat
+                    line.total_purchase_price = line.purchase_price * line.quantity
+                    
+                    # prix total vente
+                    if line.margin_product > 0:
+                        line.total_sale_price = line.total_purchase_price / line.margin_product
+                    if line.margin_product > 1 :
+                        raise UserError("You cannot set this value up to 1!")
+                    
+                    # marge en €
+                    line.margin = line.total_sale_price - line.total_purchase_price
+                    if line.margin < 0:
+                        line.margin = 0
+                        
+                    # marge %
+                    if line.total_sale_price > 0:
+                        line.margin_percent = line.margin / line.total_sale_price
+                    
+                    total_purchase += line.total_purchase_price
+                    total_sale += line.total_sale_price
+                    margin += line.margin
+                    if total_sale > 0:
+                        self.margin_percent = margin / total_sale
+                    else:
+                        self.margin_percent = 0
+                        
+                            
+
+                        
+                            
             #     print(bom['parent_id']) 
             #     print(bom['bom_products']) 
                 # if line.parent_id.id == bom['parent_id'] :
