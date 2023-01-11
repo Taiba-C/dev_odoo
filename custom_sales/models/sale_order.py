@@ -2,6 +2,7 @@
 from datetime import datetime, date, timedelta
 
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 class Sale_order(models.Model):
@@ -123,20 +124,64 @@ class Sale_order(models.Model):
         total_purchase = 0
         total_sale = 0
         margin = 0
-        for line in self.sale_order_option_ids:
-            
-            if line.product_id.detailed_type != 'service':
-                total_purchase += line.total_purchase_price
-                total_sale += line.total_sale_price
-                margin += line.margin
-                if total_sale > 0:
-                    self.margin_percent = margin / total_sale
-                else:
-                    self.margin_percent = 0
-            else:
-                if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product:
-                    line.purchase_price = line.product_id.product_tmpl_id.standard_price
-                    line.margin_product = line.product_id.product_tmpl_id.margin_product
+        
+        # parent boms are ids of BOM in order line it is a list
+        parent_boms = self.order_line.product_template_id
+        boms = self.env['mrp.bom']
+        new_product = False
+        list_boms = []
+        prod_ids = []
+        product_id_lists = []
+        
+        for parent_bom in parent_boms:
+            # create dict of boms
+            bom = boms.search([('product_tmpl_id', '=', parent_bom.id)])
+            print(bom.product_tmpl_id.id)
+            for product in bom.bom_line_ids:
+                product_id_lists.append(product.id)
+            list_boms.append({
+                'parent_id':bom.product_tmpl_id.id,
+                'bom_products': product_id_lists
+            })
+        
+        for bom in list_boms:
+        # for line in self.sale_order_option_ids:
+            #     print(bom['parent_id']) 
+            #     print(bom['bom_products']) 
+                # if line.parent_id.id == bom['parent_id'] :
+                    
+                    # if line.product_id.product_tmpl_id.id not in ([prod_id for prod_id in bom['bom_products']]):
+                        
+                        # self.total_purchase_price = self.purchase_price * self.quantity
+
+                        # # prix total vente
+                        # if self.margin_product > 0:
+                        #     self.total_sale_price = self.total_purchase_price / self.margin_product
+                            
+                        # if self.margin_product > 1 :
+                        #     raise UserError("You cannot set this value up to 1!")
+                            
+
+                        # # marge en €
+                        # self.margin = self.total_sale_price - self.total_purchase_price
+                        # if self.margin < 0:
+                        #     self.margin = 0
+
+                        # # marge %
+                        # if self.total_sale_price > 0:
+                        #     self.margin_percent = self.margin / self.total_sale_price
+                    
+                        # total_purchase += line.total_purchase_price
+                        # total_sale += line.total_sale_price
+                        # margin += line.margin
+                        # if total_sale > 0:
+                        #     self.margin_percent = margin / total_sale
+                        # else:
+                        #     self.margin_percent = 0
+                    # else:
+                # if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product:
+                #     line.purchase_price = line.product_id.product_tmpl_id.standard_price
+                #     line.margin_product = line.product_id.product_tmpl_id.margin_product
                 
                 
         for order_line in self.order_line:
