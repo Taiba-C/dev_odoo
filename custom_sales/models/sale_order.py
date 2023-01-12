@@ -12,8 +12,8 @@ class Sale_order(models.Model):
     margin = fields.Float('Margin', readonly = True)
     margin_percent = fields.Float('Margin %', readonly = True)
     
-    date_of_exhibition = fields.Date('Date of exhibition')
-    # date_of_exhibition = fields.Date('Date of exhibition', related="opportunity_id.x_studio_dbut_salon")
+    # date_of_exhibition = fields.Date('Date of exhibition')
+    date_of_exhibition = fields.Date('Date of exhibition', related="opportunity_id.x_studio_dbut_salon")
     
     validity_quotation = fields.Date('Validity of the quotation', compute='_compute_duration')
     duration = fields.Integer('Duration', compute='_compute_duration')
