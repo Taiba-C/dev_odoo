@@ -39,7 +39,7 @@
         'views/sale_management.xml',
         'views/reference_quote.xml',
         # report
-        'report/ir_actions_report_templates.xml',
+        # 'report/ir_actions_report_templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
