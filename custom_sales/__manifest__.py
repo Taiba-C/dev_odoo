@@ -28,6 +28,7 @@
                 'industry_fsm_sale',
                 'custom_stock',
                 'account_payment',
+                'custom_manufacturing',
                 ],
 
     # always loaded
