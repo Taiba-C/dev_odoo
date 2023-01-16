@@ -36,18 +36,16 @@ class Mrp_bom(models.Model):
         """
             change product template and product product as bom parent
         """
-        if self.check_existing_bom(self.product_tmpl_id.id) == False:
-            self.env['product.template'].search([('id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': False})
-            self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': False})
+        # TODO: search function to verify if user change product_templ_id
+        self.env['product.template'].search([('id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': False})
+        self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': False})
 
-            res = super(Mrp_bom, self).write(vals)
-            
-            self.env['product.template'].search([('id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': True})
-            self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': True})
-    
-            return res  
-        else:
-            raise UserError("This BOMs are already exist, try to create new product!")
+        res = super(Mrp_bom, self).write(vals)
+        
+        self.env['product.template'].search([('id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': True})
+        self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': True})
+
+        return res  
     
     def check_existing_bom(self,product_tmpl_id):
         """
