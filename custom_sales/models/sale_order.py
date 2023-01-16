@@ -12,7 +12,7 @@ class Sale_order(models.Model):
     margin = fields.Float('Margin', readonly = True)
     margin_percent = fields.Float('Margin %', readonly = True)
     
-    date_of_exhibition = fields.Date('Date of exhibition', related="opportunity_id.x_studio_dbut_salon")
+    date_of_exhibition = fields.Date('Date of exhibition')
     
     validity_quotation = fields.Date('Validity of the quotation', compute='_compute_duration')
     duration = fields.Integer('Duration', compute='_compute_duration')
@@ -191,3 +191,7 @@ class Sale_order(models.Model):
             if value.product_template_id.detailed_type == 'service':
                 value.price_subtotal = 0
    
+    @api.onchange('date_of_exhibition')
+    def _onchange_date_of_exhibition(self):
+        if not self.date_of_exhibition:
+            self.date_of_exhibition = self.opportunity_id.x_studio_dbut_salon
