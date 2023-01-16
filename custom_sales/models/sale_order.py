@@ -137,6 +137,7 @@ class Sale_order(models.Model):
             for product in bom.bom_line_ids:
                 product_id_lists.append(product.product_tmpl_id.id)
             list_boms.append({
+                'bom_id':bom.id,
                 'parent_bom':bom.product_tmpl_id.id,
                 'bom_products': product_id_lists
             })
@@ -145,10 +146,13 @@ class Sale_order(models.Model):
             for bom in list_boms:
                 if line.parent_id.id == bom['parent_bom']:
                     if line.product_id.product_tmpl_id.id in bom['bom_products']:
+                        quantity_product = self.env['mrp.bom.line'].search([('bom_id', '=', bom['bom_id']),('product_id','=',line.product_id.id)])
+                        
                         # TODO: make condition about or line.quantity != line.product_id.product_tmpl_id.margin_product
-                        if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product :
+                        if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product or line.quantity != quantity_product.product_qty :
                             line.purchase_price = line.product_id.product_tmpl_id.standard_price
                             line.margin_product = line.product_id.product_tmpl_id.margin_product                      
+                            line.quantity = quantity_product.product_qty                      
                         
                     # prix total achat
                     line.total_purchase_price = line.purchase_price * line.quantity
