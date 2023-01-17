@@ -125,14 +125,18 @@ class Sale_order(models.Model):
         total_sale = 0
         margin = 0
         
-        # parent boms are ids of BOM in order line it is a list
+        #! parent boms are ids of BOM in order line 
+        #! it is a object with list of id
         parent_boms = self.order_line.product_template_id
         boms = self.env['mrp.bom']
         list_boms = []
-        product_id_lists = []
         
         for parent_bom in parent_boms:
-            # create dict of boms
+            """
+                create dict of boms existing in parent_boms
+                existing in the line of order_line
+            """            
+            product_id_lists = []
             bom = boms.search([('product_tmpl_id', '=', parent_bom.id)])
             for product in bom.bom_line_ids:
                 product_id_lists.append(product.product_tmpl_id.id)
@@ -143,32 +147,37 @@ class Sale_order(models.Model):
             })
         
         for line in self.sale_order_option_ids:
+            
+            if line.parent_id not in self.order_line.product_template_id:
+                raise UserError(f"{line.parent_id.name} is not in line of quotation")
+            
             for bom in list_boms:
+                #! list_bom is list of informations of bom with parent and child
                 if line.parent_id.id == bom['parent_bom']:
                     if line.product_id.product_tmpl_id.id in bom['bom_products']:
+                        #! search if product in tab is in the bom products
                         quantity_product = self.env['mrp.bom.line'].search([('bom_id', '=', bom['bom_id']),('product_id','=',line.product_id.id)])
                         
-                        # TODO: make condition about or line.quantity != line.product_id.product_tmpl_id.margin_product
                         if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product or line.quantity != quantity_product.product_qty :
                             line.purchase_price = line.product_id.product_tmpl_id.standard_price
                             line.margin_product = line.product_id.product_tmpl_id.margin_product                      
                             line.quantity = quantity_product.product_qty                      
                         
-                    # prix total achat
+                    #! prix total achat
                     line.total_purchase_price = line.purchase_price * line.quantity
                     
-                    # prix total vente
+                    #! prix total vente
                     if line.margin_product > 0:
                         line.total_sale_price = line.total_purchase_price / line.margin_product
                     if line.margin_product > 1 :
-                        raise UserError("You cannot set this value up to 1!")
+                        raise UserError("You cannot set coefficient value up to 1!")
                     
-                    # marge en €
+                    #! marge en €
                     line.margin = line.total_sale_price - line.total_purchase_price
                     if line.margin < 0:
                         line.margin = 0
                         
-                    # marge %
+                    #! marge %
                     if line.total_sale_price > 0:
                         line.margin_percent = line.margin / line.total_sale_price
                     
@@ -179,47 +188,6 @@ class Sale_order(models.Model):
                         self.margin_percent = margin / total_sale
                     else:
                         self.margin_percent = 0
-                        
-                            
-
-                        
-                            
-            #     print(bom['parent_id']) 
-            #     print(bom['bom_products']) 
-                # if line.parent_id.id == bom['parent_id'] :
-                    
-                    # if line.product_id.product_tmpl_id.id not in ([prod_id for prod_id in bom['bom_products']]):
-                        
-                        # self.total_purchase_price = self.purchase_price * self.quantity
-
-                        # # prix total vente
-                        # if self.margin_product > 0:
-                        #     self.total_sale_price = self.total_purchase_price / self.margin_product
-                            
-                        # if self.margin_product > 1 :
-                        #     raise UserError("You cannot set this value up to 1!")
-                            
-
-                        # # marge en €
-                        # self.margin = self.total_sale_price - self.total_purchase_price
-                        # if self.margin < 0:
-                        #     self.margin = 0
-
-                        # # marge %
-                        # if self.total_sale_price > 0:
-                        #     self.margin_percent = self.margin / self.total_sale_price
-                    
-                        # total_purchase += line.total_purchase_price
-                        # total_sale += line.total_sale_price
-                        # margin += line.margin
-                        # if total_sale > 0:
-                        #     self.margin_percent = margin / total_sale
-                        # else:
-                        #     self.margin_percent = 0
-                    # else:
-                # if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product:
-                #     line.purchase_price = line.product_id.product_tmpl_id.standard_price
-                #     line.margin_product = line.product_id.product_tmpl_id.margin_product
                 
                 
         for order_line in self.order_line:
@@ -237,7 +205,6 @@ class Sale_order(models.Model):
         
     @api.depends('date_order', 'date_of_exhibition')
     def _compute_duration(self):
-        print(self.opportunity_id.x_studio_dbut_salon)
         for event in self:
             if event.date_order and event.date_of_exhibition:
                 duration = self._get_duration(event.date_order.date(), event.date_of_exhibition)
