@@ -10,7 +10,7 @@ class Product_template(models.Model):
     Args:
         models (product_template): custom fields and method
     """
-    _inherit = "product.template"
+    _inherit = 'product.template'
     
     margin_product = fields.Float('Coefficient')
     is_bom_parent = fields.Boolean('Is BOM Parent')
@@ -25,7 +25,7 @@ class Product_product(models.Model):
     Args:
         models (product_template): custom fields and method
     """
-    _inherit = "product.product"
+    _inherit = 'product.product'
     
     is_bom_parent = fields.Boolean('Is BOM Parent')
     

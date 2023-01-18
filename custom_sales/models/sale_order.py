@@ -6,7 +6,7 @@ from odoo.exceptions import UserError
 
 
 class Sale_order(models.Model):
-    _inherit = "sale.order"
+    _inherit = 'sale.order'
     
     total_purchase = fields.Float('Total puchase price', readonly = True)
     total_sale = fields.Float('Total sale price', readonly = True)

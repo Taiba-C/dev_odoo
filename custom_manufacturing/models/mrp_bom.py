@@ -4,7 +4,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 class Mrp_bom(models.Model):
-    _inherit = "mrp.bom"    
+    _inherit = 'mrp.bom'    
     
     @api.model_create_multi
     def create(self, val_lists):
