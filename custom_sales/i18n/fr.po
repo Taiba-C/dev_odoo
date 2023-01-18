@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* product_pricelist_display
+# 	* custom_sales
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0+e-20221212\n"
+"Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-12 21:19+0000\n"
-"PO-Revision-Date: 2022-12-12 21:19+0000\n"
+"POT-Creation-Date: 2023-01-17 14:56+0000\n"
+"PO-Revision-Date: 2023-01-17 14:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,85 +16,155 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order__total_purchase
-msgid "Total puchase price"
-msgstr "Prix total achat"
+#: model_terms:ir.actions.act_window,help:custom_sales.reference_quote_action
+msgid ""
+"Bills of materials components are components and by-products\n"
+"                used to create master bills of materials.  Use this menu to\n"
+"                search in which BoM a specific component is used."
+msgstr ""
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order__total_sale
-msgid "Total sale price"
-msgstr "Prix total vente"
+#: model_terms:ir.actions.act_window,help:custom_sales.reference_quote_action
+msgid "Click to add a component to a bill of material."
+msgstr "Cliquez pour ajouter un composant à une nomenclature."
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order__margin
-msgid "Margin"
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__margin_product
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+#: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
+msgid "Coefficient"
 msgstr "Marge"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order__margin_percent
-msgid "Margin %"
-msgstr "Marge %"
+#: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
+msgid "Components"
+msgstr ""
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order_option__parent_id
-msgid "Parent"
-msgstr "Article parent"
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__create_uid
+msgid "Created by"
+msgstr "Créé par"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order_option__purchase_price
-msgid "Purchase price"
-msgstr "Prix d'achat"
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__create_date
+msgid "Created on"
+msgstr "Créé le"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order_option__margin
-msgid "Margin €"
-msgstr "Marge €"
-
-#. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order__date_of_exhibition
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__date_of_exhibition
 msgid "Date of exhibition"
 msgstr "Date de salon"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order__validity_quotation
-msgid "Validity of the quotation"
-msgstr "Validité du devis"
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__display_name
+msgid "Display Name"
+msgstr "Afficher Nom"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order_option__margin_product
-msgid "Margin"
-msgstr "Marge"
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__duration
+msgid "Duration"
+msgstr "Durée"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order_option__margin_percent
-msgid "Margin %"
-msgstr "Marge %"
-
-#. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order_option__total_purchase_price
-msgid "Total purchase price"
-msgstr "Prix total d'achat"
-
-#. module: custom_sales
-#: model:ir.model.fields,field_description:custom_stock.field_sale_order_option__total_sale_price
-msgid "Total sale price"
-msgstr "Prix total de vente"
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Details of the quotation"
+msgstr "Détails du devis"
 
 #. module: custom_sales
 #: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
 msgid "Encryption"
 msgstr "Chiffrage"
 
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__id
+msgid "ID"
+msgstr ""
 
-#. module: product_template
-#: model:ir.ui.menu,name:custom_sales.menu_reference_quote
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin
+msgid "Margin"
+msgstr "Marge"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin_percent
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__margin_percent
+msgid "Margin %"
+msgstr "Marge %"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__margin
+msgid "Margin €"
+msgstr "Marge €"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__parent_id
+msgid "Parent"
+msgstr "Article parent"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__purchase_price
+#: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
+msgid "Purchase price"
+msgstr "Prix d'achat"
+
+#. module: custom_sales
 #: model:ir.actions.act_window,name:custom_sales.reference_quote_action
+#: model:ir.ui.menu,name:custom_sales.menu_reference_quote
 msgid "Reference quote"
 msgstr "Referentiel Devis"
 
 #. module: custom_sales
-#. odoo-python
-#: code:custom_sales/models/sale_order.py:0
-#, python-format
-msgid "You cannot choose a date lower than the date of the quotation."
-msgstr "Vous ne pouvez pas choisir une date inferieur à la date du devis."
+#: model:ir.model,name:custom_sales.model_sale_order_option
+msgid "Sale Options"
+msgstr "Options de vente"
+
+#. module: custom_sales
+#: model:ir.model,name:custom_sales.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice inherited"
+msgstr ""
+
+#. module: custom_sales
+#: model:ir.model,name:custom_sales.model_sale_order
+msgid "Sales Order"
+msgstr "Bon de commande"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Costing table"
+msgstr "Tableau de chiffrage"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_purchase
+msgid "Total puchase price"
+msgstr "Prix total achat"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__total_purchase_price
+msgid "Total purchase price"
+msgstr "Prix total d'achat"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_sale
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__total_sale_price
+msgid "Total sale price"
+msgstr "Prix total vente"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__validity_quotation
+msgid "Validity of the quotation"
+msgstr "Validité du devis"
