@@ -1,0 +1,11 @@
+<odoo>
+    <template id="report_invoice_with_payments_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[hasclass('page')]//h2[1]" position="after">
+            <t t-if="o.invoice_types">
+                <h4>
+                    <span t-field="o.invoice_types"/>
+                </h4>
+            </t>
+        </xpath>
+    </template>
+</odoo>
