@@ -156,12 +156,12 @@ class Sale_order(models.Model):
                 if line.parent_id.id == bom['parent_bom']:
                     if line.product_id.product_tmpl_id.id in bom['bom_products']:
                         #! search if product in tab is in the bom products
-                        quantity_product = self.env['mrp.bom.line'].search([('bom_id', '=', bom['bom_id']),('product_id','=',line.product_id.id)])
+                        # quantity_product = self.env['mrp.bom.line'].search([('bom_id', '=', bom['bom_id']),('product_id','=',line.product_id.id)])
                         
-                        if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product or line.quantity != quantity_product.product_qty :
+                        if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product:
                             line.purchase_price = line.product_id.product_tmpl_id.standard_price
                             line.margin_product = line.product_id.product_tmpl_id.margin_product                      
-                            line.quantity = quantity_product.product_qty                      
+                            # line.quantity = quantity_product.product_qty                      
                         
                     #! prix total achat
                     line.total_purchase_price = line.purchase_price * line.quantity
