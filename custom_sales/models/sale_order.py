@@ -15,7 +15,6 @@ class Sale_order(models.Model):
     
     date_of_exhibition = fields.Date('Date of exhibition')
     
-    validity_quotation = fields.Date('Validity of the quotation', compute='_compute_duration')
     
     def generate_bom_order(self):
         """
