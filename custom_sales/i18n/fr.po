@@ -163,3 +163,14 @@ msgstr "Prix total vente"
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order__validity_quotation
 msgid "Validity of the quotation"
 msgstr "Validité du devis"
+
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.product_template_search_view_inherit_bom_is_not_defined
+msgid "Bom is not defined"
+msgstr "Nomenclature est pas définie"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
+msgid "Open product"
+msgstr "Ouvrir l'arcticle"
