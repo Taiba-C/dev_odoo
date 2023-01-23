@@ -61,11 +61,6 @@ msgid "Display Name"
 msgstr "Afficher Nom"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order__duration
-msgid "Duration"
-msgstr "Durée"
-
-#. module: custom_sales
 #: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
 msgid "Details of the quotation"
 msgstr "Détails du devis"
