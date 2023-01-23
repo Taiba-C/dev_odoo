@@ -13,7 +13,7 @@ class Sale_order(models.Model):
     margin = fields.Float('Margin', readonly = True)
     margin_percent = fields.Float('Margin %', readonly = True)
     
-    date_of_exhibition = fields.Date('Date of exhibition')
+    date_of_exhibition = fields.Date('Begin of exhibition')
     
     
     def generate_bom_order(self):

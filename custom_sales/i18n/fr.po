@@ -52,8 +52,8 @@ msgstr "Créé le"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order__date_of_exhibition
-msgid "Date of exhibition"
-msgstr "Date de salon"
+msgid "Begin of exhibition"
+msgstr "Début du Salon"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__display_name
