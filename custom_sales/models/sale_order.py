@@ -16,7 +16,6 @@ class Sale_order(models.Model):
     date_of_exhibition = fields.Date('Date of exhibition')
     
     validity_quotation = fields.Date('Validity of the quotation', compute='_compute_duration')
-    duration = fields.Integer('Duration', compute='_compute_duration')
     
     def generate_bom_order(self):
         """
@@ -203,28 +202,33 @@ class Sale_order(models.Model):
         self.total_sale = total_sale
         self.margin = margin
         
-    @api.depends('date_order', 'date_of_exhibition')
-    def _compute_duration(self):
+    def set_validity_date(self):
+        """
+            use field validity date existing in Odoo to calculate validity of a quotation
+            based on date of exhibition
+            to show it Configuration > set true Default validity of the quote
+        """
         for event in self:
             if event.date_order and event.date_of_exhibition:
                 duration = self._get_duration(event.date_order.date(), event.date_of_exhibition)
                 
                 if duration >= 0:
-                    event.duration = duration
-                    if event.duration >= 45:
-                        event.validity_quotation = event.date_order + timedelta(days = 14)
-                    if event.duration < 45:
-                        event.validity_quotation = event.date_order + timedelta(days = 7)
+                    if duration >= 45:
+                        event.validity_date = event.date_order + timedelta(days = 14)
+                    if duration < 45:
+                        event.validity_date = event.date_order + timedelta(days = 7)
                         
                 else:
-                    event.validity_quotation = date.today()
+                    event.validity_date = date.today()
                     
                     
             else:
-                event.validity_quotation = date.today()
+                event.validity_date = date.today()
     
     def _get_duration(self, start, stop):
-        """ Get the duration value between the 2 given dates. """
+        """ 
+            Get the duration value between the 2 given dates. 
+        """
         
         nb_day = stop - start
         
@@ -243,3 +247,7 @@ class Sale_order(models.Model):
     def _onchange_date_of_exhibition(self):
         if not self.date_of_exhibition:
             self.date_of_exhibition = self.opportunity_id.x_studio_dbut_salon
+            self.set_validity_date()
+        self.set_validity_date()
+        
+        
