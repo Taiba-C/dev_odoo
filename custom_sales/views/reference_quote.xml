@@ -8,7 +8,7 @@
                 <field name="name" options="{'no_create': True}"  attrs="{'readonly': [('id', '!=', False)]}" />
                 <field name="margin_product" string="Coefficient" can_create="false" can_write="true"/>
                 <field name="standard_price" string="Purchase price" widget="monetary" can_create="false" can_write="true"/>
-                
+                <button name="open_form_view_product" type="object" class="oe_highlight" string="Open product"/>
             </tree>
         </field>
     </record>
@@ -20,7 +20,7 @@
         <field name="view_mode">tree</field>
         <field name="view_id" eval="ref('reference_quote_line_tree_view')" />
         <field name="search_view_id" ref="stock.product_template_search_form_view_stock"/>
-        <field name="context">{"search_default_consumable": 1, 'default_detailed_type': 'product'}</field>
+        <field name="context">{"search_default_filter_bom_is_not_defined": 1, 'default_detailed_type': 'product'}</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Click to add a component to a bill of material.
@@ -30,6 +30,18 @@
                 used to create master bills of materials.  Use this menu to
                 search in which BoM a specific component is used.
             </p>
+        </field>
+        
+    </record>
+
+    <record id="product_template_search_view_inherit_bom_is_not_defined" model="ir.ui.view">
+        <field name="name">product.template.search.view.inherit.bom_is_not_defined</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="stock.product_template_search_form_view_stock"/>
+        <field name="arch" type="xml">
+            <filter name="consumable" position="after">
+                <filter string="Bom is not defined" name="filter_bom_is_not_defined" domain="[('bom_ids', '=', False),('detailed_type', '=', 'product')]"/>
+            </filter>
         </field>
     </record>
 
