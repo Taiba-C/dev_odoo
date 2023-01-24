@@ -14,7 +14,7 @@
 
                 <filter name="activities_today" position="after">
 
-                    <filter string="Quotation expired" name="filter_quotation_expired" domain="[('validity_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Quotation expired" name="filter_quotation_expired" domain="[('validity_date', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
 
                 </filter>
 
