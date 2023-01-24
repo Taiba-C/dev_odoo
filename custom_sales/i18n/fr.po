@@ -174,3 +174,15 @@ msgstr "Nomenclature est pas définie"
 #: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
 msgid "Open product"
 msgstr "Ouvrir l'arcticle"
+
+#. module: custom_sales
+#: model:ir.actions.act_window,name:custom_sales.action_show_quotation_expired
+#: model:ir.ui.menu,name:custom_sales.quotation_expired
+#: model_terms:ir.ui.view,arch_db:custom_sales.view_order_search_only_internal
+msgid "Quotation expired"
+msgstr "Devis expiré"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
+msgid "Components"
+msgstr "Composants"
