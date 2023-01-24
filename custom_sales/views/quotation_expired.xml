@@ -36,7 +36,7 @@
 
         <!-- menuitem on quotation next to quotation -->
         <!-- name = "quotation expired" -->
-        <menuitem id="quotation_expired" name="Quotation expired" sequence="4" action="action_show_quotation_expired" parent="sale.sale_order_menu" />
+        <menuitem id="quotation_expired" name="Quotation expired" sequence="10" action="action_show_quotation_expired" parent="sale.sale_order_menu" />
 
     </data>
 </odoo>
