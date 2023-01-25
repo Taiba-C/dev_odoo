@@ -68,7 +68,7 @@
 
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="after">
-                    <field name="margin_product" string =" Coefficient"/>
+                    <field name="margin_product" string =" Ratios"/>
                     <field name="total_purchase_price" force_save = "1"/>
                     <field name="total_sale_price" force_save = "1"/>
                     <field name="margin" force_save = "1"/>

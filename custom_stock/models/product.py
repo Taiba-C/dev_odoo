@@ -12,7 +12,7 @@ class Product_template(models.Model):
     """
     _inherit = 'product.template'
     
-    margin_product = fields.Float('Coefficient')
+    margin_product = fields.Float('Ratios')
     is_bom_parent = fields.Boolean('Is BOM Parent')
     
     @api.onchange('list_price','detailed_type')
