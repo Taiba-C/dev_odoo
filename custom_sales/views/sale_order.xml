@@ -100,12 +100,12 @@
                     
                 </xpath>
 
-                <xpath expr="//field[@name='name']" position="after">
+                <!-- <xpath expr="//field[@name='name']" position="after">
                     <h2>
                         <field name="version" />
                     </h2>
                     <field name="is_sent" />
-                </xpath>
+                </xpath> -->
 
                 <!-- hide field in order line -->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="attributes">
