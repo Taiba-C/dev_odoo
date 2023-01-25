@@ -18,6 +18,8 @@
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     
                     <field name="date_of_exhibition" attrs="{'readonly': [('state','not in',['draft','sent'])]}"/>
+                    <field name="validity_quotation" readonly="1" invisible="1"/>
+
                     
                 </xpath>
 
@@ -96,6 +98,13 @@
                     </group>
                     
                     
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <h2>
+                        <field name="version" />
+                    </h2>
+                    <field name="is_sent" />
                 </xpath>
 
                 <!-- hide field in order line -->
