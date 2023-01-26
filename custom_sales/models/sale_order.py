@@ -250,4 +250,16 @@ class Sale_order(models.Model):
             self.set_validity_date()
         self.set_validity_date()
         
-        
+    @api.model
+    def notify_quotation_expired(self):
+        quotation_drafts_expired = self.search([('state', '=', 'draft'),('validity_date','<=',date.today())])
+        if quotation_drafts_expired:
+            notification_ids = []
+            for user in quotation_drafts_expired:
+                notification_ids = [(0, 0, {
+                    'res_partner_id': user.user_id.partner_id.id,
+                    'notification_type': 'inbox',
+                })]  
+                user.message_post(body=f'Le devis {user.name} a éxpiré', message_type="notification", subtype_xmlid='mail.mt_note', 
+                                author_id=self.env.user.partner_id.id, 
+                                notification_ids=notification_ids)
