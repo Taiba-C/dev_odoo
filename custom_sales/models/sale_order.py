@@ -17,6 +17,9 @@ class Sale_order(models.Model):
     validity_quotation = fields.Date('Validity of the quotation')
     
     
+    is_bom_generated = fields.Boolean('Is BOm Generated')
+    
+    
     def generate_bom_order(self):
         """
             action by a button
@@ -31,6 +34,8 @@ class Sale_order(models.Model):
                 boms = self.get_product_bom(line.product_id.product_tmpl_id.id)
                 
                 self.create_sale_order_option(boms, self.id, line.product_id.product_tmpl_id.id)
+        
+        self.is_bom_generated = True
                 
         self.compute_sale_order_option_ids()
         
@@ -263,3 +268,20 @@ class Sale_order(models.Model):
                 user.message_post(body=f'Le devis {user.name} a éxpiré', message_type="notification", subtype_xmlid='mail.mt_note', 
                                 author_id=self.env.user.partner_id.id, 
                                 notification_ids=notification_ids)
+    
+    def action_quotation_send(self):
+        res = super(Sale_order,self).action_quotation_send()
+        
+        if self.is_bom_generated == False:
+            raise UserError("You forgot to click on the quote button")
+
+        
+        return res
+
+    def action_confirm(self):
+        res = super(Sale_order,self).action_confirm()
+        
+        if self.is_bom_generated == False:
+            raise UserError("You forgot to click on the quote button")
+        
+        return res

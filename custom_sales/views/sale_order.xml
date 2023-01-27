@@ -19,6 +19,7 @@
                     
                     <field name="date_of_exhibition" attrs="{'readonly': [('state','not in',['draft','sent'])]}"/>
                     <field name="validity_quotation" readonly="1" invisible="1"/>
+                    <field name="is_bom_generated" invisible="1"/>
 
                     
                 </xpath>
