@@ -18,6 +18,11 @@ class Sale_order(models.Model):
     
     
     is_bom_generated = fields.Boolean('Is BOm Generated')
+    task_option_counts = fields.Float(compute='_get_task_counts')
+    project_option_counts = fields.Float(compute='_get_project_counts')
+    project_options_id = fields.Many2one('project.project', string='Project', ondelete='cascade')
+    
+    
     
     
     def generate_bom_order(self):
@@ -284,4 +289,60 @@ class Sale_order(models.Model):
         if self.is_bom_generated == False:
             raise UserError("You forgot to click on the quote button")
         
+        is_service = bool
+        for line in self.sale_order_option_ids:
+            if is_service == False:
+                if line.product_id.type == 'service':
+                    is_service = True
+                    
+        if is_service:       
+            project = self.env['project.project'].create({
+                    'name': self.name+' '+self.opportunity_id.name ,
+                    'user_id': self.user_id.id,
+                    'partner_id': self.partner_id.id,
+                    })
+            
+            self.project_options_id = project.id
+        for line in self.sale_order_option_ids:
+            line.create_project_task(self.project_options_id, self.partner_id.id)
+        
         return res
+
+    def action_view_task_option_ids(self):
+        tasks = []
+        for line in self.sale_order_option_ids:
+            if line.task_id.id:
+                tasks.append(line.task_id.id)
+        domain = [('id', 'in', tasks)]
+        
+        return {
+            'domain': domain,
+            'name': 'Filtered View for tasks',
+            'view_mode': 'tree,form,kanban',
+            'res_model': 'project.task',
+            'view_id': False,
+            'type': 'ir.actions.act_window'
+        }
+        
+    def action_view_project_option_ids(self):
+        
+        domain = [('id', '=', self.project_options_id.id)]
+        
+        return {
+            'domain': domain,
+            'name': 'Filtered View for project options',
+            'view_mode': 'tree,form,kanban',
+            'res_model': 'project.project',
+            'view_id': False,
+            'type': 'ir.actions.act_window'
+        }
+        
+    def _get_task_counts(self):
+        tasks = []
+        for line in self.sale_order_option_ids:
+            if line.task_id.id:
+                tasks.append(line.task_id.id)
+        self.task_option_counts = len(tasks)
+        
+    def _get_project_counts(self):
+        self.project_option_counts = len(self.project_options_id)

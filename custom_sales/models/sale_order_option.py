@@ -21,6 +21,15 @@ class SaleOrderOption(models.Model):
     total_purchase_price = fields.Float('Total purchase price', readonly=True)
     
     total_sale_price = fields.Float('Total sale price', readonly=True)
+    task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
     
-                
-    
+    def create_project_task(self,project ,partner_id):
+        for record in self:
+            if record.product_id.type == 'service':
+                task = self.env['project.task'].create({
+                    'name': record.product_id.name,
+                    'project_id': project.id,
+                    'partner_id': partner_id,
+                    'planned_hours': record.quantity,
+                })
+                record.task_id = task.id
