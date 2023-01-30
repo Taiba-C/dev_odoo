@@ -38,7 +38,7 @@ msgstr "Coefficient"
 #. module: custom_sales
 #: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
 msgid "Components"
-msgstr ""
+msgstr "Composant"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__create_uid
@@ -73,7 +73,7 @@ msgstr "Chiffrage"
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__id
 msgid "ID"
-msgstr ""
+msgstr "id"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv____last_update
@@ -128,10 +128,43 @@ msgstr "Referentiel Devis"
 msgid "Sale Options"
 msgstr "Options de vente"
 
+
+
+#. module: custom_sales
+#: model:ir.actions.server,name:custom_sales.ir_cron_data_notify_quotation_expired_ir_actions_server
+#: model:ir.cron,cron_name:custom_sales.ir_cron_data_notify_quotation_expired
+msgid "Sale order: Quotation expired"
+msgstr "Devis: Devis expiré"
+
+#. module: custom_sales
+#: model:ir.model,name:custom_sales.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice"
+msgstr "Facture de paiement d'avance"
+
+#. module: custom_sales
+#: model:ir.model,name:custom_sales.model_sale_order
+msgid "Sales Order"
+msgstr "Bon de commande"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__task_id
+msgid "Task"
+msgstr "Tache"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__task_option_counts
+msgid "Task Option Counts"
+msgstr "Nombre d'options de tâches"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Tasks"
+msgstr "Taches"
+
 #. module: custom_sales
 #: model:ir.model,name:custom_sales.model_sale_advance_payment_inv
 msgid "Sales Advance Payment Invoice inherited"
-msgstr ""
+msgstr "Facture de paiement anticipé des ventes héritée"
 
 #. module: custom_sales
 #: model:ir.model,name:custom_sales.model_sale_order
@@ -164,6 +197,22 @@ msgstr "Prix total vente"
 msgid "Validity of the quotation"
 msgstr "Validité du devis"
 
+
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__project_options_id
+msgid "Project"
+msgstr "Projet"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__project_option_counts
+msgid "Project Option Counts"
+msgstr "Comptage des options de projet"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Projects"
+msgstr "Projets"
 
 #. module: custom_sales
 #: model_terms:ir.ui.view,arch_db:custom_sales.product_template_search_view_inherit_bom_is_not_defined
