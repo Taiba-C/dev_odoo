@@ -333,7 +333,7 @@ class Sale_order(models.Model):
         
         return {
             'domain': domain,
-            'name': 'Options du projet',
+            'name': 'Projet',
             'view_mode': 'kanban,tree,form',
             'res_model': 'project.project',
             'view_id': False,
