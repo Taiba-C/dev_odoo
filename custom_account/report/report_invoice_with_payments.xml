@@ -1,11 +1,16 @@
 <odoo>
     <template id="report_invoice_with_payments_inherit" inherit_id="account.report_invoice_document">
-        <xpath expr="//div[hasclass('page')]//h2[1]" position="after">
-            <t t-if="o.invoice_types">
-                <h4>
-                    <span t-field="o.invoice_types"/>
-                </h4>
-            </t>
+        <xpath expr="//div[hasclass('page')]//h2[1]//span[1]" position="replace">
+            <!-- <t t-if="o.invoice_types == 'invoice_of_balance'">
+                <span t-field="o.invoice_types"/>
+            </t> -->
+            <span t-if="o.invoice_types == 'invoice_of_balance'">
+                <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Facture</span>
+            </span>
+            <span t-if="o.invoice_types != 'invoice_of_balance'">
+                <span t-if="o.move_type == 'out_invoice' and o.state == 'posted' and o.name != '/'" t-field="o.invoice_types"/>
+            </span>
+
         </xpath>
     </template>
 </odoo>
