@@ -333,8 +333,8 @@ class Sale_order(models.Model):
         
         return {
             'domain': domain,
-            'name': 'Filtered View for project options',
-            'view_mode': 'tree,form,kanban',
+            'name': 'Options du projet',
+            'view_mode': 'kanban,tree,form',
             'res_model': 'project.project',
             'view_id': False,
             'type': 'ir.actions.act_window'
