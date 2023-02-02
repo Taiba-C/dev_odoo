@@ -320,7 +320,7 @@ class Sale_order(models.Model):
         
         return {
             'domain': domain,
-            'name': 'Filtered View for tasks',
+            'name': 'Taches',
             'view_mode': 'tree,form,kanban',
             'res_model': 'project.task',
             'view_id': False,
