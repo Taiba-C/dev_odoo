@@ -303,6 +303,8 @@ class Sale_order(models.Model):
                     'name': self.name+' '+self.opportunity_id.name ,
                     'user_id': self.user_id.id,
                     'partner_id': self.partner_id.id,
+                    'date_start': self.date_of_exhibition,
+                    'date': self.opportunity_id.x_studio_fin_salon,
                     })
             
             self.project_options_id = project.id

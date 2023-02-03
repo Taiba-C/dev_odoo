@@ -22,7 +22,7 @@ class SaleOrderOption(models.Model):
     
     total_sale_price = fields.Float('Total sale price', readonly=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
-    
+    planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
     def create_project_task(self,project ,partner_id):
         for record in self:
             if record.product_id.type == 'service':
@@ -33,3 +33,26 @@ class SaleOrderOption(models.Model):
                     'planned_hours': record.quantity,
                 })
                 record.task_id = task.id
+                date_start = datetime.combine(project.date_start, datetime.min.time())
+                date_start += timedelta(hours=5)
+               
+                planning = self.env['planning.slot'].create({
+                    'project_id': project.id,
+                    'start_datetime': date_start,
+                    'end_datetime': date_start + timedelta(hours=record.quantity),
+                })
+                record.planning_id = planning
+                
+                
+class Planning_slot(models.Model):
+    _inherit = 'planning.slot'
+    
+    @api.depends(
+        'start_datetime', 'end_datetime', 'resource_id.calendar_id',
+        'company_id.resource_calendar_id', 'allocated_percentage', 'resource_id.flexible_hours')
+    def _compute_allocated_hours(self):
+        res = super(Planning_slot,self)._compute_allocated_hours()
+        for record in self:
+            diff = record.end_datetime - record.start_datetime
+            record.allocated_hours = diff.total_seconds() / 3600
+        return res
