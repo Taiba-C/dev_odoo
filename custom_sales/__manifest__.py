@@ -29,6 +29,7 @@
                 'custom_stock',
                 'account_payment',
                 'custom_manufacturing',
+                'planning',
                 ],
 
     # always loaded
