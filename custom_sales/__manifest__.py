@@ -30,6 +30,7 @@
                 'account_payment',
                 'custom_manufacturing',
                 'planning',
+                'crm',
                 ],
 
     # always loaded
