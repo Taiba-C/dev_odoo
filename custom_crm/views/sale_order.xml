@@ -25,6 +25,9 @@
                 <xpath expr="//field[@name='opportunity_id']" position="attributes">
                     <attribute name="readonly">1</attribute>
                 </xpath>
+                <xpath expr="//form" position="attributes">
+                    <attribute name="duplicate">false</attribute>
+                </xpath>
             </field>
         </record>
         
