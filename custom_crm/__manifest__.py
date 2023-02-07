@@ -24,6 +24,8 @@
                 'base',
                 'crm',
                 'custom_sales',
+                'mail',
+                'account_payment',
                 ],
 
     'license': 'AGPL-3',
@@ -33,6 +35,7 @@
         'views/views.xml',
         'views/templates.xml',
         'views/crm_lead.xml',
+        'views/sale_order.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
