@@ -35,11 +35,13 @@ class SaleOrderOption(models.Model):
                 record.task_id = task.id
                 date_start = datetime.combine(project.date_start, datetime.min.time())
                 date_start += timedelta(hours=5)
-               
+                overtime=record.quantity
+                if overtime == 0:
+                    overtime = 1
                 planning = self.env['planning.slot'].create({
                     'project_id': project.id,
                     'start_datetime': date_start,
-                    'end_datetime': date_start + timedelta(hours=record.quantity),
+                    'end_datetime': date_start + timedelta(hours=overtime),
                 })
                 record.planning_id = planning
                 
