@@ -39,7 +39,7 @@ class SaleOrderOption(models.Model):
                 planning = self.env['planning.slot'].create({
                     'project_id': project.id,
                     'start_datetime': date_start,
-                    'end_datetime': date_start + timedelta(hours=record.quantity),
+                    'end_datetime': date_start + timedelta(hours=48),
                 })
                 record.planning_id = planning
                 
