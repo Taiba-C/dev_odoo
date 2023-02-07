@@ -26,7 +26,7 @@ class MailComposer(models.TransientModel):
         if self._context['active_model'] == 'sale.order':
             if self._context['active_id']:
                 current_order_id = self.env['sale.order'].search([('id', '=', self._context['active_id'])])
-                if current_order_id :
+                if current_order_id.opportunity_id.stage_id.id < 2 :
                     current_order_id.opportunity_id.write({'stage_id':2})
                     
         
