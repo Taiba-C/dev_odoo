@@ -129,6 +129,7 @@ class Sale_order(models.Model):
     def compute_sale_order_option_ids(self):
         """
             make calcul to get total purchase or sale
+            it will called more than one
         """
         total_purchase = 0
         total_sale = 0
@@ -255,6 +256,9 @@ class Sale_order(models.Model):
    
     @api.onchange('date_of_exhibition')
     def _onchange_date_of_exhibition(self):
+        """
+            populate field date of exhibition as date in CRM opportunity
+        """
         if not self.date_of_exhibition:
             self.date_of_exhibition = self.opportunity_id.x_studio_dbut_salon
             self.set_validity_date()
@@ -262,6 +266,9 @@ class Sale_order(models.Model):
         
     @api.model
     def notify_quotation_expired(self):
+        """
+            send notifications
+        """
         quotation_drafts_expired = self.search([('state', '=', 'draft'),('validity_date','<=',date.today()),('opportunity_id.won_status', '!=', 'lost')])
         if quotation_drafts_expired :
             

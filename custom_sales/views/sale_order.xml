@@ -15,7 +15,6 @@
                         <field name="task_option_counts" widget="statinfo" string="Tasks"/>
                     </button>
                     <button type="object" name="action_view_planning" string="Planning" class="oe_stat_button" icon="fa-puzzle-piece">
-                        <!-- <field name="task_option_counts" widget="statinfo" string="Tasks"/> -->
                     </button>
                 </xpath>
                 
@@ -112,13 +111,7 @@
                     
                     
                 </xpath>
-
-                <!-- <xpath expr="//field[@name='name']" position="after">
-                    <h2>
-                        <field name="version" />
-                    </h2>
-                    <field name="is_sent" />
-                </xpath> -->
+                
 
                 <!-- hide field in order line -->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="attributes">
