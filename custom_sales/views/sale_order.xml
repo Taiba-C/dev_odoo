@@ -10,10 +10,10 @@
                 <xpath expr="//button[@name='action_view_invoice']" position="before">
                     <button type="object" name="action_view_planning" string="Planning" class="oe_stat_button" attrs="{ 'invisible': [('project_option_counts', '=', 0)] }" icon="fa-puzzle-piece">
                     </button>
-                    <button type="object" name="action_view_project_option_ids" class="oe_stat_button" icon="fa-puzzle-piece">
+                    <button type="object" name="action_view_project_option_ids" attrs="{ 'invisible': [('project_option_counts', '=', 0)] }" class="oe_stat_button" icon="fa-puzzle-piece">
                         <field name="project_option_counts" widget="statinfo" string="Projects"/>
                     </button>
-                    <button type="object" name="action_view_task_option_ids" class="oe_stat_button" icon="fa-puzzle-piece">
+                    <button type="object" name="action_view_task_option_ids" attrs="{ 'invisible': [('project_option_counts', '=', 0)] }" class="oe_stat_button" icon="fa-puzzle-piece">
                         <field name="task_option_counts" widget="statinfo" string="Tasks"/>
                     </button>
                 </xpath>
