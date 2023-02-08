@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* product_pricelist_display
+# 	* custom_stock
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0+e-20221212\n"
+"Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-12 21:19+0000\n"
-"PO-Revision-Date: 2022-12-12 21:19+0000\n"
+"POT-Creation-Date: 2023-02-08 06:58+0000\n"
+"PO-Revision-Date: 2023-02-08 06:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,25 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: product
+#. module: custom_stock
+#: model:ir.model.fields,field_description:custom_stock.field_product_product__is_bom_parent
+#: model:ir.model.fields,field_description:custom_stock.field_product_template__is_bom_parent
+msgid "Is BOM Parent"
+msgstr "Nomenclature parent"
+
+#. module: custom_stock
+#: model_terms:ir.ui.view,arch_db:custom_stock.product_template_only_form_view_inherit
+msgid "Purchase price"
+msgstr "Prix d'achat"
+
+
+#. module: custom_stock
+#: model:ir.model,name:custom_stock.model_product_product
+msgid "Product Variant"
+msgstr "Variant"
+
+#. module: custom_stock
 #: model:ir.model.fields,field_description:custom_stock.field_product_product__margin_product
-msgid "Margin"
-msgstr "Marge"
+#: model:ir.model.fields,field_description:custom_stock.field_product_template__margin_product
+msgid "Ratios"
+msgstr "Coefficient"

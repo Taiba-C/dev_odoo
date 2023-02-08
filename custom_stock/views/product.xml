@@ -9,7 +9,7 @@
                     <field name="is_bom_parent" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='standard_price']" position="attributes">
-                    <attribute name="string">Prix d'achat</attribute>
+                    <attribute name="string">Purchase price</attribute>
                 </xpath>
             </field>
         </record>
