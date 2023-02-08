@@ -351,3 +351,8 @@ class Sale_order(models.Model):
         
     def _get_project_counts(self):
         self.project_option_counts = len(self.project_options_id)
+        
+    def action_view_planning(self):
+        # button to return to planning
+        # use project_options_id
+        return self.project_options_id.action_project_forecast_from_project()
