@@ -5,7 +5,7 @@
             <field name="inherit_id" ref="product.product_template_only_form_view" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='categ_id']" position="before">
-                    <field name="margin_product"/>
+                    <field name="margin_product" invisible="1"/>
                     <field name="is_bom_parent" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='standard_price']" position="attributes">
