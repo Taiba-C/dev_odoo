@@ -20,9 +20,12 @@ class SaleOrderOption(models.Model):
     
     total_purchase_price = fields.Float('Total purchase price', readonly=True)
     
+    order_line_id = fields.Many2one('sale.order.line', string='Order Line')
+    
     total_sale_price = fields.Float('Total sale price', readonly=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
     planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
+    
     def create_project_task(self,project ,partner_id):
         for record in self:
             if record.product_id.type == 'service':
