@@ -38,7 +38,7 @@ class Sale_order(models.Model):
                 
                 boms = self.get_product_bom(line.product_id.product_tmpl_id.id)
                 
-                self.create_sale_order_option(boms, self.id, line.product_id.product_tmpl_id.id)
+                self.create_sale_order_option(boms, self.id, line.product_id.product_tmpl_id.id, line.id)
         
         self.is_bom_generated = True
                 
@@ -68,7 +68,7 @@ class Sale_order(models.Model):
             
         return product_boms
     
-    def create_sale_order_option(self, boms, order_id, parent_id):
+    def create_sale_order_option(self, boms, order_id, parent_id, o_l_id):
         """
             create in model sale order option
             each line is from product as a bom's parent
@@ -119,6 +119,8 @@ class Sale_order(models.Model):
                 'total_purchase_price':  total_price_purchase,
                 
                 'total_sale_price':  total_price_sale,
+                
+                'order_line_id':  o_l_id,
 
                 })
     
@@ -157,7 +159,7 @@ class Sale_order(models.Model):
             })
         
         for line in self.sale_order_option_ids:
-            
+            # TODO use order_line_id to replace parent_id
             if line.parent_id not in self.order_line.product_template_id:
                 raise UserError(f"{line.parent_id.name} is not in line of quotation")
             
@@ -201,12 +203,9 @@ class Sale_order(models.Model):
                 
                 
         for order_line in self.order_line:
-            total = 0
-            for line in self.sale_order_option_ids:
-                if order_line.product_template_id == line.parent_id:
-                    total += line.total_sale_price
-                    order_line.product_uom_qty = 1
-                    order_line.price_unit = total
+            order_option = self.env['sale.order.option'].search([('order_id','=',self.id),('order_line_id','=', order_line.id)])
+            total_order_line = sum(order_option.mapped('total_sale_price'))
+            order_line.price_unit = total_order_line
         
         
         self.total_purchase = total_purchase
