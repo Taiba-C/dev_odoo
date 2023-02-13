@@ -31,19 +31,48 @@ class Sale_order(models.Model):
             take each line in order_line
             create line with boms in sale_order_option
         """
-        self.clear_sale_order_option()
         
+        if len(self.order_line) == 0:
+            """
+                test if o2m order_line does not have any record yet
+            """
+            self.clear_sale_order_option()
+        
+        self.delete_option_without_order_line(self.id)  
+          
         for line in self.order_line:
             if line.product_id:
-                
                 boms = self.get_product_bom(line.product_id.product_tmpl_id.id)
-                
-                self.create_sale_order_option(boms, self.id, line.product_id.product_tmpl_id.id, line.id)
+                is_generated = self.check_option_generated(line)
+                if not is_generated:
+                    
+                    self.create_sale_order_option(boms, self.id, line.product_id.product_tmpl_id.id, line.id)
+                    
         
         self.is_bom_generated = True
                 
         self.compute_sale_order_option_ids()
         
+    def check_option_generated(self, order_line):
+        """
+            check if the order line doesn't have generated yet
+            it return all id of sale order line 
+            we will check the line if 
+        """
+        
+        option_line = self.sale_order_option_ids.filtered(lambda l: l.order_line_id.id == order_line.id)
+        if len(option_line) == 0:
+            return False
+        else:
+            return True
+    
+    def delete_option_without_order_line(self, order_id):
+        """
+            Unlink sale order option record if the order line was deleted
+        """
+        order_options = self.sale_order_option_ids.filtered(lambda l: l.order_id.id == order_id and l.order_line_id.id == False)
+        order_options.unlink()
+                
     
     def clear_sale_order_option(self):
         """
