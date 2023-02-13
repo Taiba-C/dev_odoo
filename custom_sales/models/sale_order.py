@@ -190,7 +190,7 @@ class Sale_order(models.Model):
         for line in self.sale_order_option_ids:
             # TODO use order_line_id to replace parent_id
             if line.parent_id not in self.order_line.product_template_id:
-                raise UserError(f"{line.parent_id.name} is not in line of quotation")
+                raise UserError(f"{line.parent_id.name} n est pas dans le details de devis")
             
             for bom in list_boms:
                 #! list_bom is list of informations of bom with parent and child
@@ -211,7 +211,7 @@ class Sale_order(models.Model):
                     if line.margin_product > 0:
                         line.total_sale_price = line.total_purchase_price / line.margin_product
                     if line.margin_product > 1 :
-                        raise UserError("You cannot set coefficient value up to 1!")
+                        raise UserError("Vous ne pouvez pas régler la valeur du coefficient sup à 1!")
                     
                     #! marge en €
                     line.margin = line.total_sale_price - line.total_purchase_price
@@ -318,7 +318,7 @@ class Sale_order(models.Model):
         res = super(Sale_order,self).action_quotation_send()
         
         if self.is_bom_generated == False:
-            raise UserError("You forgot to click on the quote button")
+            raise UserError("Vous avez oublié de cliquer sur le bouton de chiffrage")
 
         
         return res
@@ -329,7 +329,7 @@ class Sale_order(models.Model):
         self.delete_option_without_order_line(self.id)  
         
         if self.is_bom_generated == False:
-            raise UserError("You forgot to click on the quote button")
+            raise UserError("Vous avez oublié de cliquer sur le bouton de chiffrage")
         
         is_service = bool
         for line in self.sale_order_option_ids:
