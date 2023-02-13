@@ -326,6 +326,8 @@ class Sale_order(models.Model):
     def action_confirm(self):
         res = super(Sale_order,self).action_confirm()
         
+        self.delete_option_without_order_line(self.id)  
+        
         if self.is_bom_generated == False:
             raise UserError("You forgot to click on the quote button")
         
