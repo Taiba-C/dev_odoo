@@ -203,9 +203,11 @@ class Sale_order(models.Model):
                 
                 
         for order_line in self.order_line:
-            order_option = self.env['sale.order.option'].search([('order_id','=',self.id),('order_line_id','=', order_line.id)])
-            total_order_line = sum(order_option.mapped('total_sale_price'))
-            order_line.price_unit = total_order_line
+            cpt = 0
+            for order_option in self.sale_order_option_ids:
+                if order_option.order_line_id.id == order_line._origin.id :
+                    cpt += order_option.total_sale_price
+                order_line.price_unit = cpt
         
         
         self.total_purchase = total_purchase
