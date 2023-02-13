@@ -206,7 +206,7 @@ class Sale_order(models.Model):
                     if line.margin_product > 0:
                         line.total_sale_price = line.total_purchase_price / line.margin_product
                     if line.margin_product > 1 :
-                        raise UserError("You cannot set coefficient value up to 1!")
+                        raise UserError("Vous ne pouvez pas régler la valeur du coefficient sup à 1!")
                     
                     #! marge en €
                     line.margin = line.total_sale_price - line.total_purchase_price
@@ -313,7 +313,7 @@ class Sale_order(models.Model):
         res = super(Sale_order,self).action_quotation_send()
         
         if self.is_bom_generated == False:
-            raise UserError("You forgot to click on the quote button")
+            raise UserError("Vous avez oublié de cliquer sur le bouton de chiffrage")
 
         
         return res
@@ -321,8 +321,10 @@ class Sale_order(models.Model):
     def action_confirm(self):
         res = super(Sale_order,self).action_confirm()
         
+        self.delete_option_without_order_line(self.id)  
+        
         if self.is_bom_generated == False:
-            raise UserError("You forgot to click on the quote button")
+            raise UserError("Vous avez oublié de cliquer sur le bouton de chiffrage")
         
         is_service = bool
         for line in self.sale_order_option_ids:
