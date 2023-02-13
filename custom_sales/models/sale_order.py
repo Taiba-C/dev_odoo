@@ -46,7 +46,7 @@ class Sale_order(models.Model):
                 is_generated = self.check_option_generated(line)
                 if not is_generated:
                     
-                    self.create_sale_order_option(boms, self.id, line.product_id.product_tmpl_id.id, line.id)
+                    self.create_sale_order_option(boms, self.id,  line.id)
                     
         
         self.is_bom_generated = True
@@ -97,7 +97,7 @@ class Sale_order(models.Model):
             
         return product_boms
     
-    def create_sale_order_option(self, boms, order_id, parent_id, o_l_id):
+    def create_sale_order_option(self, boms, order_id, o_l_id):
         """
             create in model sale order option
             each line is from product as a bom's parent
@@ -124,9 +124,7 @@ class Sale_order(models.Model):
                     margin_percent = margin / total_price_sale
                 
                 self.env['sale.order.option'].create({
-                
-                'parent_id' : parent_id,
-                
+                                
                 'product_id': product_id.id,
 
                 'order_id': order_id,
@@ -188,13 +186,10 @@ class Sale_order(models.Model):
             })
         
         for line in self.sale_order_option_ids:
-            # TODO use order_line_id to replace parent_id
-            if line.parent_id not in self.order_line.product_template_id:
-                raise UserError(f"{line.parent_id.name} is not in line of quotation")
             
             for bom in list_boms:
                 #! list_bom is list of informations of bom with parent and child
-                if line.parent_id.id == bom['parent_bom']:
+                if line.order_line_id.product_template_id.id == bom['parent_bom']:
                     if line.product_id.product_tmpl_id.id in bom['bom_products']:
                         #! search if product in tab is in the bom products
                         # quantity_product = self.env['mrp.bom.line'].search([('bom_id', '=', bom['bom_id']),('product_id','=',line.product_id.id)])
@@ -393,3 +388,14 @@ class Sale_order(models.Model):
         # button to return to planning
         # use project_options_id
         return self.project_options_id.action_project_forecast_from_project()
+    
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    def name_get(self):
+        res = []
+        for line in self:
+            name = line.name
+            res.append((line.id, name))
+        return res
