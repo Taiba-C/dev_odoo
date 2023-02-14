@@ -6,14 +6,46 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-04 13:27+0000\n"
-"PO-Revision-Date: 2023-01-04 13:27+0000\n"
+"POT-Creation-Date: 2023-01-18 07:48+0000\n"
+"PO-Revision-Date: 2023-01-18 07:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+
+
+#. module: custom_account
+#: model:ir.model.fields.selection,name:custom_account.selection__account_move__invoice_types__down_payment_invoice
+msgid "Down payment invoice"
+msgstr "Facture d'accompte"
+
+#. module: custom_account
+#: model:ir.model.fields.selection,name:custom_account.selection__account_move__invoice_types__invoice_of_balance
+msgid "Invoice of Balance"
+msgstr "Facture de solde"
+
+#. module: custom_account
+#: model:ir.model.fields,field_description:custom_account.field_account_bank_statement_line__invoice_types
+#: model:ir.model.fields,field_description:custom_account.field_account_move__invoice_types
+#: model:ir.model.fields,field_description:custom_account.field_account_payment__invoice_types
+msgid "Invoice types"
+msgstr "Type de facture"
+
+#. module: custom_account
+#: model:ir.model.fields,field_description:custom_account.field_account_bank_statement_line__invoice_date
+#: model:ir.model.fields,field_description:custom_account.field_account_move__invoice_date
+#: model:ir.model.fields,field_description:custom_account.field_account_payment__invoice_date
+msgid "Invoice/Bill Date"
+msgstr "Date de facturation"
+
+#. module: custom_account
+#: model:ir.model,name:custom_account.model_account_move
+msgid "Journal Entry"
+msgstr "Pièce comptable"
+
 
 #. module: custom_account
 #: model:ir.model.fields.selection,name:custom_account.selection__account_move__payment_deadline_options__month
@@ -30,10 +62,6 @@ msgstr "30 jours fin du mois"
 msgid "In receipt"
 msgstr "A la réception"
 
-#. module: custom_account
-#: model:ir.model,name:custom_account.model_account_move
-msgid "Journal Entry"
-msgstr "Pièce comptable"
 
 #. module: custom_account
 #: model:ir.model.fields,field_description:custom_account.field_account_bank_statement_line__payment_deadline_options

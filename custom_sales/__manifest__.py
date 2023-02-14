@@ -28,6 +28,9 @@
                 'industry_fsm_sale',
                 'custom_stock',
                 'account_payment',
+                'custom_manufacturing',
+                'planning',
+                'crm',
                 ],
 
     # always loaded
@@ -38,6 +41,9 @@
         'views/sale_order.xml',
         'views/sale_management.xml',
         'views/reference_quote.xml',
+        'views/quotation_expired.xml',
+        # scheduled tasks
+        'views/data/notify_quotation.xml',
         # report
         # 'report/ir_actions_report_templates.xml',
     ],

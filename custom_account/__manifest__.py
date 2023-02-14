@@ -28,6 +28,10 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'views/account_move.xml',
+        
+        # report
+        'report/report_invoice_with_payments.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

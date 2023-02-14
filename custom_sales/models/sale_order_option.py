@@ -14,53 +14,50 @@ class SaleOrderOption(models.Model):
     
     margin = fields.Float('Margin €', readonly=True)
     
-    margin_product = fields.Float('Coefficient')
+    margin_product = fields.Float('Ratios', digits=(10, 4))
     
     margin_percent = fields.Float('Margin %', readonly=True)
     
     total_purchase_price = fields.Float('Total purchase price', readonly=True)
     
+    order_line_id = fields.Many2one('sale.order.line', string='Order Line')
+    
     total_sale_price = fields.Float('Total sale price', readonly=True)
-        
-    @api.onchange('purchase_price')
-    def _onchange_purchase_price(self):
-        self.update_option_line()
+    task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
+    planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
     
-    @api.onchange('quantity')
-    def _onchange_quantity(self):
-        self.update_option_line()
-
+    def create_project_task(self,project ,partner_id):
+        for record in self:
+            if record.product_id.type == 'service':
+                task = self.env['project.task'].create({
+                    'name': record.product_id.name + ' ' + record.order_line_id.product_id.name,
+                    'project_id': project.id,
+                    'partner_id': partner_id,
+                    'planned_hours': record.quantity,
+                })
+                record.task_id = task.id
+                date_start = datetime.combine(project.date_start, datetime.min.time())
+                date_start += timedelta(hours=5)
+                overtime=record.quantity
+                if overtime == 0:
+                    overtime = 1
+                planning = self.env['planning.slot'].create({
+                    'project_id': project.id,
+                    'start_datetime': date_start,
+                    'end_datetime': date_start + timedelta(hours=overtime),
+                })
+                record.planning_id = planning
+                
+                
+class Planning_slot(models.Model):
+    _inherit = 'planning.slot'
     
-    @api.onchange('margin_product')
-    def _onchange_margin_product(self):
-        self.update_option_line()
-        
-    def update_option_line(self):
-        """
-            update total on change
-        """
-        if self.product_id:
-            if self.product_id.detailed_type != 'service':
-                # prix total achat
-                self.total_purchase_price = self.purchase_price * self.quantity
-                
-                # prix total vente
-                if self.margin_product > 0:
-                    self.total_sale_price = self.total_purchase_price / self.margin_product
-                    
-                if self.margin_product == 0 :
-                    raise UserError("You cannot set this value to margin as 0!")
-                if self.margin_product > 1 :
-                    raise UserError("You cannot set this value up to 1!")
-                    
-                
-                # marge en €
-                self.margin = self.total_sale_price - self.total_purchase_price
-                if self.margin < 0:
-                    self.margin = 0
-                
-                # marge %
-                if self.total_sale_price > 0:
-                    self.margin_percent = self.margin / self.total_sale_price
-                
-    
+    @api.depends(
+        'start_datetime', 'end_datetime', 'resource_id.calendar_id',
+        'company_id.resource_calendar_id', 'allocated_percentage', 'resource_id.flexible_hours')
+    def _compute_allocated_hours(self):
+        res = super(Planning_slot,self)._compute_allocated_hours()
+        for record in self:
+            diff = record.end_datetime - record.start_datetime
+            record.allocated_hours = diff.total_seconds() / 3600
+        return res

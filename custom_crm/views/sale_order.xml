@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        
+        <!--
+        
+        ranoarison tsiky
+        ================
+        
+        Inherited Views
+        
+        - Model·········: sale.order
+        - Base Module···: sale.order
+        - Mode··········: primary|extension
+        - View priority·: 16
+        
+        -->
+        
+        <!-- Primary|extension Inherited .:form:. view for "sale.order" -->
+        <record id="view_order_form_inherit_sale_project_inherited_crm" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.project</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='opportunity_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//form" position="attributes">
+                    <attribute name="duplicate">false</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        
+        
+    </data>
+</odoo>

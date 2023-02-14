@@ -20,7 +20,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': [
+                'base',
+                'crm',
+                'custom_sales',
+                'mail',
+                'account_payment',
+                ],
 
     'license': 'AGPL-3',
     # always loaded
@@ -28,6 +34,8 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'views/crm_lead.xml',
+        'views/sale_order.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

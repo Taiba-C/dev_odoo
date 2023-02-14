@@ -10,9 +10,9 @@ class Product_template(models.Model):
     Args:
         models (product_template): custom fields and method
     """
-    _inherit = "product.template"
+    _inherit = 'product.template'
     
-    margin_product = fields.Float('Coefficient')
+    margin_product = fields.Float('Ratios', digits=(10, 4))
     is_bom_parent = fields.Boolean('Is BOM Parent')
     
     @api.onchange('list_price','detailed_type')
@@ -25,7 +25,7 @@ class Product_product(models.Model):
     Args:
         models (product_template): custom fields and method
     """
-    _inherit = "product.product"
+    _inherit = 'product.product'
     
     is_bom_parent = fields.Boolean('Is BOM Parent')
     

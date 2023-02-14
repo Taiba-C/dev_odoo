@@ -1,12 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <data>
-        <record id="form_sale_order_custom" model="ir.ui.view">
+           <record id="form_sale_order_custom" model="ir.ui.view">
             <field name="name">Details de devis</field>
             <field name="model">sale.order</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_view_invoice']" position="before">
+                    <button type="object" name="action_view_planning" string="Planning" class="oe_stat_button" attrs="{ 'invisible': [('project_option_counts', '=', 0)] }" icon="fa-puzzle-piece">
+                    </button>
+                    <button type="object" name="action_view_project_option_ids" attrs="{ 'invisible': [('project_option_counts', '=', 0)] }" class="oe_stat_button" icon="fa-puzzle-piece">
+                        <field name="project_option_counts" widget="statinfo" string="Projects"/>
+                    </button>
+                    <button type="object" name="action_view_task_option_ids" attrs="{ 'invisible': [('project_option_counts', '=', 0)] }" class="oe_stat_button" icon="fa-puzzle-piece">
+                        <field name="task_option_counts" widget="statinfo" string="Tasks"/>
+                    </button>
+                </xpath>
+                <xpath expr="//button[@name='action_view_delivery']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                
                 <xpath expr="//field[@name='sale_order_template_id']" position="after">
                     
                     <button name="generate_bom_order" 
@@ -18,7 +33,9 @@
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     
                     <field name="date_of_exhibition" attrs="{'readonly': [('state','not in',['draft','sent'])]}"/>
-                    <field name="validity_quotation" readonly="0"/>
+                    <field name="validity_quotation" readonly="1" invisible="1"/>
+                    <field name="is_bom_generated" invisible="1"/>
+
                     
                 </xpath>
 
@@ -54,7 +71,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="before">
-                    <field name="parent_id" domain="[('is_bom_parent', '=', True)]" />
+                    <field name="order_line_id" domain="[('order_id', '=', parent.id),('display_type', '=', False)]"   options="{'no_create': True, 'no_create_edit':True}"/>
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="before">
@@ -69,7 +86,7 @@
 
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="after">
-                    <field name="margin_product" string =" Coefficient"/>
+                    <field name="margin_product" string =" Ratios"/>
                     <field name="total_purchase_price" force_save = "1"/>
                     <field name="total_sale_price" force_save = "1"/>
                     <field name="margin" force_save = "1"/>
@@ -98,6 +115,7 @@
                     
                     
                 </xpath>
+                
 
                 <!-- hide field in order line -->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="attributes">
@@ -121,9 +139,6 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
@@ -131,12 +146,12 @@
                 <!-- change name -->
                 <xpath expr="//page[@name='optional_products']" position="attributes">
 
-                    <attribute name="string">Tableau de chiffrage</attribute>
+                    <attribute name="string">Costing table</attribute>
 
                 </xpath>
                 <xpath expr="//page[@name='order_lines']" position="attributes">
 
-                    <attribute name="string">Détails du devis</attribute>
+                    <attribute name="string">Details of the quotation</attribute>
 
                 </xpath>
             </field>
