@@ -33,14 +33,14 @@ msgid "Product Variant"
 msgstr "Variant"
 
 #. module: custom_stock
-#: model:ir.model.fields,field_description:custom_stock.field_product_product__margin_product
-#: model:ir.model.fields,field_description:custom_stock.field_product_template__margin_product
-msgid "Margin Euro"
-msgstr "Marge Euro"
+#: model:ir.model.fields,field_description:custom_stock.field_product_product__margin_product_euro
+#: model:ir.model.fields,field_description:custom_stock.field_product_template__margin_product_euro
+msgid "Margin"
+msgstr "Marge net"
 
 #. module: custom_stock
-#: model:ir.model.fields,field_description:custom_stock.field_product_product__margin_percent
-#: model:ir.model.fields,field_description:custom_stock.field_product_template__margin_percent
+#: model:ir.model.fields,field_description:custom_stock.field_product_product__margin_product
+#: model:ir.model.fields,field_description:custom_stock.field_product_template__margin_product
 msgid "Ratios"
 msgstr "Coefficient"
 

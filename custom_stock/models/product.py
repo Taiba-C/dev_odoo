@@ -13,7 +13,7 @@ class Product_template(models.Model):
     _inherit = 'product.template'
     
     margin_product = fields.Float('Ratios', digits=(10, 4))
-    margin_product_euro = fields.Float('Margin Euro')
+    margin_product_euro = fields.Float('Margin')
     is_bom_parent = fields.Boolean('Is BOM Parent')
     list_price = fields.Float(compute='_compute_list_price', string='Prix de vente')
     
