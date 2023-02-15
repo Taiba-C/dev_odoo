@@ -15,9 +15,10 @@ class Product_template(models.Model):
     margin_percent = fields.Float('Ratios', digits=(10, 4))
     margin_product = fields.Float('Margin Euro')
     is_bom_parent = fields.Boolean('Is BOM Parent')
+    list_price = fields.Float(compute='_compute_list_price')
     
-    @api.onchange('standard_price','margin_percent')
-    def _compute_sales_infos(self):
+    @api.depends('standard_price','margin_percent')
+    def _compute_list_price(self):
         purchase_price = 0
         total_price_sale = 0
         margin = 0
