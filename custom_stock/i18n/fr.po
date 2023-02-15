@@ -35,20 +35,16 @@ msgstr "Variant"
 #. module: custom_stock
 #: model:ir.model.fields,field_description:custom_stock.field_product_product__margin_product
 #: model:ir.model.fields,field_description:custom_stock.field_product_template__margin_product
-msgid "Ratios"
-msgstr "Coefficient"
-
-#. module: custom_stock
-#: model:ir.model.fields,field_description:custom_stock.field_product_product__margin_percent
-#: model:ir.model.fields,field_description:custom_stock.field_product_template__margin_percent
 msgid "Margin Euro"
 msgstr "Marge Euro"
 
 #. module: custom_stock
-#: model:ir.model.fields,field_description:custom_stock.field_product_product__list_price
-#: model:ir.model.fields,field_description:custom_stock.field_product_template__list_price
-msgid "Sales Price"
-msgstr "Prix de vente"
+#: model:ir.model.fields,field_description:custom_stock.field_product_product__margin_percent
+#: model:ir.model.fields,field_description:custom_stock.field_product_template__margin_percent
+msgid "Ratios"
+msgstr "Coefficient"
+
+
 
 #. module: custom_stock
 #: model:ir.model.fields,help:custom_stock.field_product_product__list_price
