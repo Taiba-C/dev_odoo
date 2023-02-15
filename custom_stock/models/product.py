@@ -12,9 +12,26 @@ class Product_template(models.Model):
     """
     _inherit = 'product.template'
     
-    margin_product = fields.Float('Ratios', digits=(10, 4))
+    margin_percent = fields.Float('Ratios', digits=(10, 4))
+    margin_product = fields.Float('Margin Euro')
     is_bom_parent = fields.Boolean('Is BOM Parent')
     
+    @api.onchange('standard_price','margin_percent')
+    def _compute_sales_infos(self):
+        purchase_price = 0
+        total_price_sale = 0
+        margin = 0
+        for record in self:
+            purchase_price = record.standard_price 
+                
+            if record.margin_percent > 0:
+                total_price_sale = purchase_price / record.margin_percent
+
+                margin = total_price_sale - purchase_price
+            
+            record.list_price = total_price_sale
+            record.margin_product = margin
+            
     @api.onchange('list_price','detailed_type')
     def _onchange_list_price(self):
         if self.detailed_type == 'service':
