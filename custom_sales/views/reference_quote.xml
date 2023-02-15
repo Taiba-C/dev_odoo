@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <tree string="Components" editable="bottom" create="0" edit="1" import="0" delete="false">
                 <field name="name" options="{'no_create': True}"  attrs="{'readonly': [('id', '!=', False)]}" />
-                <field name="margin_product" string="Ratios" can_create="false" can_write="true"/>
+                <field name="margin_percent" string="Ratios" can_create="false" can_write="true"/>
                 <field name="standard_price" string="Purchase price" widget="monetary" can_create="false" can_write="true"/>
                 <button name="open_form_view_product" type="object" class="oe_highlight" string="Open product"/>
             </tree>
