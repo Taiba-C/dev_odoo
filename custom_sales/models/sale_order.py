@@ -235,8 +235,7 @@ class Sale_order(models.Model):
                     pricelist = self.pricelist_id.item_ids.search([('compute_price','=','formula'),
                                                                    ('applied_on','=','2_product_category'),
                                                                    ('categ_id','=',order_line.product_template_id.categ_id.id)])
-                    print(price_unit)
-                    print(pricelist[0].price_discount)
+                    
                     if percentage == 0 and pricelist[0].price_discount < 0:
                         percentage = abs(pricelist[0].price_discount)
                         
