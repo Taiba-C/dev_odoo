@@ -237,7 +237,7 @@ class Sale_order(models.Model):
                                                                    ('categ_id','=',order_line.product_template_id.categ_id.id)])
                     
                     if pricelist:
-                        if percentage == 0 and pricelist[0].price_discount < 0:
+                        if percentage == 0 :
                             percentage = abs(pricelist[0].price_discount)
                         
             price_recompute = price_unit + (price_unit * percentage / 100.0)
