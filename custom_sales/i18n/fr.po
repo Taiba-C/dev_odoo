@@ -240,3 +240,8 @@ msgstr "Composants"
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__order_line_id
 msgid "Order Line"
 msgstr "Nomenclature parent"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_line__consumable
+msgid "consumable"
+msgstr "Consommable"
