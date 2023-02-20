@@ -227,11 +227,23 @@ class Sale_order(models.Model):
                 
                 
         for order_line in self.order_line:
-            cpt = 0
+            price_unit = 0
+            percentage = 0
             for order_option in self.sale_order_option_ids:
                 if order_option.order_line_id.id == order_line._origin.id :
-                    cpt += order_option.total_sale_price
-                order_line.price_unit = cpt
+                    price_unit += order_option.total_sale_price
+                    pricelist = self.pricelist_id.item_ids.search([('compute_price','=','formula'),
+                                                                   ('applied_on','=','2_product_category'),
+                                                                   ('categ_id','=',order_line.product_template_id.categ_id.id)])
+                    print(price_unit)
+                    print(pricelist[0].price_discount)
+                    if percentage == 0 and pricelist[0].price_discount < 0:
+                        percentage = abs(pricelist[0].price_discount)
+                        
+            price_recompute = price_unit + (price_unit * percentage / 100.0)
+            if price_recompute != price_unit:
+                order_line.consumable = price_recompute - price_unit
+            order_line.price_unit = price_recompute
         
         
         self.total_purchase = total_purchase
@@ -276,7 +288,7 @@ class Sale_order(models.Model):
     @api.onchange('order_line')
     def _onchange_order_line(self):
         for value in self.order_line:
-            if value.product_template_id.detailed_type == 'service':
+            if value.product_template_id and value.product_template_id.detailed_type == 'service':
                 value.price_subtotal = 0
    
     @api.onchange('date_of_exhibition')
@@ -394,6 +406,8 @@ class Sale_order(models.Model):
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
+    
+    consumable = fields.Float('consumable')
 
     def name_get(self):
         res = []
