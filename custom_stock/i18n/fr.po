@@ -21,11 +21,6 @@ msgstr ""
 msgid "Is BOM Parent"
 msgstr "Nomenclature parent"
 
-#. module: custom_stock
-#: model_terms:ir.ui.view,arch_db:custom_stock.product_template_only_form_view_inherit
-msgid "Purchase price"
-msgstr "Prix d'achat"
-
 
 #. module: custom_stock
 #: model:ir.model,name:custom_stock.model_product_product
