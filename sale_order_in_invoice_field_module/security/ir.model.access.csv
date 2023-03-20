@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_account_move_sale_order,Account Move Sale Order,model_account_move,sale.group_sale_manager,1,1,1,1
+access_account_move_sale_order,Account Move Sale Order,model_account_move,sale.order.line,1,1,1,1
