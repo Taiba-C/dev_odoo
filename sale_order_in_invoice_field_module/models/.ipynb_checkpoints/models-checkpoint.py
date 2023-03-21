@@ -14,3 +14,5 @@ class AccountMove(models.Model):
             record.x_studio_bc = sale_order.id if sale_order else False
 
     x_studio_bc = fields.Many2one('sale.order', string='Sale Order', compute='_compute_sale_order')
+
+
