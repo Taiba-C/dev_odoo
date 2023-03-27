@@ -21,7 +21,12 @@
 
     # any module necessary for this one to work correctly
     #'depends': ['base'],
-    'depends': ['base','account'],
+    #'depends': ['base','account'],
+    'depends': ['base','account','calendar'],
+    'test': ['tests/test_calendar.py'], # Spécifier le chemin vers votre test personnalisé
+    'installable': True,
+    'auto_install': False,
+    'sequence': 10, # Définir la priorité de votre module
     
     'license': 'LGPL-3',
     
