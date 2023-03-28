@@ -5,7 +5,7 @@
             <field name="inherit_id" ref="product.product_template_only_form_view" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='categ_id']" position="before">
-                    <field name="margin_product"/>
+                    <field name="margin_product" readonly="0"/>
                     <field name="margin_product_euro" readonly="1" force_save="1" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                     <field name="is_bom_parent" invisible="1"/>
                 </xpath>
@@ -18,7 +18,7 @@
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='default_code']" position="before">
-                    <field name="margin_product"/>
+                    <field name="margin_product" readonly="0"/>
                     <field name="margin_product_euro" readonly="1" force_save="1" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                     <field name="is_bom_parent" invisible="1"/>             
                 </xpath>
