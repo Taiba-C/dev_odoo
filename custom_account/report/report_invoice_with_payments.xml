@@ -1,5 +1,15 @@
 <odoo>
     <template id="report_invoice_with_payments_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//table[@name='invoice_line_table']" position="before">
+            <t t-set="order_id" t-value="o.get_order_source(o.invoice_origin)"/>
+            <t t-if="order_id">
+            <div style="width:100%;text-align:center">
+                <h2>
+                    <span t-esc="order_id"/>
+                </h2>
+            </div>
+            </t>
+        </xpath>
         <xpath expr="//div[hasclass('page')]//h2[1]//span[1]" position="replace">
            
             <span t-if="o.invoice_types == 'invoice_of_balance'">
@@ -8,7 +18,7 @@
             <span t-if="o.invoice_types != 'invoice_of_balance'">
                 <span t-if="o.move_type == 'out_invoice' and o.state == 'posted' and o.name != '/'" t-field="o.invoice_types"/>
             </span>
-
+            
         </xpath>
     </template>
 </odoo>
