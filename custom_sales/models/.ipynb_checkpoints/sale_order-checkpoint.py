@@ -352,7 +352,7 @@ class Sale_order(models.Model):
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.x_studio_fin_salon,
                 #afin ajouter un lien many2one entre le projet et le bon de commande depuis le projet
-                    'sale_order':self.id,
+                    'sale_order_id':self.id,
                     })
             
             self.project_options_id = project.id
