@@ -1,0 +1,79 @@
+<!--<odoo>
+  <data>
+ *-->   
+<!-- Version allant avec le code en commentaire dans models.py (conncernant le account.move) -->
+<odoo>
+    <data>
+        <record id="view_move_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="x_studio_bc" string="Sale Order" domain="[('name','=',ref), ('id', '!=', False), ('company_id', '=', company_id)]" widget="many2one" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo> 
+
+
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="sale_order_in_invoice_field_module.list">
+      <field name="name">saleOrder_inInvoice_field_module list</field>
+      <field name="model">sale_order_in_invoice_field_module.sale_order_in_invoice_field_module</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="sale_order_in_invoice_field_module.action_window">
+      <field name="name">saleOrder_inInvoice_field_module window</field>
+      <field name="res_model">sale_order_in_invoice_field_module.sale_order_in_invoice_field_module</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+-->
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="sale_order_in_invoice_field_module.action_server">
+      <field name="name">saleOrder_inInvoice_field_module server</field>
+      <field name="model_id" ref="model_sale_order_in_invoice_field_module_sale_order_in_invoice_field_module"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="saleOrder_inInvoice_field_module" id="sale_order_in_invoice_field_module.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="sale_order_in_invoice_field_module.menu_1" parent="sale_order_in_invoice_field_module.menu_root"/>
+    <menuitem name="Menu 2" id="sale_order_in_invoice_field_module.menu_2" parent="sale_order_in_invoice_field_module.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="sale_order_in_invoice_field_module.menu_1_list" parent="sale_order_in_invoice_field_module.menu_1"
+              action="sale_order_in_invoice_field_module.action_window"/>
+    <menuitem name="Server to list" id="sale_order_in_invoice_field_module" parent="sale_order_in_invoice_field_module.menu_2"
+              action="sale_order_in_invoice_field_module.action_server"/>
+-->
+<!--  </data>
+</odoo>
+-->
