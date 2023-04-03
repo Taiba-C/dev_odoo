@@ -42,7 +42,9 @@ class SaleOrderOption(models.Model):
                 if overtime == 0:
                     overtime = 1
                 planning = self.env['planning.slot'].create({
+                    #ajouter 
                     'name': record.product_id.name + ' ' + record.order_line_id.product_id.name,
+                    #####
                     'project_id': project.id,
                     'start_datetime': date_start,
                     'end_datetime': date_start + timedelta(hours=overtime),
@@ -52,8 +54,8 @@ class SaleOrderOption(models.Model):
                 
 class Planning_slot(models.Model):
     _inherit = 'planning.slot'
-    
-    @api.depends('name','start_datetime', 'end_datetime', 'resource_id.calendar_id',
+    ## le name a été rajouter ci dessous 
+    @api.depends('name', 'start_datetime', 'end_datetime', 'resource_id.calendar_id',
         'company_id.resource_calendar_id', 'allocated_percentage', 'resource_id.flexible_hours')
     def _compute_allocated_hours(self):
         res = super(Planning_slot,self)._compute_allocated_hours()
