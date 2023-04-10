@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
+ <!--<?xml version="1.0" encoding="utf-8"?>
+<data>
+   <odoo>
     <data>
 
         <record id="view_planning_slot_form_inherit" model="ir.ui.view">
@@ -15,3 +16,4 @@
 
     </data>
 </odoo>
+-->
