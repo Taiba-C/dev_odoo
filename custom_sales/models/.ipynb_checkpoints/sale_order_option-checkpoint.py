@@ -34,7 +34,6 @@ class SaleOrderOption(models.Model):
                     'project_id': project.id,
                     'partner_id': partner_id,
                     'planned_hours': record.quantity,
-                    
                 })
                 record.task_id = task.id
                 date_start = datetime.combine(project.date_start, datetime.min.time())
@@ -47,6 +46,7 @@ class SaleOrderOption(models.Model):
                     'start_datetime': date_start,
                     'end_datetime': date_start + timedelta(hours=overtime),
                     'task_id': task.id,
+                    'x_studio_task': task.id,
                 })
                 record.planning_id = planning
                 
