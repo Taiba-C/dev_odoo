@@ -52,11 +52,26 @@ class SaleOrderOption(models.Model):
 class Planning_slot(models.Model):
     _inherit = 'planning.slot'
 
+    task_id = fields.Many2one('project.task', string='Task')
+
     @api.depends('start_datetime', 'end_datetime', 'resource_id.calendar_id',
-        'company_id.resource_calendar_id', 'allocated_percentage', 'resource_id.flexible_hours')
+        'company_id.resource_calendar_id', 'allocated_percentage', 'resource_id.flexible_hours', 'task_id')
     def _compute_allocated_hours(self):
         res = super(Planning_slot,self)._compute_allocated_hours()
         for record in self:
             diff = record.end_datetime - record.start_datetime
             record.allocated_hours = diff.total_seconds() / 3600
+            if record.task_id:
+                record.name = record.task_id.name
         return res
+
+    
+    
+#    @api.depends('start_datetime', 'end_datetime', 'resource_id.calendar_id',
+ #       'company_id.resource_calendar_id', 'allocated_percentage', 'resource_id.flexible_hours')
+  #  def _compute_allocated_hours(self):
+   #     res = super(Planning_slot,self)._compute_allocated_hours()
+    #    for record in self:
+     #       diff = record.end_datetime - record.start_datetime
+      #      record.allocated_hours = diff.total_seconds() / 3600
+       # return res
