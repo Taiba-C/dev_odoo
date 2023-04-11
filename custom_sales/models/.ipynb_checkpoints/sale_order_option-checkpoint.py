@@ -45,6 +45,8 @@ class SaleOrderOption(models.Model):
                     'project_id': project.id,
                     'start_datetime': date_start,
                     'end_datetime': date_start + timedelta(hours=overtime),
+                    'task_id': task.id,  # Set the task_id field of the planning.slot record to the ID of the created task
+                })
                 })
                 record.planning_id = planning
                 
@@ -61,8 +63,6 @@ class Planning_slot(models.Model):
         for record in self:
             diff = record.end_datetime - record.start_datetime
             record.allocated_hours = diff.total_seconds() / 3600
-            if record.task_id:
-                record.name = record.task_id.name
         return res
 
     
