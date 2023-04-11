@@ -45,7 +45,6 @@ class SaleOrderOption(models.Model):
                     'project_id': project.id,
                     'start_datetime': date_start,
                     'end_datetime': date_start + timedelta(hours=overtime),
-                    'x_task': task.id,  # Set the task_id field of the planning.slot record to the ID of the created task
                 })
                 })
                 record.planning_id = planning
@@ -53,23 +52,12 @@ class SaleOrderOption(models.Model):
                 
 class Planning_slot(models.Model):
     _inherit = 'planning.slot'
-
+    
     @api.depends('start_datetime', 'end_datetime', 'resource_id.calendar_id',
-        'company_id.resource_calendar_id', 'allocated_percentage', 'resource_id.flexible_hours', 'task_id')
+        'company_id.resource_calendar_id', 'allocated_percentage', 'resource_id.flexible_hours')
     def _compute_allocated_hours(self):
         res = super(Planning_slot,self)._compute_allocated_hours()
         for record in self:
             diff = record.end_datetime - record.start_datetime
             record.allocated_hours = diff.total_seconds() / 3600
         return res
-
-    
-    
-#    @api.depends('start_datetime', 'end_datetime', 'resource_id.calendar_id',
- #       'company_id.resource_calendar_id', 'allocated_percentage', 'resource_id.flexible_hours')
-  #  def _compute_allocated_hours(self):
-   #     res = super(Planning_slot,self)._compute_allocated_hours()
-    #    for record in self:
-     #       diff = record.end_datetime - record.start_datetime
-      #      record.allocated_hours = diff.total_seconds() / 3600
-       # return res
