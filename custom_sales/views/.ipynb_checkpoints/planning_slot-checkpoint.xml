@@ -19,7 +19,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//form" position="inside">
                     <group>
-                        <field name="task_id" string="The Task" widget="many2one"/>
+                        <field name="task_id" string="Tasks" widget="many2one"/>
                     </group>
                 </xpath>
             </field>

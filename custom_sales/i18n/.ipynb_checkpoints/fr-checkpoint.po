@@ -1,0 +1,247 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* custom_sales
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-01-17 14:56+0000\n"
+"PO-Revision-Date: 2023-01-17 14:56+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: custom_sales
+#: model_terms:ir.actions.act_window,help:custom_sales.reference_quote_action
+msgid ""
+"Bills of materials components are components and by-products\n"
+"                used to create master bills of materials.  Use this menu to\n"
+"                search in which BoM a specific component is used."
+msgstr ""
+
+#. module: custom_sales
+#: model_terms:ir.actions.act_window,help:custom_sales.reference_quote_action
+msgid "Click to add a component to a bill of material."
+msgstr "Cliquez pour ajouter un composant à une nomenclature."
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__margin_product
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+#: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
+msgid "Ratios"
+msgstr "Coefficient"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
+msgid "Components"
+msgstr "Composant"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__date_of_exhibition
+msgid "Begin of exhibition"
+msgstr "Début du Salon"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__display_name
+msgid "Display Name"
+msgstr "Afficher Nom"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Details of the quotation"
+msgstr "Détails du devis"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Encryption"
+msgstr "Chiffrage"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__id
+msgid "ID"
+msgstr "id"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_advance_payment_inv__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin
+msgid "Margin"
+msgstr "Marge"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin_percent
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__margin_percent
+msgid "Margin %"
+msgstr "Marge %"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__margin
+msgid "Margin €"
+msgstr "Marge €"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__parent_id
+msgid "Parent"
+msgstr "Article parent"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__purchase_price
+#: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
+msgid "Purchase price"
+msgstr "Prix d'achat"
+
+#. module: custom_sales
+#: model:ir.actions.act_window,name:custom_sales.reference_quote_action
+#: model:ir.ui.menu,name:custom_sales.menu_reference_quote
+msgid "Reference quote"
+msgstr "Referentiel Devis"
+
+#. module: custom_sales
+#: model:ir.model,name:custom_sales.model_sale_order_option
+msgid "Sale Options"
+msgstr "Options de vente"
+
+
+
+#. module: custom_sales
+#: model:ir.actions.server,name:custom_sales.ir_cron_data_notify_quotation_expired_ir_actions_server
+#: model:ir.cron,cron_name:custom_sales.ir_cron_data_notify_quotation_expired
+msgid "Sale order: Quotation expired"
+msgstr "Devis: Devis expiré"
+
+#. module: custom_sales
+#: model:ir.model,name:custom_sales.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice"
+msgstr "Facture de paiement d'avance"
+
+#. module: custom_sales
+#: model:ir.model,name:custom_sales.model_sale_order
+msgid "Sales Order"
+msgstr "Bon de commande"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__task_id
+msgid "Task"
+msgstr "Tache"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__task_option_counts
+msgid "Task Option Counts"
+msgstr "Nombre d'options de tâches"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Tasks"
+msgstr "Taches"
+
+#. module: custom_sales
+#: model:ir.model,name:custom_sales.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice inherited"
+msgstr "Facture de paiement anticipé des ventes héritée"
+
+#. module: custom_sales
+#: model:ir.model,name:custom_sales.model_sale_order
+msgid "Sales Order"
+msgstr "Bon de commande"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Costing table"
+msgstr "Tableau de chiffrage"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_purchase
+msgid "Total puchase price"
+msgstr "Prix total achat"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__total_purchase_price
+msgid "Total purchase price"
+msgstr "Prix total d'achat"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_sale
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__total_sale_price
+msgid "Total sale price"
+msgstr "Prix total vente"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__validity_quotation
+msgid "Validity of the quotation"
+msgstr "Validité du devis"
+
+
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__project_options_id
+msgid "Project"
+msgstr "Projet"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__project_option_counts
+msgid "Project Option Counts"
+msgstr "Comptage des options de projet"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Projects"
+msgstr "Projets"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.product_template_search_view_inherit_bom_is_not_defined
+msgid "Bom is not defined"
+msgstr "Nomenclature est pas définie"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
+msgid "Open product"
+msgstr "Ouvrir l'arcticle"
+
+#. module: custom_sales
+#: model:ir.actions.act_window,name:custom_sales.action_show_quotation_expired
+#: model:ir.ui.menu,name:custom_sales.quotation_expired
+#: model_terms:ir.ui.view,arch_db:custom_sales.view_order_search_only_internal
+msgid "Quotation expired"
+msgstr "Devis expiré"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
+msgid "Components"
+msgstr "Composants"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__order_line_id
+msgid "Order Line"
+msgstr "Nomenclature parent"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_line__consumable
+msgid "consumable"
+msgstr "Consommable"
