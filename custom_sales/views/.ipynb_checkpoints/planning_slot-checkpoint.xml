@@ -1,6 +1,6 @@
-<odoo>
+ <!--  <odoo>
     <data>
- <!--              <record id="view_order_form_inherit_planning_slot_inherited" model="ir.ui.view">
+            <record id="view_order_form_inherit_planning_slot_inherited" model="ir.ui.view">
             <field name="name">planning.slot.form.project</field>
             <field name="model">planning.slot</field>
             <field name="inherit_id" ref="planning.planning_slot_report_view_pivot"/>
@@ -24,3 +24,4 @@
 
     </data>
 </odoo>
+-->
