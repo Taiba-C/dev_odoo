@@ -1,16 +1,29 @@
 <!--<odoo>
     <data>
-        <record id="view_planning_slot_tree_inherit" model="ir.ui.view">
+      <record id="view_planning_slot_tree_inherit" model="ir.ui.view">
             <field name="name">planning.slot.tree.inherit</field>
             <field name="model">planning.slot</field>
             <field name="inherit_id" ref="planning.planning_slot_tree_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//tree" position="inside">
-                    <field name="task_id"/>
+                    <field name="task_id" string="The Task" widget="many2one"/>
+                </xpath>
+            </field>
+        </record> -->
+<odoo>
+    <data>
+        <record id="view_planning_slot_form_inherit" model="ir.ui.view">
+            <field name="name">planning.slot.form.inherit</field>
+            <field name="model">planning.slot</field>
+            <field name="inherit_id" ref="planning.planning_slot_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <group>
+                        <field name="task_id" string="The Task" widget="many2one"/>
+                    </group>
                 </xpath>
             </field>
         </record>
     </data>
 </odoo>
 
--->
