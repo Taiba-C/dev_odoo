@@ -53,6 +53,8 @@ class SaleOrderOption(models.Model):
 class Planning_slot(models.Model):
     _inherit = 'planning.slot'
     
+    task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
+    
     @api.depends('start_datetime', 'end_datetime', 'resource_id.calendar_id',
         'company_id.resource_calendar_id', 'allocated_percentage', 'resource_id.flexible_hours')
     def _compute_allocated_hours(self):
