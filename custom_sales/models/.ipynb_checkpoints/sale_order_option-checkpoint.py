@@ -46,7 +46,7 @@ class SaleOrderOption(models.Model):
                     'start_datetime': date_start,
                     'end_datetime': date_start + timedelta(hours=overtime),
                     'job_title': record.product_id.name + ' ' + record.order_line_id.product_id.name,
-                    'name': task.name
+                    'display_name': task.name
                 })   
                 record.planning_id = planning
                 
