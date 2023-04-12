@@ -163,7 +163,7 @@ class Sale_order(models.Model):
         total_purchase = 0
         total_sale = 0
         margin = 0
-        start_datetime
+        
         #! parent boms are ids of BOM in order line 
         #! it is a object with list of id
         parent_boms = self.order_line.product_template_id
