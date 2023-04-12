@@ -21,8 +21,6 @@
                 </xpath>
             </field>
 </record>  
-        
-
 <!-- 
             <record id="view_order_form_inherit_planning_slot_inherited" model="ir.ui.view">
             <field name="name">planning.slot.form.project</field>
@@ -33,8 +31,7 @@
                     <field name="task_id" />
                 </xpath>
             </field>
-        </record>
-      
+        </record>     
   -->   
     </data>
 </odoo>
