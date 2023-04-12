@@ -1,5 +1,5 @@
  <odoo>
-    <data>   <record id="view_planning_slot_tree_inherit" model="ir.ui.view">
+    <data> <!--   <record id="view_planning_slot_tree_inherit" model="ir.ui.view">
     <field name="name">planning.slot.tree.inherit</field>
     <field name="model">planning.slot</field>
     <field name="inherit_id" ref="planning.planning_slot_tree_view"/>
@@ -8,7 +8,21 @@
             <field name="task_id"/>
         </xpath>
     </field>
-</record>
+</record> -->
+<record id="view_planning_slot_form_inherit" model="ir.ui.view">
+            <field name="name">planning.slot.form.inherit</field>
+            <field name="model">planning.slot</field>
+            <field name="inherit_id" ref="planning.planning_slot_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <group>
+                        <field name="task_id" string="The Task" />
+                    </group>
+                </xpath>
+            </field>
+</record>  
+        
+
 <!-- 
             <record id="view_order_form_inherit_planning_slot_inherited" model="ir.ui.view">
             <field name="name">planning.slot.form.project</field>
