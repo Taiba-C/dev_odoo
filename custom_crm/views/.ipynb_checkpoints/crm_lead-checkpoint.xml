@@ -31,16 +31,6 @@
 
             </field>
         </record>
-           <record id="quick_create_opportunity_form_custom" model="ir.ui.view">
-            <field name="name">crm.lead.oppordtunit.quick.form</field>
-            <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='expected_revenue']" position="attributes">
-                    <attribute name="string">Budget</attribute>
-                </xpath>
-
-            </field>
-        </record>
+         
     </data>
 </odoo>
