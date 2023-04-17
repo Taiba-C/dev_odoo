@@ -37,7 +37,7 @@
             <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='expected_revenue']" position="attributes">
-                    <attribute name="string">Budget :</attribute>
+                    <attribute name="string">Budget</attribute>
                 </xpath>
 
             </field>
