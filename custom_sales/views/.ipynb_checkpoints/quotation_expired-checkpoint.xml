@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+
+
+        <record id="view_order_search_only_internal" model="ir.ui.view">
+
+            <field name="name">Only quotation expired</field>
+
+            <field name="model">sale.order</field>
+
+            <field name="inherit_id" ref="sale.view_sales_order_filter" />
+
+            <field name="arch" type="xml">
+
+                <filter name="activities_today" position="after">
+
+                    <filter string="Quotation expired" name="filter_quotation_expired" domain="[('validity_date', '&lt;=', context_today().strftime('%Y-%m-%d')),('state', '=', 'draft'),('opportunity_id.won_status', '!=', 'lost')]"/>
+
+                </filter>
+
+            </field>
+
+        </record>
+
+
+
+        <!-- menu incoming transfert -->
+        <record id="action_show_quotation_expired" model="ir.actions.act_window">
+            <field name="name">Quotation expired</field>
+            <field name="res_model">sale.order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="context">{"search_default_filter_quotation_expired":1, 'create':0}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- menuitem on quotation next to quotation -->
+        <!-- name = "quotation expired" -->
+        <menuitem id="quotation_expired" name="Quotation expired" sequence="10" action="action_show_quotation_expired" parent="sale.sale_order_menu" />
+
+    </data>
+</odoo>
