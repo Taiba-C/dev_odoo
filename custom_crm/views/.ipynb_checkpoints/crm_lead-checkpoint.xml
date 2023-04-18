@@ -20,7 +20,7 @@
 
             </field>
         </record>
-        <record id="quick_create_opportunity_form_custom" model="ir.ui.view">
+            <record id="quick_create_opportunity_form_custom" model="ir.ui.view">
             <field name="name">crm.lead.oppordtunit.quick.form</field>
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
@@ -28,10 +28,9 @@
                 <xpath expr="//field[@name='name']" position="attributes">
                     <attribute name="string">Dossier</attribute>
                 </xpath>
-
             </field>
         </record>
-          <record id="quick_create_opportunity_form_custom" model="ir.ui.view">
+          <record id="quick_create_opportunity_form_custom_budget" model="ir.ui.view">
             <field name="name">crm.lead.oppordtunit.quick.form</field>
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
@@ -39,8 +38,7 @@
                 <xpath expr="//field[@name='expected_revenue']" position="attributes">
                     <attribute name="string">Budget</attribute>
                 </xpath>
-
             </field>
-        </record>
+        </record>      
     </data>
 </odoo>
