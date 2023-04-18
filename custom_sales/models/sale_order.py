@@ -22,7 +22,7 @@ class Sale_order(models.Model):
     project_option_counts = fields.Float(compute='_get_project_counts')
     project_options_id = fields.Many2one('project.project', string='Project option', ondelete='cascade')
     
-    
+    picking_id = fields.Many2one('stock.picking', string='Nomenclature du chiffrage')
     
     
     def generate_bom_order(self):
@@ -357,6 +357,28 @@ class Sale_order(models.Model):
         for line in self.sale_order_option_ids:
             line.create_project_task(self.project_options_id, self.partner_id.id)
         
+        for order in self:
+            picking = self.env['stock.picking'].create({
+                'partner_id': order.partner_shipping_id.id,
+                'location_id': order.warehouse_id.lot_stock_id.id,
+                'location_dest_id': order.partner_shipping_id.property_stock_customer.id,
+                'origin': order.name,
+                'picking_type_id': order.env.ref('stock.picking_type_out').id,
+            })
+
+            for option in order.sale_order_option_ids.filtered(lambda o: o.product_id):
+                move = self.env['stock.move'].create({
+                    'product_id': option.product_id.id,
+                    'product_uom_qty': option.quantity,
+                    'name': option.name,
+                    'location_id': order.warehouse_id.lot_stock_id.id,
+                    'picking_id': picking.id,
+                    'location_dest_id': order.partner_shipping_id.property_stock_customer.id,
+                    'origin': order.name,
+                    
+                })
+                move._action_confirm()
+            self.picking_id = picking.id
         return res
 
     def action_view_task_option_ids(self):
