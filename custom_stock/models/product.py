@@ -17,7 +17,7 @@ class Product_template(models.Model):
     is_bom_parent = fields.Boolean('Is BOM Parent')
     list_price = fields.Float(compute='_compute_list_price', string='Prix de vente')
     
-    @api.depends('standard_price','margin_product')
+    @api.depends('standard_price', 'margin_product')
     def _compute_list_price(self):
         purchase_price = 0
         total_price_sale = 0
@@ -32,6 +32,9 @@ class Product_template(models.Model):
             
             record.list_price = total_price_sale
             record.margin_product_euro = margin
+            self.env['product.product'].search([('product_tmpl_id','=', record.id)]).write({
+                                                                                                'margin_product': record.margin_product,
+                                                                                            })
             
     @api.onchange('list_price','detailed_type')
     def _onchange_list_price(self):
@@ -45,8 +48,13 @@ class Product_product(models.Model):
     """
     _inherit = 'product.product'
     
-    margin_product = fields.Float('Ratios', digits=(10, 4),related='product_tmpl_id.margin_product')
-    margin_product_euro = fields.Float('Margin',related='product_tmpl_id.margin_product_euro')
+    margin_product = fields.Float('Ratios', digits=(10, 4))
+    margin_product_euro = fields.Float('Margin')
     
     is_bom_parent = fields.Boolean('Is BOM Parent',related='product_tmpl_id.is_bom_parent')
     
+    @api.onchange('margin_product')
+    def _onchange_margin_product(self):
+        self.env['product.template'].search([('id','=', self._origin.product_tmpl_id.id)]).write({'margin_product': self.margin_product})
+
+        
