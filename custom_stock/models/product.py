@@ -49,7 +49,7 @@ class Product_product(models.Model):
     _inherit = 'product.product'
     
     margin_product = fields.Float('Ratios', digits=(10, 4))
-    margin_product_euro = fields.Float('Margin')
+    margin_product_euro = fields.Float('Margin', related='product_tmpl_id.margin_product_euro')
     
     is_bom_parent = fields.Boolean('Is BOM Parent',related='product_tmpl_id.is_bom_parent')
     
