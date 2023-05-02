@@ -367,6 +367,8 @@ class Sale_order(models.Model):
                     })
             
             self.project_options_id = project.id
+            project.bon_de_commande = self.id
+            
         for line in self.sale_order_option_ids:
             line.create_project_task(self.project_options_id, self.partner_id.id)
         
