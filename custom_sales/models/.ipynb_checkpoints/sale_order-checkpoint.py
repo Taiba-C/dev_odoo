@@ -22,7 +22,7 @@ class Sale_order(models.Model):
     project_option_counts = fields.Float(compute='_get_project_counts')
     project_options_id = fields.Many2one('project.project', string='Project option', ondelete='cascade')
     
-    
+    picking_id = fields.Many2one('stock.picking', string='Nomenclature du chiffrage')
     
     
     def generate_bom_order(self):
@@ -192,12 +192,22 @@ class Sale_order(models.Model):
                 if line.order_line_id.product_template_id.id == bom['parent_bom']:
                     if line.product_id.product_tmpl_id.id in bom['bom_products']:
                         #! search if product in tab is in the bom products
+                        #! The purchase price and margin_product will not change
                         # quantity_product = self.env['mrp.bom.line'].search([('bom_id', '=', bom['bom_id']),('product_id','=',line.product_id.id)])
                         
                         if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product:
                             line.purchase_price = line.product_id.product_tmpl_id.standard_price
                             line.margin_product = line.product_id.product_tmpl_id.margin_product                      
-                            # line.quantity = quantity_product.product_qty                      
+                            # line.quantity = quantity_product.product_qty      
+                    else:
+                        if line.purchase_price == 0 and line.margin_product == 0:
+                            """
+                                this condition is to test if it is a new product
+                                because new product will have purchase price and margin product as 0
+                                normaly
+                            """
+                            line.purchase_price = line.product_id.standard_price
+                            line.margin_product = line.product_id.margin_product        
                         
                     #! prix total achat
                     line.total_purchase_price = line.purchase_price * line.quantity
@@ -224,6 +234,8 @@ class Sale_order(models.Model):
                         self.margin_percent = margin / total_sale
                     else:
                         self.margin_percent = 0
+                
+                
                 
                 
         for order_line in self.order_line:
@@ -351,7 +363,7 @@ class Sale_order(models.Model):
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.x_studio_fin_salon,
-                    'bon_de_commande':self.id,
+                    'sale_order':self.id, # Permet d'associer le bon de commande à un projet 
                     })
             
             self.project_options_id = project.id
@@ -360,6 +372,28 @@ class Sale_order(models.Model):
         for line in self.sale_order_option_ids:
             line.create_project_task(self.project_options_id, self.partner_id.id)
         
+        for order in self:
+            picking = self.env['stock.picking'].create({
+                'partner_id': order.partner_shipping_id.id,
+                'location_id': order.warehouse_id.lot_stock_id.id,
+                'location_dest_id': order.partner_shipping_id.property_stock_customer.id,
+                'origin': order.name,
+                'picking_type_id': order.env.ref('stock.picking_type_out').id,
+            })
+
+            for option in order.sale_order_option_ids.filtered(lambda o: o.product_id):
+                move = self.env['stock.move'].create({
+                    'product_id': option.product_id.id,
+                    'product_uom_qty': option.quantity,
+                    'name': option.name,
+                    'location_id': order.warehouse_id.lot_stock_id.id,
+                    'picking_id': picking.id,
+                    'location_dest_id': order.partner_shipping_id.property_stock_customer.id,
+                    'origin': order.name,
+                    
+                })
+                move._action_confirm()
+            self.picking_id = picking.id
         return res
 
     def action_view_task_option_ids(self):
@@ -422,4 +456,5 @@ class SaleOrderLine(models.Model):
 class ProjectProject(models.Model):
     _inherit = 'project.project'
 
-    bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
+    sale_order = fields.Many2one('sale.order', string="Sale Order")
+    #Permet d'associer la clé étrangère sale_order au modèle project.project et ainsi lier les modèles sale.order et project.project
