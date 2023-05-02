@@ -190,6 +190,10 @@ class Sale_order(models.Model):
             for bom in list_boms:
                 #! list_bom is list of informations of bom with parent and child
                 if line.order_line_id.product_template_id.id == bom['parent_bom']:
+                    if line.product_id:
+                        line.purchase_price = line.product_id.standard_price
+                        line.margin_product = line.product_id.margin_product
+                        
                     if line.product_id.product_tmpl_id.id in bom['bom_products']:
                         #! search if product in tab is in the bom products
                         # quantity_product = self.env['mrp.bom.line'].search([('bom_id', '=', bom['bom_id']),('product_id','=',line.product_id.id)])
@@ -224,6 +228,7 @@ class Sale_order(models.Model):
                         self.margin_percent = margin / total_sale
                     else:
                         self.margin_percent = 0
+                
                 
                 
         for order_line in self.order_line:
