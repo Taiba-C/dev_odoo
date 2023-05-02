@@ -190,18 +190,24 @@ class Sale_order(models.Model):
             for bom in list_boms:
                 #! list_bom is list of informations of bom with parent and child
                 if line.order_line_id.product_template_id.id == bom['parent_bom']:
-                    if line.product_id:
-                        line.purchase_price = line.product_id.standard_price
-                        line.margin_product = line.product_id.margin_product
-                        
                     if line.product_id.product_tmpl_id.id in bom['bom_products']:
                         #! search if product in tab is in the bom products
+                        #! The purchase price and margin_product will not change
                         # quantity_product = self.env['mrp.bom.line'].search([('bom_id', '=', bom['bom_id']),('product_id','=',line.product_id.id)])
                         
                         if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product:
                             line.purchase_price = line.product_id.product_tmpl_id.standard_price
                             line.margin_product = line.product_id.product_tmpl_id.margin_product                      
-                            # line.quantity = quantity_product.product_qty                      
+                            # line.quantity = quantity_product.product_qty      
+                    else:
+                        if line.purchase_price == 0 and line.margin_product == 0:
+                            """
+                                this condition is to test if it is a new product
+                                because new product will have purchase price and margin product as 0
+                                normaly
+                            """
+                            line.purchase_price = line.product_id.standard_price
+                            line.margin_product = line.product_id.margin_product        
                         
                     #! prix total achat
                     line.total_purchase_price = line.purchase_price * line.quantity
@@ -228,6 +234,7 @@ class Sale_order(models.Model):
                         self.margin_percent = margin / total_sale
                     else:
                         self.margin_percent = 0
+                
                 
                 
                 
