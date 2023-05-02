@@ -363,6 +363,7 @@ class Sale_order(models.Model):
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.x_studio_fin_salon,
+                    'sale_order':self.id, # Permet d'associer le bon de commande à un projet 
                     })
             
             self.project_options_id = project.id
@@ -449,3 +450,9 @@ class SaleOrderLine(models.Model):
             name = line.name
             res.append((line.id, name))
         return res
+    
+class ProjectProject(models.Model):
+    _inherit = 'project.project'
+
+    sale_order = fields.Many2one('sale.order', string="Sale Order")
+    #Permet d'associer la clé étrangère sale_order au modèle project.project et ainsi lier les modèles sale.order et project.project
