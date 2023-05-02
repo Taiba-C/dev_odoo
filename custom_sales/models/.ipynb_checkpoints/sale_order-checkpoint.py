@@ -351,6 +351,7 @@ class Sale_order(models.Model):
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.x_studio_fin_salon,
+                    'bon_de_commande':self.id,
                     })
             
             self.project_options_id = project.id
@@ -415,3 +416,8 @@ class SaleOrderLine(models.Model):
             name = line.name
             res.append((line.id, name))
         return res
+    
+class ProjectProject(models.Model):
+    _inherit = 'project.project'
+
+    bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
