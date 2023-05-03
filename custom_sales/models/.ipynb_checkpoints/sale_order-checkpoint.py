@@ -358,16 +358,17 @@ class Sale_order(models.Model):
                     
         if is_service:       
             project = self.env['project.project'].create({
-                    'name': self.name+' '+self.opportunity_id.name,
+                    'name': self.name+' '+self.opportunity_id.name ,
                     'user_id': self.user_id.id,
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.x_studio_fin_salon,
-                    #'sale_order':self.id, 
+                    'bon_de_commande':self.id,
                     })
             
             self.project_options_id = project.id
-            #project.sale_order = self
+            project.bon_de_commande = self.id
+            
         for line in self.sale_order_option_ids:
             line.create_project_task(self.project_options_id, self.partner_id.id)
         
@@ -455,5 +456,4 @@ class SaleOrderLine(models.Model):
 class ProjectProject(models.Model):
     _inherit = 'project.project'
 
-    #sale_order = fields.Many2one('sale.order', string="Sale Order")
-    
+    bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
