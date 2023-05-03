@@ -457,3 +457,4 @@ class ProjectProject(models.Model):
     _inherit = 'project.project'
 
     bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
+    #Permet de faire le lien entre le bon de commande et le projet.
