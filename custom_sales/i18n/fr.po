@@ -246,4 +246,4 @@ msgstr "Consommable"
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order_line__temp_price_unit
 msgid "temp_price_unit"
-msgstr "Prix unitaire temporaire"
+msgstr "Prix unitaire"
