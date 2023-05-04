@@ -139,17 +139,27 @@
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
                     <attribute name="invisible">1</attribute>
+                    <attribute name="force_save">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
 
-                <!-- add cunsumable -->
+                <!-- add cunsumable-->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="before">
+
                     <field name="consumable" 
                     readonly="1"
                     force_save="1"
                     />
+                </xpath>
+
+                <!-- add custom qty -->
+                <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+
+                    <field name="qty" />
+                    <field name="temp_price_unit" readonly="1" force_save="1"/>
+
                 </xpath>
 
                 <!-- change name -->
