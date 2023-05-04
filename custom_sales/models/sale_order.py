@@ -256,6 +256,8 @@ class Sale_order(models.Model):
             if price_recompute != price_unit:
                 order_line.consumable = price_recompute - price_unit
             order_line.price_unit = price_recompute
+            order_line.temp_price_unit = order_line.price_unit
+            order_line._onchange_qty()
         
         
         self.total_purchase = total_purchase
@@ -444,6 +446,13 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
     consumable = fields.Float('consumable')
+    qty = fields.Float('Quantity costing', default=1)
+    temp_price_unit = fields.Float('temp_price_unit')
+    
+    @api.onchange('qty', 'temp_price_unit')
+    def _onchange_qty(self):
+        self.price_unit = self.qty * self.temp_price_unit
+
 
     def name_get(self):
         res = []
