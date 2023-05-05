@@ -157,7 +157,7 @@
                 <!-- add custom qty -->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
 
-                    <field name="qty" />
+                    <field name="qty" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
                     <field name="temp_price_unit" readonly="1" force_save="1"/>
 
                 </xpath>
