@@ -463,6 +463,15 @@ class SaleOrderLine(models.Model):
             name = line.name
             res.append((line.id, name))
         return res
+
+    @api.onchange('discount')
+    def _check_discount_limit(self):
+        allowed_department = 'Direction'
+        for order in self:
+            user_department = order.env.user.employee_id.department_id.name
+            if order.discount > 5 and user_department != allowed_department:
+                raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à 5%")
+     
     
 class ProjectProject(models.Model):
     _inherit = 'project.project'
