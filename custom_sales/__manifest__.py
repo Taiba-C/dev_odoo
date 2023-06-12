@@ -44,6 +44,7 @@
         'views/quotation_expired.xml',
         # scheduled tasks
         'views/data/notify_quotation.xml',
+        'views/planning_slot_gantt.xml',
         # report
         # 'report/ir_actions_report_templates.xml',
     ],

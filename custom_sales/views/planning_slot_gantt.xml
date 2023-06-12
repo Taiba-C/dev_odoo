@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+        <!-- <record id="view_custom_planning" model="ir.ui.view">
+            <field name="name">custom.planning.view</field>
+            <field name="model">planning.slot</field>
+            <field name="inherit_id" ref="planning.planning_view_gantt"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='allocated_hours']" position="after">
+                    <field name="task_id"/>
+                </xpath>
+            </field>
+        </record> -->
+
+        <record id="view_custom_planning" model="ir.ui.view">
+            <field name="name">custom.planning.view</field>
+            <field name="model">planning.slot</field>
+            <field name="inherit_id" ref="planning.planning_view_gantt"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='allocated_hours']" position="after">
+                    <field name="task_name"/>
+                </xpath>
+                <field name="allocated_hours"/>
+                <field name="overlap_slot_count"/>
+                <templates>
+                    <div t-name="gantt-popover">
+                        <p>
+                            <div id="task_name">
+                                <strong>Nom de la tâche: </strong>
+                                <t t-if="task_name"/>
+                                <t t-esc="task_name"/>
+                            </div>
+                        </p>
+                        <div id="allocated_hours">
+                                                 <div id="allocated_hours"><strong>Allocated Time — </strong> <t t-esc="allocatedHoursFormatted"/> <t t-if="resource_type == 'user'"> (<t t-esc="allocatedPercentageFormatted"/>%)</t></div>
+                        <div><t t-esc="userTimezoneStartDate.format('l LT ')"/><i class="fa fa-long-arrow-right" title="Arrow"/><t t-esc="userTimezoneStopDate.format(' l LT')"/></div>
+                        <p class="mt-2 mb-0" t-if="name"><t t-esc="name.slice(0, 200) + (name.length &gt; 200?'…':'')"/></p>
+                        <p t-if="publication_warning and !overlap_slot_count" class="text-warning mt-2 mb-0">
+                            Some changes were made since this shift was published.
+                        </p>
+                        </div>
+                        <div id="overlap_slot_count">
+                            <p t-if="overlap_slot_count" class="text-danger mt-2 mb-0">
+                                <t t-esc="overlap_slot_count"/> other shift(s) in conflict.
+                            </p>
+                        </div>
+                    </div>
+                </templates>
+            </field>  
+        </record>
+    </data>
+</odoo>

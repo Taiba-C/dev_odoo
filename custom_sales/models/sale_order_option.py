@@ -46,6 +46,8 @@ class SaleOrderOption(models.Model):
                     'start_datetime': date_start,
                     'end_datetime': date_start + timedelta(hours=overtime),
                     'task_id': record.task_id.id,
+                    'task_name': record.task_id.display_name,
+                    
                 })
                 record.planning_id = planning
                 
@@ -53,6 +55,7 @@ class SaleOrderOption(models.Model):
 class Planning_slot(models.Model):
     _inherit = 'planning.slot'
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
+    task_name = fields.Char("Task Name")
     
     @api.depends(
         'start_datetime', 'end_datetime', 'resource_id.calendar_id',
