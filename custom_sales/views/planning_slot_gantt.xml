@@ -26,8 +26,8 @@
                         <p>
                             <div id="task_name">
                                 <strong>Nom de la tâche: </strong>
-                                <t t-if="task_name"/>
-                                <t t-esc="task_name"/>
+                                <t t-if="task_name and task_name != 'false'"/>
+                                <t t-esc="task_name" t-if="task_name and task_name != 'false'"/>
                             </div>
                         </p>
                         <div id="allocated_hours">
