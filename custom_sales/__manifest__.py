@@ -45,6 +45,7 @@
         # scheduled tasks
         'views/data/notify_quotation.xml',
         'views/planning_slot_gantt.xml',
+        'views/sale_order_portal_content_custom.xml',
         # report
         # 'report/ir_actions_report_templates.xml',
     ],
