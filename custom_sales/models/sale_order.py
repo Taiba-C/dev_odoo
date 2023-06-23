@@ -477,4 +477,4 @@ class ProjectProject(models.Model):
     _inherit = 'project.project'
 
     bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
-    
+
