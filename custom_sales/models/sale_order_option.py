@@ -25,7 +25,7 @@ class SaleOrderOption(models.Model):
     total_sale_price = fields.Float('Total sale price', readonly=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
     planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
-    
+    work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')    
     def create_project_task(self,project ,partner_id):
         for record in self:
             if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
@@ -47,9 +47,16 @@ class SaleOrderOption(models.Model):
                     'end_datetime': date_start + timedelta(hours=overtime),
                     'task_id': record.task_id.id,
                     'task_name': record.task_id.display_name,
-                    
                 })
+                
+               # work = self.env['mrp.production'].create({
+                #    'product_id': record.product_id.id, 
+                 #   'name': record.name + ' '+ record.product_id.name + ' ' + record.order_line_id.product_id.name,
+                  #  'product_qty': record.quantity, 
+               # })
+                #record.work_order_id = work
                 record.planning_id = planning
+     
                 
                 
 class Planning_slot(models.Model):
@@ -66,3 +73,5 @@ class Planning_slot(models.Model):
             diff = record.end_datetime - record.start_datetime
             record.allocated_hours = diff.total_seconds() / 3600
         return res
+
+

@@ -24,7 +24,12 @@ class Sale_order(models.Model):
     
     picking_id = fields.Many2one('stock.picking', string='Nomenclature du chiffrage')
     
-    
+    mrp_order_id = fields.Many2one('mrp.production', string='MRP Order', ondelete='cascade')  
+
+    work_order = fields.Many2one('mrp.workorder', string='Work Order')  
+
+    work_center = fields.Many2one('mrp.workcenter', string='Work Center')  
+  
     def generate_bom_order(self):
         """
             action by a button
@@ -366,12 +371,56 @@ class Sale_order(models.Model):
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.x_studio_fin_salon,
                     'bon_de_commande':self.id, 
-                    })
-            
+                    })   
             self.project_options_id = project.id
             #project.sale_order = self
         for line in self.sale_order_option_ids:
             line.create_project_task(self.project_options_id, self.partner_id.id)
+
+       # for record in self:
+           # i=1
+           # for order_line in record.order_line:
+               # work = self.env['mrp.production'].create({
+               #     'product_id': order_line.product_id.id,
+              #      'id_name': record.opportunity_id.name+' '+ order_line.name,
+             #       'product_qty': order_line.qty,   
+            #    })
+            
+           # record.write({'mrp_production_ids': [(i, work)] }) # Ajoute l'enregistrement many2one au champ many2many
+          #  i=i+1
+        for record in self:
+            # works = []
+            for i, order_line in enumerate(record.order_line, start=1):
+                mrp = self.env['mrp.production'].create({
+                    'sale_order': self.id,
+                    'product_id': order_line.product_id.id,
+                    'id_name': record.opportunity_id.name + ' ' + order_line.name,
+                    'product_qty': order_line.qty, 
+                    'origin': record.opportunity_id.name
+                })
+        
+                for option in record.sale_order_option_ids.filtered(lambda o: o.product_id):
+                    service = False  # Initialiser la variable 'service'
+                    if option.product_id.categ_id.name == 'Main d\'oeuvre':
+                        work_center = self.env['mrp.workcenter'].create({
+                            'name':option.name,
+                        })
+                            
+                
+                        work_order = self.env['mrp.workorder'].create({
+                            'product_id': option.product_id.id,
+                            'qty_remaining': option.quantity,
+                            'name': option.name,
+                            'workcenter_id': work_center.id,
+                            'product_uom_id':option.product_id.uom_id.id,
+                            'production_id':mrp.id,
+                            'date_planned_start':record.opportunity_id.x_studio_dbut_salon,
+                            'duration_expected': option.quantity,
+                        })
+                        # works.append(line.task_id.id)
+                        # works.append((0, 0, {'mrp_production_ids': work.id}))
+                    # record.write({'mrp_production_ids': works})
+
         
         for order in self:
             picking = self.env['stock.picking'].create({
@@ -425,7 +474,8 @@ class Sale_order(models.Model):
             'view_id': False,
             'type': 'ir.actions.act_window'
         }
-        
+
+    
     def _get_task_counts(self):
         tasks = []
         for line in self.sale_order_option_ids:
@@ -441,13 +491,27 @@ class Sale_order(models.Model):
         # use project_options_id
         return self.project_options_id.action_project_forecast_from_project()
     
+    def action_view_manufacturation_orders(self):
+        
+        domain = [('id', 'in' , self.mrp_production_ids)]
+        
+        return {
+            'domain': domain,
+            'name': 'Ordre de fabrication',
+            'view_mode': 'kanban,tree,form',
+            'res_model': 'mrp.production',
+            'view_id': False,
+            'type': 'ir.actions.act_window'
+        }
 
+ 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
     consumable = fields.Float('consumable')
     qty = fields.Float('Quantity costing', default=1)
     temp_price_unit = fields.Float('temp_price_unit')
+
     
     @api.onchange('qty', 'temp_price_unit')
     def _onchange_qty(self):
@@ -478,3 +542,18 @@ class ProjectProject(models.Model):
 
     bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
 
+
+
+class Mrp_Production(models.Model):
+    _inherit = 'mrp.production'
+    
+    id_name = fields.Char("Name of Identification")
+    sale_order = fields.Many2one('sale.order', string="Sale Order")
+
+
+
+
+class Work_Order(models.Model):
+    _inherit = 'mrp.workorder'
+
+    employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True)
