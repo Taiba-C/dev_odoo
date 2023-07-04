@@ -409,7 +409,7 @@ class Sale_order(models.Model):
                 
                         work_order = self.env['mrp.workorder'].create({
                             'product_id': option.product_id.id,
-                            'qty_remaining': option.quantity,
+                           # 'qty_remaining': option.quantity,
                             'name': option.name,
                             'workcenter_id': work_center.id,
                             'product_uom_id':option.product_id.uom_id.id,
