@@ -401,11 +401,24 @@ class Sale_order(models.Model):
         
                 for option in record.sale_order_option_ids.filtered(lambda o: o.product_id):
                     service = False  # Initialiser la variable 'service'
+                    work_center = False
                     if option.product_id.categ_id.name == 'Main d\'oeuvre':
-                        work_center = self.env['mrp.workcenter'].create({
-                            'name':option.name,
-                        })
-                            
+                        if option.product_id.name == 'MO USINAGE':
+                            work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO USINAGE')], limit=1)
+
+                        elif option.product_id.name == 'MO DECOUPE':
+                            work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO DECOUPE')], limit=1)
+
+                        elif option.product_id.name == 'MO PLAQUAGE DE CHANTS':
+                            work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO PLAQUAGE DE CHANTS')], limit=1)
+
+                        elif option.product_id.name == 'MO ASSEMBLAGE':
+                            work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO ASSEMBLAGE')], limit=1)
+
+
+                        elif option.product_id.name == 'MO Etude de fabrication':
+                            work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO Etude de fabrication')], limit=1)
+
                 
                         work_order = self.env['mrp.workorder'].create({
                             'product_id': option.product_id.id,
@@ -557,3 +570,5 @@ class Work_Order(models.Model):
     _inherit = 'mrp.workorder'
 
     employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True)
+
+
