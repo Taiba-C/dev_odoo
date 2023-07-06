@@ -30,7 +30,7 @@ class SaleOrderOption(models.Model):
         for record in self:
             if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
                 task = self.env['project.task'].create({
-                    'name': record.product_id.name + ' ' + record.order_line_id.product_id.name,
+                    'name': record.product_id.name + ' ' + record.order_line_id.product_id.name + ' ' + record.order_line_id.display_name,
                     'project_id': project.id,
                     'partner_id': partner_id,
                     'planned_hours': record.quantity,
