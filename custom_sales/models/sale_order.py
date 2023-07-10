@@ -21,10 +21,16 @@ class Sale_order(models.Model):
     task_option_counts = fields.Float(compute='_get_task_counts')
     project_option_counts = fields.Float(compute='_get_project_counts')
     project_options_id = fields.Many2one('project.project', string='Project option', ondelete='cascade')
+   
     
     picking_id = fields.Many2one('stock.picking', string='Nomenclature du chiffrage')
     
-    
+    mrp_order_id = fields.Many2one('mrp.production', string='MRP Order', ondelete='cascade')  
+
+    work_order = fields.Many2one('mrp.workorder', string='Work Order')  
+
+    work_center = fields.Many2one('mrp.workcenter', string='Work Center')  
+  
     def generate_bom_order(self):
         """
             action by a button
@@ -366,12 +372,79 @@ class Sale_order(models.Model):
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.x_studio_fin_salon,
                     'bon_de_commande':self.id, 
-                    })
-            
+                    })   
             self.project_options_id = project.id
             #project.sale_order = self
         for line in self.sale_order_option_ids:
             line.create_project_task(self.project_options_id, self.partner_id.id)
+
+       # for record in self:
+           # i=1
+           # for order_line in record.order_line:
+               # work = self.env['mrp.production'].create({
+               #     'product_id': order_line.product_id.id,
+              #      'id_name': record.opportunity_id.name+' '+ order_line.name,
+             #       'product_qty': order_line.qty,   
+            #    })
+            
+           # record.write({'mrp_production_ids': [(i, work)] }) # Ajoute l'enregistrement many2one au champ many2many
+          #  i=i+1
+        for record in self:
+            # works = []
+            for i, order_line in enumerate(record.order_line, start=1):
+                mrp = self.env['mrp.production'].create({
+                    'sale_order': self.id,
+                    'product_id': order_line.product_id.id,
+                    'id_name': record.opportunity_id.name + ' ' + order_line.name,
+                    'opportunity':record.opportunity_id.id,
+                    'product_qty': order_line.qty, 
+                    'origin': record.opportunity_id.name,
+                    'project_id':project.id,
+                })
+        
+                for option in record.sale_order_option_ids.filtered(lambda o: o.product_id):
+                    service = False  # Initialiser la variable 'service'
+                    work_center = False
+                    if option.product_id.categ_id.name == 'Main d\'oeuvre':
+                        if option.product_id.name == 'MO USINAGE':
+                            work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO USINAGE')], limit=1)
+
+                        elif option.product_id.name == 'MO DECOUPE':
+                            work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO DECOUPE')], limit=1)
+
+                        elif option.product_id.name == 'MO PLAQUAGE DE CHANTS':
+                            work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO PLAQUAGE DE CHANTS')], limit=1)
+
+                        elif option.product_id.name == 'MO ASSEMBLAGE':
+                            work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO ASSEMBLAGE')], limit=1)
+
+
+                        elif option.product_id.name == 'MO Etude de fabrication':
+                            work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO Etude de fabrication')], limit=1)
+
+                       
+
+           
+
+                        work_order = self.env['mrp.workorder'].create({
+                            'product_id': option.product_id.id,
+                           # 'qty_remaining': option.quantity,
+                            'name': option.name,
+                            'workcenter_id': work_center.id,
+                            'product_uom_id':option.product_id.uom_id.id,
+                            'production_id':mrp.id,
+                            'date_planned_start':record.opportunity_id.x_studio_dbut_salon,
+                            'duration_expected': option.quantity * 60.0,
+                            'opportunity':record.opportunity_id.id,
+                            'opportunity_name':record.opportunity_id.name,
+                            'description_of_order_product':option.order_line_id.display_name,
+                            'project_id':project.id,
+                        })
+                        #work_order.duration_expected_hours = workcenter.duration_expected / 60.0
+                        # works.append(line.task_id.id)
+                        # works.append((0, 0, {'mrp_production_ids': work.id}))
+                    # record.write({'mrp_production_ids': works})
+
         
         for order in self:
             picking = self.env['stock.picking'].create({
@@ -425,7 +498,8 @@ class Sale_order(models.Model):
             'view_id': False,
             'type': 'ir.actions.act_window'
         }
-        
+
+    
     def _get_task_counts(self):
         tasks = []
         for line in self.sale_order_option_ids:
@@ -441,13 +515,27 @@ class Sale_order(models.Model):
         # use project_options_id
         return self.project_options_id.action_project_forecast_from_project()
     
+    def action_view_manufacturation_orders(self):
+        
+        domain = [('id', 'in' , self.mrp_production_ids)]
+        
+        return {
+            'domain': domain,
+            'name': 'Ordre de fabrication',
+            'view_mode': 'kanban,tree,form',
+            'res_model': 'mrp.production',
+            'view_id': False,
+            'type': 'ir.actions.act_window'
+        }
 
+ 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
     consumable = fields.Float('consumable')
     qty = fields.Float('Quantity costing', default=1)
     temp_price_unit = fields.Float('temp_price_unit')
+
     
     @api.onchange('qty', 'temp_price_unit')
     def _onchange_qty(self):
@@ -477,4 +565,65 @@ class ProjectProject(models.Model):
     _inherit = 'project.project'
 
     bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
+
+
+
+class Mrp_Production(models.Model):
+    _inherit = 'mrp.production'
+    
+    id_name = fields.Char("Name of Identification")
+    opportunity = fields.Many2one('crm.lead', string ="Dossier")
+    sale_order = fields.Many2one('sale.order', string="Sale Order")
+    project_id = fields.Many2one('project.project', string="Projet")
+
+class Work_Order(models.Model):
+    _inherit = 'mrp.workorder'
+
+    employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True)
+    duration_expected_hours = fields.Float(string='Expected Duration (Hours)')
+    opportunity = fields.Many2one('crm.lead', string ="Dossier") 
+    opportunity_name = fields.Char("Nom du dossier")
+    description_of_order_product = fields.Char("Description de l'article")
+    project_id = fields.Many2one('project.project', string="Projet")
+    def button_start(self):
+        if self.state == 'pending':
+            # Appeler la méthode action_add_time_to_timesheet du modèle account.analytic.line
+            timesheet_id = self.env['account.analytic.line'].action_add_time_to_timesheet(self.project_id.id, self.task_id.id, 0)
+            if not timesheet_id:
+                raise UserError("Erreur lors de la création de la feuille de temps.")
+            else:
+                # Mettre à jour l'ordre de travail avec l'ID de la feuille de temps créée ou mise à jour
+                self.timesheet_id = timesheet_id
+        return super().button_start()  
+       
+    def button_pending(self):
+        res = super().button_pending()
+
+        feuille_temps = self.env['account.analytic.line'].search([('workorder_id', '=', self.id)], limit=1)
+
+        if feuille_temps:
+            feuille_temps.write({
+                'unit_amount': self.duration_expected
+            })
+
+        return res
+    def action_add_time_to_timesheet(self, project, task, seconds):
+            if self:
+                task = False if not task else task
+                if self.task_id.id == task and self.project_id.id == project:
+                    self.unit_amount += seconds / 3600
+                    return self.id
+            timesheet_id = self.create({
+                'project_id': project,
+                'task_id': task,
+                'unit_amount': seconds / 3600
+            })
+            return timesheet_id.id
+
+class timesheet_custom(models.Model):
+    _inherit = 'account.analytic.line'
+
+
+    workorder_id  = fields.Many2one('mrp.workorder', string ="Ordre de Travail", store=True)
+
 
