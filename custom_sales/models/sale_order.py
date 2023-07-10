@@ -30,7 +30,9 @@ class Sale_order(models.Model):
     work_order = fields.Many2one('mrp.workorder', string='Work Order')  
 
     work_center = fields.Many2one('mrp.workcenter', string='Work Center')  
-  
+
+    mrp_production_counts = fields.Integer(string='Ordres de fabrication', compute='_get_mrp_production_counts')
+
     def generate_bom_order(self):
         """
             action by a button
@@ -509,6 +511,12 @@ class Sale_order(models.Model):
         
     def _get_project_counts(self):
         self.project_option_counts = len(self.project_options_id)
+    
+    @api.depends('mrp_production_ids')
+    def _get_mrp_production_counts(self):
+        for order in self:
+            order.mrp_production_counts = len(order.mrp_production_ids)
+
         
     def action_view_planning(self):
         # button to return to planning
@@ -517,14 +525,13 @@ class Sale_order(models.Model):
     
     def action_view_manufacturation_orders(self):
         
-        domain = [('id', 'in' , self.mrp_production_ids)]
-        
+        domain = [('sale_order', '=', self.id)]
+    
         return {
             'domain': domain,
-            'name': 'Ordre de fabrication',
-            'view_mode': 'kanban,tree,form',
+            'name': 'Ordres de fabrication',
+            'view_mode': 'tree,form',
             'res_model': 'mrp.production',
-            'view_id': False,
             'type': 'ir.actions.act_window'
         }
 
