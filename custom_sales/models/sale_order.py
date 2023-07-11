@@ -441,6 +441,8 @@ class Sale_order(models.Model):
                             'opportunity_name':record.opportunity_id.name,
                             'description_of_order_product':option.order_line_id.display_name,
                             'project_id':project.id,
+                            'sale_order': self.id,
+                            'sale_order_name': self.name,
                         })
                         #work_order.duration_expected_hours = workcenter.duration_expected / 60.0
                         # works.append(line.task_id.id)
@@ -588,7 +590,8 @@ class Mrp_Production(models.Model):
 
 class Work_Order(models.Model):
     _inherit = 'mrp.workorder'
-
+    
+    
     employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True)
     duration_expected_hours = fields.Float(string='Expected Duration (Hours)')
     opportunity = fields.Many2one('crm.lead', string="Dossier") 
@@ -597,7 +600,8 @@ class Work_Order(models.Model):
     project_id = fields.Many2one('project.project', string="Projet")
     task_id = fields.Many2one('project.task', string='Task')
     timesheet_id = fields.Many2one('account.analytic.line', string='Timesheet')
-
+    sale_order = fields.Many2one('sale.order', string="Sale Order")
+    sale_order_name = fields.Char("Numéro du devis")
 
     def button_start(self):
         timesheet = self.env['account.analytic.line'].create({
