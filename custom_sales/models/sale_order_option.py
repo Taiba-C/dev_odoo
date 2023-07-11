@@ -63,6 +63,7 @@ class Planning_slot(models.Model):
     _inherit = 'planning.slot'
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
     task_name = fields.Char("Task Name")
+    timesheet_id = fields.Many2one('account.analytic.line', string='Timesheet')
     
     @api.depends(
         'start_datetime', 'end_datetime', 'resource_id.calendar_id',
@@ -73,5 +74,71 @@ class Planning_slot(models.Model):
             diff = record.end_datetime - record.start_datetime
             record.allocated_hours = diff.total_seconds() / 3600
         return res
+    
+    def action_planning_publish(self):
+        
+        timesheet = self.env['account.analytic.line'].create({
+            'project_id': self.project_id.id,
+            'task_id': self.task_id.id,
+            'slot_id': self.id,
+            'unit_amount': 0,
+            #'workorder_id': self.id,
+        })
+        if not timesheet:
+            raise UserError("Erreur lors de la création de la feuille de temps.")
+        else:
+            self.timesheet_id = timesheet.id
+        return super(Planning_slot, self).action_planning_publish()
+
+    def action_planning_publish_and_send(self):
+        
+        timesheet = self.env['account.analytic.line'].create({
+            'project_id': self.project_id.id,
+            'task_id': self.task_id.id,
+            'slot_id': self.id,
+            'unit_amount': 0,
+            #'workorder_id': self.id,
+        })
+        if not timesheet:
+            raise UserError("Erreur lors de la création de la feuille de temps.")
+        else:
+            self.timesheet_id = timesheet.id
+        return super(Planning_slot, self).action_planning_publish_and_send()
+
+    def action_send(self):
+        timesheet = self.env['account.analytic.line'].create({
+            'project_id': self.project_id.id,
+            'task_id': self.task_id.id,
+            'slot_id': self.id,
+            'unit_amount': 0,
+            #'workorder_id': self.id,
+        })
+        if not timesheet:
+            raise UserError("Erreur lors de la création de la feuille de temps.")
+        else:
+            self.timesheet_id = timesheet.id
+        return super(Planning_slot, self).action_send()
+    
+    def action_publish(self):
+        timesheet = self.env['account.analytic.line'].create({
+            'project_id': self.project_id.id,
+            'task_id': self.task_id.id,
+            'slot_id': self.id,
+            'unit_amount': 0,
+            #'workorder_id': self.id,
+        })
+        if not timesheet:
+            raise UserError("Erreur lors de la création de la feuille de temps.")
+        else:
+            self.timesheet_id = timesheet.id
+        return super(Planning_slot, self).action_publish()
+
+    def action_unpublish(self):
+        self.resource_id = None
+        return super(Planning_slot, self).action_unpublish()
+        
+       
+       
 
 
+        
