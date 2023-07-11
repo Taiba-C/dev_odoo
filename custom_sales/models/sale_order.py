@@ -446,7 +446,10 @@ class Sale_order(models.Model):
                         # works.append(line.task_id.id)
                         # works.append((0, 0, {'mrp_production_ids': work.id}))
                     # record.write({'mrp_production_ids': works})
-
+                         # Recherche de la tâche du projet correspondante
+                        task = project.task_ids.filtered(lambda t: work_order.name in t.display_name)
+                        if task:
+                           work_order.task_id = task[0]
         
         for order in self:
             picking = self.env['stock.picking'].create({
@@ -613,7 +616,7 @@ class Work_Order(models.Model):
         res = super(Work_Order, self).button_pending()
         timesheet = self.env['account.analytic.line'].search([('workorder_id', '=', self.id)], limit=1)
         if timesheet:
-            timesheet.write({'unit_amount': self.duration_expected})
+            timesheet.write({'unit_amount': self.duration / 60.0})
         return res
 
     def action_add_time_to_timesheet(self, project, task, seconds):
