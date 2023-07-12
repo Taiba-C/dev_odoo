@@ -31,7 +31,7 @@ class Sale_order(models.Model):
 
     work_center = fields.Many2one('mrp.workcenter', string='Work Center')  
 
-    mrp_production_counts = fields.Integer(string='Ordres de fabrication', compute='_get_mrp_production_counts')
+    mrp_production_counts = fields.Float(string='Ordres de fabrication', compute='_get_mrp_production_counts')
 
     def generate_bom_order(self):
         """
@@ -507,6 +507,18 @@ class Sale_order(models.Model):
             'view_id': False,
             'type': 'ir.actions.act_window'
         }
+    def action_view_manufacturation_orders(self):
+        
+        domain = [('sale_order', '=', self.id)]
+    
+        return {
+            'domain': domain,
+            'name': 'Ordres de fabrication',
+            'view_mode': 'tree,form',
+            'res_model': 'mrp.production',
+            'view_id': False,
+            'type': 'ir.actions.act_window'
+        }
 
     
     def _get_task_counts(self):
@@ -530,18 +542,7 @@ class Sale_order(models.Model):
         # use project_options_id
         return self.project_options_id.action_project_forecast_from_project()
     
-    def action_view_manufacturation_orders(self):
-        
-        domain = [('sale_order', '=', self.id)]
-    
-        return {
-            'domain': domain,
-            'name': 'Ordres de fabrication',
-            'view_mode': 'tree,form',
-            'res_model': 'mrp.production',
-            'type': 'ir.actions.act_window'
-        }
-
+  
  
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
@@ -612,19 +613,28 @@ class Work_Order(models.Model):
             'task_id': self.task_id.id,
             'unit_amount': 0,
             'workorder_id': self.id,
+            'employee_id': self.employee_id.id,  # Utiliser l'employé sélectionné
         })
         if not timesheet:
             raise UserError("Erreur lors de la création de la feuille de temps.")
         else:
             self.timesheet_id = timesheet.id
         return super(Work_Order, self).button_start()
-        
+
     def button_pending(self):
         res = super(Work_Order, self).button_pending()
         timesheet = self.env['account.analytic.line'].search([('workorder_id', '=', self.id)], limit=1)
         if timesheet:
-            timesheet.write({'unit_amount': self.duration / 60.0})
+            timesheet.write({'unit_amount': self.duration / 60.0, 'employee_id': self.employee_id.id})
         return res
+
+    def button_finish(self):
+        res = super(Work_Order, self).button_finish()
+        timesheet = self.env['account.analytic.line'].search([('workorder_id', '=', self.id)], limit=1)
+        if timesheet:
+            timesheet.write({'unit_amount': self.duration / 60.0, 'employee_id': self.employee_id.id})
+        return res
+
 
     def action_add_time_to_timesheet(self, project, task, seconds):
         if self:
