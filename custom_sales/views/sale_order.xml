@@ -16,6 +16,9 @@
                     <button type="object" name="action_view_task_option_ids" attrs="{ 'invisible': [('project_option_counts', '=', 0)] }" class="oe_stat_button" icon="fa-puzzle-piece">
                         <field name="task_option_counts" widget="statinfo" string="Tasks"/>
                     </button>
+                    <button type="object" name="action_view_manufacturation_orders" attrs="{'invisible': [('mrp_production_counts', '=', 0)]}" class="oe_stat_button" icon="fa-puzzle-piece">
+        <field name="mrp_production_counts" widget="statinfo" string="Ordres de fabrication"/>
+    </button>
                 </xpath>
                 <xpath expr="//button[@name='action_view_delivery']" position="attributes">
                     <attribute name="invisible">1</attribute>
