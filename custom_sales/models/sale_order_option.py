@@ -25,7 +25,7 @@ class SaleOrderOption(models.Model):
     total_sale_price = fields.Float('Total sale price', readonly=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
     planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
-    
+    work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')    
     def create_project_task(self,project ,partner_id):
         for record in self:
             if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
@@ -47,15 +47,23 @@ class SaleOrderOption(models.Model):
                     'end_datetime': date_start + timedelta(hours=overtime),
                     'task_id': record.task_id.id,
                     'task_name': record.task_id.display_name,
-                    
                 })
+                
+               # work = self.env['mrp.production'].create({
+                #    'product_id': record.product_id.id, 
+                 #   'name': record.name + ' '+ record.product_id.name + ' ' + record.order_line_id.product_id.name,
+                  #  'product_qty': record.quantity, 
+               # })
+                #record.work_order_id = work
                 record.planning_id = planning
+     
                 
                 
 class Planning_slot(models.Model):
     _inherit = 'planning.slot'
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
     task_name = fields.Char("Task Name")
+    timesheet_id = fields.Many2one('account.analytic.line', string='Timesheet')
     
     @api.depends(
         'start_datetime', 'end_datetime', 'resource_id.calendar_id',
@@ -66,3 +74,71 @@ class Planning_slot(models.Model):
             diff = record.end_datetime - record.start_datetime
             record.allocated_hours = diff.total_seconds() / 3600
         return res
+    
+    def action_planning_publish(self):
+        
+        timesheet = self.env['account.analytic.line'].create({
+            'project_id': self.project_id.id,
+            'task_id': self.task_id.id,
+            'slot_id': self.id,
+            'unit_amount': 0,
+            #'workorder_id': self.id,
+        })
+        if not timesheet:
+            raise UserError("Erreur lors de la création de la feuille de temps.")
+        else:
+            self.timesheet_id = timesheet.id
+        return super(Planning_slot, self).action_planning_publish()
+
+    def action_planning_publish_and_send(self):
+        
+        timesheet = self.env['account.analytic.line'].create({
+            'project_id': self.project_id.id,
+            'task_id': self.task_id.id,
+            'slot_id': self.id,
+            'unit_amount': 0,
+            #'workorder_id': self.id,
+        })
+        if not timesheet:
+            raise UserError("Erreur lors de la création de la feuille de temps.")
+        else:
+            self.timesheet_id = timesheet.id
+        return super(Planning_slot, self).action_planning_publish_and_send()
+
+    def action_send(self):
+        timesheet = self.env['account.analytic.line'].create({
+            'project_id': self.project_id.id,
+            'task_id': self.task_id.id,
+            'slot_id': self.id,
+            'unit_amount': 0,
+            #'workorder_id': self.id,
+        })
+        if not timesheet:
+            raise UserError("Erreur lors de la création de la feuille de temps.")
+        else:
+            self.timesheet_id = timesheet.id
+        return super(Planning_slot, self).action_send()
+    
+    def action_publish(self):
+        timesheet = self.env['account.analytic.line'].create({
+            'project_id': self.project_id.id,
+            'task_id': self.task_id.id,
+            'slot_id': self.id,
+            'unit_amount': 0,
+            #'workorder_id': self.id,
+        })
+        if not timesheet:
+            raise UserError("Erreur lors de la création de la feuille de temps.")
+        else:
+            self.timesheet_id = timesheet.id
+        return super(Planning_slot, self).action_publish()
+
+    def action_unpublish(self):
+        self.resource_id = None
+        return super(Planning_slot, self).action_unpublish()
+        
+       
+       
+
+
+        
