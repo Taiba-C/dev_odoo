@@ -439,6 +439,7 @@ class Sale_order(models.Model):
                                 'production_id':mrp.id,
                                 'date_planned_start':record.opportunity_id.x_studio_dbut_salon,
                                 'duration_expected': option.quantity * 60.0,
+                                'duration_expected_hours': option.quantity,
                                 'opportunity':record.opportunity_id.id,
                                 'opportunity_name':record.opportunity_id.name,
                                 'description_of_order_product':option.order_line_id.display_name,
@@ -597,7 +598,7 @@ class Work_Order(models.Model):
     
     
     employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True)
-    duration_expected_hours = fields.Float(string='Expected Duration (Hours)')
+    duration_expected_hours = fields.Float(string='Durée prévue (Heures)')
     opportunity = fields.Many2one('crm.lead', string="Dossier") 
     opportunity_name = fields.Char("Nom du dossier")
     description_of_order_product = fields.Char("Description de l'article")
