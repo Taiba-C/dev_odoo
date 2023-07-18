@@ -446,6 +446,7 @@ class Sale_order(models.Model):
                                 'project_id':project.id,
                                 'sale_order': self.id,
                                 'sale_order_name': self.name,
+                                'order_name': record.opportunity_id.name + ' ' + order_line.name,
                             })
                             #work_order.duration_expected_hours = workcenter.duration_expected / 60.0
                             # works.append(line.task_id.id)
@@ -561,12 +562,18 @@ class SaleOrderLine(models.Model):
         self.price_unit = self.qty * self.temp_price_unit
 
 
-    def name_get(self):
-        res = []
-        for line in self:
-            name = line.name
-            res.append((line.id, name))
-        return res
+    @api.model
+    def action_order(self):
+        current_employee_id = self.env.user.employee_id.id
+        domain = [('employee_id', '=', current_employee_id)]
+        action = {
+            'name': 'Mes Ordres de travail',
+            'type': 'ir.actions.act_window',
+            'res_model': 'mrp.workorder',
+            'view_mode': 'tree,form',
+            'domain': domain,
+        }
+        return action
 
     @api.onchange('discount')
     def _check_discount_limit(self):
@@ -577,7 +584,7 @@ class SaleOrderLine(models.Model):
                 raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à 5%")
      
     
-class ProjectProject(models.Model):
+class ProjectProject(models.Model):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     _inherit = 'project.project'
 
     bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
@@ -596,7 +603,7 @@ class Mrp_Production(models.Model):
 class Work_Order(models.Model):
     _inherit = 'mrp.workorder'
     
-    
+    order_name = fields.Char("Nom de l'ordre de travail")
     employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True)
     duration_expected_hours = fields.Float(string='Durée prévue (Heures)')
     opportunity = fields.Many2one('crm.lead', string="Dossier") 
@@ -614,12 +621,20 @@ class Work_Order(models.Model):
             'task_id': self.task_id.id,
             'unit_amount': 0,
             'workorder_id': self.id,
-            'employee_id': self.employee_id.id,  # Utiliser l'employé sélectionné
+            'employee_id': self.employee_id.id,
         })
         if not timesheet:
             raise UserError("Erreur lors de la création de la feuille de temps.")
         else:
             self.timesheet_id = timesheet.id
+             # Envoyez la notification interne à l'employé assigné
+             # Envoyez la notification interne à l'employé assigné
+            self.sale_order.message_post_with_view(
+                views_or_xmlid='mail.message_origin_link_view',
+                body="Un nouvel ordre de travail a été démarré.",
+                partner_ids=[(4, self.employee_id.user_id.partner_id.id)],
+            )
+                        
         return super(Work_Order, self).button_start()
 
     def button_pending(self):
@@ -646,8 +661,18 @@ class Work_Order(models.Model):
                 'workorder_id': self.id,
             })
         return timesheet_id.id
+   
+    @api.onchange('employee_id')
+    def notification_employee_id(self):
+        notification_ids = [(0, 0, {
+            'res_partner_id': self.employee_id.user_id.partner_id.id,
+            'notification_type': 'inbox',
+        })]  
+        message = f"Vous avez été assignée à la tâche {self.name} {self.description_of_order_product}. Le N° du devis est {self.sale_order_name} et le nom du dossier est  {self.opportunity_name}."
+        self.sale_order.message_post(body=message, message_type="notification", subtype_xmlid='mail.mt_note', author_id=self.env.user.partner_id.id, notification_ids=notification_ids)
 
 
+                                                        
 class timesheet_custom(models.Model):
     _inherit = 'account.analytic.line'
 
