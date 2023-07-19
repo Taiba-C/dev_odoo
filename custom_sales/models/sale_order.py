@@ -610,7 +610,7 @@ class Work_Order(models.Model):
     _inherit = 'mrp.workorder'
     
     order_name = fields.Char("Nom de l'ordre de travail")
-    employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True, domain="[('planning_role_ids.name', 'in', self.name)]")
+    employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True, domain="[('planning_role_ids.name', '=', role)]")
     duration_expected_hours = fields.Float(string='Durée prévue (Heures)')
     opportunity = fields.Many2one('crm.lead', string="Dossier") 
     opportunity_name = fields.Char("Nom du dossier")
