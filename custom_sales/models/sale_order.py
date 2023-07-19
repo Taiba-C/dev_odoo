@@ -409,25 +409,30 @@ class Sale_order(models.Model):
                     for option in record.sale_order_option_ids.filtered(lambda o: o.product_id):
                         service = False  # Initialiser la variable 'service'
                         work_center = False
+                        role = False
                         if option.product_id.categ_id.name == 'Main d\'oeuvre':
                             if option.product_id.name == 'MO USINAGE':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO USINAGE')], limit=1)
+                                role = "Usinage"
 
                             elif option.product_id.name == 'MO DECOUPE':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO DECOUPE')], limit=1)
+                                role = "Decoupe"
 
                             elif option.product_id.name == 'MO PLAQUAGE DE CHANTS':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO PLAQUAGE DE CHANTS')], limit=1)
+                                role = "Plaquage de chants"
 
                             elif option.product_id.name == 'MO ASSEMBLAGE':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO ASSEMBLAGE')], limit=1)
+                                role = "Assemblage"
 
 
                             elif option.product_id.name == 'MO Etude de fabrication':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO Etude de fabrication')], limit=1)
+                                role = "Etude de fabrication"
 
                        
-
            
 
                             work_order = self.env['mrp.workorder'].create({
@@ -447,6 +452,7 @@ class Sale_order(models.Model):
                                 'sale_order': self.id,
                                 'sale_order_name': self.name,
                                 'order_name': record.opportunity_id.name + ' ' + order_line.name,
+                                'role':role,
                             })
                             #work_order.duration_expected_hours = workcenter.duration_expected / 60.0
                             # works.append(line.task_id.id)
@@ -604,7 +610,7 @@ class Work_Order(models.Model):
     _inherit = 'mrp.workorder'
     
     order_name = fields.Char("Nom de l'ordre de travail")
-    employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True)
+    employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True, domain="[('planning_role_ids.name', 'in', self.name)]")
     duration_expected_hours = fields.Float(string='Durée prévue (Heures)')
     opportunity = fields.Many2one('crm.lead', string="Dossier") 
     opportunity_name = fields.Char("Nom du dossier")
@@ -614,7 +620,17 @@ class Work_Order(models.Model):
     timesheet_id = fields.Many2one('account.analytic.line', string='Timesheet')
     sale_order = fields.Many2one('sale.order', string="Sale Order")
     sale_order_name = fields.Char("Numéro du devis")
+    role = fields.Char("Rôle")
 
+    # Champs à ajouter pour le filtrage
+    user_assigned = fields.Boolean("Assigné à l'utilisateur", compute='_compute_user_assigned', store=True)
+
+    @api.depends('employee_id')
+    def _compute_user_assigned(self):
+        for work_order in self:
+            work_order.user_assigned = work_order.employee_id.user_id == self.env.user
+
+   
     def button_start(self):
         timesheet = self.env['account.analytic.line'].create({
             'project_id': self.project_id.id,
