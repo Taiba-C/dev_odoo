@@ -413,24 +413,24 @@ class Sale_order(models.Model):
                         if option.product_id.categ_id.name == 'Main d\'oeuvre':
                             if option.product_id.name == 'MO USINAGE':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO USINAGE')], limit=1)
-                                role = "Usinage"
+                                role = "USINAGE"
 
                             elif option.product_id.name == 'MO DECOUPE':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO DECOUPE')], limit=1)
-                                role = "Decoupe"
+                                role = "DECOUPE"
 
                             elif option.product_id.name == 'MO PLAQUAGE DE CHANTS':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO PLAQUAGE DE CHANTS')], limit=1)
-                                role = "Plaquage de chants"
+                                role = "PLAQUAGE DE CHANTS"
 
                             elif option.product_id.name == 'MO ASSEMBLAGE':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO ASSEMBLAGE')], limit=1)
-                                role = "Assemblage"
+                                role = "ASSEMBLAGE"
 
 
                             elif option.product_id.name == 'MO Etude de fabrication':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO Etude de fabrication')], limit=1)
-                                role = "Etude de fabrication"
+                                role = "ETUDE DE FABRICATION"
 
                        
            
