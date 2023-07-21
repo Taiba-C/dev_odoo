@@ -10,6 +10,12 @@
                 <field name="employee_id"/>
                 <field name="duration_expected_hours"/>
                 <!-- Autres champs -->
+                <button name="button_start" string="Start" type="object"/>
+                <button name="button_finish" string="Stop" type="object"/>
+
+                <field name="id" widget="handle" options="{'click': 'open_order', 'open': 'open_form'}"/>
+               
+               
             </tree>
         </field>
     </record>
