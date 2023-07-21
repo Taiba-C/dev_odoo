@@ -621,6 +621,7 @@ class Work_Order(models.Model):
     sale_order = fields.Many2one('sale.order', string="Sale Order")
     sale_order_name = fields.Char("Numéro du devis")
     role = fields.Char("Rôle")
+    user_id = fields.Many2one('res.users', string="User", related='employee_id.user_id')
 
     # Champs à ajouter pour le filtrage
     user_assigned = fields.Boolean("Assigné à l'utilisateur", compute='_compute_user_assigned', store=True)
