@@ -1,23 +1,9 @@
 <odoo>
     <!-- Vue pour les ordres de travail -->
-    <record id="view_workorder_tree" model="ir.ui.view">
-        <field name="name">Work Order Tree View</field>
+    <record id="view_workorder_tree_inherit" model="ir.ui.view">
+        <field name="name">Work Order Tree View Inherit</field>
         <field name="model">mrp.workorder</field>
-        <field name="arch" type="xml">
-            <tree>
-                <!-- Définir les colonnes que vous souhaitez afficher dans la vue arborescente -->
-                <field name="order_name"/>
-                <field name="employee_id"/>
-                <field name="duration_expected_hours"/>
-                <!-- Autres champs -->
-                <button name="button_start" string="Start" type="object"/>
-                <button name="button_finish" string="Stop" type="object"/>
-
-                <field name="id" widget="handle" options="{'click': 'open_order', 'open': 'open_form'}"/>
-               
-               
-            </tree>
-        </field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_view"/>
     </record>
 
     <!-- Action pour accéder à la vue des ordres de travail -->
@@ -25,10 +11,10 @@
         <field name="name">Work Orders</field>
         <field name="res_model">mrp.workorder</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_workorder_tree"/>
+        <field name="view_id" ref="view_workorder_tree_inherit"/>
         <field name="domain">[('user_id', '=', uid)]</field>
     </record>
 
     <!-- Menu pour accéder à la vue des ordres de travail -->
-    <menuitem id="menu_mrp_workorders" name="Ordres de travail" parent="mrp.menu_mrp_root" action="action_view_workorder"/>
+    <menuitem id="menu_mrp_workorders" name="Mes Ordres de travail" parent="mrp.menu_mrp_root" action="action_view_workorder"/>
 </odoo>
