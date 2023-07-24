@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <!--Code qui permet de rajouter le code personalisé pour le menu "Mes ordres de travail" -->
+        <record id="view_my_work_order" model="ir.ui.view">
+            <field name="name">Les ordres de fabrication</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view" />
+            <field name="arch" type="xml">
+                <!-- Utilisez simplement "position" sans ajouter de filtre -->
+                <xpath expr="//field[@name='name']" position="after">
+                    <!-- Ajoutez ici les champs supplémentaires que vous souhaitez afficher -->
+                    <!-- Ajoutez d'autres champs ici -->
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_show_my_work_order" model="ir.actions.act_window">
+            <field name="name">Mes ordres de travail</field>
+            <field name="res_model">mrp.workorder</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="domain">[('user_id', '=', uid)]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="my_work_order" name="Mes ordres de travail" sequence="10" action="action_show_my_work_order" parent="mrp.menu_mrp_root" />
+    </data>
+</odoo>
