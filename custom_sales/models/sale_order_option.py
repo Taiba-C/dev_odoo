@@ -29,11 +29,22 @@ class SaleOrderOption(models.Model):
     def create_project_task(self,project ,partner_id):
         for record in self:
             if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
+                if record.product_id.name == 'MO USINAGE':
+                    role_task="USINAGE"
+                elif record.product_id.name == 'MO DECOUPE':
+                     role_task="DECOUPE"
+                elif record.product_id.name == 'MO ASSEMBLAGE':
+                     role_task="ASSEMBLAGE"
+                elif record.product_id.name == 'MO PLAQUAGE DE CHANTS':
+                     role_task="PLAQUAGE DE CHANTS"
+                elif record.product_id.name == 'MO Etude de fabrication':
+                     role_task="Etude de fabrication"
                 task = self.env['project.task'].create({
                     'name': record.product_id.name + ' ' + record.order_line_id.product_id.name + ' ' + record.order_line_id.display_name,
                     'project_id': project.id,
                     'partner_id': partner_id,
                     'planned_hours': record.quantity,
+                    'role_task': role_task,
                 })
                 record.task_id = task.id
                 date_start = datetime.combine(project.date_start, datetime.min.time())
@@ -171,9 +182,15 @@ class Planning_slot(models.Model):
     def action_unpublish(self):
         self.resource_id = None
         return super(Planning_slot, self).action_unpublish()
-        
-       
-       
+    
+    @api.onchange('role_id')
+    def _onchange_role_id(self):
+        if self.role_id.name == 'task_role':
+            # Mettre à jour la valeur du champ role_id avec la valeur souhaitée pour le rôle "task_role"
+            self.role_id = self.env['res.partner'].search([('name', '=', 'task_role')], limit=1)        
+                                                        
+class Task_custom(models.Model):
+    _inherit = 'project.task'
 
-
-        
+    role_task = fields.Char(tring='Rôle de la tâche')     
+       
