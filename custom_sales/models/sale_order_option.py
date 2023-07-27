@@ -25,7 +25,8 @@ class SaleOrderOption(models.Model):
     total_sale_price = fields.Float('Total sale price', readonly=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
     planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
-    work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')    
+    work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')   
+    role_id = fields.Many2one('planning.role', string ='Role', ondelete='cascade')
     def create_project_task(self,project ,partner_id):
         for record in self:
             if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
@@ -52,12 +53,15 @@ class SaleOrderOption(models.Model):
                 overtime=record.quantity
                 if overtime == 0:
                     overtime = 1
+               
+                role_id = self.env['planning.role'].search([('name', '=', role_task)], limit=1)   
                 planning = self.env['planning.slot'].create({
                     'project_id': project.id,
                     'start_datetime': date_start,
                     'end_datetime': date_start + timedelta(hours=overtime),
                     'task_id': record.task_id.id,
                     'task_name': record.task_id.display_name,
+                    'role_id':role_id.id,
                 })
                 
                # work = self.env['mrp.production'].create({
