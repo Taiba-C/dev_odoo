@@ -690,7 +690,7 @@ class Work_Order(models.Model):
 
 
                                                         
-class timesheet_custom(models.Model):
+class Timesheet_custom(models.Model):
     _inherit = 'account.analytic.line'
 
     workorder_id = fields.Many2one('mrp.workorder', string='Work Order')
