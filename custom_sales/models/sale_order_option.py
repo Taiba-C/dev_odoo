@@ -132,7 +132,7 @@ class Planning_slot(models.Model):
         else:
             self.timesheet_id = timesheet.id
         return super(Planning_slot, self).action_publish()
-
+        
     def action_unpublish(self):
         self.resource_id = None
         return super(Planning_slot, self).action_unpublish()
