@@ -91,96 +91,76 @@ class Planning_slot(models.Model):
         return res
     
     def action_planning_publish(self):
-
-        assigned_employee = self.resource_id
-
-        # Vérifier si un employé est assigné à la tâche
+        assigned_employee = self.resource_id  # Vérifier si un employé est assigné à la tâche
         if assigned_employee:
-            # Créer un nouvel environnement basé sur l'employé assigné
-            employee_env = self.env(user=assigned_employee.user_id)
-
-            # Créer la feuille de temps pour l'employé assigné
-        timesheet = employee_env['account.analytic.line'].create({
-        #timesheet = self.env['account.analytic.line'].create({
-            'project_id': self.project_id.id,
-            'task_id': self.task_id.id,
-            'slot_id': self.id,
-            'unit_amount': 0,
-            #'workorder_id': self.id,
-        })
-        if not timesheet:
-            raise UserError("Erreur lors de la création de la feuille de temps.")
-        else:
-            self.timesheet_id = timesheet.id
+            employee_env = self.env(user=assigned_employee.user_id)# Créer un nouvel environnement basé sur l'employé assigné
+            timesheet = employee_env['account.analytic.line'].search([('slot_id', '=', self.id)], limit=1)
+            if not timesheet:
+                timesheet = employee_env['account.analytic.line'].create({
+                    'project_id': self.project_id.id,
+                    'task_id': self.task_id.id,
+                    'slot_id': self.id,
+                    'unit_amount': 0,
+                })
+            else:
+                self.timesheet_id = timesheet.id
         return super(Planning_slot, self).action_planning_publish()
 
     def action_planning_publish_and_send(self):
-        assigned_employee = self.resource_id
-
-        # Vérifier si un employé est assigné à la tâche
+        assigned_employee = self.resource_id  
+        #Vérifier si un employé est assigné à la tâche
         if assigned_employee:
-            # Créer un nouvel environnement basé sur l'employé assigné
             employee_env = self.env(user=assigned_employee.user_id)
-
-            # Créer la feuille de temps pour l'employé assigné
-        timesheet = employee_env['account.analytic.line'].create({
-        #timesheet = self.env['account.analytic.line'].create({
-            'project_id': self.project_id.id,
-            'task_id': self.task_id.id,
-            'slot_id': self.id,
-            'unit_amount': 0,
-            #'workorder_id': self.id,
-        })
-        if not timesheet:
-            raise UserError("Erreur lors de la création de la feuille de temps.")
-        else:
-            self.timesheet_id = timesheet.id
+            # Créer un nouvel environnement basé sur l'employé assigné
+            timesheet = employee_env['account.analytic.line'].search([('slot_id', '=', self.id)], limit=1)
+            if not timesheet:
+                timesheet = employee_env['account.analytic.line'].create({
+                    # Créer la feuille de temps pour l'employé assigné
+                    'project_id': self.project_id.id,
+                    'task_id': self.task_id.id,
+                    'slot_id': self.id,
+                    'unit_amount': 0,
+                })
+            else:
+                self.timesheet_id = timesheet.id
         return super(Planning_slot, self).action_planning_publish_and_send()
 
     def action_send(self):
-        assigned_employee = self.resource_id
-
-        # Vérifier si un employé est assigné à la tâche
+        assigned_employee = self.resource_id  
+        #Vérifier si un employé est assigné à la tâche
         if assigned_employee:
-            # Créer un nouvel environnement basé sur l'employé assigné
             employee_env = self.env(user=assigned_employee.user_id)
-
-            # Créer la feuille de temps pour l'employé assigné
-        timesheet = employee_env['account.analytic.line'].create({
-        #timesheet = self.env['account.analytic.line'].create({
-            'project_id': self.project_id.id,
-            'task_id': self.task_id.id,
-            'slot_id': self.id,
-            'unit_amount': 0,
-            #'workorder_id': self.id,
-        })
-        if not timesheet:
-            raise UserError("Erreur lors de la création de la feuille de temps.")
-        else:
-            self.timesheet_id = timesheet.id
+            # Créer un nouvel environnement basé sur l'employé assigné
+            timesheet = employee_env['account.analytic.line'].search([('slot_id', '=', self.id)], limit=1)
+            if not timesheet:
+                timesheet = employee_env['account.analytic.line'].create({
+                    # Créer la feuille de temps pour l'employé assigné
+                    'project_id': self.project_id.id,
+                    'task_id': self.task_id.id,
+                    'slot_id': self.id,
+                    'unit_amount': 0,
+                })
+            else:
+                self.timesheet_id = timesheet.id
         return super(Planning_slot, self).action_send()
     
     def action_publish(self):
-        assigned_employee = self.resource_id
-
-        # Vérifier si un employé est assigné à la tâche
+        assigned_employee = self.resource_id  
+        #Vérifier si un employé est assigné à la tâche
         if assigned_employee:
-            # Créer un nouvel environnement basé sur l'employé assigné
             employee_env = self.env(user=assigned_employee.user_id)
-
-            # Créer la feuille de temps pour l'employé assigné
-        timesheet = employee_env['account.analytic.line'].create({
-        #timesheet = self.env['account.analytic.line'].create({
-            'project_id': self.project_id.id,
-            'task_id': self.task_id.id,
-            'slot_id': self.id,
-            'unit_amount': 0,
-            #'workorder_id': self.id,
-        })
-        if not timesheet:
-            raise UserError("Erreur lors de la création de la feuille de temps.")
-        else:
-            self.timesheet_id = timesheet.id
+            # Créer un nouvel environnement basé sur l'employé assigné
+            timesheet = employee_env['account.analytic.line'].search([('slot_id', '=', self.id)], limit=1)
+            if not timesheet:
+                timesheet = employee_env['account.analytic.line'].create({
+                    # Créer la feuille de temps pour l'employé assigné
+                    'project_id': self.project_id.id,
+                    'task_id': self.task_id.id,
+                    'slot_id': self.id,
+                    'unit_amount': 0,
+                })
+            else:
+                self.timesheet_id = timesheet.id
         return super(Planning_slot, self).action_publish()
         
     def action_unpublish(self):
