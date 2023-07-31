@@ -681,12 +681,17 @@ class Work_Order(models.Model):
    
     @api.onchange('employee_id')
     def notification_employee_id(self):
-        notification_ids = [(0, 0, {
-            'res_partner_id': self.employee_id.user_id.partner_id.id,
-            'notification_type': 'inbox',
-        })]  
-        message = f"Vous avez été assignée à la tâche {self.name} {self.description_of_order_product}. Le N° du devis est {self.sale_order_name} et le nom du dossier est  {self.opportunity_name}."
-        self.sale_order.message_post(body=message, message_type="notification", subtype_xmlid='mail.mt_note', author_id=self.env.user.partner_id.id, notification_ids=notification_ids)
+        if self.sale_order:
+            self.ensure_one()  # S'assurer qu'il n'y a qu'un seul enregistrement dans self
+            notification_ids = [(0, 0, {
+                'res_partner_id': self.employee_id.user_id.partner_id.id,
+                'notification_type': 'inbox',
+            })]
+            message = f"Vous avez été assignée à la tâche {self.name} {self.description_of_order_product}. Le N° du devis est {self.sale_order_name} et le nom du dossier est {self.opportunity_name}."
+        
+            # Utiliser self.ensure_one() pour poster le message sur l'enregistrement actuel seulement
+            self.ensure_one()
+            self.sale_order.message_post(body=message, message_type="notification", subtype_xmlid='mail.mt_note', author_id=self.env.user.partner_id.id, notification_ids=notification_ids)
 
 
                                                         
