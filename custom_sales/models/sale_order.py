@@ -678,7 +678,7 @@ class Work_Order(models.Model):
                 'workorder_id': self.id,
             })
         return timesheet_id.id
-   
+        
     @api.onchange('employee_id')
     def notification_employee_id(self):
         message = ""
@@ -697,14 +697,16 @@ class Work_Order(models.Model):
             # Utiliser self.ensure_one() pour poster le message sur l'enregistrement actuel seulement
             # self.ensure_one()
             self.sale_order.message_post(body=message, message_type="notification", subtype_xmlid='mail.mt_note', author_id=self.env.user.partner_id.id, notification_ids=notification_ids)
-
-    @api.onchange('workcenter_id',)
+            
+    @api.onchange('workcenter_id')
     def update_fields_in_workorder(self):
 
         if self.workcenter_id :
             self.sale_order = self.production_id.sale_order.id
             self.sale_order_name = self.production_id.sale_order.name
             self.name = self.workcenter_id.display_name
+            self.description_of_order_product = self.production_id.id_name_description
+            self.opportunity_name = self.production_id.sale_order.opportunity_id.name
 
         
             if self.workcenter_id.display_name == 'MO USINAGE':
@@ -721,6 +723,7 @@ class Work_Order(models.Model):
 
             elif self.workcenter_id.display_name == 'MO Etude de fabrication':
                 self.role = "ETUDE DE FABRICATION"
+
         
                                                         
 class Timesheet_custom(models.Model):
