@@ -434,34 +434,34 @@ class Sale_order(models.Model):
 
                        
            
-
-                            work_order = self.env['mrp.workorder'].create({
-                                'product_id': option.product_id.id,
-                               # 'qty_remaining': option.quantity,
-                                'name': option.name,
-                                'workcenter_id': work_center.id,
-                                'product_uom_id':option.product_id.uom_id.id,
-                                'production_id':mrp.id,
-                                'date_planned_start':record.opportunity_id.x_studio_dbut_salon,
-                                'duration_expected': option.quantity * 60.0,
-                                'duration_expected_hours': option.quantity,
-                                'opportunity':record.opportunity_id.id,
-                                'opportunity_name':record.opportunity_id.name,
-                                'description_of_order_product':option.order_line_id.display_name,
-                                'project_id':project.id,
-                                'sale_order': self.id,
-                                'sale_order_name': self.name,
-                                'order_name': record.opportunity_id.name + ' ' + order_line.name,
-                                'role':role,
-                            })
-                            #work_order.duration_expected_hours = workcenter.duration_expected / 60.0
-                            # works.append(line.task_id.id)
-                            # works.append((0, 0, {'mrp_production_ids': work.id}))
-                        # record.write({'mrp_production_ids': works})
-                             # Recherche de la tâche du projet correspondante
-                            task = project.task_ids.filtered(lambda t: work_order.name in t.display_name)
-                            if task:
-                               work_order.task_id = task[0]
+                            if work_center :
+                                work_order = self.env['mrp.workorder'].create({
+                                    'product_id': option.product_id.id,
+                                    #'qty_remaining': option.quantity,
+                                    'name': option.name,
+                                    'workcenter_id': work_center.id,
+                                    'product_uom_id':option.product_id.uom_id.id,
+                                    'production_id':mrp.id,
+                                    'date_planned_start':record.opportunity_id.x_studio_dbut_salon,
+                                    'duration_expected': option.quantity * 60.0,
+                                    'duration_expected_hours': option.quantity,
+                                    'opportunity':record.opportunity_id.id,
+                                    'opportunity_name':record.opportunity_id.name,
+                                    'description_of_order_product':option.order_line_id.display_name,
+                                    'project_id':project.id,
+                                    'sale_order': self.id,
+                                    'sale_order_name': self.name,
+                                    'order_name': record.opportunity_id.name + ' ' + order_line.name,
+                                    'role':role,
+                                })
+                                #work_order.duration_expected_hours = workcenter.duration_expected / 60.0
+                                # works.append(line.task_id.id)
+                                # works.append((0, 0, {'mrp_production_ids': work.id}))
+                            # record.write({'mrp_production_ids': works})
+                                 # Recherche de la tâche du projet correspondante
+                                task = project.task_ids.filtered(lambda t: work_order.name in t.display_name)
+                                if task:
+                                   work_order.task_id = task[0]
         
         for order in self:
             picking = self.env['stock.picking'].create({
