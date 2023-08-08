@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_custom_sales_custom_sales,custom_sales.custom_sales,model_custom_sales_custom_sales,base.group_user,1,1,1,1
+access_custom_sales_component_selection_wizard,custom_custom_sales_component_selection_wizard,model_custom_sales_component_selection_wizard,base.group_user,1,1,1,1

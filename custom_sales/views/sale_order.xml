@@ -177,6 +177,11 @@
                     <attribute name="string">Details of the quotation</attribute>
 
                 </xpath>
+
+                <!-- add button for costing table -->
+                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                    <button name="action_costing" string="Chiffrer" type="object" class="oi-apps"/>
+                </xpath>
             </field>
         </record>
 
