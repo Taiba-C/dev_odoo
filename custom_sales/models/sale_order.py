@@ -550,6 +550,16 @@ class Sale_order(models.Model):
         # use project_options_id
         return self.project_options_id.action_project_forecast_from_project()
     
+    def action_show_manufactured_order(self):
+       
+        # Retrieve the Manufacturing Order objects based on the product IDs
+        mos = self.env['mrp.production'].search([('sale_order', '=', self.id)])
+
+        
+        action = self.env.ref('mrp.mrp_production_action').read()[0]
+        action['domain'] = [('id', 'in', mos.ids)]
+        return action
+    
   
  
 class SaleOrderLine(models.Model):
