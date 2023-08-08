@@ -33,7 +33,9 @@ class Sale_order(models.Model):
 
     work_center = fields.Many2one('mrp.workcenter', string='Work Center')  
 
-    mrp_production_counts = fields.Float(string='Ordres de fabrication', compute='_get_mrp_production_counts')
+    #mrp_production_counts = fields.Float(string='Ordres de fabrication', compute='_get_mrp_production_counts')
+    mrp_production_counts = fields.Float(string='Ordres de fabrication')
+    
 
     def generate_bom_order(self):
         """
@@ -541,10 +543,10 @@ class Sale_order(models.Model):
     def _get_project_counts(self):
         self.project_option_counts = len(self.project_options_id)
     
-    @api.depends('mrp_production_ids')
-    def _get_mrp_production_counts(self):
-        for order in self:
-            order.mrp_production_counts = len(order.mrp_production_ids)
+    # @api.depends('mrp_production_ids')
+    # def _get_mrp_production_counts(self):
+    #     for order in self:
+    #         order.mrp_production_counts = len(order.mrp_production_ids)
 
         
     def action_view_planning(self):
