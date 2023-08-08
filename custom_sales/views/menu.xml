@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<menuitem name="Configuration" id="config" parent="expbesoin_id" />
+	<menuitem name="Devise" id="devise" parent="config" action="fn_devise" />
+</odoo>
