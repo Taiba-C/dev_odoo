@@ -8,6 +8,7 @@ from odoo.exceptions import UserError
 class Sale_order(models.Model):
     _inherit = 'sale.order'
     
+    rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier')
     total_purchase = fields.Float('Total puchase price', readonly = True)
     total_sale = fields.Float('Total sale price', readonly = True)
     margin = fields.Float('Margin', readonly = True)
@@ -21,6 +22,7 @@ class Sale_order(models.Model):
     task_option_counts = fields.Float(compute='_get_task_counts')
     project_option_counts = fields.Float(compute='_get_project_counts')
     project_options_id = fields.Many2one('project.project', string='Project option', ondelete='cascade')
+    
    
     
     picking_id = fields.Many2one('stock.picking', string='Nomenclature du chiffrage')
@@ -319,7 +321,7 @@ class Sale_order(models.Model):
             populate field date of exhibition as date in CRM opportunity
         """
         if not self.date_of_exhibition:
-            self.date_of_exhibition = self.opportunity_id.x_studio_dbut_salon
+            self.date_of_exhibition = self.opportunity_id.dbut_salon
             self.set_validity_date()
         self.set_validity_date()
         
@@ -372,7 +374,7 @@ class Sale_order(models.Model):
                     'user_id': self.user_id.id,
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
-                    'date': self.opportunity_id.x_studio_fin_salon,
+                    'date': self.opportunity_id.fin_salon,
                     'bon_de_commande':self.id, 
                     })   
             self.project_options_id = project.id
@@ -442,7 +444,7 @@ class Sale_order(models.Model):
                                     'workcenter_id': work_center.id,
                                     'product_uom_id':option.product_id.uom_id.id,
                                     'production_id':mrp.id,
-                                    'date_planned_start':record.opportunity_id.x_studio_dbut_salon,
+                                    'date_planned_start':record.opportunity_id.dbut_salon,
                                     'duration_expected': option.quantity * 60.0,
                                     'duration_expected_hours': option.quantity,
                                     'opportunity':record.opportunity_id.id,
@@ -549,6 +551,13 @@ class Sale_order(models.Model):
         # button to return to planning
         # use project_options_id
         return self.project_options_id.action_project_forecast_from_project()
+
+    # retroaction sur le champ rfrence_du_dossier
+    def retro_x_studio_fields(self):
+        # for x_studio_rfrence_du_dossier
+        Sale_orders = self.env['sale.order'].sudo().search([])
+        for sale_order in Sale_orders:
+            sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id})
     
   
  

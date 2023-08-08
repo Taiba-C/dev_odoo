@@ -15,5 +15,5 @@ class AccountMove(models.Model):
     def get_order_source(self, source):
         if source:
             sale_order = self.env['sale.order'].search([('name', '=', source)])
-            return sale_order.x_studio_rfrence_du_dossier.name
+            return sale_order.rfrence_du_dossier.name
             
