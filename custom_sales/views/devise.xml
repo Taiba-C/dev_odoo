@@ -10,6 +10,7 @@
 					<field name="devise" />
 					<field name="taux_de_remise" />
                     <field name="date_de_remise" />
+                    <field name="active" widget="boolean_toggle" />
                 </group>
 				</sheet>
 			</form>

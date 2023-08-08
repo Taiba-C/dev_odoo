@@ -16,6 +16,7 @@
                 </xpath>
                 <xpath expr="//button[@name='%(crm.crm_lead_lost_action)d']" position="attributes">
                     <attribute name="attrs">{'invisible': [('stage_id','not in',[1,2] )]}</attribute>
+                </xpath>
                     
                 <xpath expr="//page[@name='internal_notes']" position="before">
                     <page string="Salon">
@@ -36,9 +37,6 @@
                     </page>   
                 </xpath>
                 
-
-
-                internal_notes
 
             </field>
         </record>
