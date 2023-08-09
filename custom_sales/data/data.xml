@@ -4,7 +4,6 @@
         <record model="custom_sales.custom_sales.remise" id="remise">
             <field name="name">Remise sur le devis</field>
             <field name="taux_de_remise">0.5</field>
-            <!-- <field name="active">True</field> -->
         </record>
     </data>
 </odoo>
