@@ -1,10 +1,5 @@
 <odoo>
     <data>
-      <!-- <record id="remise" model="custom_crm.nesil_remise">
-            <field name="name">remise</field>
-            <field name="taux_de_remise">5</field>
-            <field name="active">True</field>
-      </record> -->
 <!--
           <record id="object0" model="custom_sales.custom_sales">
             <field name="name">Object 0</field>

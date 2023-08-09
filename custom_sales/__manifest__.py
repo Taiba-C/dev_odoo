@@ -50,6 +50,7 @@
         'views/my_work_Order.xml',
         'views/remise.xml',
         'views/menu.xml',
+        'data/data.xml',
         # report
         # 'report/ir_actions_report_templates.xml',
     ],
