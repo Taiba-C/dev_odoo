@@ -33,7 +33,7 @@ class Sale_order(models.Model):
 
     mrp_production_counts = fields.Float(string='Ordres de fabrication', compute='_get_mrp_production_counts')
 
-    def generate_bom_order(self):
+    def generate_bom_order(self, order_line, products=[]):
         """
             action by a button
             take each line in order_line
@@ -47,14 +47,16 @@ class Sale_order(models.Model):
             self.clear_sale_order_option()
         
         self.delete_option_without_order_line(self.id)  
+        
+        self.create_sale_order_option(products, self.id,  order_line)
           
-        for line in self.order_line:
-            if line.product_id:
-                boms = self.get_product_bom(line.product_id.product_tmpl_id.id)
-                is_generated = self.check_option_generated(line)
-                if not is_generated:
+        # for line in self.order_line:
+        #     if line.product_id:
+        #         boms = self.get_product_bom(line.product_id.product_tmpl_id.id)
+        #         is_generated = self.check_option_generated(line)
+        #         if not is_generated:
                     
-                    self.create_sale_order_option(boms, self.id,  line.id)
+        #             self.create_sale_order_option(boms, self.id,  line.id)
                     
         
         self.is_bom_generated = True
