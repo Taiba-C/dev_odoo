@@ -2,7 +2,7 @@
 <odoo>
 	<record model="ir.ui.view" id="view_custom_sales_remise_form">
 		<field name="name">custom_sales.remise.form</field>
-		<field name="model">custom_sales.remise</field>
+		<field name="model">nesil.remise</field>
 		<field name="arch" type="xml">
 			<form string="Remise" create="false">
 				<sheet>
@@ -17,7 +17,7 @@
 	</record>
 	<record id="view_custom_sales_remise_tree" model="ir.ui.view">
 		<field name="name">remise.tree</field>
-		<field name="model">custom_sales.remise</field>
+		<field name="model">nesil.remise</field>
 		<field name="arch" type="xml">
 			<tree string="Remise" create="false">
 					<field name="name" />
@@ -28,7 +28,7 @@
 	
 	<record model="ir.actions.act_window" id="custom_sales_remise">
 		<field name="name">name</field>
-		<field name="res_model">custom_sales.remise</field>
+		<field name="res_model">nesil.remise</field>
 		<field name="view_mode">tree,form</field>
 	</record>
 </odoo>
