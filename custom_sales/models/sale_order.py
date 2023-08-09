@@ -458,6 +458,18 @@ class Sale_order(models.Model):
                         service = False  # Initialiser la variable 'service'
                         work_center = False
                         role = False
+                        
+                        # generate line for move_raw_ids in line mrp
+                        move_raw_vals = []
+                        for raw_material in option:  
+                            move_raw_vals.append({
+                                'product_id': raw_material.product_id.id,
+                                'product_uom_qty': raw_material.quantity,  
+                                'name': raw_material.product_id.display_name,
+                                'product_uom': raw_material.product_id.uom_id.id,
+                                'raw_material_production_id': mrp.id,
+                            })
+                            
                         if option.product_id.categ_id.name == 'Main d\'oeuvre':
                             if option.product_id.name == 'MO USINAGE':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO USINAGE')], limit=1)
