@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<menuitem name="remise sur le devis" id="remise" parent="sale.sale_menu_root" action="custom_sales_remise" />
+	<menuitem name="remise sur le devis" id="remise" parent="sale.menu_sales_config" action="custom_sales_remise" />
 </odoo>

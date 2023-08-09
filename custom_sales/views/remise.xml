@@ -31,5 +31,4 @@
 		<field name="res_model">custom_sales.remise</field>
 		<field name="view_mode">tree,form</field>
 	</record>
-		<menuitem name="remise sur le devis" id="remise" parent="sale.sale_menu_root" action="custom_sales_remise" />
 </odoo>
