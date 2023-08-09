@@ -595,12 +595,15 @@ class SaleOrderLine(models.Model):
     @api.onchange('discount')
     def _check_discount_limit(self):
         allowed_department = 'Direction'
-        discount = self.env['nesil.remise'].search([])
-        if discount.ensure_one() and discount.active:
-            for order in self:
-                user_department = order.env.user.employee_id.department_id.name
-                if order.discount > discount.taux_de_remise and user_department != allowed_department:
-                    raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise))
+        discount = self.env['nesil.remise'].sudo().search([])
+        if discount.ensure_one():
+            if discount.active:
+                for order in self:
+                    user_department = order.env.user.employee_id.department_id.name
+                    if order.discount > discount.taux_de_remise*100 and user_department != allowed_department:
+                        raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
+            else:
+                raise models.ValidationError("Impossible d'appliquer une remise")
         else:
             raise models.ValidationError("Impossible d'appliquer une remise")
     
