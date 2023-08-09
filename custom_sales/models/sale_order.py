@@ -48,7 +48,7 @@ class Sale_order(models.Model):
         
         self.delete_option_without_order_line(self.id)  
         
-        self.create_sale_order_option(products, self.id,  order_line)
+        self.create_sale_order_option(boms=products, order_id=self.id,  o_l_id=order_line)
           
         # for line in self.order_line:
         #     if line.product_id:
