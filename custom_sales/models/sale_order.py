@@ -454,13 +454,13 @@ class Sale_order(models.Model):
                         'project_id':project.id,
                     })
         
+                    move_raw_vals = []
                     for option in record.sale_order_option_ids.filtered(lambda o: o.product_id):
                         service = False  # Initialiser la variable 'service'
                         work_center = False
                         role = False
                         
                         # generate line for move_raw_ids in line mrp
-                        move_raw_vals = []
                         for raw_material in option:  
                             move_raw_vals.append({
                                 'product_id': raw_material.product_id.id,
@@ -522,6 +522,9 @@ class Sale_order(models.Model):
                                 task = project.task_ids.filtered(lambda t: work_order.name in t.display_name)
                                 if task:
                                    work_order.task_id = task[0]
+                    
+                    move_raw_ids = self.env['stock.move'].create(move_raw_vals)
+                    mrp.write({'move_raw_ids': [(6, 0, move_raw_ids.ids)]})
         
         for order in self:
             picking = self.env['stock.picking'].create({
