@@ -31,11 +31,11 @@
                 </xpath>
 
 
-                <xpath expr="//field[@name='sale_order_template_id']" position="after">
+                <!-- <xpath expr="//field[@name='sale_order_template_id']" position="after">
 
                     <button name="generate_bom_order" attrs="{ 'invisible': [('state', '!=', 'draft')] }" string="Encryption" type="object" class="oe_highlight"/>
 
-                </xpath>
+                </xpath> -->
 
                 <xpath expr="//field[@name='payment_term_id']" position="after">
 
@@ -179,8 +179,8 @@
                 </xpath>
 
                 <!-- add button for costing table -->
-                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
-                    <button name="action_costing" string="Chiffrer" type="object" class="oi-apps"/>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
+                    <button name="action_costing" string="Chiffrer" type="object" class="oe_highlight"/>
                 </xpath>
             </field>
         </record>
