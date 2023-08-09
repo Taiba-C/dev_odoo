@@ -10,10 +10,14 @@ class ComponentSelectionWizard(models.TransientModel):
     component_ids = fields.Many2many('mrp.bom.line', string='Composants')
 
     def action_confirm(self):
+        product_boms=[]
+        for line in self.component_ids:
+            product_boms.append({'id': line.product_id.id, 'quantity':line.product_qty})
         order_line = self.order_line_id
-        order_line.write({
-            'component_ids': [(6, 0, self.component_ids.ids)],
-        })
+        order_line.order_id.generate_bom_order(products=product_boms, order_line=self.product_id.id)
+        # order_line.write({
+        #     'component_ids': [(6, 0, self.component_ids.ids)],
+        # })
         return {'type': 'ir.actions.act_window_close'}
 
     def _get_default_product(self):
