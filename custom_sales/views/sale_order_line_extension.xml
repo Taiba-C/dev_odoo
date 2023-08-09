@@ -22,8 +22,8 @@
                             </page>
                         </notebook>
                     <footer>
-                        <button string="Done" type="object" name="action_confirm" class="btn-primary"/>
-                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                        <button string="Confirmer" type="object" name="action_confirm" class="btn-primary"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel"/>
                     </footer>
                 </form>
             </field>
@@ -31,7 +31,7 @@
 
         <!-- Action to open the wizard -->
         <record id="action_component_selection_wizard" model="ir.actions.act_window">
-            <field name="name">Select Components</field>
+            <field name="name">Choisir les composants</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">custom_sales.component.selection.wizard</field>
             <field name="view_mode">form</field>
