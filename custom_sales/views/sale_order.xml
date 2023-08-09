@@ -179,8 +179,8 @@
                 </xpath>
 
                 <!-- add button for costing table -->
-                <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
-                    <button name="action_costing" string="Chiffrer" type="object" class="oe_highlight"/>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                    <button name="action_costing" string="Chiffrer" type="object" class="oe_highlight" readonly="False"/>
                 </xpath>
             </field>
         </record>
