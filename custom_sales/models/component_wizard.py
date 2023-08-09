@@ -14,7 +14,7 @@ class ComponentSelectionWizard(models.TransientModel):
         for line in self.component_ids:
             product_boms.append({'id': line.product_id.id, 'quantity':line.product_qty})
         order_line = self.order_line_id
-        order_line.order_id.generate_bom_order(products=product_boms, order_line=self.product_id.id)
+        order_line.order_id.generate_bom_order(products=product_boms, order_line=self.order_line_id.id)
         # order_line.write({
         #     'component_ids': [(6, 0, self.component_ids.ids)],
         # })

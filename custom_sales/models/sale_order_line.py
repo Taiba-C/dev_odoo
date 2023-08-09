@@ -40,6 +40,7 @@ class SaleOrderLine(models.Model):
                 raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à 5%")
             
     def action_costing(self):
+        self.ensure_one()
         action = self.env.ref('custom_sales.action_component_selection_wizard').read()[0]
         
         action['context'] = {
