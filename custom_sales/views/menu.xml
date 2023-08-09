@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<menuitem name="Configuration" id="config" parent="expbesoin_id" />
-	<menuitem name="Devise" id="devise" parent="config" action="fn_devise" />
+	<menuitem name="remise sur le devis" id="remise" parent="sale.sale_menu_root" action="custom_sales_remise" />
 </odoo>

@@ -20,20 +20,20 @@
                     
                 <xpath expr="//page[@name='internal_notes']" position="before">
                     <page string="Salon">
-
                         <group>
-                          <field name="salon" />
-                          <field name="lieu_du_salon" />
-                          <field name="stand_n" />
-                          <field name="hall" />
+                            <group>
+                            <field name="salon" />
+                            <field name="lieu_du_salon" />
+                            <field name="stand_n" />
+                            <field name="hall" />
+                            </group>
+                            <group>
+                                <field name="dbut_salon" widget="daterange" options="{'related_end_date': 'fin_salon'}"/>
+                                <field name="fin_salon" widget="daterange" options="{'related_start_date': 'dbut_salon'}"/>
+                                <field name="allee" />
+                                <field name="surface_en_m" />
+                            </group>
                         </group>
-                        <group>
-                            <field name="dbut_salon" widget="daterange" options="{'related_end_date': 'fin_salon'}"/>
-                            <field name="fin_salon" widget="daterange" options="{'related_start_date': 'dbut_salon'}"/>
-                            <field name="allee" />
-                            <field name="surface_en_m" />
-                        </group>
-
                     </page>   
                 </xpath>
                 

@@ -48,6 +48,8 @@
         'views/sale_order_portal_content_custom.xml',
         'views/mrp_planning_view.xml',
         'views/my_work_Order.xml',
+        'views/remise.xml',
+        'views/menu.xml',
         # report
         # 'report/ir_actions_report_templates.xml',
     ],
