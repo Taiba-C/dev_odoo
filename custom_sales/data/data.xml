@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <record id="remise" model="custom_sales.custom_sales_remise">
+        <record id="remise" model="custom_sales.custom_sales.remise">
             <field name="name">Remise sur le devis</field>
             <field name="taux_de_remise">5</field>
             <field name="active">True</field>
