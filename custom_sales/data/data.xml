@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <record model="nesil.remise" id="remise">
+        <record model="nesil.remise" id="remise_nesil">
             <field name="name">Remise sur le devis</field>
             <field name="taux_de_remise">0.5</field>
             <field name="active">True</field>
