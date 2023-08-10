@@ -607,7 +607,7 @@ class SaleOrderLine(models.Model):
                         if order.discount > discount.taux_de_remise*100 and user_department != allowed_department:
                             raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
                 else:
-                    order.discount = 0
+                    self.discount = 0
                     return {
                         'type': 'ir.actions.client',
                         'tag': 'display_notification',
@@ -618,7 +618,7 @@ class SaleOrderLine(models.Model):
                             }
                         }
             else:
-                order.discount = 0
+                self.discount = 0
                 return {
                     'type': 'ir.actions.client',
                     'tag': 'display_notification',
@@ -629,7 +629,7 @@ class SaleOrderLine(models.Model):
                         }
                     }
         else:
-            order.discount = 0
+            self.discount = 0
             return {
                     'type': 'ir.actions.client',
                     'tag': 'display_notification',
