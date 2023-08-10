@@ -425,7 +425,7 @@ class Sale_order(models.Model):
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.fin_salon,
-                    'bon_de_commande':self.id, 
+                    'order_id':self.id, 
                     })   
             self.project_options_id = project.id
             #project.sale_order = self
