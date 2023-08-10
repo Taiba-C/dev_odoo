@@ -8,11 +8,11 @@ from odoo.exceptions import UserError
 class Sale_order(models.Model):
     _inherit = 'sale.order'
     
+    total_purchase = fields.Float('Total puchase price', readonly = True, compute="_compute_total_infos")
+    total_sale = fields.Float('Total sale price', readonly = True,compute="_compute_total_infos")
+    margin = fields.Float('Margin', readonly = True, compute="_compute_total_infos")
+    margin_percent = fields.Float('Margin %', readonly = True, compute="_compute_total_infos")
     rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier')
-    total_purchase = fields.Float('Total puchase price', readonly = True)
-    total_sale = fields.Float('Total sale price', readonly = True)
-    margin = fields.Float('Margin', readonly = True)
-    margin_percent = fields.Float('Margin %', readonly = True)
     
     date_of_exhibition = fields.Date('Begin of exhibition')
     validity_quotation = fields.Date('Validity of the quotation')
@@ -37,7 +37,7 @@ class Sale_order(models.Model):
     mrp_production_counts = fields.Float(string='Ordres de fabrication')
     
 
-    def generate_bom_order(self):
+    def generate_bom_order(self, order_line, products=[]):
         """
             action by a button
             take each line in order_line
@@ -51,19 +51,21 @@ class Sale_order(models.Model):
             self.clear_sale_order_option()
         
         self.delete_option_without_order_line(self.id)  
+        
+        self.create_sale_order_option(boms=products, order_id=self.id,  o_l_id=order_line)
           
-        for line in self.order_line:
-            if line.product_id:
-                boms = self.get_product_bom(line.product_id.product_tmpl_id.id)
-                is_generated = self.check_option_generated(line)
-                if not is_generated:
+        # for line in self.order_line:
+        #     if line.product_id:
+        #         boms = self.get_product_bom(line.product_id.product_tmpl_id.id)
+        #         is_generated = self.check_option_generated(line)
+        #         if not is_generated:
                     
-                    self.create_sale_order_option(boms, self.id,  line.id)
+        #             self.create_sale_order_option(boms, self.id,  line.id)
                     
         
         self.is_bom_generated = True
                 
-        self.compute_sale_order_option_ids()
+        # self.compute_sale_order_option_ids()
         
     def check_option_generated(self, order_line):
         """
@@ -162,94 +164,17 @@ class Sale_order(models.Model):
                 'order_line_id':  o_l_id,
 
                 })
+                self.compute_order_line_price_unit()
     
     @api.onchange('sale_order_option_ids')
     def _onchange_sale_order_option_ids(self):
-        self.compute_sale_order_option_ids()
+        self.compute_order_line_price_unit()
         
-    def compute_sale_order_option_ids(self):
+    def compute_order_line_price_unit(self):
         """
-            make calcul to get total purchase or sale
-            it will called more than one
+            for each line in order line
+            search in order option to update the price unit
         """
-        total_purchase = 0
-        total_sale = 0
-        margin = 0
-        
-        #! parent boms are ids of BOM in order line 
-        #! it is a object with list of id
-        parent_boms = self.order_line.product_template_id
-        boms = self.env['mrp.bom']
-        list_boms = []
-        
-        for parent_bom in parent_boms:
-            """
-                create dict of boms existing in parent_boms
-                existing in the line of order_line
-            """            
-            product_id_lists = []
-            bom = boms.search([('product_tmpl_id', '=', parent_bom.id)])
-            for product in bom.bom_line_ids:
-                product_id_lists.append(product.product_tmpl_id.id)
-            list_boms.append({
-                'bom_id':bom.id,
-                'parent_bom':bom.product_tmpl_id.id,
-                'bom_products': product_id_lists
-            })
-        
-        for line in self.sale_order_option_ids:
-            
-            for bom in list_boms:
-                #! list_bom is list of informations of bom with parent and child
-                if line.order_line_id.product_template_id.id == bom['parent_bom']:
-                    if line.product_id.product_tmpl_id.id in bom['bom_products']:
-                        #! search if product in tab is in the bom products
-                        #! The purchase price and margin_product will not change
-                        # quantity_product = self.env['mrp.bom.line'].search([('bom_id', '=', bom['bom_id']),('product_id','=',line.product_id.id)])
-                        
-                        if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product:
-                            line.purchase_price = line.product_id.product_tmpl_id.standard_price
-                            line.margin_product = line.product_id.product_tmpl_id.margin_product                      
-                            # line.quantity = quantity_product.product_qty      
-                    else:
-                        if line.purchase_price == 0 and line.margin_product == 0:
-                            """
-                                this condition is to test if it is a new product
-                                because new product will have purchase price and margin product as 0
-                                normaly
-                            """
-                            line.purchase_price = line.product_id.standard_price
-                            line.margin_product = line.product_id.margin_product        
-                        
-                    #! prix total achat
-                    line.total_purchase_price = line.purchase_price * line.quantity
-                    
-                    #! prix total vente
-                    if line.margin_product > 0:
-                        line.total_sale_price = line.total_purchase_price / line.margin_product
-                    if line.margin_product > 1 :
-                        raise UserError("Vous ne pouvez pas régler la valeur du coefficient sup à 1!")
-                    
-                    #! marge en €
-                    line.margin = line.total_sale_price - line.total_purchase_price
-                    if line.margin < 0:
-                        line.margin = 0
-                        
-                    #! marge %
-                    if line.total_sale_price > 0:
-                        line.margin_percent = line.margin / line.total_sale_price
-                    
-                    total_purchase += line.total_purchase_price
-                    total_sale += line.total_sale_price
-                    margin += line.margin
-                    if total_sale > 0:
-                        self.margin_percent = margin / total_sale
-                    else:
-                        self.margin_percent = 0
-                
-                
-                
-                
         for order_line in self.order_line:
             price_unit = 0
             percentage = 0
@@ -270,11 +195,134 @@ class Sale_order(models.Model):
             order_line.price_unit = price_recompute
             order_line.temp_price_unit = order_line.price_unit
             order_line.set_price_unit()
+                          
+        
+    # def compute_sale_order_option_ids(self):
+    #     """
+    #         make calcul to get total purchase or sale
+    #         it will called more than one
+    #     """
+    #     total_purchase = 0
+    #     total_sale = 0
+    #     margin = 0
+        
+    #     #! parent boms are ids of BOM in order line 
+    #     #! it is a object with list of id
+    #     parent_boms = self.order_line.product_template_id
+    #     boms = self.env['mrp.bom']
+    #     list_boms = []
+        
+    #     for parent_bom in parent_boms:
+    #         """
+    #             create dict of boms existing in parent_boms
+    #             existing in the line of order_line
+    #         """            
+    #         product_id_lists = []
+    #         bom = boms.search([('product_tmpl_id', '=', parent_bom.id)])
+    #         for product in bom.bom_line_ids:
+    #             product_id_lists.append(product.product_tmpl_id.id)
+    #         list_boms.append({
+    #             'bom_id':bom.id,
+    #             'parent_bom':bom.product_tmpl_id.id,
+    #             'bom_products': product_id_lists
+    #         })
+        
+    #     for line in self.sale_order_option_ids:
+            
+    #         for bom in list_boms:
+    #             #! list_bom is list of informations of bom with parent and child
+    #             if line.order_line_id.product_template_id.id == bom['parent_bom']:
+    #                 if line.product_id.product_tmpl_id.id in bom['bom_products']:
+    #                     #! search if product in tab is in the bom products
+    #                     #! The purchase price and margin_product will not change
+    #                     # quantity_product = self.env['mrp.bom.line'].search([('bom_id', '=', bom['bom_id']),('product_id','=',line.product_id.id)])
+                        
+    #                     if line.purchase_price != line.product_id.product_tmpl_id.standard_price or line.margin_product != line.product_id.product_tmpl_id.margin_product:
+    #                         line.purchase_price = line.product_id.product_tmpl_id.standard_price
+    #                         line.margin_product = line.product_id.product_tmpl_id.margin_product                      
+    #                         # line.quantity = quantity_product.product_qty      
+    #                 else:
+    #                     if line.purchase_price == 0 and line.margin_product == 0:
+    #                         """
+    #                             this condition is to test if it is a new product
+    #                             because new product will have purchase price and margin product as 0
+    #                             normaly
+    #                         """
+    #                         line.purchase_price = line.product_id.standard_price
+    #                         line.margin_product = line.product_id.margin_product        
+                        
+    #                 #! prix total achat
+    #                 line.total_purchase_price = line.purchase_price * line.quantity
+                    
+    #                 #! prix total vente
+    #                 if line.margin_product > 0:
+    #                     line.total_sale_price = line.total_purchase_price / line.margin_product
+    #                 if line.margin_product > 1 :
+    #                     raise UserError("Vous ne pouvez pas régler la valeur du coefficient sup à 1!")
+                    
+    #                 #! marge en €
+    #                 line.margin = line.total_sale_price - line.total_purchase_price
+    #                 if line.margin < 0:
+    #                     line.margin = 0
+                        
+    #                 #! marge %
+    #                 if line.total_sale_price > 0:
+    #                     line.margin_percent = line.margin / line.total_sale_price
+                    
+    #                 total_purchase += line.total_purchase_price
+    #                 total_sale += line.total_sale_price
+    #                 margin += line.margin
+    #                 if total_sale > 0:
+    #                     self.margin_percent = margin / total_sale
+    #                 else:
+    #                     self.margin_percent = 0
+                
+                
+                
+                
+    #     for order_line in self.order_line:
+    #         price_unit = 0
+    #         percentage = 0
+    #         for order_option in self.sale_order_option_ids:
+    #             if order_option.order_line_id.id == order_line._origin.id :
+    #                 price_unit += order_option.total_sale_price
+    #                 pricelist = self.pricelist_id.item_ids.search([('compute_price','=','formula'),
+    #                                                                ('applied_on','=','2_product_category'),
+    #                                                                ('categ_id','=',order_line.product_template_id.categ_id.id)])
+                    
+    #                 if pricelist:
+    #                     if percentage == 0 :
+    #                         percentage = abs(pricelist[0].price_discount)
+                        
+    #         price_recompute = price_unit + (price_unit * percentage / 100.0)
+    #         if price_recompute != price_unit:
+    #             order_line.consumable = price_recompute - price_unit
+    #         order_line.price_unit = price_recompute
+    #         order_line.temp_price_unit = order_line.price_unit
+    #         order_line.set_price_unit()
         
         
-        self.total_purchase = total_purchase
-        self.total_sale = total_sale
-        self.margin = margin
+    #     self.total_purchase = total_purchase
+    #     self.total_sale = total_sale
+    #     self.margin = margin
+    
+    
+    @api.depends('sale_order_option_ids')
+    def _compute_total_infos(self):
+        for record in self:
+            total_purchase = sum(record.sale_order_option_ids.mapped('total_purchase_price'))
+            total_sale = sum(record.sale_order_option_ids.mapped('total_sale_price'))
+            margin = sum(record.sale_order_option_ids.mapped('margin'))
+            if total_sale > 0:
+                record.margin_percent = margin / total_sale
+            else:
+                record.margin_percent = 0
+                
+            record.total_purchase = total_purchase
+            record.total_sale = total_sale
+            record.margin = margin
+                
+    
         
     def set_validity_date(self):
         """
@@ -378,7 +426,7 @@ class Sale_order(models.Model):
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.fin_salon,
-                    'bon_de_commande':self.id, 
+                    'order_id':self.id, 
                     })   
             self.project_options_id = project.id
             #project.sale_order = self
@@ -412,10 +460,22 @@ class Sale_order(models.Model):
                         'project_id':project.id,
                     })
         
+                    move_raw_vals = []
                     for option in record.sale_order_option_ids.filtered(lambda o: o.product_id):
                         service = False  # Initialiser la variable 'service'
                         work_center = False
                         role = False
+                        
+                        # generate line for move_raw_ids in line mrp
+                        for raw_material in option:  
+                            move_raw_vals.append({
+                                'product_id': raw_material.product_id.id,
+                                'product_uom_qty': raw_material.quantity,  
+                                'name': raw_material.product_id.display_name,
+                                'product_uom': raw_material.product_id.uom_id.id,
+                                'raw_material_production_id': mrp.id,
+                            })
+                            
                         if option.product_id.categ_id.name == 'Main d\'oeuvre':
                             if option.product_id.name == 'MO USINAGE':
                                 work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO USINAGE')], limit=1)
@@ -468,6 +528,9 @@ class Sale_order(models.Model):
                                 task = project.task_ids.filtered(lambda t: work_order.name in t.display_name)
                                 if task:
                                    work_order.task_id = task[0]
+                    
+                    move_raw_ids = self.env['stock.move'].create(move_raw_vals)
+                    mrp.write({'move_raw_ids': [(6, 0, move_raw_ids.ids)]})
         
         for order in self:
             picking = self.env['stock.picking'].create({
@@ -564,35 +627,14 @@ class Sale_order(models.Model):
             if sale_order.x_studio_rfrence_du_dossier:
                 sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id})
     
-  
- 
-class SaleOrderLine(models.Model):
-    _inherit = 'sale.order.line'
-    
-    consumable = fields.Float('consumable')
-    qty = fields.Float('Quantity costing', default=1)
-    temp_price_unit = fields.Float('temp_price_unit')
+    def action_show_manufactured_order(self):
+       
+        # Retrieve the Manufacturing Order objects based on the product IDs
+        mos = self.env['mrp.production'].search([('sale_order', '=', self.id)])
 
-    
-    @api.onchange('qty', 'temp_price_unit')
-    def _onchange_qty(self):
-        self.set_price_unit()
         
-    def set_price_unit(self):
-        self.price_unit = self.qty * self.temp_price_unit
-
-
-    @api.model
-    def action_order(self):
-        current_employee_id = self.env.user.employee_id.id
-        domain = [('employee_id', '=', current_employee_id)]
-        action = {
-            'name': 'Mes Ordres de travail',
-            'type': 'ir.actions.act_window',
-            'res_model': 'mrp.workorder',
-            'view_mode': 'tree,form',
-            'domain': domain,
-        }
+        action = self.env.ref('mrp.mrp_production_action').read()[0]
+        action['domain'] = [('id', 'in', mos.ids)]
         return action
 
     @api.onchange('discount')
@@ -640,10 +682,12 @@ class SaleOrderLine(models.Model):
                         }
                     }
     
+  
+  
 class ProjectProject(models.Model):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     _inherit = 'project.project'
 
-    bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
+    order_id = fields.Many2one('sale.order', string="Sale Order")
 
 
 class Mrp_Production(models.Model):
@@ -652,7 +696,7 @@ class Mrp_Production(models.Model):
     id_name = fields.Char("Name of Identification")
     id_name_description = fields.Char("Description")
     opportunity = fields.Many2one('crm.lead', string="Dossier")
-    sale_order = fields.Many2one('sale.order', string="Sale Order")
+    sale_order = fields.Many2one('sale.order', string="Devis")
     project_id = fields.Many2one('project.project', string="Projet")
 
 

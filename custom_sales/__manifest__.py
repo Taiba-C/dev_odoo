@@ -31,6 +31,8 @@
                 'custom_manufacturing',
                 'planning',
                 'crm',
+                'stock',
+                'mrp',
                 ],
 
     # always loaded
@@ -48,6 +50,7 @@
         'views/sale_order_portal_content_custom.xml',
         'views/mrp_planning_view.xml',
         'views/my_work_Order.xml',
+        'views/sale_order_line_extension.xml',
         'views/remise.xml',
         'views/menu.xml',
         'data/data.xml',

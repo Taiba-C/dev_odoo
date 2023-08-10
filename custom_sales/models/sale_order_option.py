@@ -20,13 +20,14 @@ class SaleOrderOption(models.Model):
     
     total_purchase_price = fields.Float('Total purchase price', readonly=True)
     
-    order_line_id = fields.Many2one('sale.order.line', string='Order Line')
+    order_line_id = fields.Many2one('sale.order.line', string='Order Line',ondelete='cascade')
     
     total_sale_price = fields.Float('Total sale price', readonly=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
     planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
     work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')   
     role_id = fields.Many2one('planning.role', string ='Role', ondelete='cascade')
+    
     def create_project_task(self,project ,partner_id):
         for record in self:
             if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
@@ -72,7 +73,14 @@ class SaleOrderOption(models.Model):
                 #record.work_order_id = work
                 record.planning_id = planning
      
-                
+    @api.onchange('quantity', 'margin_product', 'purchase_price')
+    def compute_order_options(self):
+        self.total_purchase_price = self.product_id.standard_price * self.quantity
+        if self.margin_product > 0:
+            self.total_sale_price = self.total_purchase_price / self.margin_product
+        self.margin = self.total_sale_price - self.total_purchase_price
+        if self.total_sale_price > 0:
+            self.margin_percent = self.margin / self.total_sale_price
                 
 class Planning_slot(models.Model):
     _inherit = 'planning.slot'

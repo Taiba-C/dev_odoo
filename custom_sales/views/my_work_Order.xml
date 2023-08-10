@@ -1,16 +1,43 @@
 <odoo>
     <data>
         <!--Code qui permet de rajouter le code personalisé pour le menu "Mes ordres de travail" -->
-        <record id="view_my_work_order" model="ir.ui.view">
+        <record id="view_mrp_production_tree_word_order" model="ir.ui.view">
             <field name="name">Les ordres de fabrication</field>
             <field name="model">mrp.production</field>
             <field name="inherit_id" ref="mrp.mrp_production_tree_view" />
             <field name="arch" type="xml">
                 <!-- Utilisez simplement "position" sans ajouter de filtre -->
-                <xpath expr="//field[@name='name']" position="after">
-                    <!-- Ajoutez ici les champs supplémentaires que vous souhaitez afficher -->
-                    <!-- Ajoutez d'autres champs ici -->
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sale_order" />
                 </xpath>
+            </field>
+        </record>
+        
+        <record id="view_mrp_production_form_word_order" model="ir.ui.view">
+            <field name="name">Les ordres de fabrication</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+            <field name="arch" type="xml">
+                <!-- Utilisez simplement "position" sans ajouter de filtre -->
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sale_order" readonly="1"/>
+                </xpath> 
+                
+            </field>
+        </record>
+
+        <record id="mrp_production_workorder_tree" model="ir.ui.view">
+            <field name="name">mrp.production.work.order.tree</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//tree/field[@name='workcenter_id']" position="after">
+                    <field name="order_name" />
+                    <field name="role" invisible="1"/>
+                    <field name="employee_id" />
+                </xpath>               
+                
             </field>
         </record>
 

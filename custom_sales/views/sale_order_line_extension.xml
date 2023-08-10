@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+        <!-- Wizard View -->
+        <record id="view_component_selection_wizard_form" model="ir.ui.view">
+            <field name="name">component.selection.wizard.form</field>
+            <field name="model">custom_sales.component.selection.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="order_line_id" invisible="1"/>
+                        <field name="bom_id" invisible="1"/>
+                    </group>
+                        <notebook>
+                            <page name="component" string="Composants">
+                                <field name="component_ids" widget="many2many" domain="[('bom_id', '=', bom_id)]">
+                                    <tree string="Composants">
+                                        <field name="product_id" />
+                                        <field name="product_qty"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    <footer>
+                        <button string="Confirmer" type="object" name="action_confirm" class="btn-primary"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open the wizard -->
+        <record id="action_component_selection_wizard" model="ir.actions.act_window">
+            <field name="name">Choisir les composants</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">custom_sales.component.selection.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_component_selection_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
