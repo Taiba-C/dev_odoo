@@ -561,7 +561,8 @@ class Sale_order(models.Model):
         # for x_studio_rfrence_du_dossier
         Sale_orders = self.env['sale.order'].sudo().search([])
         for sale_order in Sale_orders:
-            sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id})
+            if sale_order.x_studio_rfrence_du_dossier:
+                sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id})
     
   
  
