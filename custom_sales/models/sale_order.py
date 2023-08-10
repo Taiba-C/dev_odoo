@@ -361,6 +361,7 @@ class Sale_order(models.Model):
         
         self.delete_option_without_order_line(self.id)  
         
+        
         if self.is_bom_generated == False:
             raise UserError("Vous avez oublié de cliquer sur le bouton de chiffrage")
         
@@ -395,6 +396,7 @@ class Sale_order(models.Model):
             
            # record.write({'mrp_production_ids': [(i, work)] }) # Ajoute l'enregistrement many2one au champ many2many
           #  i=i+1
+        date_planned_start = date.today()
         for record in self:
             # works = []
             for i, order_line in enumerate(record.order_line, start=0):
@@ -446,7 +448,7 @@ class Sale_order(models.Model):
                                     'workcenter_id': work_center.id,
                                     'product_uom_id':option.product_id.uom_id.id,
                                     'production_id':mrp.id,
-                                    'date_planned_start':record.opportunity_id.dbut_salon,
+                                    'date_planned_start':date_planned_start,
                                     'duration_expected': option.quantity * 60.0,
                                     'duration_expected_hours': option.quantity,
                                     'opportunity':record.opportunity_id.id,
