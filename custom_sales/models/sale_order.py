@@ -645,16 +645,42 @@ class Sale_order(models.Model):
             if discount.ensure_one():
                 if discount.active:
                     for order in self:
-                        if order.line_ids:
-                            user_department = order.env.user.employee_id.department_id.name
-                            if order.discount > discount.taux_de_remise*100 and user_department != allowed_department:
-                                raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
+                        user_department = order.env.user.employee_id.department_id.name
+                        if order.discount > discount.taux_de_remise*100 and user_department != allowed_department:
+                            raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
                 else:
-                    raise models.ValidationError("Impossible d'appliquer une remise")
+                    self.discount = 0
+                    return {
+                        'type': 'ir.actions.client',
+                        'tag': 'display_notification',
+                        'params': {
+                            'type': 'warning',
+                            'message': _("Impossible d'appliquer une remise"),
+                            'sticky': False,
+                            }
+                        }
             else:
-                raise models.ValidationError("Impossible d'appliquer une remise")
+                self.discount = 0
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'type': 'warning',
+                        'message': _("Impossible d'appliquer une remise"),
+                        'sticky': False,
+                        }
+                    }
         else:
-            raise models.ValidationError("Impossible d'appliquer une remise")
+            self.discount = 0
+            return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'type': 'warning',
+                        'message': _("Impossible d'appliquer une remise"),
+                        'sticky': False,
+                        }
+                    }
     
   
   
