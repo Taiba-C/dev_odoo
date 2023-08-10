@@ -51,6 +51,9 @@
         'views/mrp_planning_view.xml',
         'views/my_work_Order.xml',
         'views/sale_order_line_extension.xml',
+        'views/remise.xml',
+        'views/menu.xml',
+        'data/data.xml',
         # report
         # 'report/ir_actions_report_templates.xml',
     ],

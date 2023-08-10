@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="ir.ui.view" id="view_custom_sales_remise_form">
+		<field name="name">custom_sales.remise.form</field>
+		<field name="model">nesil.remise</field>
+		<field name="arch" type="xml">
+			<form string="Remise" create="false">
+				<sheet>
+                <group>
+					<field name="name" />
+					<field name="taux_de_remise" widget="percentage"/>
+                    <field name="active" widget="boolean_toggle" />
+                </group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="view_custom_sales_remise_tree" model="ir.ui.view">
+		<field name="name">remise.tree</field>
+		<field name="model">nesil.remise</field>
+		<field name="arch" type="xml">
+			<tree string="Remise" create="false">
+					<field name="name" />
+					<field name="taux_de_remise" />
+			</tree>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="custom_sales_remise">
+		<field name="name">name</field>
+		<field name="res_model">nesil.remise</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+</odoo>
