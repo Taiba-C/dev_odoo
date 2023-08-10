@@ -38,7 +38,51 @@ class SaleOrderLine(models.Model):
     #         user_department = order.env.user.employee_id.department_id.name
     #         if order.discount > 5 and user_department != allowed_department:
     #             raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à 5%")
-            
+    @api.onchange('discount')
+    def _check_discount_limit(self):
+        allowed_department = 'Direction'
+        discount = self.env['nesil.remise'].sudo().search([])
+        if discount:
+            if discount.ensure_one():
+                if discount.active:
+                    for order_line in self:
+                        user_department = order_line.env.user.employee_id.department_id.name
+                        if order_line.discount > discount.taux_de_remise*100 and user_department != allowed_department:
+                            raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
+                else:
+                    self.discount = 0
+                    return {
+                        'type': 'ir.actions.client',
+                        'tag': 'display_notification',
+                        'params': {
+                            'type': 'warning',
+                            'message': _("Impossible d'appliquer une remise"),
+                            'sticky': False,
+                            }
+                        }
+            else:
+                self.discount = 0
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'type': 'warning',
+                        'message': _("Impossible d'appliquer une remise"),
+                        'sticky': False,
+                        }
+                    }
+        else:
+            self.discount = 0
+            return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'type': 'warning',
+                        'message': _("Impossible d'appliquer une remise"),
+                        'sticky': False,
+                        }
+                    }
+           
     def action_costing(self):
         self.ensure_one()
         action = self.env.ref('custom_sales.action_component_selection_wizard').read()[0]
