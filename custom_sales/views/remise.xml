@@ -27,7 +27,7 @@
 	</record>
 	
 	<record model="ir.actions.act_window" id="custom_sales_remise">
-		<field name="name">name</field>
+		<field name="name">Liste des remises</field>
 		<field name="res_model">nesil.remise</field>
 		<field name="view_mode">tree,form</field>
 	</record>
