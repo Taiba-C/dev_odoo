@@ -8,6 +8,7 @@ from odoo.exceptions import UserError
 class Sale_order(models.Model):
     _inherit = 'sale.order'
     
+    rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier')
     total_purchase = fields.Float('Total puchase price', readonly = True)
     total_sale = fields.Float('Total sale price', readonly = True)
     margin = fields.Float('Margin', readonly = True)
@@ -21,6 +22,7 @@ class Sale_order(models.Model):
     task_option_counts = fields.Float(compute='_get_task_counts')
     project_option_counts = fields.Float(compute='_get_project_counts')
     project_options_id = fields.Many2one('project.project', string='Project option', ondelete='cascade')
+    
    
     
     picking_id = fields.Many2one('stock.picking', string='Nomenclature du chiffrage')
@@ -31,7 +33,9 @@ class Sale_order(models.Model):
 
     work_center = fields.Many2one('mrp.workcenter', string='Work Center')  
 
-    mrp_production_counts = fields.Float(string='Ordres de fabrication', compute='_get_mrp_production_counts')
+    #mrp_production_counts = fields.Float(string='Ordres de fabrication', compute='_get_mrp_production_counts')
+    mrp_production_counts = fields.Float(string='Ordres de fabrication')
+    
 
     def generate_bom_order(self):
         """
@@ -319,7 +323,7 @@ class Sale_order(models.Model):
             populate field date of exhibition as date in CRM opportunity
         """
         if not self.date_of_exhibition:
-            self.date_of_exhibition = self.opportunity_id.x_studio_dbut_salon
+            self.date_of_exhibition = self.opportunity_id.dbut_salon
             self.set_validity_date()
         self.set_validity_date()
         
@@ -372,7 +376,7 @@ class Sale_order(models.Model):
                     'user_id': self.user_id.id,
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
-                    'date': self.opportunity_id.x_studio_fin_salon,
+                    'date': self.opportunity_id.fin_salon,
                     'bon_de_commande':self.id, 
                     })   
             self.project_options_id = project.id
@@ -442,7 +446,7 @@ class Sale_order(models.Model):
                                     'workcenter_id': work_center.id,
                                     'product_uom_id':option.product_id.uom_id.id,
                                     'production_id':mrp.id,
-                                    'date_planned_start':record.opportunity_id.x_studio_dbut_salon,
+                                    'date_planned_start':record.opportunity_id.dbut_salon,
                                     'duration_expected': option.quantity * 60.0,
                                     'duration_expected_hours': option.quantity,
                                     'opportunity':record.opportunity_id.id,
@@ -539,16 +543,23 @@ class Sale_order(models.Model):
     def _get_project_counts(self):
         self.project_option_counts = len(self.project_options_id)
     
-    @api.depends('mrp_production_ids')
-    def _get_mrp_production_counts(self):
-        for order in self:
-            order.mrp_production_counts = len(order.mrp_production_ids)
+    # @api.depends('mrp_production_ids')
+    # def _get_mrp_production_counts(self):
+    #     for order in self:
+    #         order.mrp_production_counts = len(order.mrp_production_ids)
 
         
     def action_view_planning(self):
         # button to return to planning
         # use project_options_id
         return self.project_options_id.action_project_forecast_from_project()
+
+    # retroaction sur le champ rfrence_du_dossier
+    def retro_x_studio_fields(self):
+        # for x_studio_rfrence_du_dossier
+        Sale_orders = self.env['sale.order'].sudo().search([])
+        for sale_order in Sale_orders:
+            sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id})
     
   
  
@@ -584,11 +595,20 @@ class SaleOrderLine(models.Model):
     @api.onchange('discount')
     def _check_discount_limit(self):
         allowed_department = 'Direction'
-        for order in self:
-            user_department = order.env.user.employee_id.department_id.name
-            if order.discount > 5 and user_department != allowed_department:
-                raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à 5%")
-     
+        discount = self.env['nesil.remise'].sudo().search([])
+        if discount:
+            if discount.ensure_one():
+                if discount.active:
+                    for order in self:
+                        user_department = order.env.user.employee_id.department_id.name
+                        if order.discount > discount.taux_de_remise*100 and user_department != allowed_department:
+                            raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
+                else:
+                    raise models.ValidationError("Impossible d'appliquer une remise")
+            else:
+                raise models.ValidationError("Impossible d'appliquer une remise")
+        else:
+            raise models.ValidationError("Impossible d'appliquer une remise")
     
 class ProjectProject(models.Model):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     _inherit = 'project.project'

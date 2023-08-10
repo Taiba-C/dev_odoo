@@ -16,3 +16,4 @@ class AccountMove(models.Model):
     x_studio_bc = fields.Many2one('sale.order', string='Sale Order', compute='_compute_sale_order')
 
 
+

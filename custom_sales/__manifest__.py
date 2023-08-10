@@ -35,7 +35,7 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
         'views/sale_order.xml',
@@ -48,6 +48,9 @@
         'views/sale_order_portal_content_custom.xml',
         'views/mrp_planning_view.xml',
         'views/my_work_Order.xml',
+        'views/remise.xml',
+        'views/menu.xml',
+        'data/data.xml',
         # report
         # 'report/ir_actions_report_templates.xml',
     ],

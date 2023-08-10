@@ -20,13 +20,14 @@
         <field name="mrp_production_counts" widget="statinfo" string="Ordres de fabrication"/>
     </button>
                 </xpath>
-                <xpath expr="//button[@name='action_view_delivery']" position="attributes">
+                <!-- <xpath expr="//button[@name='action_view_delivery']" position="attributes">
                     <attribute name="invisible">1</attribute>
-                </xpath>
+                </xpath> -->
 
                 
                 <xpath expr="//field[@name='sale_order_template_id']" position="after">
-                    
+
+                    <field name="rfrence_du_dossier"/>
                     <button name="generate_bom_order" 
                     attrs="{ 'invisible': [('state', '!=', 'draft')] }"
                     string="Encryption" type="object" class="oe_highlight"/>
