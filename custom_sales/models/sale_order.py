@@ -409,6 +409,7 @@ class Sale_order(models.Model):
         
         self.delete_option_without_order_line(self.id)  
         
+        
         if self.is_bom_generated == False:
             raise UserError("Vous avez oublié de cliquer sur le bouton de chiffrage")
         
@@ -443,6 +444,7 @@ class Sale_order(models.Model):
             
            # record.write({'mrp_production_ids': [(i, work)] }) # Ajoute l'enregistrement many2one au champ many2many
           #  i=i+1
+        date_planned_start = date.today()
         for record in self:
             # works = []
             for i, order_line in enumerate(record.order_line, start=0):
@@ -506,7 +508,7 @@ class Sale_order(models.Model):
                                     'workcenter_id': work_center.id,
                                     'product_uom_id':option.product_id.uom_id.id,
                                     'production_id':mrp.id,
-                                    'date_planned_start':record.opportunity_id.dbut_salon,
+                                    'date_planned_start':date_planned_start,
                                     'duration_expected': option.quantity * 60.0,
                                     'duration_expected_hours': option.quantity,
                                     'opportunity':record.opportunity_id.id,
@@ -622,7 +624,8 @@ class Sale_order(models.Model):
         # for x_studio_rfrence_du_dossier
         Sale_orders = self.env['sale.order'].sudo().search([])
         for sale_order in Sale_orders:
-            sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id})
+            if sale_order.x_studio_rfrence_du_dossier:
+                sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id})
     
     def action_show_manufactured_order(self):
        
@@ -642,9 +645,10 @@ class Sale_order(models.Model):
             if discount.ensure_one():
                 if discount.active:
                     for order in self:
-                        user_department = order.env.user.employee_id.department_id.name
-                        if order.discount > discount.taux_de_remise*100 and user_department != allowed_department:
-                            raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
+                        if order.line_ids:
+                            user_department = order.env.user.employee_id.department_id.name
+                            if order.discount > discount.taux_de_remise*100 and user_department != allowed_department:
+                                raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
                 else:
                     raise models.ValidationError("Impossible d'appliquer une remise")
             else:
