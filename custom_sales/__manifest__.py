@@ -31,6 +31,8 @@
                 'custom_manufacturing',
                 'planning',
                 'crm',
+                'stock',
+                'mrp',
                 ],
 
     # always loaded

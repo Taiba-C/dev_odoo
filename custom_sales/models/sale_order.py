@@ -421,7 +421,7 @@ class Sale_order(models.Model):
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.x_studio_fin_salon,
-                    'bon_de_commande':self.id, 
+                    'order_id':self.id, 
                     })   
             self.project_options_id = project.id
             #project.sale_order = self
@@ -628,7 +628,7 @@ class Sale_order(models.Model):
 class ProjectProject(models.Model):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     _inherit = 'project.project'
 
-    bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
+    order_id = fields.Many2one('sale.order', string="Sale Order")
 
 
 class Mrp_Production(models.Model):
@@ -637,7 +637,7 @@ class Mrp_Production(models.Model):
     id_name = fields.Char("Name of Identification")
     id_name_description = fields.Char("Description")
     opportunity = fields.Many2one('crm.lead', string="Dossier")
-    sale_order = fields.Many2one('sale.order', string="Sale Order")
+    sale_order = fields.Many2one('sale.order', string="Devis")
     project_id = fields.Many2one('project.project', string="Projet")
 
 
