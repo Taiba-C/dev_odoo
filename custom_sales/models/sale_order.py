@@ -636,51 +636,6 @@ class Sale_order(models.Model):
         action = self.env.ref('mrp.mrp_production_action').read()[0]
         action['domain'] = [('id', 'in', mos.ids)]
         return action
-
-    @api.onchange('discount')
-    def _check_discount_limit(self):
-        allowed_department = 'Direction'
-        discount = self.env['nesil.remise'].sudo().search([])
-        if discount:
-            if discount.ensure_one():
-                if discount.active:
-                    for order in self:
-                        user_department = order.env.user.employee_id.department_id.name
-                        if order.discount > discount.taux_de_remise*100 and user_department != allowed_department:
-                            raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
-                else:
-                    self.discount = 0
-                    return {
-                        'type': 'ir.actions.client',
-                        'tag': 'display_notification',
-                        'params': {
-                            'type': 'warning',
-                            'message': _("Impossible d'appliquer une remise"),
-                            'sticky': False,
-                            }
-                        }
-            else:
-                self.discount = 0
-                return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'type': 'warning',
-                        'message': _("Impossible d'appliquer une remise"),
-                        'sticky': False,
-                        }
-                    }
-        else:
-            self.discount = 0
-            return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'type': 'warning',
-                        'message': _("Impossible d'appliquer une remise"),
-                        'sticky': False,
-                        }
-                    }
     
   
   
