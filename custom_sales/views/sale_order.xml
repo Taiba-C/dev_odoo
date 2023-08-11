@@ -188,8 +188,8 @@
                 </xpath>
 
                 <!-- add button for costing table -->
-                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
-                    <button name="action_costing" string="Chiffrer" type="object" class="oe_highlight" readonly="False"/>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
+                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
                 </xpath>
             </field>
         </record>
