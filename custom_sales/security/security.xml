@@ -22,12 +22,12 @@
         <record id="rule_user_remise" model="ir.rule">
             <field name="name">Gestion des remises</field>
             <field name="model_id" ref="model_nesil_remise"/>
-            <field name="groups" eval="[(4, ref('custom_sales.group_nesil_commercial')),(4, ref('custom_sales.group_nesil_direction'))]"/>
+            <field name="groups" eval="[(4, ref('custom_sales.group_nesil_direction'))]"/>
             <field name="perm_read" eval="True"/>
-            <field name="perm_write" eval="False"/>
-            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="False"/>
-            <field name="domain_force">[('department_name','!=',user.employee_id.department_id.name)]</field>
+            <field name="domain_force">[('department_name','=',user.employee_id.department_id.name)]</field>
         </record>
     </data>
 </odoo>
