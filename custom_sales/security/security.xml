@@ -7,13 +7,15 @@
             <field name="sequence">16</field>
         </record>
 
+
         <record id="group_nesil_commerciaux" model="res.groups">
-            <field name="name">Nesil Commerciaux</field>
+            <field name="name">Profil commerciaux</field>
             <field name="category_id" ref="module_nesil_direction" />
+            <field name="implied_ids" eval="[(4, ref('base.group_nesil_commerciaux'))]" />
         </record>
         
         <record id="group_nesil_direction" model="res.groups">
-            <field name="name">Nesil Direction</field>
+            <field name="name">profil direction</field>
             <field name="category_id" ref="module_nesil_direction" />
             <field name="implied_ids" eval="[(4, ref('base.group_nesil_commerciaux'))]" />
         </record>
