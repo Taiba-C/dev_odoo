@@ -27,7 +27,7 @@ class Lead(models.Model):
         return res
     # retroaction fin de salon debut de salon
     def retro_debut_fin_salon(self):
-        crm_leads = self.env['crm.salon'].sudo().search([])
+        crm_leads = self.env['crm.lead'].sudo().search([])
         for crm_lead in crm_leads:
             crm_lead.sudo().write({'dbut_salon':crm_lead.x_studio_dbut_salon,'fin_salon':crm_lead.x_studio_fin_salon,'salon':crm_lead.x_studio_salon,
                                    'lieu_du_salon':crm_lead.x_studio_lieu_du_salon,'stand_n':crm_lead.x_studio_stand_n,'hall':crm_lead.x_studio_hall,
