@@ -4,7 +4,9 @@
         <record model="nesil.remise" id="remise_nesil">
             <field name="name">Remise sur le devis</field>
             <field name="taux_de_remise">0.05</field>
+            <field name="department_name">direction</field>
             <field name="active">True</field>
+            
         </record>
     </data>
 </odoo>
