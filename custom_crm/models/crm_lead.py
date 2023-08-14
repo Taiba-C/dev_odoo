@@ -15,6 +15,12 @@ class Lead(models.Model):
     surface_en_m = fields.Char(string="Surface (en m²)")
     dbut_salon = fields.Date(string='Début Salon')
     fin_salon = fields.Date(string='Fin Salon')
+    remarques = fields.Text(string='Remarques')
+    date_de_montage_du = fields.Date(string='Date de montage Du')
+    date_de_montage_au = fields.Date(string='Au')
+    remarques_montage = fields.Text(string='Remarques')
+    date_de_demontage_du = fields.Date(string='Date de démontage Du')
+    date_de_demontage_au = fields.Date(string='Au')
 
     
     def action_sale_quotations_new(self):
@@ -31,5 +37,8 @@ class Lead(models.Model):
         for crm_lead in crm_leads:
             crm_lead.sudo().write({'dbut_salon':crm_lead.x_studio_dbut_salon,'fin_salon':crm_lead.x_studio_fin_salon,'salon':crm_lead.x_studio_salon,
                                    'lieu_du_salon':crm_lead.x_studio_lieu_du_salon,'stand_n':crm_lead.x_studio_stand_n,'hall':crm_lead.x_studio_hall,
-                                   'allee':crm_lead.x_studio_alle,'surface_en_m':crm_lead.x_studio_surface_en_m})
+                                   'allee':crm_lead.x_studio_alle,'surface_en_m':crm_lead.x_studio_surface_en_m,'remarques':crm_lead.x_studio_remarques,
+                                   'date_de_montage_du':crm_lead.x_studio_date_de_montage_1,'date_de_montage_au':crm_lead.x_studio_au,
+                                   'remarques_montage':crm_lead.x_studio_remarque_1,'date_de_demontage_du':crm_lead.x_studio_date_de_dmontage_2,
+                                   'date_de_demontage_au':crm_lead.x_studio_au_1})
         

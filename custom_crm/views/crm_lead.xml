@@ -35,6 +35,27 @@
                             </group>
                         </group>
                     </page>   
+                    <page string="Remarques">
+                        <group>
+                            <group>
+                            <field name="remarques" />
+                            </group>
+                        </group>
+                    </page>   
+                    <page string="Montage/Démontage ">
+                        <group>
+                            <group>
+                            <field name="date_de_montage_du" />
+                            <field name="date_de_montage_au" />
+                            <field name="remarques_montage" />
+                            </group>
+                            <group>
+                            <field name="date_de_demontage_du" />
+                            <field name="date_de_demontage_au" />
+>
+                            </group>
+                        </group>
+                    </page>  
                 </xpath>
                 
 
