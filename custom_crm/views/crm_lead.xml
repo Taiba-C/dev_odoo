@@ -45,13 +45,13 @@
                     <page string="Montage/Démontage ">
                         <group>
                             <group>
-                            <field name="date_de_montage_du" />
-                            <field name="date_de_montage_au" />
+                            <field name="date_de_montage_du" widget="daterange" options="{'related_end_date': 'date_de_montage_au'}"/>
+                            <field name="date_de_montage_au" widget="daterange" options="{'related_start_date': 'date_de_montage_du'}"/>
                             <field name="remarques_montage" />
                             </group>
                             <group>
-                            <field name="date_de_demontage_du" />
-                            <field name="date_de_demontage_au" />
+                            <field name="date_de_demontage_du" widget="daterange" options="{'related_end_date': 'date_de_demontage_au'}"/>
+                            <field name="date_de_demontage_au" widget="daterange" options="{'related_start_date': 'date_de_demontage_du'}"/>
 >
                             </group>
                         </group>
