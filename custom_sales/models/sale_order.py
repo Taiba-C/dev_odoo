@@ -643,6 +643,7 @@ class ProjectProject(models.Model):
     _inherit = 'project.project'
 
     order_id = fields.Many2one('sale.order', string="Sale Order")
+    bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
 
 
 class Mrp_Production(models.Model):
