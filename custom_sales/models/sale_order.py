@@ -12,7 +12,15 @@ class Sale_order(models.Model):
     total_sale = fields.Float('Total sale price', readonly = True,compute="_compute_total_infos")
     margin = fields.Float('Margin', readonly = True, compute="_compute_total_infos")
     margin_percent = fields.Float('Margin %', readonly = True, compute="_compute_total_infos")
-    rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier')
+    @api.depends('origin')
+    def get_ref_dossier(self):
+        for rec in self:
+            if rec.origin:
+                rec.rfrence_du_dossier = rec.origin.id
+            else:
+                rec.origin = None
+
+    rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier',compute='get_ref_dossier')
     version_du_devis = fields.Char(string='Version du devis')
     
     date_of_exhibition = fields.Date('Begin of exhibition')
