@@ -12,7 +12,7 @@ class Sale_order(models.Model):
     total_sale = fields.Float('Total sale price', readonly = True,compute="_compute_total_infos")
     margin = fields.Float('Margin', readonly = True, compute="_compute_total_infos")
     margin_percent = fields.Float('Margin %', readonly = True, compute="_compute_total_infos")
-    rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier',related='origin')
+    rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier')
     version_du_devis = fields.Char(string='Version du devis')
     
     date_of_exhibition = fields.Date('Begin of exhibition')
