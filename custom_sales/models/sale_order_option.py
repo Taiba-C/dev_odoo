@@ -184,5 +184,5 @@ class Planning_slot(models.Model):
 class Task_custom(models.Model):
     _inherit = 'project.task'
 
-    role_task = fields.Char(tring='Rôle de la tâche')     
+    role_task = fields.Char('Rôle de la tâche')     
        
