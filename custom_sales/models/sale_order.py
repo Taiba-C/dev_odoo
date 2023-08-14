@@ -625,7 +625,10 @@ class Sale_order(models.Model):
         Sale_orders = self.env['sale.order'].sudo().search([])
         for sale_order in Sale_orders:
             if sale_order.x_studio_rfrence_du_dossier:
+                sale_order.action_cancel()
+                sale_order.action_draft()
                 sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id})
+                sale_order.confirm()
     
     def action_show_manufactured_order(self):
        
