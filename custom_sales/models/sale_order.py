@@ -12,7 +12,16 @@ class Sale_order(models.Model):
     total_sale = fields.Float('Total sale price', readonly = True,compute="_compute_total_infos")
     margin = fields.Float('Margin', readonly = True, compute="_compute_total_infos")
     margin_percent = fields.Float('Margin %', readonly = True, compute="_compute_total_infos")
-    rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier')
+    @api.depends('origin')
+    def get_ref_dossier(self):
+        for rec in self:
+            if rec.opportunity_id.ensure_one():
+                rec.rfrence_du_dossier = rec.opportunity_id.id
+            else:
+                rec.rfrence_du_dossier = None
+
+    rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
+    version_du_devis = fields.Char(string='Version du devis')
     
     date_of_exhibition = fields.Date('Begin of exhibition')
     validity_quotation = fields.Date('Validity of the quotation')
@@ -627,7 +636,7 @@ class Sale_order(models.Model):
             if sale_order.x_studio_rfrence_du_dossier:
                 sale_order.action_cancel()
                 sale_order.action_draft()
-                sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id})
+                sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id,'version_du_devis':'x_studio_version_du_devis'})
                 sale_order.confirm()
     
     def action_show_manufactured_order(self):

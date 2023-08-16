@@ -30,14 +30,15 @@
 
                 </xpath>
                 
-                <!-- <xpath expr="//field[@name='sale_order_template_id']" position="after">
+                <xpath expr="//field[@name='sale_order_template_id']" position="after">
 
-                    <field name="rfrence_du_dossier"/>
+                    <field name="rfrence_du_dossier" readonly='1' force_save='1'/>
+                    <field name="version_du_devis"/>
                     <button name="generate_bom_order" 
                     attrs="{ 'invisible': [('state', '!=', 'draft')] }"
                     string="Encryption" type="object" class="oe_highlight"/>
                     
-                </xpath> -->
+                </xpath>
 
 
                 <!-- <xpath expr="//field[@name='sale_order_template_id']" position="after">
