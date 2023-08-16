@@ -21,7 +21,7 @@ class Sale_order(models.Model):
     #             rec.origin = None
 
     # rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier',compute='get_ref_dossier')
-    rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier',compute='get_ref_dossier')
+    rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier')
     version_du_devis = fields.Char(string='Version du devis')
     
     date_of_exhibition = fields.Date('Begin of exhibition')
