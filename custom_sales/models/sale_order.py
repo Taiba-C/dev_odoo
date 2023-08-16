@@ -15,12 +15,12 @@ class Sale_order(models.Model):
     @api.depends('origin')
     def get_ref_dossier(self):
         for rec in self:
-            if rec.origin.ensure_one():
-                rec.rfrence_du_dossier = rec.origin
+            if rec.opportunity_id.ensure_one():
+                rec.rfrence_du_dossier = rec.opportunity_id.id
             else:
                 rec.rfrence_du_dossier = None
 
-    rfrence_du_dossier = fields.Many2one('sale.order',string='Référence du dossier',compute='get_ref_dossier')
+    rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
     version_du_devis = fields.Char(string='Version du devis')
     
     date_of_exhibition = fields.Date('Begin of exhibition')
