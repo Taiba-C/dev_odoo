@@ -16,7 +16,7 @@ class Sale_order(models.Model):
     def get_ref_dossier(self):
         for rec in self:
             if rec.origin:
-                rec.rfrence_du_dossier = rec.origin.id
+                rec.rfrence_du_dossier = rec.origin
             else:
                 rec.origin = None
 
