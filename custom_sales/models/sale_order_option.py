@@ -31,6 +31,7 @@ class SaleOrderOption(models.Model):
     def create_project_task(self,project ,partner_id):
         for record in self:
             if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
+                role_task = ''
                 if record.product_id.name == 'MO USINAGE':
                     role_task="USINAGE"
                 elif record.product_id.name == 'MO DECOUPE':
