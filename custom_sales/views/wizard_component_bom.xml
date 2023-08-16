@@ -13,10 +13,11 @@
                     </group>
                         <notebook>
                             <page name="component" string="Composants">
-                                <field name="component_ids">
+                                <field name="component_ids" domain="[('bom_id', '=', bom_id)]" >
                                     <tree string="Composants" editable="bottom" create="false" >
                                         <field name="product_id" options="{'no_open': True}" readonly="1"/>
                                         <field name="product_qty"/>
+                                        <field name="company_id" invisible="1"/>
                                     </tree>
                                 </field>
                             </page>
