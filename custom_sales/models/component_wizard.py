@@ -1,13 +1,13 @@
 from odoo import models, fields, api
 
 class ComponentSelectionWizard(models.TransientModel):
-    _name = 'custom_sales.component.selection.wizard'
+    _name = 'component.selection.wizard'
     _description = 'Component Selection Wizard'
 
     product_id = fields.Many2one('product.product', 'Nomenclature' , default=lambda self: self._get_default_product(), readonly=True)
     bom_id = fields.Many2one('mrp.bom', string='bom', compute="_compute_default_bom_id")
     order_line_id = fields.Many2one('sale.order.line', 'Sale Order Line', default=lambda self: self._get_default_order_line_id(), readonly=True)
-    component_ids = fields.Many2many('mrp.bom.line', string='Composants')
+    component_ids = fields.Many2many('stock.quantity.line', string='Composants')
 
     def action_confirm(self):
         product_boms=[]
@@ -36,3 +36,18 @@ class ComponentSelectionWizard(models.TransientModel):
             else:
                 record.bom_id = False
                 
+
+class StockQuantityLine(models.TransientModel):
+    _name = 'stock.quantity.line'
+    _description = 'Stock Quantity Line'
+
+    wizard_id = fields.Many2one(
+        comodel_name='stock.quantity.wizard',
+        string='Wizard',
+    )
+    product_id = fields.Many2one(
+        comodel_name='product.product',
+        string='Product',
+        required=True,
+    )
+    product_qty = fields.Float(string='Quantity')

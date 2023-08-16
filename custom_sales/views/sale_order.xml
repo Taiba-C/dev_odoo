@@ -34,9 +34,6 @@
 
                     <field name="rfrence_du_dossier" readonly='1' force_save='1'/>
                     <field name="version_du_devis"/>
-                    <button name="generate_bom_order" 
-                    attrs="{ 'invisible': [('state', '!=', 'draft')] }"
-                    string="Encryption" type="object" class="oe_highlight"/>
                     
                 </xpath>
 
