@@ -31,7 +31,7 @@
         <record id="group_nesil_direction" model="res.groups">
             <field name="name">Profil Direction</field>
             <field name="category_id" ref="module_nesil_profils" />
-            <field name="implied_ids" eval="[(4, ref('custom_sales.group_nesil_commercial'))]" />
+            <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_manager'))]" />
         </record>
 
         <record id="crm.crm_menu_config" model="ir.ui.menu">
