@@ -9,6 +9,7 @@
         <record id="group_nesil_commercial" model="res.groups">
             <field name="name">Profil Equipe Commerciale</field>
             <field name="category_id" ref="module_nesil_profils" />
+            <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_manager'))]" />            
         </record>
         <record id="group_nesi_rh" model="res.groups">
             <field name="name">Profil RH</field>
@@ -35,7 +36,7 @@
 
         <record id="crm.crm_menu_config" model="ir.ui.menu">
             <field name="name">Configuration</field>
-            <field name="groups_id" eval="[(4, ref('custom_sales.group_nesil_direction')),(0, ref('custom_sales.group_nesil_commercial'))]"/>
+            <field name="groups_id" eval="[(4, ref('custom_sales.group_nesil_direction'))]"/>
         </record>
         
         <record id="rule_user_remise" model="ir.rule">
