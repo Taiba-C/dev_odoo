@@ -11,6 +11,7 @@
         name="Configuration"
         parent="crm_menu_root"
         action="crm.action_your_pipeline"
-        sequence="25" groups="custom_sales.group_nesil_direction"/>
+        sequence="25" 
+		groups="custom_sales.group_nesil_direction"/>
 
 </odoo>
