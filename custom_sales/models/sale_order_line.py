@@ -8,6 +8,8 @@ class SaleOrderLine(models.Model):
     consumable = fields.Float('consumable')
     qty = fields.Float('Quantity costing', default=1)
     temp_price_unit = fields.Float('temp_price_unit')
+    
+    is_costed = fields.Boolean('A été chiffré')
 
     
     @api.onchange('qty', 'temp_price_unit')
