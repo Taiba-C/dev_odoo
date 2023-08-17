@@ -5,6 +5,7 @@ from odoo import models, fields, api
 class Lead(models.Model):
     _inherit = "crm.lead"
     
+    order_ids = fields.One2many('sale.order', 'opportunity_id',copy=True string='Orders')
     is_quotation_created = fields.Boolean('Is quotation created')
     # champs de l'onglet salon
     salon = fields.Char(string="Salon")
@@ -41,4 +42,10 @@ class Lead(models.Model):
                                    'date_de_montage_du':crm_lead.x_studio_date_de_montage_1,'date_de_montage_au':crm_lead.x_studio_au,
                                    'remarques_montage':crm_lead.x_studio_remarque_1,'date_de_demontage_du':crm_lead.x_studio_date_de_dmontage_2,
                                    'date_de_demontage_au':crm_lead.x_studio_au_1})
-        
+    
+    def copy(self, default=None):
+        self.ensure_one()
+
+        default = dict(default or {},
+                       name=_('%s (copy)', self.name),)
+        return super(Lead, self).copy(default)
