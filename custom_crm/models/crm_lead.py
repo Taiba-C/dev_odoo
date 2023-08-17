@@ -5,7 +5,7 @@ from odoo import models, fields, api
 class Lead(models.Model):
     _inherit = "crm.lead"
     
-    order_ids = fields.One2many('sale.order', 'opportunity_id',copy=True string='Orders')
+    order_ids = fields.One2many('sale.order', 'opportunity_id',copy=True, string='Orders')
     is_quotation_created = fields.Boolean('Is quotation created')
     # champs de l'onglet salon
     salon = fields.Char(string="Salon")
