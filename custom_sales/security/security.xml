@@ -43,8 +43,8 @@
             <field name="groups_id" eval="[(6,0,[ref('custom_sales.group_nesil_direction')])]"/>
         </record>
 
-        <record id="account.menu_account_config" model="ir.ui.menu">
-            <field name="name">Settings</field>
+        <record id="account.menu_finance_configuration" model="ir.ui.menu">
+            <field name="name">Configuration</field>
             <field name="groups_id" eval="[(6,0,[ref('custom_sales.group_nesil_direction')])]"/>
         </record>
 
