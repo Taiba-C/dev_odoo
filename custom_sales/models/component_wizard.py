@@ -8,11 +8,15 @@ class ComponentSelectionWizard(models.TransientModel):
     bom_id = fields.Many2one('mrp.bom', string='bom', compute="_compute_default_bom_id")
     order_line_id = fields.Many2one('sale.order.line', 'Sale Order Line', default=lambda self: self._get_default_order_line_id(), readonly=True)
     component_ids = fields.Many2many('mrp.bom.line', string='Composants')
+    r
     
     option_ids = fields.One2many('stock.quantity.line','wizard_id', string='Composants du tableau de chiffrage')
     
     def action_confirm(self):
         product_boms=[]
+        
+        order_options = self.env['sale.order.option'].search([('order_line_id','=',self.order_line_id.id)])
+        order_options.unlink()
         
         for line in self.component_ids:
             product_boms.append({'id': line.product_id.id, 'quantity':line.product_qty})
