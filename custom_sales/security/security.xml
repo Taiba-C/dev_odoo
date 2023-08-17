@@ -35,9 +35,20 @@
 
         <record id="crm.crm_menu_config" model="ir.ui.menu">
             <field name="name">Configuration</field>
-            <!-- <field name="groups_id" eval="[(6,0, ref('custom_sales.group_nesil_direction'))]"/> -->
             <field name="groups_id" eval="[(6,0,[ref('custom_sales.group_nesil_direction')])]"/>
         </record>
+
+        <record id="sale.menu_sale_config" model="ir.ui.menu">
+            <field name="name">Configuration</field>
+            <field name="groups_id" eval="[(6,0,[ref('custom_sales.group_nesil_direction')])]"/>
+        </record>
+
+        <record id="account.menu_account_config" model="ir.ui.menu">
+            <field name="name">Settings</field>
+            <field name="groups_id" eval="[(6,0,[ref('custom_sales.group_nesil_direction')])]"/>
+        </record>
+
+        
         
         <record id="rule_user_remise" model="ir.rule">
             <field name="name">Gestion des remises</field>
