@@ -6,6 +6,7 @@
             <field name="inherit_id" ref="crm.crm_lead_view_form"/>
             <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="before">
+                    <field name="warning_copy" invisible ="1" />
                    <div role="alert" classe="alert alert-danger" style="height:40px;width:50px;margin-bottom:1px" attrs="{'invisible': [('warning_copy','!=', False)]}" > La date de debut de salon est dépassée  </div>
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
