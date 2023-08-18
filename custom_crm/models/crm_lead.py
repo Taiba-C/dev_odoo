@@ -50,8 +50,8 @@ class Lead(models.Model):
         res = super(Lead, self).copy(default)
         if not res.active:
             res.toggle_active()
-        if res.order_ids.ensure_one():
+        if res.order_ids:
             if res.order_ids.state == "sale":
                 res.order_ids.action_cancel()
-            return res
+        return res
         
