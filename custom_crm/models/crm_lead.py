@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api,_
+from datetime import date, timedelta
 
 class Lead(models.Model):
     _inherit = "crm.lead"
@@ -22,6 +23,7 @@ class Lead(models.Model):
     remarques_montage = fields.Text(string='Remarques')
     date_de_demontage_du = fields.Date(string='Date de démontage Du')
     date_de_demontage_au = fields.Date(string='Au')
+    warning_copy = fields.boolean(default=False)
 
     
     def action_sale_quotations_new(self):
@@ -53,16 +55,7 @@ class Lead(models.Model):
         if res.order_ids:
             if res.order_ids.state == "sale":
                 res.order_ids.action_cancel()
-                notification = {
-                        'type': 'ir.actions.client',
-                        'tag': 'display_notification',
-                        'params': {
-                            'title': _('Warning'),
-                            'type': 'warning',
-                            'message': 'Date de fin salon depassée',
-                            'sticky': True,
-                        }
-                        }
-                return notification
+                if res.dbut_salon - date.today() > timedelta(0):
+                    res.warning_copy = True
         return res
         
