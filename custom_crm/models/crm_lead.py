@@ -48,6 +48,7 @@ class Lead(models.Model):
         default = dict(default or {},
                        name=_('%s (copy)', self.name),)
         res = super(Lead, self).copy(default)
-        res.toggle_active()
+        if not res.active:
+            res.toggle_active()
         return res
         
