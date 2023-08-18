@@ -49,6 +49,7 @@ class Lead(models.Model):
                        name=_('%s (copy)', self.name),)
         res = super(Lead, self).copy(default)
         order_ids = res.order_ids
-        order_ids.toggle_active()
+        for order_id in order_ids:
+            order_id.toggle_active()
         return res
         
