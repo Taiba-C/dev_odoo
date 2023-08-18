@@ -53,5 +53,16 @@ class Lead(models.Model):
         if res.order_ids:
             if res.order_ids.state == "sale":
                 res.order_ids.action_cancel()
+                notification = {
+                        'type': 'ir.actions.client',
+                        'tag': 'display_notification',
+                        'params': {
+                            'title': _('Warning'),
+                            'type': 'warning',
+                            'message': 'Date de fin salon depassée',
+                            'sticky': True,
+                        }
+                        }
+                return notification
         return res
         
