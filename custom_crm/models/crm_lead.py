@@ -23,7 +23,7 @@ class Lead(models.Model):
     remarques_montage = fields.Text(string='Remarques')
     date_de_demontage_du = fields.Date(string='Date de démontage Du')
     date_de_demontage_au = fields.Date(string='Au')
-    warning_copy = fields.boolean(default=False)
+    warning_copy = fields.Boolean(default=False)
 
     
     def action_sale_quotations_new(self):
