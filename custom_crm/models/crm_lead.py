@@ -48,8 +48,6 @@ class Lead(models.Model):
         default = dict(default or {},
                        name=_('%s (copy)', self.name),)
         res = super(Lead, self).copy(default)
-        order_ids = res.order_ids
-        for order_id in order_ids:
-            order_id.toggle_active()
+        res.toggle_active()
         return res
         
