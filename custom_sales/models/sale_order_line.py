@@ -35,7 +35,7 @@ class SaleOrderLine(models.Model):
     def _check_discount_limit(self):
         is_user_allowed = False
         for user_group_id in self.env.user.groups_id:
-            if user_group_id.name == "Profil direction":
+            if user_group_id.name == "Profil Direction":
                 is_user_allowed = True
         discount = self.env['nesil.remise'].sudo().search([])
         if discount:
