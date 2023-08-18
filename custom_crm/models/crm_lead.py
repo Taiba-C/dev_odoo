@@ -45,9 +45,10 @@ class Lead(models.Model):
     
     def copy(self, default=None):
         self.ensure_one()
-        if self.order_ids:
-            default['order_ids'] = self.order_ids 
-            default['order_ids'].toggle_active()
+        res = super(Lead, self).copy(default)
         default = dict(default or {},
                        name=_('%s (copy)', self.name),)
-        return super(Lead, self).copy(default)
+        order_ids = res.order_ids
+        order_ids.toggle_active()
+        return res
+        
