@@ -7,6 +7,7 @@
             <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="before">
                     <field name="warning_copy" invisible ="1" />
+                    <field name="warning_display_time" invisible ="1" />
                     <div role="alert" class="alert alert-info text-center o_form_header" attrs="{'invisible': [('warning_copy','!=', False)]}" >
                         <div>
                          <strong> La date de debut de salon est dépassée </strong>

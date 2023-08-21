@@ -29,6 +29,8 @@ class Lead(models.Model):
         for rec in self:
             if rec.warning_display_time >= 1 and rec.warning_copy:
                 rec.warning_copy = False
+            else:
+                return 
 
     
     def action_sale_quotations_new(self):
