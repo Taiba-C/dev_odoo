@@ -28,11 +28,11 @@ class Lead(models.Model):
     #@api.depends("warning_copy")
     def check_if_display_warning(self):
         for rec in self:
-            if rec.warning_display_time == 1 and rec.warning_copy:
+            if rec.warning_display_time == 1 and rec.warning_copy == True:
                 rec.warning_copy = False
                 rec.warning_display_time = 0
             else:
-                rec.warning_display_time = 0
+                rec.warning_display_time = 1
 
     
     def action_sale_quotations_new(self):
