@@ -6,8 +6,8 @@
             <field name="inherit_id" ref="crm.crm_lead_view_form"/>
             <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
-                    <field name="warning_copy"/>
-                    <field name="warning_display_time" />
+                    <field name="warning_copy" readonly='1' force_save='1' />
+                    <field name="warning_display_time" readonly='1' force_save='1' />
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
                     <!-- <field name="warning_copy" invisible ="1" />
