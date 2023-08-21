@@ -27,7 +27,7 @@ class Lead(models.Model):
     warning_display_time = fields.Integer()
     def check_if_display_warning(self):
         for rec in self:
-            if rec.warning_display_time >= 1 and rec.warning_copy:
+            if rec.warning_display_time > 1 and rec.warning_copy:
                 rec.warning_copy = False
             else:
                 return 
