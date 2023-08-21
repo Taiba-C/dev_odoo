@@ -25,7 +25,7 @@ class Lead(models.Model):
     date_de_demontage_au = fields.Date(string='Au')
     warning_copy = fields.Boolean(copy=False,compute='check_if_display_warning')
     warning_display_time = fields.Integer(default=0)
-    #@api.depends("warning_copy")
+    @api.depends("warning_copy")
     def check_if_display_warning(self):
         for rec in self:
             if rec.warning_display_time == 1 and rec.warning_copy:
@@ -66,5 +66,6 @@ class Lead(models.Model):
                 res.order_ids.action_cancel()
         #if res.dbut_salon - date.today() > timedelta(0):
         res.warning_copy = True
+        res.warning_display_time = 1
         return res
         
