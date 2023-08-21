@@ -30,7 +30,7 @@ class Lead(models.Model):
         for rec in self:
             if rec.warning_display_time == 1 and rec.warning_copy:
                 rec.warning_copy = False
-                rec.rec.warning_display_time = 0
+                rec.warning_display_time = 0
             else:
                 rec.rec.warning_display_time = 1
 
