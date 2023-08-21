@@ -6,8 +6,6 @@
             <field name="inherit_id" ref="crm.crm_lead_view_form"/>
             <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="before">
-                    <field name="warning_copy" invisible ="1" />
-                    <field name="warning_display_time"/>
                     <div role="alert" class="alert alert-info text-center o_form_header" attrs="{'invisible': [('warning_copy','!=', False)]}" >
                         <div>
                          <strong> La date de debut de salon est dépassée </strong>
@@ -16,6 +14,8 @@
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="is_quotation_created" invisible ="1" />
+                    <field name="warning_copy" invisible ="1" />
+                    <field name="warning_display_time"/>
                 </xpath>
                 <xpath expr="//button[@name='action_sale_quotations_new']" position="attributes">
                     <attribute name="attrs">{'invisible': [('is_quotation_created','!=', False)]}</attribute>
