@@ -23,8 +23,6 @@ class Lead(models.Model):
     remarques_montage = fields.Text(string='Remarques')
     date_de_demontage_du = fields.Date(string='Date de démontage Du')
     date_de_demontage_au = fields.Date(string='Au')
-    warning_copy = fields.Boolean(copy=False)
-    warning_display_time = fields.Integer(compute='check_if_display_warning')
     #@api.depends("warning_copy")
     def check_if_display_warning(self):
         for rec in self:
@@ -33,6 +31,8 @@ class Lead(models.Model):
                 rec.warning_display_time = 0
             else:
                 rec.warning_display_time = 1
+    warning_display_time = fields.Integer(compute='check_if_display_warning')
+    warning_copy = fields.Boolean(copy=False)
 
     
     def action_sale_quotations_new(self):
