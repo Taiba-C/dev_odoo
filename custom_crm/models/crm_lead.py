@@ -69,6 +69,6 @@ class Lead(models.Model):
                 res.order_ids.action_cancel()
         #if res.dbut_salon - date.today() > timedelta(0):
         res.warning_copy = True
-        res.warning_display_time = 0
+        res.warning_display_time = 1
         return res
         
