@@ -30,6 +30,7 @@ class Lead(models.Model):
             if rec.warning_copy:
                 if rec.warning_display_time == 0:
                     rec.warning_display_time = 1
+                    rec.sudo().write({'warning_copy':False})
                 else:
                     rec.warning_display_time += 1
                     rec.sudo().write({'warning_copy':False})
