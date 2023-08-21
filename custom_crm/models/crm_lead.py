@@ -64,8 +64,8 @@ class Lead(models.Model):
         if res.order_ids:
             if res.order_ids.state == "sale":
                 res.order_ids.action_cancel()
-        if res.dbut_salon - date.today() > timedelta(0):
-            res.warning_copy = True
-            res.warning_display_time = 1
+        #if res.dbut_salon - date.today() > timedelta(0):
+        res.warning_copy = True
+        res.warning_display_time = 1
         return res
         
