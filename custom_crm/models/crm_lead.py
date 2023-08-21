@@ -27,13 +27,13 @@ class Lead(models.Model):
     def check_if_display_warning(self):
         for rec in self:
             if rec.warning_copy:
-                if rec.warning_display_time == 1 :
-                    rec.warning_display_time = 2
-                    rec.warning_copy = False
+                if rec.warning_display_time == 0:
+                    rec.warning_display_time = 1
                 else:
-                    rec.warning_display_time = 3
+                    rec.warning_display_time += 1
+                    rec.warning_copy = False
             else:
-                rec.warning_display_time = 4
+                rec.warning_display_time = 1
     warning_display_time = fields.Integer(compute='check_if_display_warning')
     warning_copy = fields.Boolean(copy=False)
 
@@ -69,6 +69,6 @@ class Lead(models.Model):
                 res.order_ids.action_cancel()
         #if res.dbut_salon - date.today() > timedelta(0):
         res.warning_copy = True
-        res.warning_display_time = 1
+        res.warning_display_time = 0
         return res
         
