@@ -33,7 +33,7 @@ class Lead(models.Model):
                     rec.warning_display_time += 1
                     rec.warning_copy = False
             else:
-                rec.warning_display_time = 1
+                rec.warning_display_time = 2
     warning_display_time = fields.Integer(compute='check_if_display_warning')
     warning_copy = fields.Boolean(copy=False)
 
