@@ -32,6 +32,7 @@ class Lead(models.Model):
                 rec.warning_copy = False
             else:
                 rec.warning_display_time = 1 
+                rec.warning_copy = True
 
     
     def action_sale_quotations_new(self):
