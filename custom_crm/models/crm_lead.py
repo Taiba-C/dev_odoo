@@ -27,7 +27,7 @@ class Lead(models.Model):
     warning_display_time = fields.Integer()
     def check_if_display_warning(self):
         for rec in self:
-            if rec.warning_display_time > 1 and rec.warning_copy:
+            if rec.warning_display_time >= 1 and rec.warning_copy:
                 rec.warning_copy = False
             else:
                 return 
@@ -64,6 +64,6 @@ class Lead(models.Model):
                 res.order_ids.action_cancel()
                 if res.dbut_salon - date.today() > timedelta(0):
                     res.warning_copy = True
-                    res.warning_display_time = 1
+                    res.warning_display_time = 0
         return res
         
