@@ -23,8 +23,8 @@ class Lead(models.Model):
     remarques_montage = fields.Text(string='Remarques')
     date_de_demontage_du = fields.Date(string='Date de démontage Du')
     date_de_demontage_au = fields.Date(string='Au')
-    warning_copy = fields.Boolean(copy=False,compute='check_if_display_warning')
-    warning_display_time = fields.Integer(default=0)
+    warning_copy = fields.Boolean(copy=False)
+    warning_display_time = fields.Integer(compute='check_if_display_warning')
     #@api.depends("warning_copy")
     def check_if_display_warning(self):
         for rec in self:
@@ -32,8 +32,7 @@ class Lead(models.Model):
                 rec.warning_copy = False
                 rec.rec.warning_display_time = 0
             else:
-                rec.warning_display_time = 1
-                rec.warning_copy = True
+                rec.rec.warning_display_time = 1
 
     
     def action_sale_quotations_new(self):
@@ -67,6 +66,6 @@ class Lead(models.Model):
                 res.order_ids.action_cancel()
         #if res.dbut_salon - date.today() > timedelta(0):
         res.warning_copy = True
-        res.warning_display_time = 1
+        res.warning_display_time = 0
         return res
         
