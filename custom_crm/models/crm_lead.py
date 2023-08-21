@@ -25,7 +25,7 @@ class Lead(models.Model):
     date_de_demontage_au = fields.Date(string='Au')
     warning_copy = fields.Boolean(default=False,copy=False)
     warning_display_time = fields.Integer()
-    @api.depends("warning_copy")
+    #@api.depends("warning_copy")
     def check_if_display_warning(self):
         for rec in self:
             if rec.warning_display_time > 1 and rec.warning_copy:
