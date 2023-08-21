@@ -23,7 +23,7 @@ class Lead(models.Model):
     remarques_montage = fields.Text(string='Remarques')
     date_de_demontage_du = fields.Date(string='Date de démontage Du')
     date_de_demontage_au = fields.Date(string='Au')
-    warning_copy = fields.Boolean(default=False)
+    warning_copy = fields.Boolean(default=False,copy=False)
     warning_display_time = fields.Integer()
     def check_if_display_warning(self):
         for rec in self:
