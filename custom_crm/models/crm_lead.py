@@ -28,7 +28,7 @@ class Lead(models.Model):
     #@api.depends("warning_copy")
     def check_if_display_warning(self):
         for rec in self:
-            if rec.warning_display_time == 1 and rec.warning_copy == True:
+            if rec.warning_display_time == 1:
                 rec.warning_copy = False
                 rec.warning_display_time = 0
             else:
