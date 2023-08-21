@@ -76,8 +76,15 @@ class StockQuantityLine(models.TransientModel):
     product_id = fields.Many2one(
         comodel_name='product.product',
         string='Article',
-        store=True,
-        readonly=True
     )
-    quantity = fields.Float(string='Quantity')
+    product_id_visible = fields.Many2one(
+        comodel_name='product.product',
+        string='Article',
+        compute="_compute_product_id_visible"
+    )
+    quantity = fields.Float(string='Quantité')
     
+    @api.depends('product_id')
+    def _compute_product_id_visible(self):
+        for record in self:
+            record.product_id_visible = record.product_id

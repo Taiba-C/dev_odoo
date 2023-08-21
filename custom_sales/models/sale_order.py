@@ -59,7 +59,7 @@ class Sale_order(models.Model):
             """
             self.clear_sale_order_option()
         
-        self.delete_option_without_order_line(self.id)  
+        # self.delete_option_without_order_line(self.id)  
         
         self.create_sale_order_option(boms=products, order_id=self.id,  o_l_id=order_line)
           
