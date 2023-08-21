@@ -31,7 +31,7 @@ class Lead(models.Model):
                     rec.warning_display_time = 1
                 else:
                     rec.warning_display_time += 1
-                    rec.write({'warning_copy':False})
+                    rec.sudo().write({'warning_copy':False})
             else:
                 rec.warning_display_time = 2
     warning_display_time = fields.Integer(compute='check_if_display_warning')
