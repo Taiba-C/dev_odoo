@@ -633,14 +633,14 @@ class Sale_order(models.Model):
         # for x_studio_rfrence_du_dossier
         Sale_orders = self.env['sale.order'].sudo().search([])
         for sale_order in Sale_orders:
-            if sale_order.x_studio_rfrence_du_dossier:
+            if sale_order.x_studio_version_du_devis:
                 # if sale_order.state == "sale":
                 #     sale_order.action_cancel()
                 #     sale_order.action_draft()
                 #     sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id,'version_du_devis':sale_order.x_studio_version_du_devis})
                 #     sale_order.action_confirm()
                 # else:
-                sale_order.write({'rfrence_du_dossier':sale_order.x_studio_rfrence_du_dossier.id,'version_du_devis':sale_order.x_studio_version_du_devis})
+                sale_order.write({'version_du_devis':sale_order.x_studio_version_du_devis})
     
     def action_show_manufactured_order(self):
        
