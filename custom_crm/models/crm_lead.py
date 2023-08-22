@@ -53,7 +53,7 @@ class Lead(models.Model):
         for crm_lead in crm_leads:
             crm_lead.sudo().write({'dbut_salon':crm_lead.x_studio_dbut_salon,'fin_salon':crm_lead.x_studio_fin_salon,'salon':crm_lead.x_studio_salon,
                                    'lieu_du_salon':crm_lead.x_studio_lieu_du_salon,'stand_n':crm_lead.x_studio_stand_n,'hall':crm_lead.x_studio_hall,
-                                   'allee':crm_lead.x_studio_alle,'surface_en_m':crm_lead.x_studio_surface_en_m,'remarques':crm_lead.x_studio_remarques,
+                                   'allee':crm_lead.x_studio_alle,'surface_en_m':crm_lead.x_studio_surface_en_m,'remarques':crm_lead.x_studio_remarque,
                                    'date_de_montage_du':crm_lead.x_studio_date_de_montage_1,'date_de_montage_au':crm_lead.x_studio_au,
                                    'remarques_montage':crm_lead.x_studio_remarque_1,'date_de_demontage_du':crm_lead.x_studio_date_de_dmontage_2,
                                    'date_de_demontage_au':crm_lead.x_studio_au_1})
