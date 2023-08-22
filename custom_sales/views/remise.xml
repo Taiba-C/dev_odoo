@@ -22,7 +22,6 @@
 			<tree string="Remise" create="false">
 					<field name="name" />
 					<field name="taux_de_remise" />
-					<field name="department_name" />
 			</tree>
 		</field>
 	</record>
