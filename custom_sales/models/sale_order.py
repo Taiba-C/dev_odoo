@@ -59,7 +59,7 @@ class Sale_order(models.Model):
             """
             self.clear_sale_order_option()
         
-        self.delete_option_without_order_line(self.id)  
+        # self.delete_option_without_order_line(self.id)  
         
         self.create_sale_order_option(boms=products, order_id=self.id,  o_l_id=order_line)
           
@@ -420,7 +420,7 @@ class Sale_order(models.Model):
         
         
         if self.is_bom_generated == False:
-            raise UserError("Vous avez oublié de cliquer sur le bouton de chiffrage")
+            raise UserError("Vous avez oublié de faire un chiffrage")
         
         is_service = bool
         for line in self.sale_order_option_ids:
@@ -479,7 +479,7 @@ class Sale_order(models.Model):
                         for raw_material in option:  
                             move_raw_vals.append({
                                 'product_id': raw_material.product_id.id,
-                                'product_uom_qty': raw_material.quantity,  
+                                'product_uom_qty': raw_material.quantity * order_line.qty,
                                 'name': raw_material.product_id.display_name,
                                 'product_uom': raw_material.product_id.uom_id.id,
                                 'raw_material_production_id': mrp.id,

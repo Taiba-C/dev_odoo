@@ -34,9 +34,6 @@
 
                     <field name="rfrence_du_dossier" readonly='1' force_save='1'/>
                     <field name="version_du_devis"/>
-                    <button name="generate_bom_order" 
-                    attrs="{ 'invisible': [('state', '!=', 'draft')] }"
-                    string="Encryption" type="object" class="oe_highlight"/>
                     
                 </xpath>
 
@@ -173,6 +170,7 @@
 
                     <field name="qty" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
                     <field name="temp_price_unit" readonly="1" force_save="1"/>
+                    <field name="is_costed" invisible="1" force_save="1"/>
 
                 </xpath>
 
@@ -190,7 +188,7 @@
 
                 <!-- add button for costing table -->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
-                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
+                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': [('state', '!=', 'draft')] }" />
                 </xpath>
             </field>
         </record>
