@@ -83,10 +83,14 @@ class SaleOrderLine(models.Model):
     def action_costing(self):
         self.ensure_one()
         action = self.env.ref('custom_sales.action_component_selection_wizard').read()[0]
+
+        mrp_bom = self.env['mrp.bom'].search([('product_tmpl_id', '=', self.product_template_id.id)])
+        mrp_bom_line = self.env['mrp.bom.line'].search([('bom_id', '=', mrp_bom.id)]).ids
         
         action['context'] = {
             'product_id': self.product_id.id,
             'order_line_id': self.id,
+            'mrp_bom_line': list(set(mrp_bom_line)),
         }
         return action    
    
