@@ -15,8 +15,11 @@ class Sale_order(models.Model):
     @api.depends('origin')
     def get_ref_dossier(self):
         for rec in self:
-            if rec.opportunity_id.ensure_one():
-                rec.rfrence_du_dossier = rec.opportunity_id.id
+            if rec.opportunity_id:
+                if rec.opportunity_id.ensure_one():
+                    rec.rfrence_du_dossier = rec.opportunity_id.id
+                else:
+                    rec.rfrence_du_dossier = None
             else:
                 rec.rfrence_du_dossier = None
 
