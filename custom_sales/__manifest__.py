@@ -33,6 +33,7 @@
                 'crm',
                 'stock',
                 'mrp',
+                'one2many_search_widget',
                 ],
 
     # always loaded
