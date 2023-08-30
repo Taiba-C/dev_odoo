@@ -84,6 +84,7 @@ class SaleOrderOption(models.Model):
             self.margin_percent = self.margin / self.total_sale_price
     
     def copy(self, default=None):
+        # comment
         self.ensure_one()
         res = super(SaleOrderOption, self).copy(default)
         res.parent_id = self.parent_id.id if self.parent_id else None
