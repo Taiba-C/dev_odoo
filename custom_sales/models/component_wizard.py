@@ -22,7 +22,8 @@ class ComponentSelectionWizard(models.TransientModel):
         order_options.unlink()
 
         for line in self.option_ids:
-            product_boms.append({'id': line.product_id.id, 'quantity': line.quantity})
+            if line.selected_product:
+                product_boms.append({'id': line.product_id.id, 'quantity': line.quantity})
 
         order_line = self.order_line_id
         order_line.order_id.generate_bom_order(products=product_boms, order_line=self.order_line_id.id)
@@ -76,17 +77,18 @@ class ComponentSelectionWizard(models.TransientModel):
                     if bom_line.product_id.id in product_options_ids:
                         for line in options_info:
                             if bom_line.product_id.id == line['product_id'] and bom_line.product_qty != line['quantity'] and bom_line.product_id.active == True:
-
-                                    lines.append((0, 0, {
+                                lines.append((0, 0, {
                                         'product_id': line['product_id'],
                                         'quantity': line['quantity'],
-                                        'updated': line['quantity'],
+                                        'updated': True,
+                                        'selected_product': True,
                                         # Add other fields as needed
                                     }))
                             elif bom_line.product_id.id == line['product_id'] and bom_line.product_id.active == True:
                                 lines.append((0, 0, {
                                     'product_id': line['product_id'],
                                     'quantity': line['quantity'],
+                                    'selected_product': True,
                                     # Add other fields as needed
                                 }))
                     elif bom_line.product_id.active == True:
@@ -132,7 +134,14 @@ class StockQuantityLine(models.TransientModel):
 
     updated = fields.Boolean("Modifié")
 
+    selected_product = fields.Boolean('Selection')
+
     @api.depends('product_id')
     def _compute_product_id_visible(self):
         for record in self:
             record.product_id_visible = record.product_id
+
+    @api.onchange('quantity')
+    def _onchange_quantity(self):
+        if not self.selected_product:
+            self.selected_product = True
