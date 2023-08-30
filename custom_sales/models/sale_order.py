@@ -26,7 +26,7 @@ class Sale_order(models.Model):
             sale_order_option_ids = self.env['sale.order.option'].search([('order_id','=', rec.id)])
             if len(sale_order_option_ids) > 0:
                 for order_option in sale_order_option_ids:
-                    product_name = order_option.order_line_id.name.split('-')[1] if '-' in order_option.order_line_id.name else ''
+                    product_name = order_option.order_line_id.display_name.split('-')[1] if '-' in order_option.order_line_id.display_name else ''
                     old_line = rec.name+' - '+product_name
                     for line in order_line_ids:
                         if line.name == old_line:
