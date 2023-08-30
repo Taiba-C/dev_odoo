@@ -479,14 +479,15 @@ class Sale_order(models.Model):
                         role = False
                         
                         # generate line for move_raw_ids in line mrp
-                        for raw_material in option:  
-                            move_raw_vals.append({
-                                'product_id': raw_material.product_id.id,
-                                'product_uom_qty': raw_material.quantity * order_line.qty,
-                                'name': raw_material.product_id.display_name,
-                                'product_uom': raw_material.product_id.uom_id.id,
-                                'raw_material_production_id': mrp.id,
-                            })
+                        for raw_material in option:
+                            if raw_material.product_id.detailed_type != 'service':
+                                move_raw_vals.append({
+                                    'product_id': raw_material.product_id.id,
+                                    'product_uom_qty': raw_material.quantity * order_line.qty,
+                                    'name': raw_material.product_id.display_name,
+                                    'product_uom': raw_material.product_id.uom_id.id,
+                                    'raw_material_production_id': mrp.id,
+                                })
                             
                         if option.product_id.categ_id.name == 'Main d\'oeuvre':
                             if option.product_id.name == 'MO USINAGE':
@@ -515,7 +516,7 @@ class Sale_order(models.Model):
                             if work_center :
                                 work_order = self.env['mrp.workorder'].create({
                                     'product_id': option.product_id.id,
-                                    #'qty_remaining': option.quantity,
+                                    'qty_remaining': option.quantity,
                                     'name': option.name,
                                     'workcenter_id': work_center.id,
                                     'product_uom_id':option.product_id.uom_id.id,
