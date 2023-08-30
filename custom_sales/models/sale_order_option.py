@@ -90,7 +90,8 @@ class SaleOrderOption(models.Model):
         res.purchase_price = self.purchase_price if self.purchase_price else 0
         res.margin = self.margin if self.margin else 0
         res.total_purchase_price = self.total_purchase_price if self.total_purchase_price else 0
-        res.order_line_id = self.order_line_id.id if self.order_line_id else None
+        order_line_id = self._context.get('order_line_id')
+        res.order_line_id = order_line_id if order_line_id else None
         res.quantity = self.quantity if self.quantity else 0
         return res
     
