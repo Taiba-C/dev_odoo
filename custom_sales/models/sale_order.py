@@ -29,9 +29,9 @@ class Sale_order(models.Model):
                     if order_option.order_line_id:
                         if '-' in order_option.order_line_id.display_name:
                             product_name = order_option.order_line_id.display_name.split('-')[1]
-                            old_line = rec.name+' -'+product_name
+                            #old_line = rec.name+' -'+product_name
                             for line in order_line_ids:
-                                if line.name == old_line:
+                                if product_name in line.name:
                                     order_option.order_line_id = line.id
 
     rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
