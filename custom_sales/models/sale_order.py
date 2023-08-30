@@ -32,8 +32,6 @@ class Sale_order(models.Model):
                         for line in order_line_ids:
                             if line.name == old_line:
                                 order_option.order_line_id = line.id
-                            else:
-                                order_option.order_line_id = None
 
     rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
     version_du_devis = fields.Char(string='Version du devis')
