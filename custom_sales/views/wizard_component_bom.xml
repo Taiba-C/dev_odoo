@@ -23,9 +23,10 @@
 <!--                            </page>-->
                             <page name="component_in_options" string="Composant du tableau de chiffrage">
                                 <field name="option_ids" widget="one2many_search">
-                                    <tree string="Composants" editable="bottom" create="false" decoration-success="updated==True ">
+                                    <tree string="Composants" editable="bottom" create="false" decoration-success="updated==True " >
+                                        <field name="selected_product" nolabel="1"/>
                                         <field name="product_id" invisible="1" />
-                                        <field name="product_id_visible"  readonly="1" />
+                                        <field name="product_id_visible" options="{'no_open': True}" readonly="1" />
                                         <field name="updated" invisible="1"/>
                                         <field name="quantity"/>
                                     </tree>
