@@ -82,7 +82,18 @@ class SaleOrderOption(models.Model):
         self.margin = self.total_sale_price - self.total_purchase_price
         if self.total_sale_price > 0:
             self.margin_percent = self.margin / self.total_sale_price
-                
+    
+    def copy(self, default=None):
+        self.ensure_one()
+        res = super(SaleOrderOption, self).copy(default)
+        res.parent_id = self.parent_id.id if self.parent_id else None
+        res.purchase_price = self.purchase_price if self.purchase_price else 0
+        res.margin = self.margin if self.margin else 0
+        res.total_purchase_price = self.total_purchase_price if self.total_purchase_price else 0
+        res.order_line_id = self.order_line_id.id if self.order_line_id else None
+        res.quantity = self.quantity if self.quantity else 0
+        return res
+    
 class Planning_slot(models.Model):
     _inherit = 'planning.slot'
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
@@ -181,7 +192,7 @@ class Planning_slot(models.Model):
         if self.role_id.name == 'task_role':
             # Mettre à jour la valeur du champ role_id avec la valeur souhaitée pour le rôle "task_role"
             self.role_id = self.env['res.partner'].search([('name', '=', 'task_role')], limit=1)        
-                                                        
+                                                     
 class Task_custom(models.Model):
     _inherit = 'project.task'
 
