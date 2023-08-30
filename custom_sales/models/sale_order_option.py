@@ -98,6 +98,8 @@ class SaleOrderOption(models.Model):
             if line.name == product_name:
                 res.order_line_id = line.id
                 break
+            else:
+                res.order_line_id = None
         res.quantity = self.quantity if self.quantity else 0
         return res
     
