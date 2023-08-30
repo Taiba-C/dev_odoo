@@ -32,7 +32,8 @@ class Sale_order(models.Model):
                             new_line = rec.name+' -'+product_name
                             new_line_id = self.env['sale.order.line'].search([('display_name','=',new_line)])
                             if new_line_id:
-                                order_option.order_line_id = new_line_id[0].id
+                                raise UserError("Test! "+new_line+" "+new_line_id.display_name)
+                                #order_option.order_line_id = new_line_id[0].id
                                 # else:
                                 #     raise UserError("Test! "+old_line+" "+line.name)
 
