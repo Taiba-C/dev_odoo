@@ -90,7 +90,13 @@ class SaleOrderOption(models.Model):
         res.purchase_price = self.purchase_price if self.purchase_price else 0
         res.margin = self.margin if self.margin else 0
         res.total_purchase_price = self.total_purchase_price if self.total_purchase_price else 0
-        res.order_line_id = self.order_line_id if self.order_line_id else None
+        product_name = res.order_line_id.name.split('-')[1]
+        order_line_ids = self.env['sale.order.line'].search([('order_id','=',res.order_id.id)])
+        for line in order_line_ids:
+            product_name = res.order_id.name+' - '+product_name
+            if line.name == product_name:
+                res.order_line_id = line.id
+                break
         res.quantity = self.quantity if self.quantity else 0
         return res
     
