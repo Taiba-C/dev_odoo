@@ -22,17 +22,17 @@ class Sale_order(models.Model):
                     rec.rfrence_du_dossier = None
             else:
                 rec.rfrence_du_dossier = None
-            order_line_ids = self.env['sale.order.line'].search([('order_id','=',rec.id)])
+            #order_line_ids = self.env['sale.order.line'].search([('order_id','=',rec.id)])
             sale_order_option_ids = self.env['sale.order.option'].search([('order_id','=', rec.id)])
             if len(sale_order_option_ids) > 0:
                 for order_option in sale_order_option_ids:
                     if order_option.order_line_id:
                         if '-' in order_option.order_line_id.display_name:
                             product_name = order_option.order_line_id.display_name.split('-')[1]
-                            old_line = rec.name+' -'+product_name
-                            for line in order_line_ids:
-                                if old_line in line.name:
-                                    order_option.order_line_id = line.id
+                            new_line = rec.name+' -'+product_name
+                            new_line_id = self.env['sale.order.line'].search([('display_name','=',new_line)])
+                            if new_line_id:
+                                order_option.order_line_id = new_line_id.id
                                 # else:
                                 #     raise UserError("Test! "+old_line+" "+line.name)
 
