@@ -130,11 +130,11 @@ class StockQuantityLine(models.TransientModel):
         string='Article',
         compute="_compute_product_id_visible"
     )
-    quantity = fields.Float(string='Quantité')
+    quantity = fields.Float(string='Quantité',copy=True)
 
-    updated = fields.Boolean("Modifié")
+    updated = fields.Boolean("Modifié",copy=True)
 
-    selected_product = fields.Boolean('Selection')
+    selected_product = fields.Boolean('Selection',copy=True)
 
     @api.depends('product_id')
     def _compute_product_id_visible(self):
