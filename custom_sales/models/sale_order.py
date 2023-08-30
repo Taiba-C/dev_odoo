@@ -26,12 +26,13 @@ class Sale_order(models.Model):
             sale_order_option_ids = self.env['sale.order.option'].search([('order_id','=', rec.id)])
             if len(sale_order_option_ids) > 0:
                 for order_option in sale_order_option_ids:
-                    if '-' in order_option.order_line_id.display_name:
-                        product_name = order_option.order_line_id.display_name.split('-')[1]
-                        old_line = rec.name+' - '+product_name
-                        for line in order_line_ids:
-                            if line.name == old_line:
-                                order_option.order_line_id = line.id
+                    if order_option.order_line_id:
+                        if '-' in order_option.order_line_id.display_name:
+                            product_name = order_option.order_line_id.display_name.split('-')[1]
+                            old_line = rec.name+' - '+product_name
+                            for line in order_line_ids:
+                                if line.name == old_line:
+                                    order_option.order_line_id = line.id
 
     rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
     version_du_devis = fields.Char(string='Version du devis')
