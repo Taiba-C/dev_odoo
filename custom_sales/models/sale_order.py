@@ -31,10 +31,10 @@ class Sale_order(models.Model):
                             product_name = order_option.order_line_id.display_name.split('-')[1]
                             old_line = rec.name+' -'+product_name
                             for line in order_line_ids:
-                                if product_name in line.name:
+                                if old_line in line.display_name:
                                     order_option.order_line_id = line.id
                                 else:
-                                    raise UserError("Test! "+old_line+" "+line.name)
+                                    raise UserError("Test! "+old_line+" "+line.display_name)
 
     rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
     version_du_devis = fields.Char(string='Version du devis')
