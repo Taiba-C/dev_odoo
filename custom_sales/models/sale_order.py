@@ -24,7 +24,7 @@ class Sale_order(models.Model):
                 rec.rfrence_du_dossier = None
             order_line_ids = self.env['sale.order.line'].search([('order_id','=',rec.id)])
             sale_order_option_ids = self.env['sale.order.option'].search([('order_id','=', rec.id)])
-            if sale_order_option_ids:
+            if len(sale_order_option_ids) > 1:
                 for order_option in sale_order_option_ids:
                     product_name = order_option.order_line_id.name.split('-')[1]
                     old_line = rec.name+' - '+product_name
