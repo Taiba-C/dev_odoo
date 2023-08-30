@@ -24,14 +24,15 @@ class Sale_order(models.Model):
                 rec.rfrence_du_dossier = None
             order_line_ids = self.env['sale.order.line'].search([('order_id','=',rec.id)])
             sale_order_option_ids = self.env['sale.order.option'].search([('order_id','=', rec.id)])
-            for order_option in sale_order_option_ids:
-                product_name = order_option.order_line_id.name.split('-')[1]
-                old_line = rec.name+' - '+product_name
-                for line in order_line_ids:
-                    if line.name == old_line:
-                        order_option.order_line_id = line.id
-                    else:
-                        order_option.order_line_id = None
+            if sale_order_option_ids:
+                for order_option in sale_order_option_ids:
+                    product_name = order_option.order_line_id.name.split('-')[1]
+                    old_line = rec.name+' - '+product_name
+                    for line in order_line_ids:
+                        if line.name == old_line:
+                            order_option.order_line_id = line.id
+                        else:
+                            order_option.order_line_id = None
 
     rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
     version_du_devis = fields.Char(string='Version du devis')
