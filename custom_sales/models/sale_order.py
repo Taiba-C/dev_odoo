@@ -33,8 +33,8 @@ class Sale_order(models.Model):
                             for line in order_line_ids:
                                 if old_line in line.display_name:
                                     order_option.order_line_id = line.id
-                                else:
-                                    raise UserError("Test! "+old_line+" "+line.display_name)
+                                # else:
+                                #     raise UserError("Test! "+old_line+" "+line.display_name)
 
     rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
     version_du_devis = fields.Char(string='Version du devis')
