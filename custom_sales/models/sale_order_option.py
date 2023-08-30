@@ -8,21 +8,21 @@ from odoo.exceptions import UserError
 class SaleOrderOption(models.Model):
     _inherit = 'sale.order.option'
         
-    parent_id = fields.Many2one('product.template', string='Parent')
+    parent_id = fields.Many2one('product.template', string='Parent',copy=True)
     
-    purchase_price = fields.Float('Purchase price')
+    purchase_price = fields.Float('Purchase price',copy=True)
     
-    margin = fields.Float('Margin €', readonly=True)
+    margin = fields.Float('Margin €', readonly=True,copy=True)
     
-    margin_product = fields.Float('Ratios', digits=(10, 4))
+    margin_product = fields.Float('Ratios', digits=(10, 4),copy=True)
     
-    margin_percent = fields.Float('Margin %', readonly=True)
+    margin_percent = fields.Float('Margin %', readonly=True,copy=True)
     
-    total_purchase_price = fields.Float('Total purchase price', readonly=True)
+    total_purchase_price = fields.Float('Total purchase price', readonly=True,copy=True)
     
     order_line_id = fields.Many2one('sale.order.line', string='Order Line',ondelete='cascade')
     
-    total_sale_price = fields.Float('Total sale price', readonly=True)
+    total_sale_price = fields.Float('Total sale price', readonly=True,copy=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
     planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
     work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')   
