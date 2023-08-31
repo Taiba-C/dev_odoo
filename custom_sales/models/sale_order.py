@@ -668,7 +668,21 @@ class Sale_order(models.Model):
         action = self.env.ref('mrp.mrp_production_action').read()[0]
         action['domain'] = [('id', 'in', mos.ids)]
         return action
-    
+
+    @api.onchange('order_line')
+    def _autosave_order_line(self):
+        """
+            get all id of order_line_id in order options
+            test if each id of order line match in ids in order options
+            if not unlink else pass
+        """
+        order_option_ids = set(self.sale_order_option_ids.mapped('order_line_id').ids)
+        order_line_ids = self.order_line.ids
+        for line in order_option_ids:
+            if line not in order_line_ids:
+                order_options = self.env['sale.order.option'].search([('order_line_id', '=', line)])
+                order_options.unlink()
+
   
   
 class ProjectProject(models.Model):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
