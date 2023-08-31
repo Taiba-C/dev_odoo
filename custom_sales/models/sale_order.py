@@ -683,7 +683,7 @@ class Sale_order(models.Model):
                 order_options = self.env['sale.order.option'].search([('order_line_id', '=', line)])
                 order_options.unlink()
 
-        return super(Sale_order, self).onchange_order_line()
+        # return super(Sale_order, self).onchange_order_line()
 
   
   
