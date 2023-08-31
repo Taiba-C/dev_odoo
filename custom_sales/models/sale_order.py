@@ -670,7 +670,7 @@ class Sale_order(models.Model):
         return action
 
     @api.onchange('order_line')
-    def _autosave_order_line(self):
+    def onchange_order_line(self):
         """
             get all id of order_line_id in order options
             test if each id of order line match in ids in order options
@@ -682,6 +682,8 @@ class Sale_order(models.Model):
             if line not in order_line_ids:
                 order_options = self.env['sale.order.option'].search([('order_line_id', '=', line)])
                 order_options.unlink()
+
+        return super(Sale_order, self).onchange_order_line()
 
   
   
