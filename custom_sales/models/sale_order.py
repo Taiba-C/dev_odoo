@@ -682,6 +682,7 @@ class Sale_order(models.Model):
             if line not in order_line_ids:
                 order_options = self.env['sale.order.option'].search([('order_line_id', '=', line)])
                 order_options.unlink()
+                pass
 
         # return super(Sale_order, self).onchange_order_line()
 
