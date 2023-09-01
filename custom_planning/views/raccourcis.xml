@@ -75,7 +75,7 @@
     <record id="action_document_nesil" model="ir.actions.act_window">
         <field name="name">Documents</field>
         <field name="res_model">documents.document</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">tree,form</field>
     </record>
     
 </odoo>
