@@ -25,7 +25,7 @@
             id="crm_menu_custom_document"
             name="Documents"
             parent="crm_menu_raccourcis"
-            action="crm.action_your_pipeline"
+            action="custom_planning.action_document_nesil"
             sequence="3"
         />
     <menuitem
@@ -61,7 +61,7 @@
             id="sale_menu_custom_document"
             name="Documents"
             parent="sale_menu_raccourcis"
-            action="crm.action_your_pipeline"
+            action="custom_planning.action_document_nesil"
             sequence="3"
         />
     <menuitem
@@ -71,5 +71,13 @@
             action="custom_planning.action_mrp_workorder_production_nesil"
             sequence="4"
         />
+    
+    <record id="action_document_nesil" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">documents.document</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="view_workcenter_load_pivot_nesil"/>
+    </record>
     
 </odoo>
