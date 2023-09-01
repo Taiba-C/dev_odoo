@@ -477,7 +477,7 @@
         <field name="domain">[('production_state','not in',('done','cancel'))]</field>
         <field name="view_mode">gantt,tree,form,calendar,pivot,graph</field>
         <field name="search_view_id" ref="view_mrp_production_workorder_form_view_filter_nesil"/>
-        <field name="view_id" ref="workcenter_line_gantt_production"/>
+        <field name="view_id" ref="workcenter_line_gantt_production_nesil"/>
         <field name="context">{'search_default_production': True, 'search_default_work_center':True}</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
@@ -544,7 +544,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">mrp.workorder</field>
         <field name="view_mode">graph,pivot</field>
-        <field name="view_id" ref="view_workcenter_load_pivot"/>
+        <field name="view_id" ref="view_workcenter_load_pivot_nesil"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No data yet!
@@ -554,7 +554,7 @@
 
     <record id="action_mrp_workcenter_load_report_pivot_nesil" model="ir.actions.act_window.view">
         <field name="view_mode">graph</field>
-        <field name="view_id" ref="view_work_center_load_graph"/>
+        <field name="view_id" ref="view_work_center_load_graph_nesil"/>
         <field name="act_window_id" ref="action_mrp_workcenter_load_report_graph"/>
     </record>
 </odoo>
