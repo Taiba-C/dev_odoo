@@ -11,6 +11,7 @@
             name="Devis"
             parent="crm_menu_raccourcis"
             action="sale.action_quotations_with_onboarding"
+            sequence="1"
         />
 
     <menuitem
@@ -18,6 +19,21 @@
             name="CRM"
             parent="crm_menu_raccourcis"
             action="crm.action_your_pipeline"
+            sequence="2"
+        />
+    <menuitem
+            id="crm_menu_custom_document"
+            name="Documents"
+            parent="crm_menu_raccourcis"
+            action="crm.action_your_pipeline"
+            sequence="3"
+        />
+    <menuitem
+            id="crm_menu_custom_planning"
+            name="Planning"
+            parent="crm_menu_raccourcis"
+            action="planning.action_mrp_workorder_production"
+            sequence="4"
         />
     
 </odoo>
