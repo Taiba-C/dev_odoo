@@ -127,7 +127,7 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="mrp_production_workorder_form_view_nesil_inherit">
+    <record model="ir.ui.view" id="mrp_production_workorder_form_view_inherit_nesil">
         <field name="name">mrp.production.work.order.form</field>
         <field name="model">mrp.workorder</field>
         <field name="arch" type="xml">
@@ -327,7 +327,7 @@
                 color="workcenter_id"
                 display_unavailability="1"
                 sample="1"
-                form_view_id="%(mrp_production_workorder_form_view_inherit)d">
+                form_view_id="%(mrp_production_workorder_form_view_inherit_nesil)d">
 
                 <field name="date_planned_start"/>
                 <field name="state"/>
@@ -364,7 +364,7 @@
                 color="production_id"
                 display_unavailability="1"
                 progress_bar="workcenter_id"
-                form_view_id="mrp_production_workorder_form_view_inherit">
+                form_view_id="mrp_production_workorder_form_view_inherit_nesil">
 
                 <field name="date_planned_start"/>
                 <field name="state"/>
@@ -457,7 +457,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">mrp.workorder</field>
         <field name="view_mode">gantt,tree,form,calendar,pivot,graph</field>
-        <field name="search_view_id" ref="view_mrp_production_workorder_form_view_filter"/>
+        <field name="search_view_id" ref="view_mrp_production_workorder_form_view_filter_nesil"/>
         <field name="view_id" ref="mrp_workorder_view_gantt"/>
         <field name="context">{'search_default_work_center': True, 'search_default_production': True}</field>
         <field name="help" type="html">
@@ -476,7 +476,7 @@
         <field name="res_model">mrp.workorder</field>
         <field name="domain">[('production_state','not in',('done','cancel'))]</field>
         <field name="view_mode">gantt,tree,form,calendar,pivot,graph</field>
-        <field name="search_view_id" ref="view_mrp_production_workorder_form_view_filter"/>
+        <field name="search_view_id" ref="view_mrp_production_workorder_form_view_filter_nesil"/>
         <field name="view_id" ref="workcenter_line_gantt_production"/>
         <field name="context">{'search_default_production': True, 'search_default_work_center':True}</field>
         <field name="help" type="html">
@@ -495,7 +495,7 @@
         <field name="res_model">mrp.workorder</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-        <field name="view_id" ref="mrp_production_workorder_form_view_inherit"/>
+        <field name="view_id" ref="mrp_production_workorder_form_view_inherit_nesil"/>
     </record>
 
     <record model="ir.actions.act_window" id="mrp_workorder_todo_nesil">
@@ -503,7 +503,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">mrp.workorder</field>
         <field name="view_mode">tree,kanban,form,calendar,pivot,graph,gantt</field>
-        <field name="search_view_id" ref="view_mrp_production_workorder_form_view_filter"/>
+        <field name="search_view_id" ref="view_mrp_production_workorder_form_view_filter_nesil"/>
         <field name="context">{'search_default_production': True, 'search_default_work_center':True}</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
