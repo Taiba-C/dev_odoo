@@ -89,6 +89,7 @@ class ComponentSelectionWizard(models.TransientModel):
                                     'product_id': line['product_id'],
                                     'quantity': line['quantity'],
                                     'selected_product': True,
+                                    'updated': True,
                                     # Add other fields as needed
                                 }))
                     elif bom_line.product_id.active == True:
