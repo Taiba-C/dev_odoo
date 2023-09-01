@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="mrp_workorder_search_nesil" model="ir.ui.view">
+                <field name="name">mrp.workorder.search.nesil</field>
+                <field name="model">mrp.workordert</field>
+                <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter" />
+                <field name="arch" type="xml">
+                    <search>
+                        <group expand="0" string="Group By">
+                            <filter string="Group by production_id" name="groupbynesil" context="{'group_by': production_id}"/>
+                        </group>
+                    </search>
+                </field>
+            </record>
+    </data>
+</odoo>
