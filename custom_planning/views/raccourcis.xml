@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+            id="crm_menu_raccourcis"
+            name="Raccourcis"
+            parent="crm_menu_root"
+            />
+    
+    <menuitem
+            id="crm_menu_custom_crm"
+            name="CRM"
+            parent="crm_menu_raccourcis"
+            action="crm.action_your_pipeline"
+        />
+</odoo>
