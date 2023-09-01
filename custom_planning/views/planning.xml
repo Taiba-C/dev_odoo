@@ -6,6 +6,7 @@
                 <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter" />
                 <field name="arch" type="xml">
                     <search>
+                        <filter name="work_center" position="replace"/>
                         <group expand="0" string="Group By">
                         <filter string="Group by production_id" name="groupbynesil" context="{'group_by':'production_id'}"/>
                         <!-- <filter name="work_center" position="replace"/>
