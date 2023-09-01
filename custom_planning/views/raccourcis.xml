@@ -10,9 +10,9 @@
             id="crm_menu_custom_devis"
             name="Devis"
             parent="crm_menu_raccourcis"
-            action="sale.action_orders"
+            action="sale.action_quotations_with_onboarding"
         />
-        
+
     <menuitem
             id="crm_menu_custom_crm"
             name="CRM"
