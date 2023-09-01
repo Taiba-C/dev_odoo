@@ -77,7 +77,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">documents.document</field>
         <field name="view_mode">kanban,tree,form</field>
-        <field name="view_id" ref="view_workcenter_load_pivot_nesil"/>
     </record>
     
 </odoo>
