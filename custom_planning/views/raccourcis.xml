@@ -36,4 +36,40 @@
             sequence="4"
         />
     
+    <menuitem
+            id="sale_menu_raccourcis"
+            name="Raccourcis"
+            parent="sale.sale_menu_root"
+            sequence="77"
+            />
+    <menuitem
+            id="sale_menu_custom_devis"
+            name="Devis"
+            parent="sale_menu_raccourcis"
+            action="sale.action_quotations_with_onboarding"
+            sequence="1"
+        />
+
+    <menuitem
+            id="sale_menu_custom_crm"
+            name="CRM"
+            parent="sale_menu_raccourcis"
+            action="crm.action_your_pipeline"
+            sequence="2"
+        />
+    <menuitem
+            id="sale_menu_custom_document"
+            name="Documents"
+            parent="sale_menu_raccourcis"
+            action="crm.action_your_pipeline"
+            sequence="3"
+        />
+    <menuitem
+            id="sale_menu_custom_planning"
+            name="Planning"
+            parent="sale_menu_raccourcis"
+            action="mrp.action_mrp_workorder_production"
+            sequence="4"
+        />
+    
 </odoo>
