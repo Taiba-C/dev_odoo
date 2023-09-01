@@ -5,7 +5,6 @@
             <field name="model">mrp.workorder</field>
             <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter" />
             <field name="arch" type="xml">
-            <filter name="filter1" position="replace"/>
                 <xpath expr="//filter[@name='production']" position="replace">
                     <filter string="production_id_nesil" name="production_id_nesil" context="{'group_by':'production_id'}"/>
                     <filter string="workcenter_id_nesil" name="workcenter_id_nesil" context="{'group_by':'workcenter_id'}"/>
