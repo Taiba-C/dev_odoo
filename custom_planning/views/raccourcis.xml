@@ -3,7 +3,7 @@
     <menuitem
             id="crm_menu_raccourcis"
             name="Raccourcis"
-            parent="crm_menu_root"
+            parent="crm.crm_menu_root"
             />
     
     <menuitem
