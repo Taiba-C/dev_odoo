@@ -7,7 +7,13 @@
                 <field name="arch" type="xml">
                     <search>
                         <group expand="0" string="Group By">
-                            <filter string="Group by production_id" name="groupbynesil" context="{'group_by':'production_id'}"/>
+                        <filter name="work_center" position="replace"/>
+                        <filter name="work_center" position="replace"/>
+                            <xpath expr="//filter[@name='production']" position="replace">
+
+                                <filter string="Group by production_id" name="groupbynesil" context="{'group_by':'production_id'}"/>
+
+                            </xpath>        
                         </group>
                     </search>
                 </field>
