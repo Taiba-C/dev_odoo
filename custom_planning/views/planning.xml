@@ -6,7 +6,9 @@
                 <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter" />
                 <field name="arch" type="xml">
                     <xpath expr="//filter[@name='production']" position="replace">
-                        <filter string="Group by production_id" name="groupbynesil" context="{'group_by':'production_id','group_by':'workcenter_id','group_by':'employee_id'}"/>
+                        <filter string="production_id_nesil" name="production_id_nesil" context="{'group_by':'production_id'}"/>
+                        <filter string="workcenter_id_nesil" name="workcenter_id_nesil" context="{'group_by':'workcenter_id'}"/>
+                        <filter string="workcenter_id_nesil" name="employee_id_nesil" context="{'group_by':'employee_id'}"/>
                     </xpath>        
                 </field>
             </record>
