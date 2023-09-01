@@ -32,7 +32,7 @@
             id="crm_menu_custom_planning"
             name="Planning"
             parent="crm_menu_raccourcis"
-            action="planning.action_mrp_workorder_production"
+            action="planning.action_mrp_workorder_workcenter"
             sequence="4"
         />
     
