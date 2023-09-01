@@ -28,7 +28,7 @@
         # 'security/ir.model.access.csv',
         #'views/views.xml',
         #'views/templates.xml',
-        'views/planning.xml',
+        'views/planning_nesil.xml',
         'views/raccourcis.xml',
     ],
     # only loaded in demonstration mode

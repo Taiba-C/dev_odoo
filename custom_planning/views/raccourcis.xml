@@ -32,7 +32,7 @@
             id="crm_menu_custom_planning"
             name="Planning"
             parent="crm_menu_raccourcis"
-            action="mrp.action_mrp_workorder_production"
+            action="custom_planning.action_mrp_workorder_production_nesil"
             sequence="4"
         />
     
@@ -68,7 +68,7 @@
             id="sale_menu_custom_planning"
             name="Planning"
             parent="sale_menu_raccourcis"
-            action="mrp.action_mrp_workorder_production"
+            action="custom_planning.action_mrp_workorder_production_nesil"
             sequence="4"
         />
     
