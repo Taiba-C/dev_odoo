@@ -4,12 +4,19 @@
             id="crm_menu_raccourcis"
             name="Raccourcis"
             parent="crm.crm_menu_root"
+            sequence="77"
             />
     
+    <menuitem
+            id="crm_menu_custom_devis"
+            name="Devis"
+            parent="devis_menu_raccourcis"
+            action="crm.action_your_pipeline"
+        />
     <menuitem
             id="crm_menu_custom_crm"
             name="CRM"
             parent="crm_menu_raccourcis"
-            action="crm.action_your_pipeline"
+            action="sale.action_orders"
         />
 </odoo>
