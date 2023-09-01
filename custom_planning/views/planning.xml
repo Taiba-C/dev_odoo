@@ -8,7 +8,7 @@
                     <xpath expr="//filter[@name='production']" position="replace">
                         <filter string="production_id_nesil" name="production_id_nesil" context="{'group_by':'production_id'}"/>
                         <filter string="workcenter_id_nesil" name="workcenter_id_nesil" context="{'group_by':'workcenter_id'}"/>
-                        <filter string="workcenter_id_nesil" name="employee_id_nesil" context="{'group_by':'employee_id'}"/>
+                        <filter string="working_user_ids_nesil" name="working_user_ids_nesil" context="{'group_by':'working_user_ids'}"/>
                     </xpath>        
                 </field>
             </record>
