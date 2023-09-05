@@ -668,7 +668,8 @@ class Sale_order(models.Model):
         action = self.env.ref('mrp.mrp_production_action').read()[0]
         action['domain'] = [('id', 'in', mos.ids)]
         return action
-    
+
+
   
   
 class ProjectProject(models.Model):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      

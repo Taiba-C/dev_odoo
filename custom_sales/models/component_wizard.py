@@ -7,6 +7,8 @@ class ComponentSelectionWizard(models.TransientModel):
 
     product_id = fields.Many2one('product.product', 'Nomenclature', default=lambda self: self._get_default_product(),
                                  readonly=True)
+    product_image = fields.Binary(string='Product Image', related='product_id.image_1920')
+
     bom_id = fields.Many2one('mrp.bom', string='bom', compute="_compute_default_bom_id")
     order_line_id = fields.Many2one('sale.order.line', 'Sale Order Line',
                                     default=lambda self: self._get_default_order_line_id(), readonly=True)
@@ -89,6 +91,7 @@ class ComponentSelectionWizard(models.TransientModel):
                                     'product_id': line['product_id'],
                                     'quantity': line['quantity'],
                                     'selected_product': True,
+                                    'updated': True,
                                     # Add other fields as needed
                                 }))
                     elif bom_line.product_id.active == True:

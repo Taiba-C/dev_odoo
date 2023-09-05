@@ -6,6 +6,7 @@
             <field name="model">component.selection.wizard</field>
             <field name="arch" type="xml">
                 <form>
+                    <field name="product_image" nolabel="1" widget="image" class="oe_avatar" options="{'preview_image': 'image_1920'}" readonly="1"/>
                     <group>
                         <field name="product_id"/>
                         <field name="order_line_id" invisible="1"/>
