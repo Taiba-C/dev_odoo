@@ -175,6 +175,14 @@
                     </group>
                     <group>
                         <field name="production_id"/>
+                        <field name="user_assigned" invisible='1'/> 
+                        <field name="duration_expected_hours" invisible='1'/> 
+                        <field name="employee_id"/> 
+                        <field name="role" readonly='1' force_save='1'/> 
+                        <field name="opportunity" invisible='1'/> 
+                        <field name="opportunity_name"/> 
+                        <field name="sale_order" invisible='1'/> 
+                        <field name="sale_order_name"/> 
                     </group>
                 </group>
                 <notebook>
