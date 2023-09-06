@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        <record id="mrp_workorder_search_nesil" model="ir.ui.view">
+        <!-- <record id="mrp_workorder_search_nesil" model="ir.ui.view">
             <field name="name">mrp.workorder.search.nesil</field>
             <field name="model">mrp.workorder</field>
             <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter" />
@@ -10,10 +10,9 @@
                 </xpath>
                 <xpath expr="//filter[@name='work_center']" position="replace">
                     <filter string="workcenter nesil" name="workcenter" context="{'group_by':'workcenter_id'}"/>
-                    <!-- <filter string="Assigné à l'utilisateur" name="user_assigned" domain="[('user_assigned','==', True)]"/> -->
                 </xpath>         
             </field>
-        </record>
+        </record> -->
         
     </data>
 </odoo>

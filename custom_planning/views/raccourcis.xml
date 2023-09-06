@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Raccourcis CRM -->
     <menuitem
             id="crm_menu_raccourcis"
             name="Raccourcis"
@@ -21,21 +22,22 @@
             action="crm.action_your_pipeline"
             sequence="2"
         />
-    <!-- <menuitem
+    <menuitem
             id="crm_menu_custom_document"
             name="Documents"
             parent="crm_menu_raccourcis"
-            action="mrp.action_mrp_workorder_production"
+            action="documents.document_action"
             sequence="3"
-        /> -->
+        />
+
     <menuitem
             id="crm_menu_custom_planning"
             name="Planning"
             parent="crm_menu_raccourcis"
-            action="mrp.action_mrp_workorder_production"
+            action="custom_planning.action_mrp_workorder_production_nesil"
             sequence="4"
         />
-    
+    <!-- Raccourcis vente -->
     <menuitem
             id="sale_menu_raccourcis"
             name="Raccourcis"
@@ -57,20 +59,66 @@
             action="crm.action_your_pipeline"
             sequence="2"
         />
-    <!-- <menuitem
+    <menuitem
             id="sale_menu_custom_document"
             name="Documents"
             parent="sale_menu_raccourcis"
-            action="mrp.action_mrp_workorder_production"
+            action="documents.document_action"
             sequence="3"
-        /> -->
+        />
     <menuitem
             id="sale_menu_custom_planning"
             name="Planning"
             parent="sale_menu_raccourcis"
-            action="mrp.action_mrp_workorder_production"
+            action="custom_planning.action_mrp_workorder_production_nesil"
             sequence="4"
         />
+
+    <!-- Raccourcis Planning -->
+    <menuitem
+            id="planning_menu_raccourcis"
+            name="Raccourcis"
+            parent="mrp.menu_mrp_root"
+            sequence="77"
+            />
+    <menuitem
+            id="planning_menu_custom_devis"
+            name="Devis"
+            parent="planning_menu_raccourcis"
+            action="sale.action_quotations_with_onboarding"
+            sequence="1"
+        />
+
+    <menuitem
+            id="planning_menu_custom_crm"
+            name="CRM"
+            parent="planning_menu_raccourcis"
+            action="crm.action_your_pipeline"
+            sequence="2"
+        />
+
+    <menuitem
+            id="planning_menu_custom_document"
+            name="Documents"
+            parent="planning_menu_raccourcis"
+            action="documents.document_action"
+            sequence="3"
+        />
+    <!-- <menuitem
+            id="planning_menu_custom_planning"
+            name="Planning"
+            parent="planning_menu_raccourcis"
+            action="custom_planning.action_mrp_workorder_production_nesil"
+            sequence="4"
+        /> -->
+
+    <!-- Menu Ajoute dans le planning -->
+    <menuitem id="mrp_workorder_menu_planning"
+        name="Work Orders"
+        sequence="2"
+        parent="mrp.mrp_planning_menu_root"
+        groups="mrp.group_mrp_routings"/>
+        
     <menuitem
             id="mrp_menu_custom_planning_user"
             name="Planning par utilisateur"
