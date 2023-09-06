@@ -21,18 +21,18 @@
             action="crm.action_your_pipeline"
             sequence="2"
         />
-    <menuitem
+    <!-- <menuitem
             id="crm_menu_custom_document"
             name="Documents"
             parent="crm_menu_raccourcis"
-            action="action_document_nesil"
+            action="mrp.action_mrp_workorder_production"
             sequence="3"
-        />
+        /> -->
     <menuitem
             id="crm_menu_custom_planning"
             name="Planning"
             parent="crm_menu_raccourcis"
-            action="custom_planning.action_mrp_workorder_production_nesil"
+            action="mrp.action_mrp_workorder_production"
             sequence="4"
         />
     
@@ -57,25 +57,25 @@
             action="crm.action_your_pipeline"
             sequence="2"
         />
-    <menuitem
+    <!-- <menuitem
             id="sale_menu_custom_document"
             name="Documents"
             parent="sale_menu_raccourcis"
-            action="action_document_nesil"
+            action="mrp.action_mrp_workorder_production"
             sequence="3"
-        />
+        /> -->
     <menuitem
             id="sale_menu_custom_planning"
             name="Planning"
             parent="sale_menu_raccourcis"
-            action="custom_planning.action_mrp_workorder_production_nesil"
+            action="mrp.action_mrp_workorder_production"
             sequence="4"
         />
     
-    <record id="action_document_nesil" model="ir.actions.act_window">
+    <!-- <record id="action_document_nesil" model="ir.actions.act_window">
         <field name="name">Documents</field>
         <field name="res_model">documents.document</field>
         <field name="view_mode">tree,form</field>
-    </record>
+    </record> -->
     
 </odoo>
