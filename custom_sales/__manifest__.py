@@ -46,6 +46,7 @@
         'views/sale_management.xml',
         'views/reference_quote.xml',
         'views/quotation_expired.xml',
+        'views/mrp_workorder.xml',
         # scheduled tasks
         'views/data/notify_quotation.xml',
         'views/planning_slot_gantt.xml',

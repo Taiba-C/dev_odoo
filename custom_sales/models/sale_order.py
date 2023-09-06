@@ -725,16 +725,16 @@ class Work_Order(models.Model):
     _inherit = 'mrp.workorder'
     
     order_name = fields.Char("Nom de l'ordre de travail")
-    employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True, domain="[('planning_role_ids.name', '=', role)]")
+    employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True, domain="[('planning_role_ids.name', '=', 'role')]")
     duration_expected_hours = fields.Float(string='Durée prévue (Heures)')
-    opportunity = fields.Many2one('crm.lead', string="Dossier") 
-    opportunity_name = fields.Char("Nom du dossier")
+    opportunity = fields.Many2one('crm.lead', string="Dossier",related='sale_order.rfrence_du_dossier') 
+    opportunity_name = fields.Char("Nom du dossier",related='opportunity.name')
     description_of_order_product = fields.Char("Description de l'article")
     project_id = fields.Many2one('project.project', string="Projet")
     task_id = fields.Many2one('project.task', string='Task')
     timesheet_id = fields.Many2one('account.analytic.line', string='Timesheet')
-    sale_order = fields.Many2one('sale.order', string="Sale Order")
-    sale_order_name = fields.Char("Numéro du devis")
+    sale_order = fields.Many2one('sale.order', related='production_id.sale_order', string="Sale Order")
+    sale_order_name = fields.Char("Numéro du devis",related='sale_order.name')
     role = fields.Char("Rôle")
     user_id = fields.Many2one('res.users', string="User", related='employee_id.user_id')
 
@@ -794,7 +794,7 @@ class Work_Order(models.Model):
             })
         return timesheet_id.id
         
-    @api.onchange('employee_id')
+    #@api.onchange('employee_id')
     def notification_employee_id(self):
         message = ""
         if self.sale_order:
@@ -810,7 +810,7 @@ class Work_Order(models.Model):
                 message = f"Vous avez été assignée à la tâche {self.name} {self.description_of_order_product}. Le N° du devis est {self.sale_order_name} et le nom du dossier est {self.opportunity_name}."
 
             # Utiliser self.ensure_one() pour poster le message sur l'enregistrement actuel seulement
-            # self.ensure_one()
+            self.ensure_one()
             self.sale_order.message_post(body=message, message_type="notification", subtype_xmlid='mail.mt_note', author_id=self.env.user.partner_id.id, notification_ids=notification_ids)
             
     @api.onchange('workcenter_id')
