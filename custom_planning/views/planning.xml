@@ -10,7 +10,7 @@
                 </xpath>
                 <xpath expr="//filter[@name='work_center']" position="replace">
                     <filter string="workcenter nesil" name="workcenter" context="{'group_by':'workcenter_id'}"/>
-                    <!-- <filter string="Assigné à l'utilisateur" name="user_assigned" domain="[('user_assigned','==', True)]"/> -->
+                        <!-- <filter string="Assigné à l'utilisateur" name="user_assigned" domain="[('user_assigned','==', True)]"/> -->
                 </xpath>         
             </field>
         </record>
