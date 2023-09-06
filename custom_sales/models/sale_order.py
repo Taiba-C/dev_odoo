@@ -389,6 +389,38 @@ class Sale_order(models.Model):
         for value in self.order_line:
             if value.product_template_id and value.product_template_id.detailed_type == 'service':
                 value.price_subtotal = 0
+
+        # Get the IDs of the original order lines
+        original_line_ids = self._origin.order_line.ids
+
+        # Get the IDs of the current order lines
+        current_line_ids = self.order_line.ids
+
+        # Find the deleted line(s) by comparing the original and current IDs
+        deleted_line_ids = set(original_line_ids) - set(current_line_ids)
+
+        deleted_product_names = []
+
+        if deleted_line_ids:
+            for line_id in deleted_line_ids:
+                deleted_line = self.env['sale.order.line'].browse(line_id)
+                if deleted_line.product_id:
+                    deleted_product_names.append(deleted_line.product_id.name)
+
+            # Join the product names into a comma-separated string
+            product_names_str = ", ".join(deleted_product_names)
+
+            if product_names_str:
+                # Create the warning message
+                warning_message = f"""Vous êtes en train de supprimer la ligne contenant: {product_names_str}. Ceci va supprimer les composants du chiffrage. Pour confirmer, veuillez cliquer sur le bouton enregistré. """
+
+                return {
+                    'warning': {
+                        'title': _("Suppression de ligne de devis"),
+                        'message': warning_message,
+                    },
+                    'reload': True,
+                }
    
     @api.onchange('date_of_exhibition')
     def _onchange_date_of_exhibition(self):
