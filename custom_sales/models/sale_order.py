@@ -438,6 +438,16 @@ class Sale_order(models.Model):
         
         if self.is_bom_generated == False:
             raise UserError("Vous avez oublié de faire un chiffrage")
+
+        order_line_id_order_options = self.sale_order_option_ids.mapped('order_line_id').ids
+        line_uncalculated = []
+
+        for order_line in self.order_line:
+            if order_line.product_id  and order_line.id not in order_line_id_order_options:
+                line_uncalculated.append(order_line.product_id.name)
+        if len(line_uncalculated):
+            result = ", ".join(line_uncalculated)
+            raise UserError(f"Vous avez oublié de chiffré {result}")
         
         is_service = bool
         for line in self.sale_order_option_ids:
