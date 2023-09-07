@@ -10,7 +10,7 @@ class Lead(models.Model):
     is_quotation_created = fields.Boolean('Is quotation created')
     # champs de l'onglet salon
     salon = fields.Char(string="Salon")
-    lieu_du_salon = fields.Char(string="Lieu dun salon")
+    lieu_du_salon = fields.Char(string="Lieu du salon")
     stand_n = fields.Char(string='Stand N°')
     hall = fields.Char(string="Hall")
     allee = fields.Char(string="Allée")
