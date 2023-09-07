@@ -1,0 +1,55 @@
+<odoo>
+    <data>
+        <!-- Wizard View -->
+        <record id="view_component_selection_wizard_form" model="ir.ui.view">
+            <field name="name">component.selection.wizard.form</field>
+            <field name="model">component.selection.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="product_image" nolabel="1" widget="image" class="oe_avatar" options="{'preview_image': 'image_1920'}" readonly="1"/>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="order_line_id" invisible="1"/>
+                        <field name="bom_id" invisible="1"/>
+                    </group>
+                        <notebook>
+<!--                            <page name="component" string="Composants">-->
+<!--                                <field name="component_ids" widget="one2many_search" domain="[('bom_id', '=', bom_id)]" >-->
+<!--                                    <tree string="Composants" editable="bottom" create="false" >-->
+<!--                                        <field name="product_id" options="{'no_open': True}" readonly="1" store="1"/>-->
+<!--                                        <field name="product_qty"/>-->
+<!--                                        <field name="company_id" invisible="1"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </page>-->
+                            <page name="component_in_options" string="Composants">
+                                <field name="option_ids" widget="one2many_search">
+                                    <tree string="Composants" editable="bottom" create="false" decoration-success="updated==True " >
+                                        <field name="selected_product" nolabel="1"/>
+                                        <field name="product_id" invisible="1" />
+                                        <field name="product_id_visible" options="{'no_open': True}" readonly="1" />
+                                        <field name="updated" invisible="1"/>
+                                        <field name="quantity"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    <footer>
+                        <button string="Confirmer" type="object" name="action_confirm" class="btn-primary"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open the wizard -->
+        <record id="action_component_selection_wizard" model="ir.actions.act_window">
+            <field name="name">Choisir les composants</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">component.selection.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_component_selection_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

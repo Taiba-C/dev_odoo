@@ -1,0 +1,54 @@
+<odoo>
+    <data>
+        <!--Code qui permet de rajouter le code personalisé pour le menu "Mes ordres de travail" -->
+        <record id="view_mrp_production_tree_word_order" model="ir.ui.view">
+            <field name="name">Les ordres de fabrication</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view" />
+            <field name="arch" type="xml">
+                <!-- Utilisez simplement "position" sans ajouter de filtre -->
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sale_order" />
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_mrp_production_form_word_order" model="ir.ui.view">
+            <field name="name">Les ordres de fabrication</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+            <field name="arch" type="xml">
+                <!-- Utilisez simplement "position" sans ajouter de filtre -->
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sale_order" readonly="1"/>
+                </xpath> 
+                
+            </field>
+        </record>
+
+        <record id="mrp_production_workorder_tree" model="ir.ui.view">
+            <field name="name">mrp.production.work.order.tree</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//tree/field[@name='workcenter_id']" position="after">
+                    <field name="order_name" />
+                    <field name="role" invisible="1"/>
+                    <field name="employee_id" />
+                </xpath>               
+                
+            </field>
+        </record>
+
+        <record id="action_show_my_work_order" model="ir.actions.act_window">
+            <field name="name">Mes ordres de travail</field>
+            <field name="res_model">mrp.workorder</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="domain">[('user_id', '=', uid)]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="my_work_order" name="Mes ordres de travail" sequence="10" action="action_show_my_work_order" parent="mrp.menu_mrp_root" />
+    </data>
+</odoo>

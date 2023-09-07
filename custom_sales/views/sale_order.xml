@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <data>
-           <record id="form_sale_order_custom" model="ir.ui.view">
+        <record id="form_sale_order_custom" model="ir.ui.view">
             <field name="name">Details de devis</field>
             <field name="model">sale.order</field>
             <field name="type">form</field>
@@ -16,49 +16,63 @@
                     <button type="object" name="action_view_task_option_ids" attrs="{ 'invisible': [('project_option_counts', '=', 0)] }" class="oe_stat_button" icon="fa-puzzle-piece">
                         <field name="task_option_counts" widget="statinfo" string="Tasks"/>
                     </button>
+                    <button type="object" name="action_view_manufacturation_orders" attrs="{'invisible': [('mrp_production_counts', '=', 0)]}" class="oe_stat_button" icon="fa-puzzle-piece">
+                        <field name="mrp_production_counts" widget="statinfo" string="Ordres de fabrication"/>
+                    </button>
                 </xpath>
-                <xpath expr="//button[@name='action_view_delivery']" position="attributes">
+                <!-- <xpath expr="//button[@name='action_view_delivery']" position="attributes">
                     <attribute name="invisible">1</attribute>
-                </xpath>
+                </xpath> -->
 
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+
+                    <button name="action_show_manufactured_order" icon="fa-pencil-square-o" type="object" string="Fabrication" attrs="{'invisible': [('state', '!=', 'sale')]}" class="oe_highlight"/>
+
+                </xpath>
                 
                 <xpath expr="//field[@name='sale_order_template_id']" position="after">
-                    
-                    <button name="generate_bom_order" 
-                    attrs="{ 'invisible': [('state', '!=', 'draft')] }"
-                    string="Encryption" type="object" class="oe_highlight"/>
+
+                    <field name="rfrence_du_dossier" readonly='1' force_save='1'/>
+                    <field name="version_du_devis"/>
                     
                 </xpath>
 
+
+                <!-- <xpath expr="//field[@name='sale_order_template_id']" position="after">
+
+                    <button name="generate_bom_order" attrs="{ 'invisible': [('state', '!=', 'draft')] }" string="Encryption" type="object" class="oe_highlight"/>
+
+                </xpath> -->
+
                 <xpath expr="//field[@name='payment_term_id']" position="after">
-                    
+
                     <field name="date_of_exhibition" attrs="{'readonly': [('state','not in',['draft','sent'])]}"/>
                     <field name="picking_id" readonly="1" force_save="1"/>
                     <field name="validity_quotation" readonly="1" invisible="1"/>
                     <field name="is_bom_generated" invisible="1"/>
 
-                    
+
                 </xpath>
 
-                
+
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="attributes">
 
                     <attribute name="domain">[('is_bom_parent', '=', False)]</attribute>
 
                 </xpath>
-                
+
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='name']" position="attributes">
 
                     <attribute name="invisible">1</attribute>
 
                 </xpath>
-                
+
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='uom_id']" position="attributes">
 
                     <attribute name="invisible">1</attribute>
 
                 </xpath>
-                
+
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='price_unit']" position="attributes">
 
                     <attribute name="invisible">1</attribute>
@@ -72,7 +86,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="before">
-                    <field name="order_line_id" domain="[('order_id', '=', parent.id),('display_type', '=', False)]"   options="{'no_create': True, 'no_create_edit':True}"/>
+                    <field name="order_line_id" domain="[('order_id', '=', parent.id),('display_type', '=', False)]" options="{'no_create': True, 'no_create_edit':True}"/>
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="before">
@@ -113,10 +127,10 @@
                         </group>
                         <div class="clearfix"/>
                     </group>
-                    
-                    
+
+
                 </xpath>
-                
+
 
                 <!-- hide field in order line -->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="attributes">
@@ -148,10 +162,7 @@
                 <!-- add cunsumable-->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="before">
 
-                    <field name="consumable" 
-                    readonly="1"
-                    force_save="1"
-                    />
+                    <field name="consumable" readonly="1" force_save="1" />
                 </xpath>
 
                 <!-- add custom qty -->
@@ -159,6 +170,7 @@
 
                     <field name="qty" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
                     <field name="temp_price_unit" readonly="1" force_save="1"/>
+                    <field name="is_costed" invisible="1" force_save="1"/>
 
                 </xpath>
 
@@ -172,6 +184,11 @@
 
                     <attribute name="string">Details of the quotation</attribute>
 
+                </xpath>
+
+                <!-- add button for costing table -->
+                <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
+                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': [('state', '!=', 'draft')] }" />
                 </xpath>
             </field>
         </record>

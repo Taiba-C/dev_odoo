@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <record id="mrp_planning_view" model="ir.ui.view">
+            <field name="name">custom.planning.view</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.workcenter_line_gantt_production"/>
+            <field name="arch" type="xml">
+            <field name="date_planned_start"/>
+            <field name="state"/>
+            <field name="workcenter_id"/>
+            <field name="json_popover"/>
+
+            
+                <xpath expr="//field[@name='date_planned_start']" position="before">
+                    
+                    <field name="opportunity_name"/> 
+                    <field name="description_of_order_product"/>
+                    <field name="sale_order_name"/>
+                </xpath>
+                <field name="date_planned_start"/>
+                <templates>
+                    <div t-name="gantt-popover" class="container-fluid">
+                        <div class="row g-0">
+                            <div class="col">
+                                <ul class="ps-1 mb-0 list-unstyled">
+                                   <H2> <li><strong> Numéro du devis: </strong>
+                    <t t-out="sale_order_name"/></li></H2>
+                                    <li><strong> Nom du dossier: </strong>
+                    <t t-out="opportunity_name"/></li>
+                                     <li><strong> Description: </strong><t t-out="description_of_order_product"/></li>
+                                    <li><strong>Start Date: </strong> <t t-out="userTimezoneStartDate.format('L LTS')"/></li>
+                                    <li><strong>Stop Date: </strong> <t t-out="userTimezoneStopDate.format('L LTS')"/></li>
+                                    <li><strong>Workcenter: </strong> <t t-out="workcenter_id[1]"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+     
+                </templates>
+            </field>
+        </record>
+    </data>
+</odoo>

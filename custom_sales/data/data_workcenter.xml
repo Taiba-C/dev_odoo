@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="mrp.workcenter" id="mo_assemblage">
+            <field name="name">MO ASSEMBLAGE</field>
+            <field name="default_capacity">1</field>
+            <field name="time_efficiency">100</field>
+            <field name="sequence">1</field>
+            <field name="oee_target">90</field>
+
+        </record>
+        <record model="mrp.workcenter" id="mo_etude_de_fabrication">
+            <field name="name">MO Etude de fabrication</field>
+            <field name="default_capacity">1</field>
+            <field name="time_efficiency">100</field>
+            <field name="sequence">1</field>
+            <field name="oee_target">90</field>
+
+        </record>
+        <record model="mrp.workcenter" id="mo_plaquage_chant">
+            <field name="name">MO PLAQUAGE DE CHANTS</field>
+            <field name="default_capacity">1</field>
+            <field name="time_efficiency">100</field>
+            <field name="sequence">1</field>
+            <field name="oee_target">90</field>
+
+        </record>
+        <record model="mrp.workcenter" id="mo_decoupe">
+            <field name="name">MO DECOUPE</field>
+            <field name="default_capacity">1</field>
+            <field name="time_efficiency">100</field>
+            <field name="sequence">1</field>
+            <field name="oee_target">90</field>
+
+        </record>
+        <record model="mrp.workcenter" id="mo_usinage">
+            <field name="name">MO USINAGE</field>
+            <field name="default_capacity">1</field>
+            <field name="time_efficiency">100</field>
+            <field name="sequence">1</field>
+            <field name="oee_target">90</field>
+
+        </record>
+    </data>
+</odoo>

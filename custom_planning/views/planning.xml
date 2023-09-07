@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <!-- <record id="mrp_workorder_search_nesil" model="ir.ui.view">
+            <field name="name">mrp.workorder.search.nesil</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='production']" position="replace">
+                    <filter string="production nesil" name="production" context="{'group_by':'production_id'}"/>
+                </xpath>
+                <xpath expr="//filter[@name='work_center']" position="replace">
+                    <filter string="workcenter nesil" name="workcenter" context="{'group_by':'workcenter_id'}"/>
+                </xpath>         
+            </field>
+        </record> -->
+        
+    </data>
+</odoo>

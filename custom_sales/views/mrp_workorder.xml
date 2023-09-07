@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <record id="mrp_workorder_nesil_view" model="ir.ui.view">
+            <field name="name">custom.workorder.inherited.view</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='production_id']" position="after">  
+                    <field name="user_assigned" invisible='1'/> 
+                    <field name="duration_expected_hours" invisible='1'/> 
+                    <field name="employee_id"/> 
+                    <field name="role" readonly='1' force_save='1'/> 
+                    <field name="opportunity" invisible='1'/> 
+                    <field name="opportunity_name"/> 
+                    <field name="sale_order" invisible='1'/> 
+                    <field name="sale_order_name"/> 
+                    
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
