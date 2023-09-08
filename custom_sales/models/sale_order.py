@@ -495,7 +495,7 @@ class Sale_order(models.Model):
                         work_center = False
                         role = False
 
-                        if option.order_line_id.id == order_line.id:
+                        if option.order_line_id.id == order_line.id and option.quantity > 0:
                             # generate line for move_raw_ids in line mrp
                             for raw_material in option:
                                 if raw_material.product_id.detailed_type != 'service':
@@ -586,7 +586,8 @@ class Sale_order(models.Model):
                 move._action_confirm()
             self.picking_id = picking.id
         return res
-
+    def temp_action_confirm(self):
+        self.action_confirm()
     def action_view_task_option_ids(self):
         tasks = []
         for line in self.sale_order_option_ids:
