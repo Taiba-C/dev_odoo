@@ -432,38 +432,29 @@ class Sale_order(models.Model):
 
     def action_confirm(self):
         res = super(Sale_order,self).action_confirm()
-        
-        self.delete_option_without_order_line(self.id)  
-        
-        
+
+        self.delete_option_without_order_line(self.id)
+
+
         if self.is_bom_generated == False:
             raise UserError("Vous avez oublié de faire un chiffrage")
 
-        order_line_id_order_options = self.sale_order_option_ids.mapped('order_line_id').ids
-        line_uncalculated = []
 
-        for order_line in self.order_line:
-            if order_line.product_id  and order_line.id not in order_line_id_order_options:
-                line_uncalculated.append(order_line.product_id.name)
-        if len(line_uncalculated):
-            result = ", ".join(line_uncalculated)
-            raise UserError(f"Vous avez oublié de chiffré {result}")
-        
         is_service = bool
         for line in self.sale_order_option_ids:
             if is_service == False:
                 if line.product_id.type == 'service':
                     is_service = True
-                    
-        if is_service:       
+
+        if is_service:
             project = self.env['project.project'].create({
                     'name': self.name+' '+self.opportunity_id.name,
                     'user_id': self.user_id.id,
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.fin_salon,
-                    'order_id':self.id, 
-                    })   
+                    'order_id':self.id,
+                    })
             self.project_options_id = project.id
             #project.sale_order = self
         for line in self.sale_order_option_ids:
@@ -475,15 +466,17 @@ class Sale_order(models.Model):
                # work = self.env['mrp.production'].create({
                #     'product_id': order_line.product_id.id,
               #      'id_name': record.opportunity_id.name+' '+ order_line.name,
-             #       'product_qty': order_line.qty,   
+             #       'product_qty': order_line.qty,
             #    })
-            
+
            # record.write({'mrp_production_ids': [(i, work)] }) # Ajoute l'enregistrement many2one au champ many2many
           #  i=i+1
         date_planned_start = date.today()
+
         for record in self:
             # works = []
-            for i, order_line in enumerate(record.order_line, start=0):
+            for order_line in record.order_line:
+            # for i, order_line in enumerate(record.order_line, start=0):
                 if order_line.product_id.type in ['product', 'consu']:  # Vérifier le type du produit
                     mrp = self.env['mrp.production'].create({
                         'sale_order': self.id,
@@ -491,84 +484,85 @@ class Sale_order(models.Model):
                         'id_name': record.opportunity_id.name + ' ' + order_line.name,
                         'id_name_description': order_line.name,
                         'opportunity':record.opportunity_id.id,
-                        'product_qty': order_line.qty, 
+                        'product_qty': order_line.qty,
                         'origin': record.opportunity_id.name,
                         'project_id':project.id,
                     })
-        
+
                     move_raw_vals = []
-                    for option in record.sale_order_option_ids.filtered(lambda o: o.product_id):
+                    for option in record.sale_order_option_ids:
                         service = False  # Initialiser la variable 'service'
                         work_center = False
                         role = False
-                        
-                        # generate line for move_raw_ids in line mrp
-                        for raw_material in option:
-                            if raw_material.product_id.detailed_type != 'service':
-                                move_raw_vals.append({
-                                    'product_id': raw_material.product_id.id,
-                                    'product_uom_qty': raw_material.quantity * order_line.qty,
-                                    'name': raw_material.product_id.display_name,
-                                    'product_uom': raw_material.product_id.uom_id.id,
-                                    'raw_material_production_id': mrp.id,
-                                })
-                            
-                        if option.product_id.categ_id.name == 'Main d\'oeuvre':
-                            if option.product_id.name == 'MO USINAGE':
-                                work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO USINAGE')], limit=1)
-                                role = "USINAGE"
 
-                            elif option.product_id.name == 'MO DECOUPE':
-                                work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO DECOUPE')], limit=1)
-                                role = "DECOUPE"
+                        if option.order_line_id.id == order_line.id:
+                            # generate line for move_raw_ids in line mrp
+                            for raw_material in option:
+                                if raw_material.product_id.detailed_type != 'service':
+                                    move_raw_vals.append({
+                                        'product_id': raw_material.product_id.id,
+                                        'product_uom_qty': raw_material.quantity * order_line.qty,
+                                        'name': raw_material.product_id.display_name,
+                                        'product_uom': raw_material.product_id.uom_id.id,
+                                        'raw_material_production_id': mrp.id,
+                                    })
 
-                            elif option.product_id.name == 'MO PLAQUAGE DE CHANTS':
-                                work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO PLAQUAGE DE CHANTS')], limit=1)
-                                role = "PLAQUAGE DE CHANTS"
+                            if option.product_id.categ_id.name == 'Main d\'oeuvre':
+                                if option.product_id.name == 'MO USINAGE':
+                                    work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO USINAGE')], limit=1)
+                                    role = "USINAGE"
 
-                            elif option.product_id.name == 'MO ASSEMBLAGE':
-                                work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO ASSEMBLAGE')], limit=1)
-                                role = "ASSEMBLAGE"
+                                elif option.product_id.name == 'MO DECOUPE':
+                                    work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO DECOUPE')], limit=1)
+                                    role = "DECOUPE"
+
+                                elif option.product_id.name == 'MO PLAQUAGE DE CHANTS':
+                                    work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO PLAQUAGE DE CHANTS')], limit=1)
+                                    role = "PLAQUAGE DE CHANTS"
+
+                                elif option.product_id.name == 'MO ASSEMBLAGE':
+                                    work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO ASSEMBLAGE')], limit=1)
+                                    role = "ASSEMBLAGE"
 
 
-                            elif option.product_id.name == 'MO Etude de fabrication':
-                                work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO Etude de fabrication')], limit=1)
-                                role = "ETUDE DE FABRICATION"
+                                elif option.product_id.name == 'MO Etude de fabrication':
+                                    work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO Etude de fabrication')], limit=1)
+                                    role = "ETUDE DE FABRICATION"
 
-                       
-           
-                            if work_center :
-                                work_order = self.env['mrp.workorder'].create({
-                                    'product_id': option.product_id.id,
-                                    'qty_remaining': option.quantity,
-                                    'name': option.name,
-                                    'workcenter_id': work_center.id,
-                                    'product_uom_id':option.product_id.uom_id.id,
-                                    'production_id':mrp.id,
-                                    'date_planned_start':date_planned_start,
-                                    'duration_expected': option.quantity * 60.0,
-                                    'duration_expected_hours': option.quantity,
-                                    'opportunity':record.opportunity_id.id,
-                                    'opportunity_name':record.opportunity_id.name,
-                                    'description_of_order_product':option.order_line_id.display_name,
-                                    'project_id':project.id,
-                                    'sale_order': self.id,
-                                    'sale_order_name': self.name,
-                                    'order_name': record.opportunity_id.name + ' ' + order_line.name,
-                                    'role':role,
-                                })
-                                #work_order.duration_expected_hours = workcenter.duration_expected / 60.0
-                                # works.append(line.task_id.id)
-                                # works.append((0, 0, {'mrp_production_ids': work.id}))
-                            # record.write({'mrp_production_ids': works})
-                                 # Recherche de la tâche du projet correspondante
-                                task = project.task_ids.filtered(lambda t: work_order.name in t.display_name)
-                                if task:
-                                   work_order.task_id = task[0]
-                    
+
+
+                                if work_center :
+                                    work_order = self.env['mrp.workorder'].create({
+                                        'product_id': option.product_id.id,
+                                        'qty_remaining': option.quantity,
+                                        'name': option.name,
+                                        'workcenter_id': work_center.id,
+                                        'product_uom_id':option.product_id.uom_id.id,
+                                        'production_id':mrp.id,
+                                        'date_planned_start':date_planned_start,
+                                        'duration_expected': option.quantity * 60.0,
+                                        'duration_expected_hours': option.quantity,
+                                        'opportunity':record.opportunity_id.id,
+                                        'opportunity_name':record.opportunity_id.name,
+                                        'description_of_order_product':option.order_line_id.display_name,
+                                        'project_id':project.id,
+                                        'sale_order': self.id,
+                                        'sale_order_name': self.name,
+                                        'order_name': record.opportunity_id.name + ' ' + order_line.name,
+                                        'role':role,
+                                    })
+                                    #work_order.duration_expected_hours = workcenter.duration_expected / 60.0
+                                    # works.append(line.task_id.id)
+                                    # works.append((0, 0, {'mrp_production_ids': work.id}))
+                                # record.write({'mrp_production_ids': works})
+                                     # Recherche de la tâche du projet correspondante
+                                    task = project.task_ids.filtered(lambda t: work_order.name in t.display_name)
+                                    if task:
+                                       work_order.task_id = task[0]
+
                     move_raw_ids = self.env['stock.move'].create(move_raw_vals)
                     mrp.write({'move_raw_ids': [(6, 0, move_raw_ids.ids)]})
-        
+
         for order in self:
             picking = self.env['stock.picking'].create({
                 'partner_id': order.partner_shipping_id.id,
@@ -587,7 +581,7 @@ class Sale_order(models.Model):
                     'picking_id': picking.id,
                     'location_dest_id': order.partner_shipping_id.property_stock_customer.id,
                     'origin': order.name,
-                    
+
                 })
                 move._action_confirm()
             self.picking_id = picking.id
@@ -698,6 +692,7 @@ class Mrp_Production(models.Model):
     opportunity = fields.Many2one('crm.lead', string="Dossier")
     sale_order = fields.Many2one('sale.order', string="Devis")
     project_id = fields.Many2one('project.project', string="Projet")
+    description_product = fields.Char("Description",related='product_id.name')
 
 
 class Work_Order(models.Model):
@@ -706,7 +701,7 @@ class Work_Order(models.Model):
     order_name = fields.Char("Nom de l'ordre de travail")
     employee_id = fields.Many2one('hr.employee', string='Employee', readonly=False, store=True, domain="[('planning_role_ids.name', '=', role)]")
     duration_expected_hours = fields.Float(string='Durée prévue (Heures)')
-    opportunity = fields.Many2one('crm.lead', string="Dossier",related='sale_order.rfrence_du_dossier') 
+    opportunity = fields.Many2one('crm.lead', string="Dossier", readonly=False, store=True, related='sale_order.rfrence_du_dossier') 
     opportunity_name = fields.Char("Nom du dossier",related='opportunity.name')
     description_of_order_product = fields.Char("Description de l'article")
     project_id = fields.Many2one('project.project', string="Projet")
