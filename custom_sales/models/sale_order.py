@@ -692,7 +692,7 @@ class Mrp_Production(models.Model):
     opportunity = fields.Many2one('crm.lead', string="Dossier")
     sale_order = fields.Many2one('sale.order', string="Devis")
     project_id = fields.Many2one('project.project', string="Projet")
-    description_product = fields.Char("Descrition",related='product_id.name')
+    description_product = fields.Char("Description",related='product_id.name')
 
 
 class Work_Order(models.Model):
