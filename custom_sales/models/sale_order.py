@@ -481,6 +481,7 @@ class Sale_order(models.Model):
                     mrp = self.env['mrp.production'].create({
                         'sale_order': self.id,
                         'product_id': order_line.product_id.id,
+                        'description_product': order_line.name,
                         'id_name': record.opportunity_id.name + ' ' + order_line.name,
                         'id_name_description': order_line.name,
                         'opportunity':record.opportunity_id.id,
@@ -596,6 +597,7 @@ class Sale_order(models.Model):
                     mrp = self.env['mrp.production'].create({
                         'sale_order': self.id,
                         'product_id': order_line.product_id.id,
+                        'description_product': order_line.name,
                         'id_name': record.opportunity_id.name + ' ' + order_line.name,
                         'id_name_description': order_line.name,
                         'opportunity': record.opportunity_id.id,
@@ -785,7 +787,7 @@ class Mrp_Production(models.Model):
     opportunity = fields.Many2one('crm.lead', string="Dossier")
     sale_order = fields.Many2one('sale.order', string="Devis")
     project_id = fields.Many2one('project.project', string="Projet")
-    description_product = fields.Char("Description",related='product_id.name')
+    description_product = fields.Char("Description", readonly=True)
 
 
 class Work_Order(models.Model):
