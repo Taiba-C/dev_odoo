@@ -8,6 +8,7 @@
                 <field name="production_id"/>
                 <field name="workcenter_id"/>
                 <field name="employee_id"/>
+                <field name="opportunity"/>
                 <field name="product_id"/>
                 <filter string="Ready" name="ready" domain="[('state','=','ready')]"/>
                 <filter string="Waiting" name="waiting" domain="[('state','=','waiting')]"/>
@@ -79,6 +80,7 @@
                 <field name="workcenter_id"/>
                 <field name="role" invisible='1'/>
                 <field name="employee_id" invisible='1'/>
+                <field name="opportunity" invisible='1'/>
                 <field name="product_id" optional="show"/>
                 <field name="qty_remaining" optional="show" string="Quantity"/>
                 <field name="finished_lot_id" optional="hide" string="Lot/Serial"/>
@@ -243,6 +245,7 @@
                             <field name="workcenter_id"/>
                             <field name="role" invisible='1'/>
                             <field name="employee_id" invisible='1'/>
+                            <field name="opportunity" invisible='1'/>
                             <field name="date_planned_start" readonly="1"/>
                             <field name="date_planned_finished" readonly="1"/>
                             <field name="duration_expected" widget="float_time" sum="expected duration"/>
@@ -279,8 +282,8 @@
                 <filter string="Late" name="late" domain="['&amp;', ('date_planned_start', '&lt;', current_date), ('state', '=', 'ready')]"
                     help="Production started late"/>
                 <group expand="0" string="Group By">
-                    <filter string="Work Center" name="work_center" domain="[]" context="{'group_by': 'workcenter_id'}"/>
-                    <filter string="Manufacturing Order" name="production" domain="[]" context="{'group_by': 'production_id'}"/>
+                    <!-- <filter string="Work Center" name="work_center" domain="[]" context="{'group_by': 'workcenter_id'}"/> -->
+                    <filter string="Project" name="project" domain="[]" context="{'group_by': 'opportunity'}"/>
                     <filter string="Employee" name="employee" domain="[]" context="{'group_by': 'employee_id'}"/>
                     <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}"/>
                     <filter string="Scheduled Date" name="scheduled_month" domain="[]" context="{'group_by': 'date_planned_start'}"/>
@@ -472,7 +475,7 @@
         <field name="view_mode">gantt,tree,form,calendar,pivot,graph</field>
         <field name="search_view_id" ref="view_mrp_production_workorder_form_view_filter_nesil"/>
         <field name="view_id" ref="mrp_workorder_view_gantt_nesil"/>
-        <field name="context">{'search_default_production': True,search_default_work_center': True, 'search_default_employee': True}</field>
+        <field name="context">{search_default_project': True, 'search_default_employee': True}</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
             No work orders to do!
@@ -491,7 +494,7 @@
         <field name="view_mode">gantt,tree,form,calendar,pivot,graph</field>
         <field name="search_view_id" ref="view_mrp_production_workorder_form_view_filter_nesil"/>
         <field name="view_id" ref="workcenter_line_gantt_production_nesil"/>
-        <field name="context">{'search_default_production': True,'search_default_work_center': True,'search_default_employee': True}</field>
+        <field name="context">{'search_default_project': True,'search_default_employee': True}</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
             No work orders to do!
