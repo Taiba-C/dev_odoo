@@ -40,7 +40,7 @@ class Sale_order(models.Model):
     date_of_last_version = fields.Datetime(
         string="Date de mis à jour",
         required=True, readonly=False, copy=False,
-        help="La date qui apparait dans le rapport à chaque mis à jour du devis",)
+        help="La date qui apparait dans le rapport à chaque mis à jour du devis",related="date_order")
     version_du_devis = fields.Char(string='Version du devis')
     @api.onchange('version_du_devis')
     def define_new_date_order(self):
