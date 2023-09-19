@@ -787,11 +787,7 @@ class Mrp_Production(models.Model):
     opportunity = fields.Many2one('crm.lead', string="Dossier")
     sale_order = fields.Many2one('sale.order', string="Devis")
     project_id = fields.Many2one('project.project', string="Projet")
-<<<<<<< HEAD
-    description_product = fields.Char("Description")
-=======
     description_product = fields.Char("Description", readonly=True)
->>>>>>> origin/staging_1
 
 
 class Work_Order(models.Model):
@@ -807,7 +803,7 @@ class Work_Order(models.Model):
     task_id = fields.Many2one('project.task', string='Task')
     timesheet_id = fields.Many2one('account.analytic.line', string='Timesheet')
     sale_order = fields.Many2one('sale.order', related='production_id.sale_order', string="Sale Order")
-    sale_order_name = fields.Char("Numéro du devis",related='sale_order.name')
+    sale_order_name = fields.Char("Numéro du devis", related='sale_order.name')
     role = fields.Char("Rôle")
     user_id = fields.Many2one('res.users', string="User", related='employee_id.user_id')
 
