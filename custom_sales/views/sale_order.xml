@@ -19,6 +19,9 @@
                     <button type="object" name="action_view_manufacturation_orders" attrs="{'invisible': [('mrp_production_counts', '=', 0)]}" class="oe_stat_button" icon="fa-puzzle-piece">
                         <field name="mrp_production_counts" widget="statinfo" string="Ordres de fabrication"/>
                     </button>
+
+<!--                    <button type="object" name="temp_action_confirm" string="temp button" class="oe_stat_button" icon="fa-puzzle-piece">-->
+<!--                    </button>-->
                 </xpath>
                 <!-- <xpath expr="//button[@name='action_view_delivery']" position="attributes">
                     <attribute name="invisible">1</attribute>
