@@ -37,8 +37,16 @@ class Sale_order(models.Model):
                                         order_option.order_line_id = line.id
 
     rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
+    date_of_last_version = fields.Datetime(
+        string="Date de mis à jour",
+        required=True, readonly=True, copy=False,
+        help="La date qui apparait dans le rapport à chaque mis à jour du devis",
+        compute='define_new_date_order')
     version_du_devis = fields.Char(string='Version du devis')
-    
+    @api.depends('version_du_devis')
+    def define_new_date_order(self):
+        for rec in self:
+            rec.date_of_last_version = datetime.now() if rec.version_du_devis else rec.date_order 
     date_of_exhibition = fields.Date('Begin of exhibition')
     validity_quotation = fields.Date('Validity of the quotation')
     
@@ -330,7 +338,6 @@ class Sale_order(models.Model):
     #     self.total_purchase = total_purchase
     #     self.total_sale = total_sale
     #     self.margin = margin
-    
     
     @api.depends('sale_order_option_ids')
     def _compute_total_infos(self):
@@ -803,7 +810,7 @@ class Work_Order(models.Model):
     task_id = fields.Many2one('project.task', string='Task')
     timesheet_id = fields.Many2one('account.analytic.line', string='Timesheet')
     sale_order = fields.Many2one('sale.order', related='production_id.sale_order', string="Sale Order")
-    sale_order_name = fields.Char("Numéro du devis",related='sale_order.name')
+    sale_order_name = fields.Char("Numéro du devis", related='sale_order.name')
     role = fields.Char("Rôle")
     user_id = fields.Many2one('res.users', string="User", related='employee_id.user_id')
 

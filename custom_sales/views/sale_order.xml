@@ -20,8 +20,8 @@
                         <field name="mrp_production_counts" widget="statinfo" string="Ordres de fabrication"/>
                     </button>
 
-<!--                    <button type="object" name="temp_action_confirm" string="temp button" class="oe_stat_button" icon="fa-puzzle-piece">-->
-<!--                    </button>-->
+                   <button type="object" name="temp_action_confirm" string="temp button" class="oe_stat_button" icon="fa-puzzle-piece">
+                    </button>
                 </xpath>
                 <!-- <xpath expr="//button[@name='action_view_delivery']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -31,6 +31,10 @@
 
                     <button name="action_show_manufactured_order" icon="fa-pencil-square-o" type="object" string="Fabrication" attrs="{'invisible': [('state', '!=', 'sale')]}" class="oe_highlight"/>
 
+                </xpath>
+
+                <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="date_of_last_version"/>      
                 </xpath>
                 
                 <xpath expr="//field[@name='sale_order_template_id']" position="after">
