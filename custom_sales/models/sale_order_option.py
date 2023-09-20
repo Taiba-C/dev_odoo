@@ -21,6 +21,8 @@ class SaleOrderOption(models.Model):
     total_purchase_price = fields.Float('Total purchase price', readonly=True,copy=True)
     
     order_line_id = fields.Many2one('sale.order.line', string='Order Line', ondelete="cascade", copy=True)
+
+    nomenclature_name = fields.Char('Nomenclature', compute="_compute_nomenclature_name")
     
     total_sale_price = fields.Float('Total sale price', readonly=True,copy=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
@@ -92,6 +94,11 @@ class SaleOrderOption(models.Model):
         res.total_purchase_price = self.total_purchase_price if self.total_purchase_price else 0
         res.quantity = self.quantity if self.quantity else 0
         return res
+
+    @api.depends('order_line_id')
+    def _compute_nomenclature_name(self):
+        for record in self:
+            record.nomenclature_name = record.order_line_id.name
     
 class Planning_slot(models.Model):
     _inherit = 'planning.slot'
