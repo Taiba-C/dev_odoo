@@ -1,0 +1,1175 @@
+<data>
+  <xpath expr="/t/t/div/div[2]/div[3]/strong" position="replace">
+    <strong>
+      <p style="margin-bottom: 0px;">Date limite de validité:</p>
+    </strong>
+  </xpath>
+  <xpath expr="/t/t/div/h2" position="attributes">
+    <attribute name="style" separator=";" add="margin-top:20px"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2" position="attributes">
+    <attribute name="style" separator=";" remove="margin-top:20px"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[1]" position="after">
+    <div class="row">
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;">
+        <br/>
+      </p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;">
+        <br/>
+      </p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;">SIREN : 809491335SIRET : 80949133500026Code APE : 4332AN° TVA : FR59809491335Forme juridique : SASUCapital : 8000<br/></p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;">SIREN : 809491335</p>
+      <p style="margin-bottom: 0px;">SIRET : 80949133500026</p>
+      <p style="margin-bottom: 0px;">Code APE : 4332A</p>
+      <p style="margin-bottom: 0px;">N° TVA : FR59809491335</p>
+      <p style="margin-bottom: 0px;">Forme juridique : SASU</p>
+      <p style="margin-bottom: 0px;">Capital : 8000<br/></p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;">SIREN : 809491335 - SIRET : 80949133500026</p>
+      <p style="margin-bottom: 0px;">Code APE : 4332A - N° TVA : FR59809491335</p>
+      <p style="margin-bottom: 0px;">Forme juridique : SASU - Capital : 8000 €<br/></p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[2]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;">
+        <br/>
+      </p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;">SIREN : 809491335 - SIRET : 80949133500026</p>
+      <p style="margin-bottom: 0px;">Code APE : 4332A - N° TVA : FR59809491335</p>
+      <p style="margin-bottom: 0px;">Forme juridique : SASU - Capital : 8000 €<br/></p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;"><strong>NESIL FRANCE : SIREN </strong>: 809491335 - <strong>SIRET</strong> : 80949133500026</p>
+      <p style="margin-bottom: 0px;"><strong>Code APE</strong> : 4332A - <strong>N° TVA </strong>: FR59809491335</p>
+      <p style="margin-bottom: 0px;"><strong>Forme juridique</strong> : SASU - <strong>Capital</strong> : 8000 €<br/></p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;">
+        <strong>NESIL FRANCE : </strong>
+      </p>
+      <p style="margin-bottom: 0px;"><strong>SIREN </strong>: 809491335 - <strong>SIRET</strong> : 80949133500026</p>
+      <p style="margin-bottom: 0px;"><strong>Code APE</strong> : 4332A - <strong>N° TVA </strong>: FR59809491335</p>
+      <p style="margin-bottom: 0px;"><strong>Forme juridique</strong> : SASU - <strong>Capital</strong> : 8000 €<br/></p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;">
+        <strong>NESIL FRANCE </strong>
+      </p>
+      <p style="margin-bottom: 0px;"><strong>SIREN </strong>: 809491335 - <strong>SIRET</strong> : 80949133500026</p>
+      <p style="margin-bottom: 0px;"><strong>Code APE</strong> : 4332A - <strong>N° TVA </strong>: FR59809491335</p>
+      <p style="margin-bottom: 0px;"><strong>Forme juridique</strong> : SASU - <strong>Capital</strong> : 8000 €<br/></p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>
+      <p style="margin-bottom: 0px;">
+        <strong>NESIL FRANCE </strong>
+      </p>
+      <p style="margin-bottom: 0px;"><strong>SIREN </strong>: 809491335 - <strong>SIRET</strong> : 80949133500026</p>
+      <p style="margin-bottom: 0px;"><strong>Code APE</strong> : 4332A - <strong>N° TVA </strong>: FR59809491335</p>
+      <p style="margin-bottom: 0px;"><strong>Forme juridique</strong> : SASU - <strong>Capital</strong> : 8000 <br/></p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[2]" position="replace">
+    <span t-elif="doc.state in ['draft','sent']">
+      <p style="margin-bottom: 0px;">Devis N°h    </p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/h2" position="attributes">
+    <attribute name="style" separator=";" add="margin-top:50px"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[4]" position="attributes">
+    <attribute name="style" separator=";" add="margin-top:200px"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[4]" position="attributes">
+    <attribute name="style" separator=";" remove="margin-top:200px"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[4]" position="attributes">
+    <attribute name="style" separator=";" add="margin-bottom:100px"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[4]" position="attributes">
+    <attribute name="style" separator=";" remove="margin-bottom:100px"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[2]" position="replace">
+    <span t-elif="doc.state in ['draft','sent']">
+      <p style="margin-bottom: 0px;">Devis N°</p>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/h2" position="attributes">
+    <attribute name="class" separator=" " add="text-start"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2" position="attributes">
+    <attribute name="class" separator=" " add="text-end" remove="text-start"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2" position="attributes">
+    <attribute name="class" separator=" " add="text-start" remove="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-start"/>
+  </xpath>
+  <xpath expr="/t/t/div/h2" position="attributes">
+    <attribute name="class" separator=" " add="text-start" remove="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/h4" position="replace">
+    <h4 name="h_optional_products">
+      <span>Options</span>
+    </h4>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[6]/table[1]/thead[1]/tr[1]/th[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[6]/table[1]/tbody[1]/tr[1]/td[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[6]/table[1]/tbody[1]/tr[1]/td[2]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[6]/h4[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[6]/table[1]/thead[1]/tr[1]/th[2]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[5]/strong[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[5]/p[1]" position="replace"/>
+  <xpath expr="/t/t/div/div[3]/div[2]/strong[2]" position="after">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[2]/span" position="after">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[2]/span[2]" position="after">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[2]/span[3]" position="after">
+    <span t-field="doc.user_id.name"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[2]/span[3]" position="after">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[2]/span[4]" position="replace">
+    <span>Nom di commercial :</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[2]/span[4]" position="replace">
+    <span>
+            <strong>Nom du commercial :</strong>
+          </span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[2]/span[1]" position="replace"/>
+  <xpath expr="/t/t/div/div[3]/div[2]/strong[2]" position="after">
+    <span t-field="doc.date_order"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[2]/span[2]" position="replace">
+    <span>
+      <br/>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[2]/span[3]" position="replace">
+    <span>
+      <br/>
+    </span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[2]/span[1]" position="attributes">
+    <attribute name="t-field">doc.date_order</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/h2" position="after">
+    <div class="row">
+      <div class="col-3">
+        <span>
+                <strong>Date de la commande:</strong>
+                <br/>
+              </span>
+        <span t-field="doc.date_order"/>
+      </div>
+      <div class="col-3"/>
+      <div class="col-3"/>
+      <div class="col-3"/>
+    </div>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[1]/span[2]" position="attributes">
+    <attribute name="t-options-widget">"date"</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[1]/span[1]/strong" position="after">
+    <span t-field="doc.date_order"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[1]/span[1]/span[1]" position="attributes">
+    <attribute name="t-options-widget">"date"</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[4]/div[2]/span[1]" position="attributes">
+    <attribute name="t-options-widget">"date"</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[1]/span[1]/strong[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[1]/span[1]/span[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[1]/span[2]" position="replace"/>
+  <xpath expr="/t/t/div/div[4]/div[2]/span[2]/br" position="before">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[4]/div[2]/span[2]/span" position="after">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[4]/div[2]/span[2]/span[2]" position="replace">
+    <span>
+            <strong>Nom du commercial : </strong>
+          </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[4]/div[2]/span[2]/span[1]" position="replace">
+    <span>- </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[4]/div[2]/span[2]/span[2]" position="after">
+    <span t-field="doc.user_id.name"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[4]/div[2]/p[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[4]/div[2]/span[5]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[4]/div[2]/span[4]" position="replace"/>
+  <xpath expr="/t/t/div/h2" position="after">
+    <div class="row">
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/h2[1]/span[4]" position="replace"/>
+  <xpath expr="/t/t/div/h2" position="after">
+    <div class="row">
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[2]/p" position="replace">
+    <p style="margin-bottom: 0px;">Devis N°</p>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/h2[1]/span[2]" position="replace"/>
+  <xpath expr="/t/t/div/h2/span[2]" position="replace">
+    <span t-else="">Devis N°</span>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[2]" position="replace">
+    <span t-else="">Devis N°<p>Commande</p></span>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[2]" position="replace">
+    <span t-else="">Commande N°</span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/h2[1]/span[2]" position="attributes">
+    <attribute name="t-else">else</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[2]" position="replace">
+    <span t-else="else">Commande N°</span>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[2]" position="replace">
+    <span t-else="else">Devis N°</span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/h2[1]/span[2]" position="attributes">
+    <attribute name="t-else">None</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/h2[1]/span[2]" position="attributes">
+    <attribute name="t-if">doc.state in ['draft', 'sent']</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/h2[1]/span[2]" position="attributes">
+    <attribute name="t-else">None</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[1]/span" position="replace">
+    <span>
+            <span style="font-size: 14px;">Devis N° </span>
+          </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[3]/div[1]/span" position="replace">
+    <span>
+            <span style="font-size: 14px;">Devis N° </span>
+          </span>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[2]" position="after">
+    <span t-field="doc.name"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[2]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[4]/div[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[4]/div[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[2]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]" position="replace"/>
+  <xpath expr="/t/t/div/h2/span[3]" position="before">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[3]" position="replace">
+    <span>Commande N °</span>
+  </xpath>
+  <xpath expr="/t/t/div/h2/span[3]" position="replace">
+    <span>Commande N °</span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/h2[1]/span[3]" position="attributes">
+    <attribute name="t-if">doc.state == "sale"</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[2]/br" position="after">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[2]/span[4]" position="replace">
+    <span>Date limite de validité :</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[2]/span[4]" position="replace">
+    <span>
+      <strong>Date limite de validité :</strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[2]/span[4]" position="after">
+    <span t-field="doc.validity_quotation"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[2]/span[2]/span[4]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[2]/span[2]/span[4]" position="replace"/>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/br" position="before">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/span" position="replace">
+    <span>Nom du commercial :</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/span" position="replace">
+    <span>
+            <strong>Nom du commercial :</strong>
+          </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/span" position="after">
+    <span t-field="doc.user_id.name"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/br" position="after">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/span[3]" position="replace">
+    <span>Date limite de validité :</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/span[3]" position="replace">
+    <span>
+      <strong>Date limite de validité :</strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/span[3]" position="after">
+    <span t-field="doc.validity_quotation"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[2]/span[2]/span[2]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[2]/span[2]/span[2]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[2]/span[2]/span[1]" position="replace"/>
+  <xpath expr="/t/t/t[3]/div" position="attributes">
+    <attribute name="class" separator=" " add="o_bold"/>
+  </xpath>
+  <xpath expr="/t/t/t[3]/div" position="attributes">
+    <attribute name="class" separator=" " add="h5"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]" position="after">
+    <div class="row">
+      <div class="col">
+        <span t-field="doc.x_studio_rfrence_du_stand"/>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="class" separator=" " add="o_bold"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="class" separator=" " add="h2"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div" position="attributes">
+    <attribute name="class" separator=" " add="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div" position="attributes">
+    <attribute name="class" separator=" " add="o_bold"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="class" separator=" " remove="o_bold"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="class" separator=" " add="o_bold"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="style" separator=";" add="background-color:#B56308"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="style" separator=";" remove="background-color:#B56308"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="style" separator=";" add="color:#B56308"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="style" separator=";" add="color:#7B3900" remove="color:#B56308"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="style" separator=";" add="background-color:#B56308"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="style" separator=";" remove="background-color:#B56308"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="style" separator=";" add="color:#B56308" remove="color:#7B3900"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div/span" position="attributes">
+    <attribute name="style" separator=";" add="color:#7B3900" remove="color:#B56308"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[2]/span[3]/span[4]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[2]/span[3]/span[3]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[3]/strong[1]" position="replace"/>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/br" position="after">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[3]/p[1]" position="replace"/>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/span[3]" position="replace">
+    <span>
+      <strong>Date limite de validité :</strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]/div[2]/span[3]/span[3]" position="after">
+    <span t-field="doc.validity_date"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[3]" position="replace">
+    <th name="th_priceunit" class="text-end">PU HT</th>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[2]" position="replace">
+    <th name="th_quantity" class="text-end">Qte</th>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[5]" position="replace">
+    <th name="th_taxes" class="text-end">TVA</th>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[6]/span[1]" position="replace">
+    <span groups="account.group_show_line_subtotals_tax_excluded" studio_groups="[{&quot;id&quot;: 25, &quot;name&quot;: &quot;Affichage des taxes B2B&quot;, &quot;display_name&quot;: &quot;Technique / Affichage des taxes B2B&quot;}]">Total HT</span>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[6]" position="after">
+    <th>
+      <span>Total</span>
+    </th>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[6]" position="after">
+    <td>
+      <span t-field="line.price_total"/>
+    </td>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/t[3]/tr/td" position="attributes">
+    <attribute name="colspan">100</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[7]/span" position="replace">
+    <span>Total TTC</span>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[3]" position="after">
+    <th>
+      <span>Sous-total</span>
+    </th>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[3]" position="after">
+    <td>
+      <span t-field="line.price_subtotal"/>
+    </td>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/t[3]/tr/td" position="attributes">
+    <attribute name="colspan">101</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[4]/span" position="replace">
+    <span>Total HT</span>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[2]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[3]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[4]" position="attributes">
+    <attribute name="class" separator=" " add="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[6]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[7]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[8]" position="attributes">
+    <attribute name="class" separator=" " add="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[1]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-start"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[1]" position="attributes">
+    <attribute name="class" separator=" " add="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[2]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[3]" position="attributes">
+    <attribute name="class" separator=" " remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[3]" position="attributes">
+    <attribute name="class" separator=" " add="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[2]" position="attributes">
+    <attribute name="class" separator=" " add="text-end" remove="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[1]" position="attributes">
+    <attribute name="class" separator=" " add="text-end" remove="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[4]" position="attributes">
+    <attribute name="class" separator=" " add="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[8]" position="attributes">
+    <attribute name="class" separator=" " add="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[1]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[2]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[4]" position="attributes">
+    <attribute name="class">text-end o_price_total</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[4]" position="attributes">
+    <attribute name="t-if">line.is_downpayment is False</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[7]" position="replace">
+    <th name="th_subtotal" class="text-center">
+      <span groups="account.group_show_line_subtotals_tax_excluded" studio_groups="[{&quot;id&quot;: 25, &quot;name&quot;: &quot;Affichage des taxes B2B&quot;, &quot;display_name&quot;: &quot;Technique / Affichage des taxes B2B&quot;}]">Total HT</span>
+    </th>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/thead[1]/tr[1]/th[7]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[7]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[7]" position="attributes">
+    <attribute name="class">text-end o_price_total</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/t[3]/tr/td/strong" position="replace">
+    <strong class="mr16">Sous-total HT</strong>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[1]" position="attributes">
+    <attribute name="class" separator=" " add="text-start" remove="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[1]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-start"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[7]" position="attributes">
+    <attribute name="t-if">line.is_downpayment is False</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[1]" position="attributes">
+    <attribute name="class" separator=" " add="text-start" remove="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[1]" position="attributes">
+    <attribute name="class" separator=" " add="text-start" remove="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[1]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-start"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[3]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[6]" position="attributes">
+    <attribute name="class" separator=" " add="text-center" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[1]" position="attributes">
+    <attribute name="class" separator=" " add="text-start" remove="text-center"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/thead[1]/tr[1]/th[7]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[7]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/thead[1]/tr[1]/th[6]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[6]" position="replace"/>
+  <xpath expr="/t/t/div/div[4]" position="after">
+    <div class="row">
+      <div class="col">
+        <span>New Text Block</span>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[5]/div[1]" position="replace"/>
+  <xpath expr="/t/t/div/div[5]" position="after">
+    <div class="row">
+      <div class="col">
+        <span t-field="doc.version_du_devis"/>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[5]" position="after">
+    <div class="row">
+      <div class="col-3">
+        <span>
+          <strong>Version du devis:</strong>
+          <br/>
+        </span>
+        <span t-field="doc.version_du_devis"/>
+      </div>
+      <div class="col-3"/>
+      <div class="col-3"/>
+      <div class="col-3"/>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[1]/span[1]/strong" position="after">
+    <span t-field="doc.version_du_devis"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[7]/div[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[6]/div[1]/span[2]" position="replace"/>
+  <xpath expr="/t/t/div/div[6]/div[1]" position="attributes">
+    <attribute name="class" separator=" " add="o_bold"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[1]" position="attributes">
+    <attribute name="style" separator=";" add="color:#7B3900"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[6]/div[1]" position="attributes">
+    <attribute name="t-if">doc.state == "draft" and doc.state == "sent"</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]" position="inside">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span" position="replace">
+    <span>Version du devis</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span" position="replace">
+    <span>
+      <strong>Version du devis :</strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span" position="replace">
+    <span>
+      <strong>
+        <font style="color: rgb(181, 99, 8);">Version du devis :</font>
+      </strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span" position="replace">
+    <span>
+      <strong>
+        <font style="color: rgb(181, 99, 8);">Version du devis :</font>
+      </strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span" position="replace">
+    <span>
+      <strong>
+        <font style="color: rgb(156, 0, 0);">Version du devis :</font>
+      </strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span" position="replace">
+    <span>
+      <strong>
+        <font style="color: rgb(156, 0, 0);">Version du devis :</font>
+      </strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span" position="replace">
+    <span>
+      <strong>
+        <font class="text-black">Version du devis :</font>
+      </strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span" position="replace">
+    <span>
+      <strong>
+        <font class="text-black">Version du devis :</font>
+      </strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span" position="replace">
+    <span>
+      <strong>
+        <font class="text-black">Version du devis :</font>
+      </strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span/strong" position="after">
+    <span t-field="doc.version_du_devis"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[6]/div[2]" position="attributes">
+    <attribute name="t-if">doc.state == "draft" or doc.state == "sent"</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[6]/div[2]" position="attributes">
+    <attribute name="t-if"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span/strong" position="replace">
+    <strong>
+      <font class="text-black">Version :</font>
+    </strong>
+  </xpath>
+  <xpath expr="/t/t/div/div[13]" position="after">
+    <img class="img-fluid" src="/web/image/372-bd5fb206/bon%20pour%20accord%20et%20sgnature%203.png"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/img[1]" position="replace"/>
+  <xpath expr="/t/t/div/div[13]" position="after">
+    <img class="img-fluid" src="/web/image/373-e600e03f/Image%20Bon%20pour%20accord%20Tampon%20et%20signature%20V2.png"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/img[1]" position="replace"/>
+  <xpath expr="/t/t/div/div[10]" position="after">
+    <img class="img-fluid" src="/web/image/373-e600e03f/Image%20Bon%20pour%20accord%20Tampon%20et%20signature%20V2.png"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]" position="attributes">
+    <attribute name="class" separator=" " add="o_bold"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span/strong" position="replace">
+    <strong>
+      <font class="text-black">
+        <span style="font-size: 14px;">Version :</span>
+      </font>
+    </strong>
+  </xpath>
+  <xpath expr="/t/t/div/div[6]/div[2]/span/strong" position="replace">
+    <strong>
+      <font class="text-black">
+        <span style="font-size: 14px;">Version :</span>
+      </font>
+    </strong>
+  </xpath>
+  <xpath expr="/t/t/div/div[10]" position="after">
+    <img class="img-fluid" src="/web/image/426-d30d8407/V3%20Image%20bon%20pour%20accord%20tampo%20et%20signature.png"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/img[2]" position="replace"/>
+  <xpath expr="/t/t/div/table/thead/tr/th[5]" position="after">
+    <th>
+      <span>Sous-total</span>
+    </th>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[5]" position="after">
+    <td>
+      <span t-field="line.price_subtotal"/>
+    </td>
+  </xpath>
+  <xpath expr="/t/t/div/table/tbody/t[2]/t[3]/tr/td" position="attributes">
+    <attribute name="colspan">102</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[6]" position="attributes">
+    <attribute name="class">text-end o_price_total</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[6]" position="attributes">
+    <attribute name="t-if">line.is_downpayment is False</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/thead[1]/tr[1]/th[6]" position="attributes">
+    <attribute name="class">text-center</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/table/thead/tr/th[6]" position="replace">
+    <th class="text-center">
+      <span>Total HT</span>
+      <br/>
+    </th>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/thead[1]/tr[1]/th[4]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[4]" position="replace"/>
+  <xpath expr="/t/t/div/div[9]" position="after">
+    <div class="row">
+      <div class="col">
+        <span t-field="doc.rfrence_du_dossier.display_name"/>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[10]/div" position="attributes">
+    <attribute name="class" separator=" " add="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[10]/div" position="attributes">
+    <attribute name="class" separator=" " add="o_bold"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[10]/div" position="attributes">
+    <attribute name="class" separator=" " add="h3"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[10]/div" position="attributes">
+    <attribute name="class" separator=" " add="h2" remove="h3"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]" position="attributes">
+    <attribute name="class" separator=" " add="o_bold"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]" position="attributes">
+    <attribute name="class" separator=" " add="text-black"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/t[3]/div[1]" position="attributes">
+    <attribute name="t-options-fields">['address', 'name', 'phone']</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/t[3]/div[1]" position="attributes">
+    <attribute name="t-options-fields">['address', 'name', 'phone', 'mobile']</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/t[3]/div[1]" position="attributes">
+    <attribute name="class">o_bold h5 border border-dark</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/t[3]/div[1]" position="attributes">
+    <attribute name="class">o_bold h5 border </attribute>
+  </xpath>
+  <xpath expr="/t/t/t[3]/div" position="attributes">
+    <attribute name="class" separator=" " add="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/t[3]/div" position="attributes">
+    <attribute name="class" separator=" " add="text-end" remove="text-center"/>
+  </xpath>
+  <xpath expr="/t/t/t[3]/div" position="attributes">
+    <attribute name="class" separator=" " add="text-start" remove="text-end"/>
+  </xpath>
+  <xpath expr="/t/t/t[3]/div" position="attributes">
+    <attribute name="style" separator=";" add="margin-right:1px"/>
+  </xpath>
+  <xpath expr="/t/t/t[3]/div" position="attributes">
+    <attribute name="style" separator=";" add="margin-right:10px" remove="margin-right:1px"/>
+  </xpath>
+  <xpath expr="/t/t/t[3]/div" position="attributes">
+    <attribute name="style" separator=";" add="margin-left:10px"/>
+  </xpath>
+  <xpath expr="/t/t/t[3]/div" position="attributes">
+    <attribute name="style" separator=";" remove="margin-left:10px"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/t[3]/div[1]" position="attributes">
+    <attribute name="class">o_bold h5 text-start</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/div[1]" position="after">
+    <div class="row">
+      <div class="col-4">
+        <span>New Column</span>
+      </div>
+      <div class="col-4">
+        <span>New Column</span>
+      </div>
+      <div class="col-4">
+        <span>New Column</span>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[1]" position="after">
+    <div class="row address">
+      <div class="col-5"/>
+      <div class="col-5 offset-2">
+        <div t-field="doc.partner_id" t-options-widget="'contact'"/>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]" position="inside">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>NESIL FRANCE SIREN : 809491335 - SIRET : 80949133500026 Code APE : 4332A - N° TVA : FR59809491335 Forme juridique : SASU - Capital : 8000<br/></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span>NESIL FRANCE<br/>SIREN : 809491335 - SIRET : 80949133500026 <br/>Code APE : 4332A - N° TVA : FR59809491335 <br/>Forme juridique : SASU - Capital : 8000<br/></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span><strong>NESIL FRANCE</strong><br/>SIREN : 809491335 - SIRET : 80949133500026 <br/>Code APE : 4332A - N° TVA : FR59809491335 <br/>Forme juridique : SASU - Capital : 8000<br/></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span><strong>NESIL FRANCE</strong><br/><strong>SIREN</strong> : 809491335 - SIRET : 80949133500026 <br/>Code APE : 4332A - N° TVA : FR59809491335 <br/>Forme juridique : SASU - Capital : 8000<br/></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span><strong>NESIL FRANCE</strong><br/><strong>SIREN</strong> : 809491335 - <strong>SIRET</strong> : 80949133500026 <br/>Code APE : 4332A - N° TVA : FR59809491335 <br/>Forme juridique : SASU - Capital : 8000<br/></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span><strong>NESIL FRANCE</strong><br/><strong>SIREN</strong> : 809491335 - <strong>SIRET</strong> : 80949133500026 <br/><strong>Code APE</strong> : 4332A -<strong> N° TVA </strong>: FR59809491335 <br/>Forme juridique : SASU - Capital : 8000<br/></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[1]/span" position="replace">
+    <span><strong>NESIL FRANCE</strong><br/><strong>SIREN</strong> : 809491335 - <strong>SIRET</strong> : 80949133500026 <br/><strong>Code APE</strong> : 4332A -<strong> N° TVA </strong>: FR59809491335 <br/><strong>Forme juridique</strong> : SASU - <strong>Capital</strong> : 8000<br/></span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[2]/div[2]/div[1]" position="attributes">
+    <attribute name="t-options-fields">['name', 'address', 'phone', 'mobile']</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[2]/div[2]/div[1]" position="attributes">
+    <attribute name="t-options-no_marker">True</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[2]/div" position="attributes">
+    <attribute name="class" separator=" " add="o_bold"/>
+  </xpath>
+  <xpath expr="/t/t/div/div[2]/div[2]/div" position="attributes">
+    <attribute name="class" separator=" " add="h5"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[2]/div[2]/div[1]" position="attributes">
+    <attribute name="class">o_bold h5 text-start</attribute>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/t[3]/div[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[3]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[2]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[3]/div[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[4]/div[1]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/div[4]/div[1]" position="replace"/>
+  <xpath expr="/t/t/div/img" position="after">
+    <div class="row">
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[1]/span" position="replace">
+    <span>
+      <br/>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <u><u/>Bon pour accord tampon et Signature:</u>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <u><u/>Bon pour accord tampon et Signature:</u>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <span style="font-size: 16px;">
+      <strong>  <span style="font-size: 16px;">Bon pour accord tampon et Signature:</span></strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <span style="font-size: 16px;">
+      <strong>  <span style="font-size: 16px;">Bon pour accord tampon et Signature:</span></strong>
+    </span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[14]/div[2]" position="attributes">
+    <attribute name="class">col-6 border border-dark border-2</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u" position="after">
+    <span t-field="doc.signature" t-options-widget="&quot;image&quot;"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[14]/div[2]" position="attributes">
+    <attribute name="t-if">doc.signature</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span" position="replace">
+    <span style="font-size: 16px;">
+      <strong>Bon pour accord tampon et Signature:</strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span" position="replace">
+    <span style="font-size: 16px;">
+      <strong>  <span style="font-size: 16px;">Bon pour accord tampon et Signature:</span></strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span" position="replace">
+    <span style="font-size: 16px;">
+      <strong>  <span style="font-size: 16px;">Bon pour accord tampon et Signature:</span></strong>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong/span" position="replace">
+    <span style="font-size: 16px;">Bon pour accord tampon et Signature:</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong/span" position="replace">
+    <span style="font-size: 16px;">g</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong/span" position="replace">
+    <span style="font-size: 16px;">g</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong" position="replace">
+    <strong>
+      <span style="font-size: 16px;">
+        <u>g</u>
+      </span>
+    </strong>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong" position="replace">
+    <strong>
+      <span style="font-size: 16px;">
+        <u>g</u>
+      </span>
+    </strong>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong/span/u" position="replace">
+    <u> Bon pour accord tampon et Signature:</u>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong/span/u" position="replace">
+    <u> Bon pour accord tampon et Signature:</u>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong/span/u" position="replace">
+    <u><u> </u>Bon pour accord tampon et Signature:</u>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong/span/u" position="replace">
+    <u><u/><br/>Bon pour accord tampon et Signature:</u>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong/span/u" position="replace">
+    <u><u/><br/> Bon pour accord tampon et Signature:</u>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong/span/u" position="replace">
+    <u><u/>Bon pour accord tampon et Signature:</u>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/u/strong/span/strong/span/u" position="replace">
+    <u><u/>Bon pour accord tampon et Signature:</u>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[14]/div[2]/span[1]/u[1]" position="replace"/>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/span" position="before">
+    <span>New Text Block</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/span[1]" position="replace">
+    <span>  Bon pour accord tampon et signature:</span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/span[1]" position="replace">
+    <span>  <strong><u><span style="font-size: 16px;">Bon pour accord tampon et signature:</span></u></strong></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/span[1]" position="replace">
+    <span>  <strong><u><span style="font-size: 16px;">Bon pour accord tampon et signature:</span></u></strong></span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[15]" position="attributes">
+    <attribute name="t-if"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[15]" position="replace"/>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/span[1]/strong/u/span" position="replace">
+    <span style="font-size: 16px;">
+      <span style="font-size: 16px;">Bon pour accord tampon et signature:</span>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/span[1]/strong/u/span" position="replace">
+    <span style="font-size: 16px;">
+      <span style="font-size: 16px;">Bon pour accord tampon et signature:</span>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/span[1]/strong/u/span" position="replace">
+    <span style="font-size: 16px;">
+      <span style="font-size: 16px;">Bon pour accord tampon et signature:</span>
+    </span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/img[1]" position="replace"/>
+  <xpath expr="/t/t/div/div[13]" position="after">
+    <div class="row">
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[1]/span" position="replace">
+    <span>
+      <br/>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <span>
+      <br/>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[13]" position="after">
+    <div class="row">
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[1]/span" position="replace">
+    <span>
+      <br/>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <span>
+      <br/>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[13]" position="after">
+    <div class="row">
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <span>
+      <br/>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[1]/span" position="replace">
+    <span>
+      <br/>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[17]/div[2]/span/span[1]" position="after">
+    <span t-field="doc.signature" t-options-widget="&quot;image&quot;"/>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[17]/div[2]/span[1]/span[3]" position="replace"/>
+  <xpath expr="/t/t/div/div[14]" position="after">
+    <div class="row">
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+      <div class="col-6">
+        <span>New Column</span>
+      </div>
+    </div>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <span>  Bon pour accord tampon et signature:</span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[15]/div[2]" position="attributes">
+    <attribute name="class">col-6 border border-dark border-2</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <span>  Bon pour accord tampon et signature:<br/><br/><br/><br/></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <span>  Bon pour accord tampon et signature:<br/><br/><br/><br/><br/></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <span>  <strong><u><span style="font-size: 16px;">Bon pour accord tampon et signature:</span></u></strong><br/><br/><br/><br/><br/></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span" position="replace">
+    <span>  <strong><u><span style="font-size: 16px;">Bon pour accord tampon et signature:</span></u></strong><br/><br/><br/><br/><br/></span>
+  </xpath>
+  <xpath expr="/t/t/div/div[15]/div[1]/span" position="replace">
+    <span>
+      <br/>
+    </span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/div[1]/div[15]/div[2]" position="attributes">
+    <attribute name="t-if">doc.signature is False</attribute>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/strong/u/span" position="replace">
+    <span style="font-size: 16px;">
+      <span style="font-size: 18px;">Bon pour accord tampon et signature:</span>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/strong/u/span" position="replace">
+    <span style="font-size: 16px;">
+      <span style="font-size: 18px;">Bon pour accord tampon et signature:</span>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/strong/u/span" position="replace">
+    <span style="font-size: 16px;">
+      <span style="font-size: 18px;">
+        <strong>Bon pour accord tampon et signature:</strong>
+      </span>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[14]/div[2]/span/strong/u/span" position="replace">
+    <span style="font-size: 16px;">
+      <span style="font-size: 18px;">
+        <strong>Bon pour accord tampon et signature:<br/><br/></strong>
+      </span>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[18]/div[2]/span/span[1]/strong/u/span/span" position="replace">
+    <span style="font-size: 16px;">
+      <span style="font-size: 18px;">Bon pour accord tampon et signature:</span>
+    </span>
+  </xpath>
+  <xpath expr="/t/t/div/div[18]/div[2]/span/span[1]/strong/u/span/span" position="replace">
+    <span style="font-size: 16px;">
+      <span style="font-size: 18px;">Bon pour accord tampon et signature:</span>
+    </span>
+  </xpath>
+  <xpath expr="/t[1]/t[1]/t[3]" position="replace"/>
+  <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[2]/span[1]" position="attributes">
+    <attribute name="t-field">line.qty</attribute>
+  </xpath>
+</data>
