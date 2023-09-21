@@ -39,13 +39,19 @@ class Sale_order(models.Model):
     rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
     date_of_last_version = fields.Datetime(
         string="Date de mis à jour",
-        required=True, readonly=False, copy=False,
-        help="La date qui apparait dans le rapport à chaque mis à jour du devis",related="date_order")
+        required=True, copy=False,default=fields.Datetime.now,
+        help="La date qui apparait dans le rapport à chaque mis à jour du devis")
     version_du_devis = fields.Char(string='Version du devis')
-    @api.onchange('version_du_devis')
-    def define_new_date_order(self):
+
+
+    def write(self, vals):
+        res = super(Sale_order, self).write(vals)
         for rec in self:
-            rec.date_of_last_version = datetime.now() if rec.version_du_devis else rec.date_order
+            if vals.get('version_du_devis'):
+                rec.write({'date_of_last_version': datetime.now()}) 
+
+        return res         
+
     date_of_exhibition = fields.Date('Begin of exhibition')
     validity_quotation = fields.Date('Validity of the quotation')
     
