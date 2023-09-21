@@ -425,13 +425,48 @@ class Sale_order(models.Model):
                 user.message_post(body=message, message_type="notification", subtype_xmlid='mail.mt_note', 
                                 author_id=self.env.user.partner_id.id, 
                                 notification_ids=notification_ids)
+    
+
+    def notify_sent_quotation(self):
+        """
+            send notifications
+        """
+        #if self.state == 'sent':
+        users =  self.env['res.users'].sudo().search([])
+        for user in users:
+            for group in user.groups_id:
+                if group.name == 'Profil Direction':
+                    print(' ##################### Group name',group.name)
+                    notification_ids = [(0, 0, {
+                        'res_partner_id': user.partner_id.id,
+                        'notification_type': 'inbox',
+                    })]  
+                    message = f"Le devis {self.name} est envoyé au client."
+                    user.partner_id.message_post(body=message, message_type="notification", subtype_xmlid='mail.mt_note', 
+                                    author_id=self.env.user.partner_id.id, 
+                                    notification_ids=notification_ids)
+
         
+    
+    # def action_send_mail(self):
+
+    #     res = super(Sale_order,self).action_send_mail()
+        
+    #     if self._context['active_model'] == 'sale.order':
+    #         self.notify_sended_quotation()
+                    
+    #     return res
     
     def action_quotation_send(self):
         res = super(Sale_order,self).action_quotation_send()
         
         if self.is_bom_generated == False:
             raise UserError("Vous avez oublié de cliquer sur le bouton de chiffrage")
+        
+        if self._context['params']['model'] == 'sale.order':
+            self.notify_sent_quotation()
+                    
+        return res
 
         
         return res
