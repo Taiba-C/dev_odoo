@@ -357,7 +357,8 @@
                                 <ul class="ps-1 mb-0 list-unstyled">
                                     <li><strong>Start Date: </strong> <t t-out="userTimezoneStartDate.format('L LTS')"/></li>
                                     <li><strong>Stop Date: </strong> <t t-out="userTimezoneStopDate.format('L LTS')"/></li>
-                                    <li><strong>Workcenter: </strong> <t t-out="workcenter_id[1]"/></li>
+                                    <!-- <li><strong>Workcenter: </strong> <t t-out="workcenter_id[1]"/></li> -->
+                                    <li><strong> Description de l'article : </strong><t t-out="product_description"/></li>
                                 </ul>
                             </div>
                         </div>
