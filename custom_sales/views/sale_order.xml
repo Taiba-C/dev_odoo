@@ -34,7 +34,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='date_order']" position="after">
-                    <field name="date_of_last_version" readonly='1' force_save='1'/>      
+                    <field name="date_of_last_version" widget="date" readonly='1' force_save='1'/>      
                 </xpath>
                 
                 <xpath expr="//field[@name='sale_order_template_id']" position="after">
