@@ -840,6 +840,8 @@ class Work_Order(models.Model):
     # Champs à ajouter pour le filtrage
     user_assigned = fields.Boolean("Assigné à l'utilisateur", compute='_compute_user_assigned', store=True)
 
+    product_description = fields.Char('Description', related="production_id.description_product")
+
     @api.depends('employee_id')
     def _compute_user_assigned(self):
         for work_order in self:
