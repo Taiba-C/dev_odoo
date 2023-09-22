@@ -963,7 +963,7 @@ class Account_move(models.Model):
                         'res_partner_id': user.partner_id.id,
                         'notification_type': 'inbox',
                     })]  
-                    message = f"La facture {self.name} est envoyé au client."
+                    message = f"La facture {self.name} est envoyée au client."
                     user.partner_id.message_post(body=message, message_type="notification", subtype_xmlid='mail.mt_note', 
                                     author_id=self.env.user.partner_id.id, 
                                     notification_ids=notification_ids)
