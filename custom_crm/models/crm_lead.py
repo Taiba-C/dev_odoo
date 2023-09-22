@@ -73,4 +73,20 @@ class Lead(models.Model):
                 res.warning_copy = True
                 res.warning_display_time = 0
         return res
-        
+    
+    def action_set_lost(self, **additional_values):
+        """ Lost semantic: probability = 0 or active = False """
+        res = self.action_archive()
+        if additional_values:
+            self.write(dict(additional_values))
+        if self.order_ids:
+            self.order_ids.action_cancel()
+        return res
+    
+    def toggle_active(self):
+        """ When archiving: mark probability as 0. When re-activating
+        update probability again, for leads and opportunities. """
+        res = super(Lead, self).toggle_active()
+        if self.order_ids:
+            self.order_ids.action_draft()
+        return res

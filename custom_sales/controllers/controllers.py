@@ -17,5 +17,5 @@
 #     @http.route('/custom_sales/custom_sales/objects/<model("custom_sales.custom_sales"):obj>', auth='public')
 #     def object(self, obj, **kw):
 #         return http.request.render('custom_sales.object', {
-#             'object': obj
+#             'object': obj 
 #         })

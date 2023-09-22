@@ -37,8 +37,27 @@ class Sale_order(models.Model):
                                         order_option.order_line_id = line.id
 
     rfrence_du_dossier = fields.Many2one('crm.lead',string='Référence du dossier',compute='get_ref_dossier')
+    date_of_last_version = fields.Datetime(
+        string="Date de mis à jour",
+        required=True, copy=False,default=fields.Datetime.now,
+        help="La date qui apparait dans le rapport à chaque mis à jour du devis")
+    def retro_date_of_late_update(self):
+        orders =  self.env['sale.order'].search([])
+        for order in orders:
+            if order.date_order:
+                order.date_of_last_version = order.date_order
+
     version_du_devis = fields.Char(string='Version du devis')
-    
+
+
+    def write(self, vals):
+        res = super(Sale_order, self).write(vals)
+        for rec in self:
+            if vals.get('version_du_devis'):
+                rec.write({'date_of_last_version': datetime.now()}) 
+
+        return res         
+
     date_of_exhibition = fields.Date('Begin of exhibition')
     validity_quotation = fields.Date('Validity of the quotation')
     
@@ -331,7 +350,6 @@ class Sale_order(models.Model):
     #     self.total_sale = total_sale
     #     self.margin = margin
     
-    
     @api.depends('sale_order_option_ids')
     def _compute_total_infos(self):
         for record in self:
@@ -419,16 +437,28 @@ class Sale_order(models.Model):
                 user.message_post(body=message, message_type="notification", subtype_xmlid='mail.mt_note', 
                                 author_id=self.env.user.partner_id.id, 
                                 notification_ids=notification_ids)
+    
+
         
+    
+    # def action_send_mail(self):
+
+    #     res = super(Sale_order,self).action_send_mail()
+        
+    #     if self._context['active_model'] == 'sale.order':
+    #         self.notify_sended_quotation()
+                    
+    #     return res
     
     def action_quotation_send(self):
         res = super(Sale_order,self).action_quotation_send()
         
         if self.is_bom_generated == False:
             raise UserError("Vous avez oublié de cliquer sur le bouton de chiffrage")
+                    
+        return res
 
         
-        return res
 
     def action_confirm(self):
         res = super(Sale_order,self).action_confirm()
@@ -803,12 +833,14 @@ class Work_Order(models.Model):
     task_id = fields.Many2one('project.task', string='Task')
     timesheet_id = fields.Many2one('account.analytic.line', string='Timesheet')
     sale_order = fields.Many2one('sale.order', related='production_id.sale_order', string="Sale Order")
-    sale_order_name = fields.Char("Numéro du devis",related='sale_order.name')
+    sale_order_name = fields.Char("Numéro du devis", related='sale_order.name')
     role = fields.Char("Rôle")
     user_id = fields.Many2one('res.users', string="User", related='employee_id.user_id')
 
     # Champs à ajouter pour le filtrage
     user_assigned = fields.Boolean("Assigné à l'utilisateur", compute='_compute_user_assigned', store=True)
+
+    product_description = fields.Char('Description', related="production_id.description_product")
 
     @api.depends('employee_id')
     def _compute_user_assigned(self):
@@ -914,3 +946,32 @@ class Timesheet_custom(models.Model):
     _inherit = 'account.analytic.line'
 
     workorder_id = fields.Many2one('mrp.workorder', string='Work Order')
+
+class Account_move(models.Model):
+    _inherit = 'account.move'
+
+    def notify_sent_quotation(self):
+        """
+            send notifications
+        """
+        #if self.state == 'sent':
+        users =  self.env['res.users'].sudo().search([])
+        for user in users:
+            for group in user.groups_id:
+                if group.name == 'Profil Direction':
+                    notification_ids = [(0, 0, {
+                        'res_partner_id': user.partner_id.id,
+                        'notification_type': 'inbox',
+                    })]  
+                    message = f"La facture {self.name} est envoyée au client."
+                    user.partner_id.message_post(body=message, message_type="notification", subtype_xmlid='mail.mt_note', 
+                                    author_id=self.env.user.partner_id.id, 
+                                    notification_ids=notification_ids)
+    
+    def action_invoice_print(self):
+        res = super(Account_move,self).action_invoice_print()
+        
+        #if self._context['params']['model'] == 'account.move':
+        self.notify_sent_quotation()
+                    
+        return res
