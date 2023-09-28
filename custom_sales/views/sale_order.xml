@@ -23,8 +23,8 @@
                         <field name="amount_to_pay" widget="statinfo" string="Reste à facturer"/>
                     </button>
 
-                   <!-- <button type="object" name="temp_action_confirm" string="temp button" class="oe_stat_button" icon="fa-puzzle-piece">
-                    </button> -->
+                   <button type="object" name="temp_action_confirm" string="temp button" class="oe_stat_button" icon="fa-puzzle-piece">
+                    </button> 
                 </xpath>
                 <!-- <xpath expr="//button[@name='action_view_delivery']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -211,6 +211,17 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='order_line']/tree/field[@name='task_id']" position="attributes">
                     <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_quotation_tree_with_onboarding_inherited" model="ir.ui.view">
+            <field name="name">sale.order.tree.sale.nesil</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_total']" position="after">
+                    <field name="amount_to_pay"/>
                 </xpath>
             </field>
         </record>
