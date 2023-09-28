@@ -221,7 +221,7 @@
             <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='amount_total']" position="after">
-                    <field name="amount_to_pay"/>
+                     <field name="amount_to_pay" sum="Total reste à payer"/>
                 </xpath>
             </field>
         </record>

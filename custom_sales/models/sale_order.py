@@ -8,18 +8,20 @@ from odoo.exceptions import UserError
 class Sale_order(models.Model):
     _inherit = 'sale.order'
     
-    #@api.depends("amount_residual")
     def _compute_sale_invoice(self):
             for sale in self:
-                amount = 0
-                for record in sale.invoice_ids:
-                    if record.move_type in ('out_invoice'):
-                        amount += record.amount_total
+                if sale.state == 'sale':
+                    amount = 0
+                    for record in sale.invoice_ids:
+                        if record.move_type in ('out_invoice'):
+                            amount += record.amount_total
 
-                if amount == sale.amount_total:
-                    sale.amount_to_pay = 0
+                    if amount == sale.amount_total:
+                        sale.amount_to_pay = 0
+                    else:
+                        sale.amount_to_pay = sale.amount_total - amount
                 else:
-                    sale.amount_to_pay = sale.amount_total - amount
+                    sale.amount_to_pay = 0
 
     amount_to_pay = fields.Float(string='Reste à facturer',compute='_compute_sale_invoice')
     total_purchase = fields.Float('Total puchase price', readonly = True, compute="_compute_total_infos")
