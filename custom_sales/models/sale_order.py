@@ -8,6 +8,22 @@ from odoo.exceptions import UserError
 class Sale_order(models.Model):
     _inherit = 'sale.order'
     
+    def _compute_sale_invoice(self):
+            for sale in self:
+                if sale.state == 'sale':
+                    amount = 0
+                    for record in sale.invoice_ids:
+                        if record.move_type in ('out_invoice'):
+                            amount += record.amount_total
+
+                    if amount == sale.amount_total:
+                        sale.amount_to_pay = 0
+                    else:
+                        sale.amount_to_pay = sale.amount_total - amount
+                else:
+                    sale.amount_to_pay = 0
+
+    amount_to_pay = fields.Float(string='Reste à facturer',compute='_compute_sale_invoice')
     total_purchase = fields.Float('Total puchase price', readonly = True, compute="_compute_total_infos")
     total_sale = fields.Float('Total sale price', readonly = True,compute="_compute_total_infos")
     margin = fields.Float('Margin', readonly = True, compute="_compute_total_infos")
@@ -799,6 +815,9 @@ class Sale_order(models.Model):
         action['domain'] = [('id', 'in', mos.ids)]
         return action
 
+    def get_amount_to_pay(self):
+        for rec in self:
+            return rec.amount_to_pay
 
   
   
@@ -940,7 +959,6 @@ class Work_Order(models.Model):
             elif self.workcenter_id.display_name == 'MO Etude de fabrication':
                 self.role = "ETUDE DE FABRICATION"
 
-        
                                                         
 class Timesheet_custom(models.Model):
     _inherit = 'account.analytic.line'
@@ -949,6 +967,7 @@ class Timesheet_custom(models.Model):
 
 class Account_move(models.Model):
     _inherit = 'account.move'
+
 
     def notify_sent_quotation(self):
         """
