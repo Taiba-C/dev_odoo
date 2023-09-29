@@ -199,7 +199,8 @@
 
                 <!-- add button for costing table -->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
-                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': [('state', '!=', 'draft')] }" />
+                    <field name="is_subcontracted" invisible="1"/>
+                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_subcontracted','=',True)] }" />
                 </xpath>
             </field>
         </record>
