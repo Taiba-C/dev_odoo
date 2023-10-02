@@ -249,7 +249,7 @@ class SaleOrderOptionNesil(models.Model):
                 'price_unit':option.price_unit,'discount':option.discount,'is_present':option.is_present,'parent_id':option.parent_id.id,
                 'purchase_price':option.purchase_price,'margin':option.margin,'margin_product':option.margin_product,'margin_percent':option.margin_percent,
                 'total_purchase_price':option.total_purchase_price,'order_line_id':option.order_line_id.id,'nomenclature_name':option.nomenclature_name,
-                'total_sale_price':option.total_sale_price,'task_id':option.task_id.id,'planning_id':option.planning_id.id,'work_order_id':option.work_order_id.id,'role_id':option.role_id.id,'order_id':option.order_id})
+                'total_sale_price':option.total_sale_price,'task_id':option.task_id.id,'planning_id':option.planning_id.id,'work_order_id':option.work_order_id.id,'role_id':option.role_id.id,'order_id':option.order_id.id})
     
 class Planning_slot(models.Model):
     _inherit = 'planning.slot'
