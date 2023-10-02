@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_custom_sales_component_selection_wizard,custom_custom_sales_component_selection_wizard,model_component_selection_wizard,base.group_user,1,1,1,1
 access_stock_quantity_line,custom_custom_sales_stock_quantity_line,model_stock_quantity_line,base.group_user,1,1,1,1
 access_custom_sales_remise,custom_sales.custom_sales_remise,model_nesil_remise,custom_sales.group_nesil_direction,1,1,1,0
+access_custom_sales_options,custom_sales.custom_sales_options,model_sale_order_option_nesil,base.group_user,1,1,1,1

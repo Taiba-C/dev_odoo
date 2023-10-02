@@ -10,6 +10,10 @@ class SaleOrderLine(models.Model):
     temp_price_unit = fields.Float('temp_price_unit')
     
     is_costed = fields.Boolean('A été chiffré')
+    is_from_options = fields.Boolean('from options ?')
+    is_subcontracted = fields.Boolean('Produit sous-traité',related='product_template_id.is_subcontracted')
+    
+
 
     
     @api.onchange('qty', 'temp_price_unit')

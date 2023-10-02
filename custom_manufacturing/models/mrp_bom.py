@@ -14,9 +14,10 @@ class Mrp_bom(models.Model):
         for vals in val_lists:
             if self.check_existing_bom(vals['product_tmpl_id']) == False:
                 res = super(Mrp_bom, self).create(vals)
-                
-                self.env['product.template'].search([('id', '=', vals['product_tmpl_id'])]).write({'is_bom_parent': True})
-                self.env['product.product'].search([('product_tmpl_id', '=', vals['product_tmpl_id'])]).write({'is_bom_parent': True})
+                is_subcontracted = res.check_ifsubcontracted_bom()
+                self.env['product.template'].search([('id', '=', vals['product_tmpl_id'])]).write({'is_bom_parent': True,'is_subcontracted':is_subcontracted})
+                self.env['product.product'].search([('product_tmpl_id', '=', vals['product_tmpl_id'])]).write({'is_bom_parent': True,'is_subcontracted':is_subcontracted})
+
                     
                 return res
             else:
@@ -27,8 +28,8 @@ class Mrp_bom(models.Model):
             change product template and product product as bom parent
         """
         
-        self.env['product.template'].search([('id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': False})
-        self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': False})
+        self.env['product.template'].search([('id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': False,'is_subcontracted':False})
+        self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': False,'is_subcontracted':False})
         
         return super(Mrp_bom, self).unlink()
 
@@ -42,8 +43,9 @@ class Mrp_bom(models.Model):
 
         res = super(Mrp_bom, self).write(vals)
         
-        self.env['product.template'].search([('id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': True})
-        self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': True})
+        is_subcontracted = self.check_ifsubcontracted_bom()
+        self.env['product.template'].search([('id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': True,'is_subcontracted':is_subcontracted})
+        self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id.id)]).write({'is_bom_parent': True,'is_subcontracted':is_subcontracted})
 
         return res  
     
@@ -57,4 +59,13 @@ class Mrp_bom(models.Model):
                 return False
             else:
                 return True
+            
+    def check_ifsubcontracted_bom(self):
+        """
+            check if the bom is subcontracted and return boolean
+        """
+        if self.type == 'subcontract':
+            return True
+        else:
+            return False
             

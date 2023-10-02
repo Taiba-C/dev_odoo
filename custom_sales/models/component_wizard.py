@@ -20,7 +20,7 @@ class ComponentSelectionWizard(models.TransientModel):
     def action_confirm(self):
         product_boms = []
 
-        order_options = self.env['sale.order.option'].search([('order_line_id', '=', self.order_line_id.id)])
+        order_options = self.env['sale.order.option.nesil'].search([('order_line_id', '=', self.order_line_id.id)])
         order_options.unlink()
 
         for line in self.option_ids:
@@ -52,7 +52,7 @@ class ComponentSelectionWizard(models.TransientModel):
         boms = self.env.context.get('mrp_bom_line')
         order_line = self.env.context.get('order_line_id')
 
-        options = self.env['sale.order.option'].search([('order_line_id', '=', order_line)])
+        options = self.env['sale.order.option.nesil'].search([('order_line_id', '=', order_line)])
 
         lines = []
 
@@ -104,7 +104,7 @@ class ComponentSelectionWizard(models.TransientModel):
 
     # @api.onchange('order_line_id')
     # def _onchange_order_line_id(self):
-    #     bom_lines = self.env['sale.order.option'].search([('order_line_id', '=', self.order_line_id.id)])
+    #     bom_lines = self.env['sale.order.option.nesil'].search([('order_line_id', '=', self.order_line_id.id)])
     #
     #     option_values = []
     #     for bom_line in bom_lines:

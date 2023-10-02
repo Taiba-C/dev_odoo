@@ -3,23 +3,32 @@ from datetime import datetime, date, timedelta
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+from odoo.addons.sale.models.sale_order import READONLY_FIELD_STATES
 
 
 class Sale_order(models.Model):
     _inherit = 'sale.order'
     
-    #@api.depends("amount_residual")
+    
+    sale_order_nesil_option_ids = fields.One2many(
+        comodel_name='sale.order.option.nesil', inverse_name='order_id',
+        string="Optional Products Lines",
+        states=READONLY_FIELD_STATES,
+        copy=True)
     def _compute_sale_invoice(self):
             for sale in self:
-                amount = 0
-                for record in sale.invoice_ids:
-                    if record.move_type in ('out_invoice'):
-                        amount += record.amount_total
+                if sale.state == 'sale':
+                    amount = 0
+                    for record in sale.invoice_ids:
+                        if record.move_type in ('out_invoice'):
+                            amount += record.amount_total
 
-                if amount == sale.amount_total:
-                    sale.amount_to_pay = 0
+                    if amount == sale.amount_total:
+                        sale.amount_to_pay = 0
+                    else:
+                        sale.amount_to_pay = sale.amount_total - amount
                 else:
-                    sale.amount_to_pay = sale.amount_total - amount
+                    sale.amount_to_pay = 0
 
     amount_to_pay = fields.Float(string='Reste à facturer',compute='_compute_sale_invoice')
     total_purchase = fields.Float('Total puchase price', readonly = True, compute="_compute_total_infos")
@@ -37,9 +46,9 @@ class Sale_order(models.Model):
             else:
                 rec.rfrence_du_dossier = None
             order_line_ids = self.env['sale.order.line'].search([('order_id','=',rec.id)])
-            sale_order_option_ids = self.env['sale.order.option'].search([('order_id','=', rec.id)])
-            if len(sale_order_option_ids) > 0:
-                for order_option in sale_order_option_ids:
+            sale_order_nesil_option_ids = self.env['sale.order.option.nesil'].search([('order_id','=', rec.id)])
+            if len(sale_order_nesil_option_ids) > 0:
+                for order_option in sale_order_nesil_option_ids:
                     if order_option.order_line_id:
                         if '-' in order_option.order_line_id.display_name:
                             product_name = order_option.order_line_id.display_name.split('-')[1]
@@ -132,7 +141,7 @@ class Sale_order(models.Model):
             we will check the line if 
         """
         
-        option_line = self.sale_order_option_ids.filtered(lambda l: l.order_line_id.id == order_line.id)
+        option_line = self.sale_order_nesil_option_ids.filtered(lambda l: l.order_line_id.id == order_line.id)
         if len(option_line) == 0:
             return False
         else:
@@ -142,7 +151,7 @@ class Sale_order(models.Model):
         """
             Unlink sale order option record if the order line was deleted
         """
-        order_options = self.sale_order_option_ids.filtered(lambda l: l.order_id.id == order_id and l.order_line_id.id == False)
+        order_options = self.sale_order_nesil_option_ids.filtered(lambda l: l.order_id.id == order_id and l.order_line_id.id == False)
         order_options.unlink()
                 
     
@@ -151,7 +160,7 @@ class Sale_order(models.Model):
             clear sale_order_option every time trigger button add boms
         """
         for rec in self:
-            rec.sale_order_option_ids = [(5,0,0)]         
+            rec.sale_order_nesil_option_ids = [(5,0,0)]         
         
     def get_product_bom(self, id):
         """
@@ -195,7 +204,7 @@ class Sale_order(models.Model):
                 if margin > 0:
                     margin_percent = margin / total_price_sale
                 
-                self.env['sale.order.option'].create({
+                self.env['sale.order.option.nesil'].create({
                                 
                 'product_id': product_id.id,
 
@@ -224,8 +233,8 @@ class Sale_order(models.Model):
                 })
                 self.compute_order_line_price_unit()
     
-    @api.onchange('sale_order_option_ids')
-    def _onchange_sale_order_option_ids(self):
+    @api.onchange('sale_order_nesil_option_ids')
+    def _onchange_sale_order_nesil_option_ids(self):
         self.compute_order_line_price_unit()
         
     def compute_order_line_price_unit(self):
@@ -236,7 +245,7 @@ class Sale_order(models.Model):
         for order_line in self.order_line:
             price_unit = 0
             percentage = 0
-            for order_option in self.sale_order_option_ids:
+            for order_option in self.sale_order_nesil_option_ids:
                 if order_option.order_line_id.id == order_line._origin.id :
                     price_unit += order_option.total_sale_price
                     pricelist = self.pricelist_id.item_ids.search([('compute_price','=','formula'),
@@ -364,12 +373,12 @@ class Sale_order(models.Model):
     #     self.total_sale = total_sale
     #     self.margin = margin
     
-    @api.depends('sale_order_option_ids')
+    @api.depends('sale_order_nesil_option_ids')
     def _compute_total_infos(self):
         for record in self:
-            total_purchase = sum(record.sale_order_option_ids.mapped('total_purchase_price'))
-            total_sale = sum(record.sale_order_option_ids.mapped('total_sale_price'))
-            margin = sum(record.sale_order_option_ids.mapped('margin'))
+            total_purchase = sum(record.sale_order_nesil_option_ids.mapped('total_purchase_price'))
+            total_sale = sum(record.sale_order_nesil_option_ids.mapped('total_sale_price'))
+            margin = sum(record.sale_order_nesil_option_ids.mapped('margin'))
             if total_sale > 0:
                 record.margin_percent = margin / total_sale
             else:
@@ -485,7 +494,7 @@ class Sale_order(models.Model):
 
 
         is_service = bool
-        for line in self.sale_order_option_ids:
+        for line in self.sale_order_nesil_option_ids:
             if is_service == False:
                 if line.product_id.type == 'service':
                     is_service = True
@@ -501,7 +510,7 @@ class Sale_order(models.Model):
                     })
             self.project_options_id = project.id
             #project.sale_order = self
-        for line in self.sale_order_option_ids:
+        for line in self.sale_order_nesil_option_ids:
             line.create_project_task(self.project_options_id, self.partner_id.id)
 
        # for record in self:
@@ -521,7 +530,7 @@ class Sale_order(models.Model):
             # works = []
             for order_line in record.order_line:
             # for i, order_line in enumerate(record.order_line, start=0):
-                if order_line.product_id.type in ['product', 'consu']:  # Vérifier le type du produit
+                if order_line.product_id.type in ['product', 'consu'] and order_line.product_id.is_subcontracted == False:  # Vérifier le type du produit
                     mrp = self.env['mrp.production'].create({
                         'sale_order': self.id,
                         'product_id': order_line.product_id.id,
@@ -535,7 +544,7 @@ class Sale_order(models.Model):
                     })
 
                     move_raw_vals = []
-                    for option in record.sale_order_option_ids:
+                    for option in record.sale_order_nesil_option_ids:
                         service = False  # Initialiser la variable 'service'
                         work_center = False
                         role = False
@@ -617,7 +626,7 @@ class Sale_order(models.Model):
                 'picking_type_id': order.env.ref('stock.picking_type_out').id,
             })
 
-            for option in order.sale_order_option_ids.filtered(lambda o: o.product_id):
+            for option in order.sale_order_nesil_option_ids.filtered(lambda o: o.product_id):
                 move = self.env['stock.move'].create({
                     'product_id': option.product_id.id,
                     'product_uom_qty': option.quantity,
@@ -651,7 +660,7 @@ class Sale_order(models.Model):
                     })
 
                     move_raw_vals = []
-                    for option in record.sale_order_option_ids:
+                    for option in record.sale_order_nesil_option_ids:
                         service = False  # Initialiser la variable 'service'
                         work_center = False
                         role = False
@@ -728,7 +737,7 @@ class Sale_order(models.Model):
                     mrp.write({'move_raw_ids': [(6, 0, move_raw_ids.ids)]})
     def action_view_task_option_ids(self):
         tasks = []
-        for line in self.sale_order_option_ids:
+        for line in self.sale_order_nesil_option_ids:
             if line.task_id.id:
                 tasks.append(line.task_id.id)
         domain = [('id', 'in', tasks)]
@@ -770,7 +779,7 @@ class Sale_order(models.Model):
     
     def _get_task_counts(self):
         tasks = []
-        for line in self.sale_order_option_ids:
+        for line in self.sale_order_nesil_option_ids:
             if line.task_id.id:
                 tasks.append(line.task_id.id)
         self.task_option_counts = len(tasks)
