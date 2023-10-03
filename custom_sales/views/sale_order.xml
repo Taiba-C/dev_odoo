@@ -29,7 +29,7 @@
                 <!-- <xpath expr="//button[@name='action_view_delivery']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath> -->
-                <page name="optional_products" position="after">
+                <page name="optional_products" position="before">
                 <page string="Costing table"
                     name="optional_products_nesil"
                     attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}">
@@ -68,7 +68,7 @@
                             <field name="product_uom_category_id" invisible="1"/>
                             <field name="price_unit"/>
                             <field name="discount"
-                                string="Disc.%"
+                                string="Rem.%"
                                 groups="product.group_discount_per_so_line"
                                 optional="show"/>
                             <field name="is_present" invisible="1" />
