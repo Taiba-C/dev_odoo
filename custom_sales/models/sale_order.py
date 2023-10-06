@@ -72,7 +72,7 @@ class Sale_order(models.Model):
 
     version_du_devis = fields.Char(string='Version du devis')
     @api.onchange('sale_order_nesil_option_ids')
-    def _get_nomenclature_name(self):
+    def _get_nomenclature_nesil_name(self):
         last_rec = ''
         for rec in self.sale_order_nesil_option_ids:
             last_rec = rec
