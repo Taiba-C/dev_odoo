@@ -28,6 +28,8 @@ class SaleOrderOptionNesil(models.Model):
                             bom = self.env['mrp.bom'].search([('product_tmpl_id', '=', record.product_template_id.id)])
                             for bom_line in bom.bom_line_ids:
                                 if bom_line.product_id:
+                                    print('bom_line.product_id')
+                                    print(bom_line.product_id.name)
                                     product_ids.append(bom_line.product_id.id)
                 rec.product_id_domain = json.dumps(([('id', 'in', product_ids)]))  
 
@@ -291,7 +293,7 @@ class SaleOrderOptionNesil(models.Model):
     def retro_options_nesil_options(self):
         options = self.env["sale.order.option"].sudo().search([])
         for option in options:
-            if int(option.id) > 20:
+            if int(option.id) > 600:
                 self.env["sale.order.option.nesil"].sudo().create({'product_id':option.product_id.id,'line_id':option.line_id.id,'name':option.name,
                     'quantity':option.quantity,'uom_id':option.uom_id.id,'product_uom_category_id':option.product_uom_category_id.id,
                     'price_unit':option.price_unit,'discount':option.discount,'is_present':option.is_present,'parent_id':option.parent_id.id,
