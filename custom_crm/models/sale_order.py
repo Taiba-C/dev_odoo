@@ -20,7 +20,6 @@ class SaleAdvancePaymentInv(models.TransientModel):
     def _create_invoices(self, sale_orders):        
         invoices = super(SaleAdvancePaymentInv, self.with_context(self._context))._create_invoices(sale_orders)
         order = self.env['sale.order'].search([('id','=', self._context['active_id'])])
-        print(order.invoice_ids)
         if len(order.invoice_ids) == 1:
             # check state of opportunity
             order.opportunity_id.write({'stage_id':4})

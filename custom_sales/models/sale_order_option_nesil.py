@@ -28,8 +28,6 @@ class SaleOrderOptionNesil(models.Model):
                             bom = self.env['mrp.bom'].search([('product_tmpl_id', '=', record.product_template_id.id)])
                             for bom_line in bom.bom_line_ids:
                                 if bom_line.product_id:
-                                    print('bom_line.product_id')
-                                    print(bom_line.product_id.name)
                                     product_ids.append(bom_line.product_id.id)
                 rec.product_id_domain = json.dumps(([('id', 'in', product_ids)]))  
 
