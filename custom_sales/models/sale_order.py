@@ -96,8 +96,6 @@ class Sale_order(models.Model):
                         bom = self.env['mrp.bom'].search([('product_tmpl_id', '=', rec.product_template_id.id)])
                         for bom_line in bom.bom_line_ids:
                             if last_rec != '':
-                                print('last_rec.order_line_id ')
-                                print(last_rec.order_line_id )
                                 if last_rec.product_id.id == bom_line.product_id.id:
                                     last_rec.order_line_id = rec.id
 
