@@ -262,3 +262,14 @@ msgstr "Quantité"
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__discount
 msgid "Discount (%)"
 msgstr "Remise (%)"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Add to option"
+msgstr "Ajouter en option"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Add to numbering"
+msgstr "Ajouter en chiffrage"
+

@@ -4,11 +4,11 @@ from datetime import datetime, date, timedelta
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from odoo.addons.sale.models.sale_order import READONLY_FIELD_STATES
+import json
 
 
 class Sale_order(models.Model):
     _inherit = 'sale.order'
-    
     
     sale_order_nesil_option_ids = fields.One2many(
         comodel_name='sale.order.option.nesil', inverse_name='order_id',
@@ -71,7 +71,35 @@ class Sale_order(models.Model):
                 order.date_of_last_version = order.date_order
 
     version_du_devis = fields.Char(string='Version du devis')
-
+    @api.onchange('sale_order_nesil_option_ids')
+    def _get_nomenclature_name(self):
+        last_rec = ''
+        for rec in self.sale_order_nesil_option_ids:
+            last_rec = rec
+        if self.order_line:
+            for rec in self.order_line:
+                    if rec.product_template_id:
+                        bom = self.env['mrp.bom'].search([('product_tmpl_id', '=', rec.product_template_id.id)])
+                        for bom_line in bom.bom_line_ids:
+                            if last_rec != '':
+                                if last_rec.product_id.id == bom_line.product_id.id:
+                                    last_rec.order_line_id = rec.id
+    
+    @api.onchange('sale_order_option_ids')
+    def _get_nomenclature_name(self):
+        last_rec = ''
+        for rec in self.sale_order_option_ids:
+            last_rec = rec
+        if self.order_line:
+            for rec in self.order_line:
+                    if rec.product_template_id:
+                        bom = self.env['mrp.bom'].search([('product_tmpl_id', '=', rec.product_template_id.id)])
+                        for bom_line in bom.bom_line_ids:
+                            if last_rec != '':
+                                print('last_rec.order_line_id ')
+                                print(last_rec.order_line_id )
+                                if last_rec.product_id.id == bom_line.product_id.id:
+                                    last_rec.order_line_id = rec.id
 
     def write(self, vals):
         res = super(Sale_order, self).write(vals)

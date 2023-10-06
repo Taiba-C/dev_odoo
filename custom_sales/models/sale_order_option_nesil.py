@@ -3,7 +3,7 @@ from datetime import datetime, date, timedelta
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-
+import json
  
 class SaleOrderOptionNesil(models.Model):
     _name = 'sale.order.option.nesil' 
@@ -13,11 +13,29 @@ class SaleOrderOptionNesil(models.Model):
     # FIXME ANVFE wtf is it not required ???
     # TODO related to order.company_id and restrict product choice based on company
     order_id = fields.Many2one('sale.order', 'Sales Order Reference', ondelete='cascade', index=True)
+    product_id_domain = fields.Char(compute='_get_product_in_bom',
+    readonly=True,
+    store=False)
+    @api.depends('order_id.order_line')
+    def _get_product_in_bom(self):
+        product_ids = []
+        for rec in self:
+            if not rec.order_id:
+                    rec.product_id_domain = json.dumps([('id', 'in',[])])
+            else:
+                for record in rec.order_id.order_line:
+                    if record.product_template_id:
+                            bom = self.env['mrp.bom'].search([('product_tmpl_id', '=', record.product_template_id.id)])
+                            for bom_line in bom.bom_line_ids:
+                                if bom_line.product_id:
+                                    print('bom_line.product_id')
+                                    print(bom_line.product_id.name)
+                                    product_ids.append(bom_line.product_id.id)
+                rec.product_id_domain = json.dumps(([('id', 'in', product_ids)]))  
 
     product_id = fields.Many2one(
         comodel_name='product.product',
-        required=True,
-        domain=[('sale_ok', '=', True)])
+        required=True)
     line_id = fields.Many2one(
         comodel_name='sale.order.line', ondelete='set null', copy=False)
     sequence = fields.Integer(
@@ -117,12 +135,12 @@ class SaleOrderOptionNesil(models.Model):
             'discount': self.discount,
         }
 
-    @api.depends('line_id', 'order_id.order_line', 'product_id')
+    @api.depends('line_id', 'order_id.sale_order_nesil_option_ids', 'product_id')
     def _compute_is_present(self):
         # NOTE: this field cannot be stored as the line_id is usually removed
         # through cascade deletion, which means the compute would be false
         for option in self:
-            option.is_present = bool(option.order_id.order_line.filtered(lambda l: l.product_id == option.product_id))
+            option.is_present = bool(option.order_id.sale_order_nesil_option_ids.filtered(lambda l: l.product_id == option.product_id))
 
     def _search_is_present(self, operator, value):
         if (operator, value) in [('=', True), ('!=', False)]:
@@ -131,10 +149,39 @@ class SaleOrderOptionNesil(models.Model):
 
     #=== ACTION METHODS ===#
 
-    def button_add_to_order(self):
-        self.add_option_to_order()
+    def _get_values_to_add_to_option(self):
+        self.ensure_one()
+        return {
+            #'product_uom_qty': self.quantity,
+            'product_id':self.product_id.id,
+            'line_id':self.line_id.id,
+            'name':self.name,
+            'quantity':self.quantity,
+            'uom_id':self.uom_id.id,
+            'product_uom_category_id':self.product_uom_category_id.id,
+            'price_unit':self.price_unit,
+            'discount':self.discount,
+            'is_present':self.is_present,
+            'parent_id':self.parent_id.id,
+            'purchase_price':self.purchase_price,
+            'margin':self.margin,
+            'margin_product':self.margin_product,
+            'margin_percent':self.margin_percent,
+            'total_purchase_price':self.total_purchase_price,
+            'order_line_id':self.order_line_id.id,
+            'nomenclature_name':self.nomenclature_name,
+            'total_sale_price':self.total_sale_price,
+            'task_id':self.task_id.id,
+            'planning_id':self.planning_id.id,
+            'work_order_id':self.work_order_id.id,
+            'role_id':self.role_id.id,
+            'order_id':self.order_id.id
+        }
+    
+    def button_add_to_option(self):
+        self.add_option_to_option()
 
-    def add_option_to_order(self):
+    def add_option_to_option(self):
         self.ensure_one()
 
         sale_order = self.order_id
@@ -142,8 +189,10 @@ class SaleOrderOptionNesil(models.Model):
         if sale_order.state not in ['draft', 'sent']:
             raise UserError(_('You cannot add options to a confirmed order.'))
 
-        values = self._get_values_to_add_to_order()
-        order_line = self.env['sale.order.line'].create(values)
+        values = self._get_values_to_add_to_option()
+        order_line = self.env['sale.order.option'].create(values)
+        self.order_id.sale_order_nesil_option_ids.filtered(lambda l: l.product_id == self.product_id).unlink()
+
 
         self.write({'line_id': order_line.id})
         if sale_order:
