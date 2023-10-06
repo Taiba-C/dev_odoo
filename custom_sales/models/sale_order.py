@@ -84,7 +84,30 @@ class Sale_order(models.Model):
                             if last_rec != '':
                                 if last_rec.product_id.id == bom_line.product_id.id:
                                     last_rec.order_line_id = rec.id
-    
+
+                                    product_qty = last_rec.quantity
+                                    total_price_purchase = 0
+                                    total_price_sale = 0
+                                    margin = 0
+                                    margin_percent = 0         
+                                    total_price_purchase = last_rec.product_id.standard_price * product_qty
+                
+                                    if last_rec.product_id.product_tmpl_id.margin_product > 0:
+                                        total_price_sale = total_price_purchase / last_rec.product_id.product_tmpl_id.margin_product
+
+                                        margin = total_price_sale - total_price_purchase
+                
+                                        if margin > 0:
+                                            margin_percent = margin / total_price_sale
+                 
+                                        last_rec.purchase_price = last_rec.product_id.standard_price
+                                        last_rec.margin_product = last_rec.product_id.product_tmpl_id.margin_product
+                                        last_rec.margin_percent = margin_percent                                        
+                                        last_rec.margin = margin
+                                        last_rec.total_purchase_price = total_price_purchase
+                                        last_rec.total_sale_price = total_price_sale
+                                        
+                            
     @api.onchange('sale_order_option_ids')
     def _get_nomenclature_name(self):
         last_rec = ''
@@ -98,6 +121,28 @@ class Sale_order(models.Model):
                             if last_rec != '':
                                 if last_rec.product_id.id == bom_line.product_id.id:
                                     last_rec.order_line_id = rec.id
+
+                                    product_qty = last_rec.quantity
+                                    total_price_purchase = 0
+                                    total_price_sale = 0
+                                    margin = 0
+                                    margin_percent = 0         
+                                    total_price_purchase = last_rec.product_id.standard_price * product_qty
+                
+                                    if last_rec.product_id.product_tmpl_id.margin_product > 0:
+                                        total_price_sale = total_price_purchase / last_rec.product_id.product_tmpl_id.margin_product
+
+                                        margin = total_price_sale - total_price_purchase
+                
+                                        if margin > 0:
+                                            margin_percent = margin / total_price_sale
+                 
+                                        last_rec.purchase_price = last_rec.product_id.standard_price
+                                        last_rec.margin_product = last_rec.product_id.product_tmpl_id.margin_product
+                                        last_rec.margin_percent = margin_percent                                        
+                                        last_rec.margin = margin
+                                        last_rec.total_purchase_price = total_price_purchase
+                                        last_rec.total_sale_price = total_price_sale
 
     def write(self, vals):
         res = super(Sale_order, self).write(vals)
