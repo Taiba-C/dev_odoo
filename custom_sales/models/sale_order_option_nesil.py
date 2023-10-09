@@ -294,7 +294,7 @@ class SaleOrderOptionNesil(models.Model):
         orders = self.env["sale.order"].sudo().search([])
         order_name = ['NE202300328']
         for order in orders:
-            if len(order.sale_order_nesil_option_ids) <= 0 and len(order.sale_order_option_ids) > 0 and len(order.sale_order_option_ids) >= 100:
+            if len(order.sale_order_nesil_option_ids) <= 0 and len(order.sale_order_option_ids) > 0 and len(order.sale_order_option_ids) <= 100:
                 for option in order.sale_order_option_ids:
                     self.env["sale.order.option.nesil"].sudo().create({'product_id':option.product_id.id,'line_id':option.line_id.id,'name':option.name,
                         'quantity':option.quantity,'uom_id':option.uom_id.id,'product_uom_category_id':option.product_uom_category_id.id,
