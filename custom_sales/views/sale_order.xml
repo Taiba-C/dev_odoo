@@ -73,7 +73,7 @@
                                 optional="show"/>
                             <field name="is_present" invisible="1" />
                             <button type="object" name="button_add_to_option" string="Add to option" class="oe_stat_button"
-                                attrs="{'invisible': ['|',('is_present', '=', False),('state', '!=', 'draft')]}">
+                                attrs="{'invisible': [('is_present', '=', False)]}">
                             </button>
                             <!-- <button name="button_add_to_option"
                                 type="object"
@@ -159,7 +159,6 @@
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/button[@name='button_add_to_order']" position="replace">
 
                     <button type="object" name="button_add_to_order" string="Add to numbering" class="oe_stat_button"
-                    attrs="{'invisible': ['|',('is_present', '=', False),('state', '!=', 'draft')]}"
                     >
                     </button>
 
