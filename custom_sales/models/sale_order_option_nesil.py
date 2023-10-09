@@ -292,7 +292,7 @@ class SaleOrderOptionNesil(models.Model):
     
     def retro_options_nesil_options(self):
         orders = self.env["sale.order"].sudo().search([])
-        order_name = ['NE202300329','NE202300328','NE202300327','NE202300326','NE202300325','NE202300324','NE202300323','NE202300322','NE202300321','NE202300320']
+        order_name = ['NE202300329']
         for order in orders:
             if len(order.sale_order_nesil_option_ids) <= 0 and len(order.sale_order_option_ids) > 0 and order.name in order_name:
                 for option in order.sale_order_option_ids:
