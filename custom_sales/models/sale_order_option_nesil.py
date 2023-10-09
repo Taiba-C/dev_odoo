@@ -293,13 +293,12 @@ class SaleOrderOptionNesil(models.Model):
     def retro_options_nesil_options(self):
         options = self.env["sale.order.option"].sudo().search([])
         for option in options:
-            if int(option.id) <= 600:
-                self.env["sale.order.option.nesil"].sudo().create({'product_id':option.product_id.id,'line_id':option.line_id.id,'name':option.name,
-                    'quantity':option.quantity,'uom_id':option.uom_id.id,'product_uom_category_id':option.product_uom_category_id.id,
-                    'price_unit':option.price_unit,'discount':option.discount,'is_present':option.is_present,'parent_id':option.parent_id.id,
-                    'purchase_price':option.purchase_price,'margin':option.margin,'margin_product':option.margin_product,'margin_percent':option.margin_percent,
-                    'total_purchase_price':option.total_purchase_price,'order_line_id':option.order_line_id.id,'nomenclature_name':option.nomenclature_name,
-                    'total_sale_price':option.total_sale_price,'task_id':option.task_id.id,'planning_id':option.planning_id.id,'work_order_id':option.work_order_id.id,'role_id':option.role_id.id,'order_id':option.order_id.id})
+            self.env["sale.order.option.nesil"].sudo().create({'product_id':option.product_id.id,'line_id':option.line_id.id,'name':option.name,
+                'quantity':option.quantity,'uom_id':option.uom_id.id,'product_uom_category_id':option.product_uom_category_id.id,
+                'price_unit':option.price_unit,'discount':option.discount,'is_present':option.is_present,'parent_id':option.parent_id.id,
+                'purchase_price':option.purchase_price,'margin':option.margin,'margin_product':option.margin_product,'margin_percent':option.margin_percent,
+                'total_purchase_price':option.total_purchase_price,'order_line_id':option.order_line_id.id,'nomenclature_name':option.nomenclature_name,
+                'total_sale_price':option.total_sale_price,'task_id':option.task_id.id,'planning_id':option.planning_id.id,'work_order_id':option.work_order_id.id,'role_id':option.role_id.id,'order_id':option.order_id.id})
     def remove_old_options(self):
         options = self.env["sale.order.option"].sudo().search([])
         options.unlink()
