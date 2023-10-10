@@ -13,9 +13,8 @@ class Sale_order(models.Model):
                 if sale.state == 'sale':
                     amount = 0
                     for record in sale.invoice_ids:
-                        if record.move_type in ('out_invoice'):
-                            amount += record.amount_total
-
+                        if record.move_type in ('out_invoice','out_refund'):
+                            amount += record.amount_total_signed
                     if amount == sale.amount_total:
                         sale.amount_to_pay = 0
                     else:
