@@ -22,6 +22,9 @@ class Sale_order(models.Model):
                     for record in sale.invoice_ids:
                         if record.move_type in ('out_invoice','out_refund'):
                             amount += record.amount_total
+                        elif record.move_type in ('out_refund'):
+                            amount -= record.amount_total
+                        
 
                     if amount == sale.amount_total:
                         sale.amount_to_pay = 0
