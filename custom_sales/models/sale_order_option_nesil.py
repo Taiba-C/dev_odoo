@@ -28,9 +28,10 @@ class SaleOrderOptionNesil(models.Model):
                             bom = self.env['mrp.bom'].search([('product_tmpl_id', '=', record.product_template_id.id)])
                             for bom_line in bom.bom_line_ids:
                                 if bom_line.product_id:
-                                    print('bom_line.product_id')
-                                    print(bom_line.product_id.name)
                                     product_ids.append(bom_line.product_id.id)
+                                    for option in rec.order_id.sale_order_nesil_option_ids:
+                                        if option.product_id.id in product_ids:
+                                            product_ids.remove(option.product_id.id)
                 rec.product_id_domain = json.dumps(([('id', 'in', product_ids)]))  
 
     product_id = fields.Many2one(
@@ -188,15 +189,19 @@ class SaleOrderOptionNesil(models.Model):
 
         if sale_order.state not in ['draft', 'sent']:
             raise UserError(_('You cannot add options to a confirmed order.'))
-
-        values = self._get_values_to_add_to_option()
-        order_line = self.env['sale.order.option'].create(values)
-        self.order_id.sale_order_nesil_option_ids.filtered(lambda l: l.product_id == self.product_id).unlink()
-
-
-        self.write({'line_id': order_line.id})
+        
+        is_in_lines = False
+        for option in self.order_id.sale_order_option_ids:
+            if self.product_id.id == option.product_id.id:
+                is_in_lines = True
+                option.write({'quantity':option.quantity+self.quantity})
+        if is_in_lines == False:
+            values = self._get_values_to_add_to_option()
+            self.env['sale.order.option'].create(values)
+            #self.write({'line_id': order_line.id})
         if sale_order:
             sale_order.add_option_to_order_with_taxcloud()
+        self.order_id.sale_order_nesil_option_ids.filtered(lambda l: l.product_id == self.product_id).unlink()
 
     parent_id = fields.Many2one('product.template', string='Parent',copy=True)
     

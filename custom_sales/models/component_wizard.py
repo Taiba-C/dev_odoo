@@ -6,13 +6,41 @@ class ComponentSelectionWizard(models.TransientModel):
     _description = 'Component Selection Wizard'
 
     product_id = fields.Many2one('product.product', 'Nomenclature', default=lambda self: self._get_default_product(),
-                                 readonly=True)
+                           readonly=True)
+    @api.onchange('bom_product_template_attribute_value_ids')
+    def _get_options_by_ref(self):
+        boms = self.env.context.get('mrp_bom_line')
+        lines = []
+        old_options = self.option_ids
+        if self.bom_product_template_attribute_value_ids:
+            self.option_ids = lines.append((5, 0, 0))
+            for bom in boms:
+                bom_line = self.env['mrp.bom.line'].search([('id', '=', bom)])
+                bom_line.ensure_one()
+                for old_option in old_options:
+                    if bom_line.product_id.id == old_option.product_id.id:
+                        if set(bom_line.bom_product_template_attribute_value_ids.ids) == set(self.bom_product_template_attribute_value_ids.ids):
+                            lines.append((0, 0, {
+                                'product_id': old_option.product_id,
+                                'quantity': old_option.quantity,
+                                'selected_product': old_option.selected_product,
+                            }))
+            self.option_ids = lines
+        else:
+            self.option_ids = lines.append((5, 0,0))
+            self.option_ids = self._get_default_option_ids()
+
+    possible_bom_product_template_attribute_value_ids = fields.Many2many(related='bom_id.possible_product_template_attribute_value_ids')
+    bom_product_template_attribute_value_ids = fields.Many2many(
+        'product.template.attribute.value', string="Références",
+        domain="[('id', 'in', possible_bom_product_template_attribute_value_ids)]")
     product_image = fields.Binary(string='Product Image', related='product_id.image_1920')
 
     bom_id = fields.Many2one('mrp.bom', string='bom', compute="_compute_default_bom_id")
     order_line_id = fields.Many2one('sale.order.line', 'Sale Order Line',
                                     default=lambda self: self._get_default_order_line_id(), readonly=True)
     component_ids = fields.Many2many('mrp.bom.line', string='Composants')
+    
 
     option_ids = fields.One2many('stock.quantity.line', 'wizard_id', string='Composants du tableau de chiffrage',
                                  default=lambda self: self._get_default_option_ids())

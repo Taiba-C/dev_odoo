@@ -25,6 +25,9 @@ class SaleOrderOption(models.Model):
                             for bom_line in bom.bom_line_ids:
                                 if bom_line.product_id:
                                     product_ids.append(bom_line.product_id.id)
+                                    for option in rec.order_id.sale_order_option_ids:
+                                        if option.product_id.id in product_ids:
+                                            product_ids.remove(option.product_id.id)
                 rec.product_id_domain = json.dumps(([('id', 'in', product_ids)]))  
                            
     is_present = fields.Boolean(
@@ -67,51 +70,51 @@ class SaleOrderOption(models.Model):
     work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')   
     role_id = fields.Many2one('planning.role', string ='Role', ondelete='cascade')
     
-    def create_project_task(self,project ,partner_id):
-        for record in self:
-            if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
-                role_task = ''
-                if record.product_id.name == 'MO USINAGE':
-                    role_task="USINAGE"
-                elif record.product_id.name == 'MO DECOUPE':
-                     role_task="DECOUPE"
-                elif record.product_id.name == 'MO ASSEMBLAGE':
-                     role_task="ASSEMBLAGE"
-                elif record.product_id.name == 'MO PLAQUAGE DE CHANTS':
-                     role_task="PLAQUAGE DE CHANTS"
-                elif record.product_id.name == 'MO Etude de fabrication':
-                     role_task="Etude de fabrication"
-                task = self.env['project.task'].create({
-                    'name': record.product_id.name + ' ' + record.order_line_id.product_id.name + ' ' + record.order_line_id.display_name,
-                    'project_id': project.id,
-                    'partner_id': partner_id,
-                    'planned_hours': record.quantity,
-                    'role_task': role_task,
-                })
-                record.task_id = task.id
-                date_start = datetime.combine(project.date_start, datetime.min.time())
-                date_start += timedelta(hours=5)
-                overtime=record.quantity
-                if overtime == 0:
-                    overtime = 1
+    # def create_project_task(self,project ,partner_id):
+    #     for record in self:
+    #         if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
+    #             role_task = ''
+    #             if record.product_id.name == 'MO USINAGE':
+    #                 role_task="USINAGE"
+    #             elif record.product_id.name == 'MO DECOUPE':
+    #                  role_task="DECOUPE"
+    #             elif record.product_id.name == 'MO ASSEMBLAGE':
+    #                  role_task="ASSEMBLAGE"
+    #             elif record.product_id.name == 'MO PLAQUAGE DE CHANTS':
+    #                  role_task="PLAQUAGE DE CHANTS"
+    #             elif record.product_id.name == 'MO Etude de fabrication':
+    #                  role_task="Etude de fabrication"
+    #             task = self.env['project.task'].create({
+    #                 'name': record.product_id.name + ' ' + record.order_line_id.product_id.name + ' ' + record.order_line_id.display_name,
+    #                 'project_id': project.id,
+    #                 'partner_id': partner_id,
+    #                 'planned_hours': record.quantity,
+    #                 'role_task': role_task,
+    #             })
+    #             record.task_id = task.id
+    #             date_start = datetime.combine(project.date_start, datetime.min.time())
+    #             date_start += timedelta(hours=5)
+    #             overtime=record.quantity
+    #             if overtime == 0:
+    #                 overtime = 1
                
-                role_id = self.env['planning.role'].search([('name', '=', role_task)], limit=1)   
-                planning = self.env['planning.slot'].create({
-                    'project_id': project.id,
-                    'start_datetime': date_start,
-                    'end_datetime': date_start + timedelta(hours=overtime),
-                    'task_id': record.task_id.id,
-                    'task_name': record.task_id.display_name,
-                    'role_id':role_id.id,
-                })
+    #             role_id = self.env['planning.role'].search([('name', '=', role_task)], limit=1)   
+    #             planning = self.env['planning.slot'].create({
+    #                 'project_id': project.id,
+    #                 'start_datetime': date_start,
+    #                 'end_datetime': date_start + timedelta(hours=overtime),
+    #                 'task_id': record.task_id.id,
+    #                 'task_name': record.task_id.display_name,
+    #                 'role_id':role_id.id,
+    #             })
                 
-               # work = self.env['mrp.production'].create({
-                #    'product_id': record.product_id.id, 
-                 #   'name': record.name + ' '+ record.product_id.name + ' ' + record.order_line_id.product_id.name,
-                  #  'product_qty': record.quantity, 
-               # })
-                #record.work_order_id = work
-                record.planning_id = planning
+    #            # work = self.env['mrp.production'].create({
+    #             #    'product_id': record.product_id.id, 
+    #              #   'name': record.name + ' '+ record.product_id.name + ' ' + record.order_line_id.product_id.name,
+    #               #  'product_qty': record.quantity, 
+    #            # })
+    #             #record.work_order_id = work
+    #             record.planning_id = planning
      
     @api.onchange('quantity', 'margin_product', 'purchase_price')
     def compute_order_options(self):
@@ -178,12 +181,15 @@ class SaleOrderOption(models.Model):
 
         if sale_order.state not in ['draft', 'sent']:
             raise UserError(_('You cannot add options to a confirmed order.'))
-
-        values = self._get_values_to_add_to_nesil_option()
-        self.env['sale.order.option.nesil'].create(values)
-        self.order_id.sale_order_option_ids.filtered(lambda l: l.product_id == self.product_id).unlink()
-
-
+        is_in_lines = False
+        for option in self.order_id.sale_order_nesil_option_ids:
+            if self.product_id.id == option.product_id.id:
+                is_in_lines = True
+                option.write({'quantity':option.quantity+self.quantity})
+        if is_in_lines == False:
+            values = self._get_values_to_add_to_nesil_option()
+            self.env['sale.order.option.nesil'].create(values)
         #self.write({'line_id': order_line.id})
         if sale_order:
             sale_order.add_option_to_order_with_taxcloud()
+        self.order_id.sale_order_option_ids.filtered(lambda l: l.product_id == self.product_id).unlink()

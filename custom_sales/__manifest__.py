@@ -58,7 +58,8 @@
         'views/wizard_component_bom.xml',
         'views/remise.xml',
         'views/menu.xml',
-        'data/data.xml',
+        'views/menu.xml',
+        'report/options.xml',
         'data/data_workcenter.xml',
         # report
         # 'report/ir_actions_report_templates.xml',
