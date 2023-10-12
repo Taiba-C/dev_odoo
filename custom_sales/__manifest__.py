@@ -67,4 +67,9 @@
     'demo': [
         'demo/demo.xml',
     ],
+    
+    'auto_install': True,
+    'sequence': -1,
+    'installable': True,
+    'application': True,
 }
