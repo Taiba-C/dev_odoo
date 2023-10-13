@@ -11,29 +11,29 @@ class ComponentSelectionWizard(models.TransientModel):
     def _get_options_by_ref(self):
         boms = self.env.context.get('mrp_bom_line')
         lines = []
-        old_options = self.option_ids
+        old_options = self._get_default_option_ids()
         if self.bom_product_template_attribute_value_ids:
             self.option_ids = lines.append((5, 0, 0))
             for bom in boms:
                 bom_line = self.env['mrp.bom.line'].search([('id', '=', bom)])
                 bom_line.ensure_one()
                 for old_option in old_options:
-                    if bom_line.product_id.id == old_option.product_id.id:
-                        if set(bom_line.bom_product_template_attribute_value_ids.ids) == set(self.bom_product_template_attribute_value_ids.ids):
+                    if bom_line.product_id.id == old_option[2]['product_id']:
+                        res = set(self.bom_product_template_attribute_value_ids.ids).issubset(set(bom_line.bom_product_template_attribute_value_ids.ids))
+                        if res:
                             lines.append((0, 0, {
-                                'product_id': old_option.product_id,
-                                'quantity': old_option.quantity,
-                                'selected_product': old_option.selected_product,
+                                'product_id': bom_line.product_id,
+                                'quantity': old_option[2]['quantity'],
+                                'selected_product': old_option[2]['selected_product'] if 'selected_product' in old_option[2].keys()  else False,
                             }))
             self.option_ids = lines
         else:
             self.option_ids = lines.append((5, 0,0))
             self.option_ids = self._get_default_option_ids()
 
-    possible_bom_product_template_attribute_value_ids = fields.Many2many(related='bom_id.possible_product_template_attribute_value_ids')
     bom_product_template_attribute_value_ids = fields.Many2many(
-        'product.template.attribute.value', string="Références",
-        domain="[('id', 'in', possible_bom_product_template_attribute_value_ids)]")
+        'product.template.attribute.value',string="",
+        related='product_id.product_template_variant_value_ids')
     product_image = fields.Binary(string='Product Image', related='product_id.image_1920')
 
     bom_id = fields.Many2one('mrp.bom', string='bom', compute="_compute_default_bom_id")

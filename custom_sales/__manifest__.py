@@ -59,7 +59,6 @@
         'views/remise.xml',
         'views/menu.xml',
         'views/menu.xml',
-        'report/options.xml',
         'data/data_workcenter.xml',
         # report
         # 'report/ir_actions_report_templates.xml',

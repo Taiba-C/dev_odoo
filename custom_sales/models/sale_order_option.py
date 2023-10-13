@@ -62,7 +62,7 @@ class SaleOrderOption(models.Model):
     
     order_line_id = fields.Many2one('sale.order.line', string='Order Line', ondelete="cascade", copy=True)
 
-    nomenclature_name = fields.Char('Nomenclature', compute="_compute_nomenclature_name", store=True, readonly=True)
+    nomenclature_name = fields.Char('Nomenclature', compute="_compute_nomenclature_name")
     
     total_sale_price = fields.Float('Total sale price', readonly=True,copy=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
@@ -186,10 +186,11 @@ class SaleOrderOption(models.Model):
             if self.product_id.id == option.product_id.id:
                 is_in_lines = True
                 option.write({'quantity':option.quantity+self.quantity})
+                self.order_id.sale_order_option_ids.filtered(lambda l: l.product_id == self.product_id).unlink()
         if is_in_lines == False:
             values = self._get_values_to_add_to_nesil_option()
             self.env['sale.order.option.nesil'].create(values)
+
         #self.write({'line_id': order_line.id})
         if sale_order:
             sale_order.add_option_to_order_with_taxcloud()
-        self.order_id.sale_order_option_ids.filtered(lambda l: l.product_id == self.product_id).unlink()
