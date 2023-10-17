@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+    
+        <record id="mrp_production_tree_view_inherit_nesil" model="ir.ui.view">
+            <field name="name">custom.production.tree.view</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='production_duration_expected']" position="attributes">
+
+                    <attribute name="invisible">1</attribute>
+
+                </xpath>
+                <xpath expr="//field[@name='production_duration_expected']" position="after">
+
+                    <field name="production_duration_expected_hour" widget="float_time"/>
+
+                </xpath>
+
+                <xpath expr="//field[@name='production_real_duration']" position="attributes">
+
+                    <attribute name="invisible">1</attribute>
+
+                </xpath>
+                <xpath expr="//field[@name='production_real_duration']" position="after">
+
+                    <field name="production_real_duration_hour" widget="float_time"/>
+
+                </xpath>
+
+            </field>
+        </record>
+    
+        
+    
+    </data>
+    
+</odoo>
