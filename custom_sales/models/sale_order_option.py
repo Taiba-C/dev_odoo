@@ -143,13 +143,10 @@ class SaleOrderOption(models.Model):
         nesil_options = self.env['sale.order.option.nesil'].sudo().search([('option_line_id','=',self.id)])
         for nesil_option in nesil_options:
             nesil_option.write({'order_line_id':order_line.id,'option_line_id':None,'line_type':''})
-        print('nesil_options')
-        print(nesil_options)
 
         self.write({'line_id': order_line.id})
         if sale_order:
             sale_order.add_option_to_order_with_taxcloud()
-        print('#### WEll i am here')
     def action_costing_option(self):
         self.ensure_one()
         action = self.env.ref('custom_sales.action_component_selection_wizard_option').read()[0]
