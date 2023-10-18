@@ -174,22 +174,22 @@ class Sale_order(models.Model):
     mrp_production_counts = fields.Float(string='Ordres de fabrication')
     
 
-    def generate_bom_order(self, order_line, products=[]):
+    def generate_bom_order(self, order_line, products=[],option_line=None):
         """
             action by a button
             take each line in order_line
             create line with boms in sale_order_option
         """
         
-        if len(self.order_line) == 0:
-            """
-                test if o2m order_line does not have any record yet
-            """
-            self.clear_sale_order_option()
+        # if len(self.order_line) == 0:
+        #     """
+        #         test if o2m order_line does not have any record yet
+        #     """
+        #     self.clear_sale_order_option()
         
         # self.delete_option_without_order_line(self.id)  
         
-        self.create_sale_order_option(boms=products, order_id=self.id,  o_l_id=order_line)
+        self.create_sale_order_option(boms=products, order_id=self.id,  o_l_id=order_line,option_line=option_line)
           
         # for line in self.order_line:
         #     if line.product_id:
@@ -248,7 +248,10 @@ class Sale_order(models.Model):
             
         return product_boms
     
-    def create_sale_order_option(self, boms, order_id, o_l_id):
+    def create_sale_order_option(self, boms, order_id, o_l_id,option_line=None):
+        line_type = ''
+        if option_line:
+            line_type = 'option'
         """
             create in model sale order option
             each line is from product as a bom's parent
@@ -299,6 +302,8 @@ class Sale_order(models.Model):
                 'total_sale_price':  total_price_sale,
                 
                 'order_line_id':  o_l_id,
+                'option_line_id':  option_line,
+                'line_type': line_type,
 
                 })
                 self.compute_order_line_price_unit()

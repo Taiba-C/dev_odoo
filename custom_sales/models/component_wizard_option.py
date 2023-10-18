@@ -2,7 +2,7 @@ from odoo import models, fields, api
 
 
 class ComponentSelectionWizard(models.TransientModel):
-    _name = 'component.selection.wizard'
+    _name = 'component.selection.wizard.option'
     _description = 'Component Selection Wizard'
 
     product_id = fields.Many2one('product.product', 'Nomenclature', default=lambda self: self._get_default_product(),
@@ -37,35 +37,35 @@ class ComponentSelectionWizard(models.TransientModel):
     product_image = fields.Binary(string='Product Image', related='product_id.image_1920')
 
     bom_id = fields.Many2one('mrp.bom', string='bom', compute="_compute_default_bom_id")
-    option_line_id = fields.Many2one('sale.order.option', string='Order option', ondelete="cascade", copy=True)
-    order_line_id = fields.Many2one('sale.order.line', 'Sale Order Line',
-                                    default=lambda self: self._get_default_order_line_id(), readonly=True)
+    order_line_id = fields.Many2one('sale.order.line', 'Sale Order Line',readonly=True)
+    option_line_id = fields.Many2one('sale.order.option', 'Sale Order Line',
+                                    default=lambda self: self._get_default_option_line_id(), readonly=True)
     component_ids = fields.Many2many('mrp.bom.line', string='Composants')
     
 
-    option_ids = fields.One2many('stock.quantity.line', 'wizard_id', string='Composants du tableau de chiffrage',
+    option_ids = fields.One2many('stock.quantity.line', 'wizard_id_option', string='Composants du tableau de chiffrage',
                                  default=lambda self: self._get_default_option_ids())
 
     def action_confirm(self):
         product_boms = []
-
-        # order_options = self.env['sale.order.option.nesil'].search([('order_line_id', '=', self.order_line_id.id)])
-        # order_options.unlink()
+        
+        order_options = self.env['sale.order.option.nesil'].search([('option_line_id', '=', self.option_line_id.id)])
+        order_options.unlink()
 
         for line in self.option_ids:
             if line.selected_product:
                 product_boms.append({'id': line.product_id.id, 'quantity': line.quantity})
 
-        order_line = self.order_line_id
-        order_line.order_id.generate_bom_order(products=product_boms, order_line=self.order_line_id.id,option_line=None)
+        option_line = self.option_line_id
+        option_line.order_id.generate_bom_order(order_line=None,products=product_boms, option_line=self.option_line_id.id)
 
         return {'type': 'ir.actions.act_window_close'}
 
     def _get_default_product(self):
         return self._context.get('product_id')
 
-    def _get_default_order_line_id(self):
-        return self._context.get('order_line_id')
+    def _get_default_option_line_id(self):
+        return self._context.get('option_line_id')
 
     @api.depends('product_id')
     def _compute_default_bom_id(self):
@@ -79,9 +79,9 @@ class ComponentSelectionWizard(models.TransientModel):
 
     def _get_default_option_ids(self):
         boms = self.env.context.get('mrp_bom_line')
-        order_line = self.env.context.get('order_line_id')
+        option_line = self.env.context.get('option_line_id')
 
-        options = self.env['sale.order.option.nesil'].search([('order_line_id', '=', order_line)])
+        options = self.env['sale.order.option.nesil'].search([('option_line_id', '=', option_line)])
 
         lines = []
 
@@ -131,9 +131,9 @@ class ComponentSelectionWizard(models.TransientModel):
                         }))
         return lines
 
-    # @api.onchange('order_line_id')
-    # def _onchange_order_line_id(self):
-    #     bom_lines = self.env['sale.order.option.nesil'].search([('order_line_id', '=', self.order_line_id.id)])
+    # @api.onchange('option_line_id')
+    # def _onchange_option_line_id(self):
+    #     bom_lines = self.env['sale.order.option.nesil'].search([('option_line_id', '=', self.option_line_id.id)])
     #
     #     option_values = []
     #     for bom_line in bom_lines:
@@ -143,42 +143,3 @@ class ComponentSelectionWizard(models.TransientModel):
     #         }))
     #
     #     self.option_ids = option_values
-
-
-class StockQuantityLine(models.TransientModel):
-    _name = 'stock.quantity.line'
-    _description = 'Stock Quantity Line'
-
-    wizard_id = fields.Many2one(
-        comodel_name='component.selection.wizard',
-        string='Wizard',
-    )
-
-    wizard_id_option = fields.Many2one(
-        comodel_name='component.selection.wizard.option',
-        string='Wizard option',
-    )
-    product_id = fields.Many2one(
-        comodel_name='product.product',
-        string='Article',
-    )
-    product_id_visible = fields.Many2one(
-        comodel_name='product.product',
-        string='Article',
-        compute="_compute_product_id_visible"
-    )
-    quantity = fields.Float(string='Quantité')
-
-    updated = fields.Boolean("Modifié")
-
-    selected_product = fields.Boolean('Selection')
-
-    @api.depends('product_id')
-    def _compute_product_id_visible(self):
-        for record in self:
-            record.product_id_visible = record.product_id
-
-    @api.onchange('quantity')
-    def _onchange_quantity(self):
-        if not self.selected_product:
-            self.selected_product = True

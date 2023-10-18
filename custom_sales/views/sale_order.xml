@@ -166,6 +166,13 @@
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="attributes">
                     <attribute name="domain">[('is_bom_parent', '=', True)]</attribute>
                 </xpath>
+
+                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="before">
+                    <field name="is_subcontracted" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <button name="action_costing_option" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|','|',('state', '!=', 'draft'),('is_subcontracted','=',True),('is_present','=',True)] }" />
+                </xpath>
+
                 <!-- <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="replace">
                         <field name="order_line_id" domain="[('order_id', '=', parent.id),('display_type', '=', False)]" options="{'no_create': True, 'no_create_edit':True}" optional="hide"/>
                         <field name="nomenclature_name" optional="show"/>
@@ -183,19 +190,23 @@
 
 
                 <!-- manage action button to transform odoo option to nesil option vice versa -->
-                <!-- <xpath expr="//field[@name='sale_order_option_ids']/tree/button[@name='button_add_to_order']" position="replace">
+                <xpath expr="//field[@name='sale_order_option_ids']/tree/button[@name='button_add_to_order']" position="replace">
 
-                    <button name="button_add_to_nesil_option"
-                        class="btn btn-link oe_link fa fa-shopping-cart"
+                    <button name="button_add_to_order"
+                        string="Valider option"
                         title="Add to order lines"
                         type="object"
                         attrs="{'invisible': [('is_present', '=', True)]}"/>
 
-                </xpath> -->
+                </xpath>
 
                 <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree/field[@name='product_id']" position="before">
                     <field name="order_line_id" domain="[('order_id', '=', parent.id),('display_type', '=', False)]" options="{'no_create': True, 'no_create_edit':True}" optional="hide"/>
                     <field name="nomenclature_name" optional="show"/>
+                </xpath>
+
+                <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree/field[@name='discount']" position="after">
+                    <field name="line_type" widget="selection_badge" optional="show"/>
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree" position="attributes">
@@ -206,6 +217,13 @@
                     <field name="purchase_price" />
 
                 </xpath>
+                <!-- <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                     <button name="button_add_to_nesil_option"
+                        string="Ajouter en option"
+                        type="object"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+
+                </xpath> -->
 
                 <!-- always show sale_order_nesil_option_ids -->
                 <xpath expr="//page[@name='optional_products_nesil']" position="attributes">

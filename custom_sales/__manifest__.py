@@ -56,6 +56,7 @@
         'views/mrp_planning_view.xml',
         'views/my_work_Order.xml',
         'views/wizard_component_bom.xml',
+        'views/wizard_component_bom_option.xml',
         'views/remise.xml',
         'views/menu.xml',
         'views/menu.xml',
