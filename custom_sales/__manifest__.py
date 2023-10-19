@@ -22,6 +22,8 @@
 
     # any module necessary for this one to work correctly
     'depends': ['base',
+                'mail',
+                'contacts',
                 'sale',
                 'sale_management',
                 'product',
@@ -51,6 +53,8 @@
         'views/mrp_workorder.xml',
         # scheduled tasks
         'views/data/notify_quotation.xml',
+        'views/data/notify_relaunch_quotation.xml',
+        
         'views/planning_slot_gantt.xml',
         'views/sale_order_portal_content_custom.xml',
         'views/mrp_planning_view.xml',
@@ -60,6 +64,10 @@
         'views/menu.xml',
         'views/menu.xml',
         'data/data_workcenter.xml',
+        
+        # email template
+        'data/mail_template_data.xml',
+        
         # report
         # 'report/ir_actions_report_templates.xml',
     ],
