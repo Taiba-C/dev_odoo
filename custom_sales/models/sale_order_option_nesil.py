@@ -291,10 +291,13 @@ class SaleOrderOptionNesil(models.Model):
         res.quantity = self.quantity if self.quantity else 0
         return res
 
-    @api.depends('order_line_id')
+    @api.depends('option_line_id','order_line_id')
     def _compute_nomenclature_name(self):
         for record in self:
-            record.nomenclature_name = record.order_line_id.name
+            if record.option_line_id:
+                record.nomenclature_name = record.option_line_id.product_id.display_name
+            elif record.order_line_id:
+                record.nomenclature_name = record.order_line_id.name
     
     def retro_options_nesil_options(self):
         orders = self.env["sale.order"].sudo().search([])

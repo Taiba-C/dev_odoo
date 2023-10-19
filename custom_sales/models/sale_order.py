@@ -306,12 +306,22 @@ class Sale_order(models.Model):
                 'line_type': line_type,
 
                 })
+
                 self.compute_order_line_price_unit()
     
     @api.onchange('sale_order_nesil_option_ids')
     def _onchange_sale_order_nesil_option_ids(self):
         self.compute_order_line_price_unit()
+        self.compute_option_line_price()
         
+    def compute_option_line_price(self):
+        for option in self.sale_order_option_ids:
+            price_unit = 0
+            for order_option in self.sale_order_nesil_option_ids:
+                if str(order_option.option_line_id.id) in str(option.id) :
+                    price_unit += order_option.total_sale_price
+            option.write({'price_unit': price_unit})
+
     def compute_order_line_price_unit(self):
         """
             for each line in order line

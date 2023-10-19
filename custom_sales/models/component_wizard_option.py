@@ -52,12 +52,15 @@ class ComponentSelectionWizard(models.TransientModel):
         order_options = self.env['sale.order.option.nesil'].search([('option_line_id', '=', self.option_line_id.id)])
         order_options.unlink()
 
+        total_sale_price = 0
         for line in self.option_ids:
             if line.selected_product:
+                total_sale_price += line.product_id.lst_price * line.quantity
                 product_boms.append({'id': line.product_id.id, 'quantity': line.quantity})
 
         option_line = self.option_line_id
         option_line.order_id.generate_bom_order(order_line=None,products=product_boms, option_line=self.option_line_id.id)
+        option_line.write({'price_unit':total_sale_price})
 
         return {'type': 'ir.actions.act_window_close'}
 

@@ -49,8 +49,8 @@ class ComponentSelectionWizard(models.TransientModel):
     def action_confirm(self):
         product_boms = []
 
-        # order_options = self.env['sale.order.option.nesil'].search([('order_line_id', '=', self.order_line_id.id)])
-        # order_options.unlink()
+        order_options = self.env['sale.order.option.nesil'].search([('order_line_id', '=', self.order_line_id.id)])
+        order_options.unlink()
 
         for line in self.option_ids:
             if line.selected_product:

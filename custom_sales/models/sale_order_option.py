@@ -128,7 +128,8 @@ class SaleOrderOption(models.Model):
     @api.depends('order_line_id')
     def _compute_nomenclature_name(self):
         for record in self:
-            record.nomenclature_name = record.order_line_id.name
+            if record.order_line_id and record.nomenclature_name != '':
+                record.nomenclature_name = record.order_line_id.name
     
     def add_option_to_order(self):
         self.ensure_one()
