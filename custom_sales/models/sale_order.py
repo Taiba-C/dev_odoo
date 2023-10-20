@@ -709,6 +709,11 @@ class Sale_order(models.Model):
                 })
                 move._action_confirm()
             self.picking_id = picking.id
+            
+            # send mail email_template_sale_confirm_quotation
+            template = self.env.ref('custom_sales.email_template_sale_confirm_quotation')
+            template.with_context(proforma=False).send_mail(self.id, force_send=True)
+
         return res
     def temp_action_confirm(self):
         for record in self:
