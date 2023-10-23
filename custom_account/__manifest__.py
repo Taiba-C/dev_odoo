@@ -20,7 +20,11 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account'],
+    'depends': ['base',
+                'mail',
+                'contacts',
+                'account',
+                ],
 
     'license': 'AGPL-3',
     
@@ -31,6 +35,8 @@
         'views/templates.xml',
         'views/account_move.xml',
         
+        'data/mail_template_invoice_reminder.xml',
+        
         # report
         'report/report_invoice_with_payments.xml',
     ],
@@ -38,4 +44,9 @@
     'demo': [
         'demo/demo.xml',
     ],
+    
+    'auto_install': True,
+    'sequence': -1,
+    'installable': True,
+    'application': True,
 }
