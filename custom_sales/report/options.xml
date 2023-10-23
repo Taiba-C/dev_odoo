@@ -1,5 +1,5 @@
 <odoo>
-<template id="report_saleorder_document_inherit_nesil" inherit_id="sale.report_saleorder_document" name="Ajouter option devis">
+<template id="report_saleorder_document_inherit_nesil" inherit_id="sale.report_saleorder_document_inherit_sale_management" name="Ajouter option devis">
     <xpath expr="//h4[@name='h_optional_products']" position="replace">
         <h4 name="h_optional_products" style="text-decoration:underline">
             <span><strong>Options</strong></span>
