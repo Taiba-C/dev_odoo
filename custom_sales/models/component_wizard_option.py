@@ -60,6 +60,8 @@ class ComponentSelectionWizard(models.TransientModel):
 
         option_line = self.option_line_id
         option_line.order_id.generate_bom_order(order_line=None,products=product_boms, option_line=self.option_line_id.id)
+        print('######## total_sale_price')
+        print(total_sale_price)
         option_line.write({'price_unit':total_sale_price})
 
         return {'type': 'ir.actions.act_window_close'}
