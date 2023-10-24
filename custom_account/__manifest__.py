@@ -35,7 +35,8 @@
         'views/templates.xml',
         'views/account_move.xml',
         
-        'data/mail_template_invoice_reminder.xml',
+        'data/mail_template_invoice_reminder_before.xml',
+        'data/mail_template_invoice_reminder_later.xml',
         
         # report
         'report/report_invoice_with_payments.xml',
