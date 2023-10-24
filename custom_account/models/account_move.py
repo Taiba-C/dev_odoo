@@ -34,7 +34,8 @@ class AccountMove(models.Model):
         invoices = self.search([
             ('state', '=', 'posted'),
             ('invoice_date_due', '>=', date_before_date_due_begin),
-            ('invoice_date_due', '<=', date_before_date_due_end)
+            ('invoice_date_due', '<=', date_before_date_due_end),
+            ('payment_state', 'in', ['not_paid', 'in_payment', 'partial'])
         ])
         print(date_before_date_due)
         print(invoices)
@@ -72,7 +73,8 @@ class AccountMove(models.Model):
         invoices = self.search([
             ('state', '=', 'posted'),
             ('invoice_date_due', '>=', date_later_date_due_begin),
-            ('invoice_date_due', '<=', date_later_date_due_end)
+            ('invoice_date_due', '<=', date_later_date_due_end),
+            ('payment_state', 'in', ['not_paid', 'in_payment', 'partial'])
         ])
         print(date_later_date_due)
         print(invoices)
