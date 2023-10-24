@@ -18,7 +18,7 @@ class AccountMove(models.Model):
             return sale_order.rfrence_du_dossier.name
             
             
-    def reminder_four_day_bef_date_due(self):
+    def reminder_invoice_of_balance_before(self):
         """
             FACTURE DE SOLDE RAPPEL 1 :  4 JOUR AVANT LA DATE D’ECHEANCE 
         """
@@ -56,7 +56,7 @@ class AccountMove(models.Model):
                     
                     template.with_context(proforma=False, **template_context).send_mail(invoice.id, force_send=True)
 
-    def reminder_four_day_later_date_due(self):
+    def reminder_invoice_of_balance_later(self):
         """
             Facture DE SOLDE RELANCE 1 : 4 JOURS APRES LA DATE D’ECHEANCE
         """
@@ -97,5 +97,5 @@ class AccountMove(models.Model):
             
         
     def invoice_reminder(self):
-        self.reminder_four_day_bef_date_due()
-        self.reminder_four_day_later_date_due()
+        self.reminder_invoice_of_balance_before()
+        self.reminder_invoice_of_balance_later()
