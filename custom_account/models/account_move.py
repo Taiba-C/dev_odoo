@@ -47,7 +47,7 @@ class AccountMove(models.Model):
                                     ])
                 
                 if invoice.invoice_types == 'invoice_of_balance':
-                    template = self.env.ref('custom_account.email_template_invoice_reminder_before')
+                    template = self.env.ref('custom_account.email_template_invoice_of_balance_before')
                     
                     template_context = {
                         "opportunity_name": related_quotations[0].opportunity_id.name,
@@ -84,7 +84,7 @@ class AccountMove(models.Model):
                                     ])
                 
                 if invoice.invoice_types == 'invoice_of_balance':
-                    template = self.env.ref('custom_account.email_template_invoice_reminder_later')
+                    template = self.env.ref('custom_account.email_template_invoice_of_balance_later')
                     
                     template_context = {
                         "opportunity_name": related_quotations[0].opportunity_id.name,
