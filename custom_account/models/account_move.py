@@ -182,3 +182,25 @@ class AccountMove(models.Model):
         self.reminder_invoice_of_balance_later()
         self.reminder_down_payment_invoice_later_four_day()
         self.reminder_down_payment_invoice_later_twelve_day()
+        
+    
+    def _get_mail_template(self):
+        """
+        :return: the correct mail template based on the current move type
+        """
+        return (
+            'custom_account.email_template_out_refund_invoice'
+            if all(move.move_type == 'out_refund' for move in self)
+            else 'account.email_template_edi_invoice'
+        )
+        
+    def get_account_move(self, account_move_id):
+        account_move = self.env['account.move'].search([('id','=', account_move_id)], limit=1)
+        related_quotations = self.env['sale.order'].search([
+                                        ('name', 'in', account_move.invoice_origin.split(', ')),  # Split if multiple references are stored
+                                        ('state', '!=', 'cancel'),  # Exclude canceled sale orders if needed
+                                    ])
+        return {
+            "opportunity_name": related_quotations[0].opportunity_id.name,
+            "signature_malika": self.env['res.users'].search([('name', 'ilike', 'malika')])
+        }
