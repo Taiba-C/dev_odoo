@@ -942,6 +942,21 @@ class Sale_order(models.Model):
                 template.with_context(proforma=False).send_mail(order.id, force_send=True)
         else:
             print("not work 2")
+            
+    def _find_mail_template(self):
+        """ Get the appropriate mail template for the current sales order based on its state.
+
+        If the SO is confirmed, we return the mail template for the sale confirmation.
+        Otherwise, we return the quotation email template.
+
+        :return: The correct mail template based on the current status
+        :rtype: record of `mail.template` or `None` if not found
+        """
+        self.ensure_one()
+        if self.env.context.get('proforma') or self.state not in ('sale', 'done'):
+            return self.env.ref('custom_sales.email_template_quotation_sale', raise_if_not_found=False)
+        else:
+            return self._get_confirmation_template()
         
 class ProjectProject(models.Model):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     _inherit = 'project.project'
