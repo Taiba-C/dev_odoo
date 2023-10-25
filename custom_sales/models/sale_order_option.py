@@ -30,24 +30,14 @@ class SaleOrderOption(models.Model):
     #                                         product_ids.remove(option.product_id.id)
     #             rec.product_id_domain = json.dumps(([('id', 'in', product_ids)]))  
                            
-    is_present = fields.Boolean(
-        string="Present on Quotation",
-        compute='_compute_is_present_nesil',
-        search='_search_is_present_nesil',
-        help="This field will be checked if the option line's product is "
-             "already present in the quotation.")
-    
-    # @api.depends('line_id', 'order_id.sale_order_nesil_option_ids', 'product_id')
-    # def _compute_is_present_nesil(self):
-    #     # NOTE: this field cannot be stored as the line_id is usually removed
-    #     # through cascade deletion, which means the compute would be false
-    #     for option in self:
-    #         option.is_present = bool(option.order_id.sale_order_nesil_option_ids.filtered(lambda l: l.product_id == option.product_id))
-
-    # def _search_is_present_nesil(self, operator, value):
-    #     if (operator, value) in [('=', True), ('!=', False)]:
-    #         return [('line_id', '=', False)]
-    #     return [('line_id', '!=', False)]
+    # is_present = fields.Boolean(
+    #     string="Present on Quotation",
+    #     compute='_compute_is_present_nesil',
+    #     search='_search_is_present_nesil',
+    #     help="This field will be checked if the option line's product is "
+    #          "already present in the quotation.")
+    is_subcontracted = fields.Boolean('Produit sous-traité',related='product_id.is_subcontracted')
+    state = fields.Selection(related='order_id.state')
     parent_id = fields.Many2one('product.template', string='Parent',copy=True)
     
     purchase_price = fields.Float('Purchase price',copy=True)
@@ -138,8 +128,38 @@ class SaleOrderOption(models.Model):
     @api.depends('order_line_id')
     def _compute_nomenclature_name(self):
         for record in self:
-            record.nomenclature_name = record.order_line_id.name
+            if record.order_line_id and record.nomenclature_name != '':
+                record.nomenclature_name = record.order_line_id.name
     
+    def add_option_to_order(self):
+        self.ensure_one()
+
+        sale_order = self.order_id
+
+        if sale_order.state not in ['draft', 'sent']:
+            raise UserError(_('You cannot add options to a confirmed order.'))
+
+        values = self._get_values_to_add_to_order()
+        order_line = self.env['sale.order.line'].create(values)
+        nesil_options = self.env['sale.order.option.nesil'].sudo().search([('option_line_id','=',self.id)])
+        for nesil_option in nesil_options:
+            nesil_option.write({'order_line_id':order_line.id,'option_line_id':None,'line_type':''})
+
+        self.write({'line_id': order_line.id})
+        if sale_order:
+            sale_order.add_option_to_order_with_taxcloud()
+    def action_costing_option(self):
+        self.ensure_one()
+        action = self.env.ref('custom_sales.action_component_selection_wizard_option').read()[0]
+
+        mrp_bom = self.env['mrp.bom'].sudo().search([('product_tmpl_id', '=', self.product_id.product_tmpl_id.id)])
+        mrp_bom_line = self.env['mrp.bom.line'].sudo().search([('bom_id', '=', mrp_bom.id)]).ids
+        action['context'] = {
+            'product_id': self.product_id.id,
+            'option_line_id': self.id,
+            'mrp_bom_line': list(set(mrp_bom_line)),
+        }
+        return action
     #=== ACTION METHODS ===#
 
     # def _get_values_to_add_to_nesil_option(self):

@@ -179,8 +179,7 @@ class SaleOrderOptionNesil(models.Model):
     #         'order_id':self.order_id.id
     #     }
     
-    # def button_add_to_option(self):
-    #     self.add_option_to_option()
+    
 
     # def add_option_to_option(self):
     #     self.ensure_one()
@@ -202,7 +201,8 @@ class SaleOrderOptionNesil(models.Model):
     #     if sale_order:
     #         sale_order.add_option_to_order_with_taxcloud()
     #     self.order_id.sale_order_nesil_option_ids.filtered(lambda l: l.product_id == self.product_id).unlink()
-
+    is_subcontracted = fields.Boolean('Produit sous-traité',related='product_id.is_subcontracted')
+    line_type = fields.Selection([('option','option'),('','')],' ',default='')
     parent_id = fields.Many2one('product.template', string='Parent',copy=True)
     
     purchase_price = fields.Float('Purchase price',copy=True)
@@ -216,6 +216,7 @@ class SaleOrderOptionNesil(models.Model):
     total_purchase_price = fields.Float('Total purchase price', readonly=True,copy=True)
     
     order_line_id = fields.Many2one('sale.order.line', string='Order Line', ondelete="cascade", copy=True)
+    option_line_id = fields.Many2one('sale.order.option', string='Order option', ondelete="cascade", copy=True)
 
     nomenclature_name = fields.Char('Nomenclature', compute="_compute_nomenclature_name", store=True, readonly=True)
     
@@ -290,10 +291,13 @@ class SaleOrderOptionNesil(models.Model):
         res.quantity = self.quantity if self.quantity else 0
         return res
 
-    @api.depends('order_line_id')
+    @api.depends('option_line_id','order_line_id')
     def _compute_nomenclature_name(self):
         for record in self:
-            record.nomenclature_name = record.order_line_id.name
+            if record.option_line_id:
+                record.nomenclature_name = record.option_line_id.product_id.display_name
+            elif record.order_line_id:
+                record.nomenclature_name = record.order_line_id.name
     
     def retro_options_nesil_options(self):
         orders = self.env["sale.order"].sudo().search([])

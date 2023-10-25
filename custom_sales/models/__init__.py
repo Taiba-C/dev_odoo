@@ -7,4 +7,6 @@ from . import sale_order_option_nesil
 from . import sale_make_invoice_advance
 from . import product_template
 from . import component_wizard
+from . import component_wizard_option
 from . import remise
+from . import sale_order_option

@@ -60,8 +60,10 @@
         'views/mrp_planning_view.xml',
         'views/my_work_Order.xml',
         'views/wizard_component_bom.xml',
+        'views/wizard_component_bom_option.xml',
         'views/remise.xml',
-        'views/menu.xml',
+        #'report/options.xml',
+        'report/portal_options.xml',
         'views/menu.xml',
         'data/data_workcenter.xml',
         
