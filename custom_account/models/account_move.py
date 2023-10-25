@@ -35,7 +35,9 @@ class AccountMove(models.Model):
             ('state', '=', 'posted'),
             ('invoice_date_due', '>=', date_before_date_due_begin),
             ('invoice_date_due', '<=', date_before_date_due_end),
-            ('payment_state', 'in', ['not_paid', 'in_payment', 'partial'])
+            ('payment_state', 'in', ['not_paid', 'in_payment', 'partial']),
+            ('move_type', 'in', ['out_invoice']),
+            ('invoice_types', '=', 'invoice_of_balance'),
         ])
         print(date_before_date_due)
         print(invoices)
@@ -47,15 +49,14 @@ class AccountMove(models.Model):
                                         ('state', '!=', 'cancel'),  # Exclude canceled sale orders if needed
                                     ])
                 
-                if invoice.invoice_types == 'invoice_of_balance':
-                    template = self.env.ref('custom_account.email_template_invoice_of_balance_before')
-                    
-                    template_context = {
-                        "opportunity_name": related_quotations[0].opportunity_id.name,
-                        "signature_malika": self.env['res.users'].search([('name', 'ilike', 'malika')])
-                    }   
-                    
-                    template.with_context(proforma=False, **template_context).send_mail(invoice.id, force_send=True)
+                template = self.env.ref('custom_account.email_template_invoice_of_balance_before')
+                
+                template_context = {
+                    "opportunity_name": related_quotations[0].opportunity_id.name,
+                    "signature_malika": self.env['res.users'].search([('name', 'ilike', 'malika')])
+                }   
+                
+                template.with_context(proforma=False, **template_context).send_mail(invoice.id, force_send=True)
 
     def reminder_invoice_of_balance_later(self):
         """
@@ -74,7 +75,88 @@ class AccountMove(models.Model):
             ('state', '=', 'posted'),
             ('invoice_date_due', '>=', date_later_date_due_begin),
             ('invoice_date_due', '<=', date_later_date_due_end),
-            ('payment_state', 'in', ['not_paid', 'in_payment', 'partial'])
+            ('payment_state', 'in', ['not_paid', 'in_payment', 'partial']),
+            ('move_type', 'in', ['out_invoice']),
+            ('invoice_types', '=', 'invoice_of_balance'),
+        ])
+        print(date_later_date_due)
+        for invoice in invoices:
+            print(invoice.name)
+            if invoice.invoice_origin:
+                related_quotations = self.env['sale.order'].search([
+                                        ('name', 'in', invoice.invoice_origin.split(', ')),  # Split if multiple references are stored
+                                        ('state', '!=', 'cancel'),  # Exclude canceled sale orders if needed
+                                    ])
+                
+                template = self.env.ref('custom_account.email_template_invoice_of_balance_later')
+                
+                template_context = {
+                    "opportunity_name": related_quotations[0].opportunity_id.name,
+                    "signature_malika": self.env['res.users'].search([('name', 'ilike', 'malika')])
+                }   
+                
+                template.with_context(proforma=False, **template_context).send_mail(invoice.id, force_send=True)
+
+                            
+
+    def reminder_down_payment_invoice_later_four_day(self):
+        """
+            Facture D’ACOMPTE RELANCE 1  : 4 jours après LA DATE DE CREATION DE LA FACTURE
+        """
+        current_date = fields.Datetime.now().date()
+        date_later_date_due = (current_date - timedelta(days=4))
+    
+    
+        date_later_date_due_begin = datetime(year=date_later_date_due.year, month=date_later_date_due.month, day=date_later_date_due.day,
+                        hour=0, minute=0, second=1)
+        date_later_date_due_end = datetime(year=date_later_date_due.year, month=date_later_date_due.month, day=date_later_date_due.day,
+                        hour=23, minute=59, second=59)
+        
+        invoices = self.search([
+            ('state', '=', 'posted'),
+            ('invoice_date', '>=', date_later_date_due_begin),
+            ('invoice_date', '<=', date_later_date_due_end),
+            ('payment_state', 'in', ['not_paid', 'in_payment', 'partial']),
+            ('move_type', 'in', ['out_invoice']),
+            ('invoice_types', '=', 'down_payment_invoice'),
+        ])
+        print(date_later_date_due)
+        for invoice in invoices:
+            print(invoice.name)
+            if invoice.invoice_origin:
+                related_quotations = self.env['sale.order'].search([
+                                        ('name', 'in', invoice.invoice_origin.split(', ')),  # Split if multiple references are stored
+                                        ('state', '!=', 'cancel'),  # Exclude canceled sale orders if needed
+                                    ])
+                
+                template = self.env.ref('custom_account.email_template_down_payment_invoice_later')
+                
+                template_context = {
+                    "opportunity_name": related_quotations[0].opportunity_id.name,
+                    "signature_malika": self.env['res.users'].search([('name', 'ilike', 'malika')])
+                }   
+                template.with_context(proforma=False, **template_context).send_mail(invoice.id, force_send=True)
+
+    def reminder_down_payment_invoice_later_twelve_day(self):
+        """
+            FACTURE D’ACOMPTE RELANCE 2:  12 JOURS APRES LA CREATION DE LA FACTURE 
+        """
+        current_date = fields.Datetime.now().date()
+        date_later_date_due = (current_date - timedelta(days=12))
+    
+    
+        date_later_date_due_begin = datetime(year=date_later_date_due.year, month=date_later_date_due.month, day=date_later_date_due.day,
+                        hour=0, minute=0, second=1)
+        date_later_date_due_end = datetime(year=date_later_date_due.year, month=date_later_date_due.month, day=date_later_date_due.day,
+                        hour=23, minute=59, second=59)
+        
+        invoices = self.search([
+            ('state', '=', 'posted'),
+            ('invoice_date', '>=', date_later_date_due_begin),
+            ('invoice_date', '<=', date_later_date_due_end),
+            ('payment_state', 'in', ['not_paid', 'in_payment', 'partial']),
+            ('move_type', 'in', ['out_invoice']),
+            ('invoice_types', '=', 'down_payment_invoice'),
         ])
         print(date_later_date_due)
         print(invoices)
@@ -85,19 +167,18 @@ class AccountMove(models.Model):
                                         ('state', '!=', 'cancel'),  # Exclude canceled sale orders if needed
                                     ])
                 
-                if invoice.invoice_types == 'invoice_of_balance':
-                    template = self.env.ref('custom_account.email_template_invoice_of_balance_later')
-                    
-                    template_context = {
-                        "opportunity_name": related_quotations[0].opportunity_id.name,
-                        "signature_malika": self.env['res.users'].search([('name', 'ilike', 'malika')])
-                    }   
-                    
-                    template.with_context(proforma=False, **template_context).send_mail(invoice.id, force_send=True)
+                template = self.env.ref('custom_account.email_template_down_payment_invoice_later')
+                
+                template_context = {
+                    "opportunity_name": related_quotations[0].opportunity_id.name,
+                    "signature_malika": self.env['res.users'].search([('name', 'ilike', 'malika')])
+                }   
+                
+                template.with_context(proforma=False, **template_context).send_mail(invoice.id, force_send=True)
 
-                            
-            
         
     def invoice_reminder(self):
         self.reminder_invoice_of_balance_before()
         self.reminder_invoice_of_balance_later()
+        self.reminder_down_payment_invoice_later_four_day()
+        self.reminder_down_payment_invoice_later_twelve_day()
