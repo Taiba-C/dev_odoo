@@ -67,7 +67,6 @@
         
         # email template
         'data/mail_template_data.xml',
-        'data/mail_template_confirm_quotation.xml',
         
         # report
         # 'report/ir_actions_report_templates.xml',

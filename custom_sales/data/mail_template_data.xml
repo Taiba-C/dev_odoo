@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
     
         <record id="email_template_sale_relaunch" model="mail.template">
             <field name="name">Vente: Relance </field>
@@ -41,6 +41,55 @@
                         <br/>
                         <br/>
 
+                        Nous restons bien entendu à votre entière disposition pour tout complément d'information,
+                        <br/>
+                        <br/>
+
+                        Bien cordialement,
+                        <br/>
+                        <t t-if="not is_html_empty(object.user_id.signature)">
+                            <br/>
+                            <br/>
+                            <t t-out="object.user_id.signature or ''">--                                <br/>
+Mitchell Admin</t>
+                        </t>
+                        <br/>
+                        <br/>
+                    </p>
+                </div>
+            </field>
+            <field name="report_template" ref="sale.action_report_saleorder"/>
+            <field name="report_name">{{ (object.name or '').replace('/','_') }}</field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="email_template_sale_confirm_quotation" model="mail.template">
+            <field name="name">Vente: Confirmation devis </field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">{{ object.company_id.name }} {{ object.state in ('draft', 'sent') and (ctx.get('proforma') and 'Proforma' or 'Quotation') or 'Order' }} (Ref {{ object.origin or 'n/a' }})</field>
+            <field name="email_from">{{ (object.user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+
+            <field name="description">
+                ENVOI COMMANDE
+            </field>
+
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        <t t-set="doc_name" t-value="'quotation' if object.state in ('draft', 'sent') else 'order'"/>
+                        Bonjour,
+                        <br/>
+                        <br/>
+
+                        
+                        Votre commande avec la référence <span style="font-weight: bold;" t-out="object.name or ''">S00052</span> pour un montant de <span style="font-weight: bold;" t-out="format_amount(object.amount_total, object.pricelist_id.currency_id) or ''">$ 10.00</span>, a été confirmée.
+                        <br/>
+                        Merci pour votre confiance !
+                        
+                        <br/>
+                        <br/>
                         Nous restons bien entendu à votre entière disposition pour tout complément d'information,
                         <br/>
                         <br/>
