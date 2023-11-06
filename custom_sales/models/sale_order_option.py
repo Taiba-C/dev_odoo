@@ -60,7 +60,7 @@ class SaleOrderOption(models.Model):
     work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')   
     role_id = fields.Many2one('planning.role', string ='Role', ondelete='cascade')
     
-    # def create_project_task(self,project ,partner_id):
+    #  def create_project_task(self,project ,partner_id):
     #     for record in self:
     #         if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
     #             role_task = ''
