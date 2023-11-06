@@ -36,6 +36,8 @@ class SaleOrderOption(models.Model):
     #     search='_search_is_present_nesil',
     #     help="This field will be checked if the option line's product is "
     #          "already present in the quotation.")
+
+
     is_subcontracted = fields.Boolean('Produit sous-traité',related='product_id.is_subcontracted')
     state = fields.Selection(related='order_id.state')
     parent_id = fields.Many2one('product.template', string='Parent',copy=True)
