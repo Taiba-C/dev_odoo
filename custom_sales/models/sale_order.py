@@ -724,6 +724,11 @@ class Sale_order(models.Model):
                 })
                 move._action_confirm()
             self.picking_id = picking.id
+            
+            # send mail email_template_sale_confirm_quotation
+            template = self.env.ref('custom_sales.email_template_sale_confirm_quotation')
+            template.with_context(proforma=False).send_mail(self.id, force_send=True)
+
         return res
     def temp_action_confirm(self):
         for record in self:
@@ -911,8 +916,63 @@ class Sale_order(models.Model):
         for rec in self:
             return rec.amount_to_pay
 
-  
-  
+
+    def relaunch_quotation(self):
+        template = self.env.ref('custom_sales.email_template_sale_relaunch')
+        current_date = fields.Datetime.now().date()
+        
+        seven_days_ago = (current_date - timedelta(days=7))
+        seven_days_ago_begin = datetime(year=seven_days_ago.year, month=seven_days_ago.month, day=seven_days_ago.day,
+                        hour=0, minute=0, second=1)
+        seven_days_ago_end = datetime(year=seven_days_ago.year, month=seven_days_ago.month, day=seven_days_ago.day,
+                        hour=23, minute=59, second=59)
+
+        confirmed_orders = self.search([
+            ('state', 'in', ['draft', 'sent']),
+            ('date_order', '>=', seven_days_ago_begin),
+            ('date_order', '<=', seven_days_ago_end)
+        ])
+
+        if confirmed_orders:
+            for order in confirmed_orders:
+                template.with_context(proforma=False).send_mail(order.id, force_send=True)
+        else:
+            print("not work")
+
+        four_days_from_now = (current_date + timedelta(days=4))
+        four_days_from_now_begin = datetime(year=four_days_from_now.year, month=four_days_from_now.month, day=four_days_from_now.day,
+                        hour=0, minute=0, second=1)
+        four_days_from_now_end = datetime(year=four_days_from_now.year, month=four_days_from_now.month, day=four_days_from_now.day,
+                        hour=23, minute=59, second=59)
+        
+        expiring_orders = self.search([
+            ('state', 'in', ['draft', 'sent']),
+            ('date_order', '>=', four_days_from_now_begin),
+            ('date_order', '<=', four_days_from_now_end)
+        ])
+
+        if expiring_orders:
+            for order in expiring_orders:
+                print("four day")
+                template.with_context(proforma=False).send_mail(order.id, force_send=True)
+        else:
+            print("not work 2")
+            
+    def _find_mail_template(self):
+        """ Get the appropriate mail template for the current sales order based on its state.
+
+        If the SO is confirmed, we return the mail template for the sale confirmation.
+        Otherwise, we return the quotation email template.
+
+        :return: The correct mail template based on the current status
+        :rtype: record of `mail.template` or `None` if not found
+        """
+        self.ensure_one()
+        if self.env.context.get('proforma') or self.state not in ('sale', 'done'):
+            return self.env.ref('custom_sales.email_template_quotation_sale', raise_if_not_found=False)
+        else:
+            return self._get_confirmation_template()
+        
 class ProjectProject(models.Model):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     _inherit = 'project.project'
 
