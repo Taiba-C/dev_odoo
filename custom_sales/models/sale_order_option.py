@@ -74,7 +74,7 @@ class SaleOrderOption(models.Model):
             option.price_unit = option.price_unit
             # Avoid attaching the new line when called on template change
             new_sol.order_id = False
-            
+
     #  def create_project_task(self,project ,partner_id):
     #     for record in self:
     #         if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
