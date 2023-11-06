@@ -13,7 +13,7 @@
                                 <th class="text-start">Produit</th>
                                 <th t-if="display_discount" class="text-end">Rem.%
                                 </th>
-                                <th class="text-end">Prix unitaire</th>
+                                <th class="text-end">Prix unitaire (hors taxe)</th>
                                 <th t-if="sale_order.state in ['draft', 'sent'] and report_type == 'html'"></th>
                             </tr>
                         </thead>

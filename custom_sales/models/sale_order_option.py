@@ -38,7 +38,7 @@ class SaleOrderOption(models.Model):
     #          "already present in the quotation.")
 
 
-    is_subcontracted = fields.Boolean('Produit sous-traité',related='product_id.is_subcontracted')
+    #is_subcontracted = fields.Boolean('Produit sous-traité',related='product_id.is_subcontracted')
     state = fields.Selection(related='order_id.state')
     parent_id = fields.Many2one('product.template', string='Parent',copy=True)
     
@@ -62,6 +62,19 @@ class SaleOrderOption(models.Model):
     work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')   
     role_id = fields.Many2one('planning.role', string ='Role', ondelete='cascade')
     
+    @api.depends('product_id', 'uom_id', 'quantity')
+    def _compute_price_unit(self):
+        for option in self:
+            if not option.product_id or not option.order_id.pricelist_id:
+                continue
+            # To compute the price_unit a so line is created in cache
+            values = option._get_values_to_add_to_order()
+            new_sol = self.env['sale.order.line'].new(values)
+            new_sol._compute_price_unit()
+            option.price_unit = option.price_unit
+            # Avoid attaching the new line when called on template change
+            new_sol.order_id = False
+            
     #  def create_project_task(self,project ,partner_id):
     #     for record in self:
     #         if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
@@ -108,14 +121,14 @@ class SaleOrderOption(models.Model):
     #             #record.work_order_id = work
     #             record.planning_id = planning
      
-    @api.onchange('quantity', 'margin_product', 'purchase_price')
-    def compute_order_options(self):
-        self.total_purchase_price = self.product_id.standard_price * self.quantity
-        if self.margin_product > 0:
-            self.total_sale_price = self.total_purchase_price / self.margin_product
-        self.margin = self.total_sale_price - self.total_purchase_price
-        if self.total_sale_price > 0:
-            self.margin_percent = self.margin / self.total_sale_price
+    # @api.onchange('quantity', 'margin_product', 'purchase_price')
+    # def compute_order_options(self):
+    #     self.total_purchase_price = self.product_id.standard_price * self.quantity
+    #     if self.margin_product > 0:
+    #         self.total_sale_price = self.total_purchase_price / self.margin_product
+    #     self.margin = self.total_sale_price - self.total_purchase_price
+    #     if self.total_sale_price > 0:
+    #         self.margin_percent = self.margin / self.total_sale_price
     
     def copy(self, default=None):
         self.ensure_one()
@@ -145,7 +158,7 @@ class SaleOrderOption(models.Model):
         order_line = self.env['sale.order.line'].create(values)
         nesil_options = self.env['sale.order.option.nesil'].sudo().search([('option_line_id','=',self.id)])
         for nesil_option in nesil_options:
-            nesil_option.write({'order_line_id':order_line.id,'option_line_id':None,'line_type':''})
+            nesil_option.write({'order_line_id':order_line.id,'option_line_id':None,'line_type':'','updated_id':nesil_option.option_line_id})
 
         self.write({'line_id': order_line.id})
         if sale_order:

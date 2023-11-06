@@ -201,7 +201,7 @@ class SaleOrderOptionNesil(models.Model):
     #     if sale_order:
     #         sale_order.add_option_to_order_with_taxcloud()
     #     self.order_id.sale_order_nesil_option_ids.filtered(lambda l: l.product_id == self.product_id).unlink()
-    is_subcontracted = fields.Boolean('Produit sous-traité',related='product_id.is_subcontracted')
+    #is_subcontracted = fields.Boolean('Produit sous-traité',related='product_id.is_subcontracted')
     line_type = fields.Selection([('option','option'),('','')],' ',default='')
     parent_id = fields.Many2one('product.template', string='Parent',copy=True)
     
@@ -225,7 +225,7 @@ class SaleOrderOptionNesil(models.Model):
     planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
     work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')   
     role_id = fields.Many2one('planning.role', string ='Role', ondelete='cascade')
-    
+    updated_id = fields.Char()
     def create_project_task(self,project ,partner_id):
         for record in self:
             if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':

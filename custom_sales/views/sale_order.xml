@@ -168,9 +168,16 @@
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="before">
-                    <field name="is_subcontracted" invisible="1"/>
+                    <!-- <field name="is_subcontracted" invisible="1"/> -->
                     <field name="state" invisible="1"/>
-                    <button name="action_costing_option" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|','|',('state', '!=', 'draft'),('is_subcontracted','=',True),('is_present','=',True)] }" />
+                    <!-- <button name="action_costing_option" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|','|',('state', '!=', 'draft'),('is_subcontracted','=',True),('is_present','=',True)] }" /> -->
+                    <button name="action_costing_option" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_present','=',True)] }" />
+                </xpath>
+
+                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='price_unit']" position="attributes">
+
+                    <attribute name="string">Prix unitaire (hors taxe)</attribute>
+
                 </xpath>
 
                 <!-- <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="replace">
@@ -319,8 +326,9 @@
 
                 <!-- add button for costing table -->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
-                    <field name="is_subcontracted" invisible="1"/>
-                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_subcontracted','=',True)] }" />
+                    <!-- <field name="is_subcontracted" invisible="1"/> -->
+                    <!-- <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_subcontracted','=',True)] }" /> -->
+                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': [('state', '!=', 'draft')]}" />
                 </xpath>
             </field>
         </record>

@@ -146,6 +146,11 @@ class Sale_order(models.Model):
     def write(self, vals):
         res = super(Sale_order, self).write(vals)
         for rec in self:
+            if len(self.sale_order_option_ids) >= 1:
+                for option in self.sale_order_option_ids:
+                    order_options = self.env['sale.order.option.nesil'].search(['|',('option_line_id', '=', option.id),('updated_id','=',option.id)])
+                    if len(order_options) == 0:
+                        option.price_unit = 0
             if vals.get('version_du_devis'):
                 rec.write({'date_of_last_version': datetime.now()}) 
 
@@ -615,7 +620,7 @@ class Sale_order(models.Model):
             # works = []
             for order_line in record.order_line:
             # for i, order_line in enumerate(record.order_line, start=0):
-                if order_line.product_id.type in ['product', 'consu'] and order_line.product_id.is_subcontracted == False:  # Vérifier le type du produit
+                if order_line.product_id.type in ['product', 'consu']: #and order_line.product_id.is_subcontracted == False   Vérifier le type du produit
                     mrp = self.env['mrp.production'].create({
                         'sale_order': self.id,
                         'product_id': order_line.product_id.id,
