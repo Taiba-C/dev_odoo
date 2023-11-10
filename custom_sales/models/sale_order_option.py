@@ -163,6 +163,8 @@ class SaleOrderOption(models.Model):
         if price_recompute != price_unit:
             consumable = price_recompute - price_unit
             return consumable
+        else:
+            return 0
     def add_option_to_order(self):
         self.ensure_one()
 
