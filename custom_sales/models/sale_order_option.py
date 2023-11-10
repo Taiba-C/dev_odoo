@@ -54,26 +54,27 @@ class SaleOrderOption(models.Model):
     
     order_line_id = fields.Many2one('sale.order.line', string='Order Line', ondelete="cascade", copy=True)
 
-    nomenclature_name = fields.Char('Nomenclature', compute="_compute_nomenclature_name")
+    #nomenclature_name = fields.Char('Nomenclature', compute="_compute_nomenclature_name")
+    nomenclature_name = fields.Char('Nomenclature')
     
     total_sale_price = fields.Float('Total sale price', readonly=True,copy=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
     planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
     work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')   
     role_id = fields.Many2one('planning.role', string ='Role', ondelete='cascade')
-    
-    @api.depends('product_id', 'uom_id', 'quantity')
-    def _compute_price_unit(self):
-        for option in self:
-            if not option.product_id or not option.order_id.pricelist_id:
-                continue
-            # To compute the price_unit a so line is created in cache
-            values = option._get_values_to_add_to_order()
-            new_sol = self.env['sale.order.line'].new(values)
-            new_sol._compute_price_unit()
-            option.price_unit = option.price_unit
-            # Avoid attaching the new line when called on template change
-            new_sol.order_id = False
+    #consumable = fields.Float('consumable')
+    # @api.depends('product_id', 'uom_id', 'quantity')
+    # def _compute_price_unit(self):
+    #     for option in self:
+    #         if not option.product_id or not option.order_id.pricelist_id:
+    #             continue
+    #         # To compute the price_unit a so line is created in cache
+    #         values = option._get_values_to_add_to_order()
+    #         new_sol = self.env['sale.order.line'].new(values)
+    #         new_sol._compute_price_unit()
+    #         option.price_unit = option.price_unit
+    #         # Avoid attaching the new line when called on template change
+    #         new_sol.order_id = False
 
     #  def create_project_task(self,project ,partner_id):
     #     for record in self:
@@ -140,12 +141,28 @@ class SaleOrderOption(models.Model):
         res.quantity = self.quantity if self.quantity else 0
         return res
 
-    @api.depends('order_line_id')
-    def _compute_nomenclature_name(self):
-        for record in self:
-            if record.order_line_id and record.nomenclature_name != '':
-                record.nomenclature_name = record.order_line_id.name
+    # @api.depends('order_line_id')
+    # def _compute_nomenclature_name(self):
+    #     for record in self:
+    #         if record.order_line_id and record.nomenclature_name != '':
+    #             record.nomenclature_name = record.order_line_id.name
     
+    def get_consumable(self,order_line):                                    
+        price_recompute = 0
+        price_unit = 0
+        price_unit = self.price_unit
+        percentage = 0
+        pricelist = self.order_id.pricelist_id.item_ids.search([('compute_price','=','formula'),
+                                                        ('applied_on','=','2_product_category'),
+                                                        ('categ_id','=',self.product_id.product_tmpl_id.categ_id.id)])
+        if pricelist:
+            if percentage == 0 :
+                percentage = abs(pricelist[0].price_discount)
+                
+        price_recompute = price_unit + (price_unit * percentage / 100.0)
+        if price_recompute != price_unit:
+            consumable = price_recompute - price_unit
+            return consumable
     def add_option_to_order(self):
         self.ensure_one()
 
@@ -155,10 +172,15 @@ class SaleOrderOption(models.Model):
             raise UserError(_('You cannot add options to a confirmed order.'))
 
         values = self._get_values_to_add_to_order()
+        values['temp_price_unit'] = self.price_unit
         order_line = self.env['sale.order.line'].create(values)
+
         nesil_options = self.env['sale.order.option.nesil'].sudo().search([('option_line_id','=',self.id)])
         for nesil_option in nesil_options:
             nesil_option.write({'order_line_id':order_line.id,'option_line_id':None,'line_type':'','updated_id':nesil_option.option_line_id})
+        consumable = self.get_consumable(order_line)
+        order_line.write({'consumable':consumable,'temp_price_unit':abs(order_line.price_unit+consumable),'price_subtotal':abs(order_line.price_unit+consumable)})
+        self.price_unit = 0
 
         self.write({'line_id': order_line.id})
         if sale_order:

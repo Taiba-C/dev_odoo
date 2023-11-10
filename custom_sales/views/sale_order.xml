@@ -265,8 +265,27 @@
                         </group>
                         <div class="clearfix"/>
                     </group>
+                </xpath>
+                <!-- Calcul de totaux dans les options -->
+                <xpath expr="//field[@name='sale_order_option_ids']" position="after">
+                    <group name="note_group" col="6" class="mt-2 mt-md-0">
+                        <group colspan="4">
 
+                        </group>
 
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+
+                            <field name="total_purchase_option"  widget ="monetary" force_save="1"/>
+
+                            <field name="total_sale_option"  widget ="monetary" force_save="1"/>
+
+                            <field name="margin_option"  widget ="monetary" force_save="1"/>
+
+                            <field name="margin_percent_option" widget ="percentage" force_save="1"/>
+
+                        </group>
+                        <div class="clearfix"/>
+                    </group>
                 </xpath>
 
 

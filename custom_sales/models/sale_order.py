@@ -34,6 +34,13 @@ class Sale_order(models.Model):
     total_sale = fields.Float('Total sale price', readonly = True,compute="_compute_total_infos")
     margin = fields.Float('Margin', readonly = True, compute="_compute_total_infos")
     margin_percent = fields.Float('Margin %', readonly = True, compute="_compute_total_infos")
+
+     # Calcul des totaux dans les options
+    total_purchase_option = fields.Float('Total puchase price', readonly = True, compute="_compute_total_infos")
+    total_sale_option = fields.Float('Total sale price', readonly = True,compute="_compute_total_infos")
+    margin_option = fields.Float('Margin', readonly = True, compute="_compute_total_infos")
+    margin_percent_option = fields.Float('Margin %', readonly = True, compute="_compute_total_infos")
+
     @api.depends('origin')
     def get_ref_dossier(self):
         for rec in self:
@@ -466,9 +473,29 @@ class Sale_order(models.Model):
     @api.depends('sale_order_nesil_option_ids')
     def _compute_total_infos(self):
         for record in self:
-            total_purchase = sum(record.sale_order_nesil_option_ids.mapped('total_purchase_price'))
-            total_sale = sum(record.sale_order_nesil_option_ids.mapped('total_sale_price'))
-            margin = sum(record.sale_order_nesil_option_ids.mapped('margin'))
+            total_purchase = 0
+            total_sale = 0
+            margin = 0
+            total_purchase_option = 0
+            total_sale_option = 0
+            margin_option = 0
+            for sale_order_nesil_option_id in record.sale_order_nesil_option_ids:
+                if sale_order_nesil_option_id.line_type == 'option':
+                    total_purchase_option += sale_order_nesil_option_id.total_purchase_price
+                    total_sale_option += sale_order_nesil_option_id.total_sale_price
+                    margin_option  += sale_order_nesil_option_id.margin          
+                else:
+                    total_purchase += sale_order_nesil_option_id.total_purchase_price
+                    total_sale += sale_order_nesil_option_id.total_sale_price
+                    margin += sale_order_nesil_option_id.margin
+
+            if total_sale_option > 0:
+                record.margin_percent_option = margin_option / total_sale_option
+            else:
+                record.margin_percent_option = 0
+            record.total_purchase_option = total_purchase_option
+            record.total_sale_option = total_sale_option
+            record.margin_option = margin_option
             if total_sale > 0:
                 record.margin_percent = margin / total_sale
             else:
@@ -477,7 +504,7 @@ class Sale_order(models.Model):
             record.total_purchase = total_purchase
             record.total_sale = total_sale
             record.margin = margin
-                
+            
     
         
     def set_validity_date(self):

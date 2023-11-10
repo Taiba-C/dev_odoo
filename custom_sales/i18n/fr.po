@@ -65,11 +65,13 @@ msgstr ""
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin_option
 msgid "Margin"
 msgstr "Marge"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin_percent
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin_percent_option
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__margin_percent
 msgid "Margin %"
 msgstr "Marge %"
@@ -219,8 +221,10 @@ msgstr "Taches"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_purchase
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_purchase_option
 msgid "Total puchase price"
 msgstr "Prix total achat"
+
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__total_purchase_price
@@ -229,6 +233,7 @@ msgstr "Prix total d'achat"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_sale
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_sale_option
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__total_sale_price
 msgid "Total sale price"
 msgstr "Prix total vente"

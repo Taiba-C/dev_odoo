@@ -312,11 +312,11 @@ class SaleOrderOptionNesil(models.Model):
                         'total_purchase_price':option.total_purchase_price,'order_line_id':option.order_line_id.id,'nomenclature_name':option.nomenclature_name,
                         'total_sale_price':option.total_sale_price,'task_id':option.task_id.id,'planning_id':option.planning_id.id,'work_order_id':option.work_order_id.id,'role_id':option.role_id.id,'order_id':option.order_id.id})
     def remove_old_options(self):
-        orders = self.env["sale.order"].sudo().search([])
-        for order in orders:
-            if len(order.sale_order_nesil_option_ids) == len(order.sale_order_option_ids):
-                for option in order.sale_order_option_ids:
-                    option.unlink()
+        self.env["sale.order.option"].sudo().search([]).unlink()
+        # for order in orders:
+        #     if len(order.sale_order_nesil_option_ids) == len(order.sale_order_option_ids):
+        #         for option in order.sale_order_option_ids:
+        #             option.unlink()
 
     
 class Planning_slot(models.Model):
