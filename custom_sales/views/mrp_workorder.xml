@@ -19,7 +19,7 @@
                         </div>
                         <label for="duration_expected_hours"/>
                         <div class="o_row">
-                            <field name="duration_expected_hours" widget="float_time"/>
+                            <field name="duration_expected_hours" string="Durée attendue" widget="float_time"/>
                             <span>heures</span>
                         </div>
                         <!-- <label for="duration_expected"/>
