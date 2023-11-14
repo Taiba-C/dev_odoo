@@ -72,7 +72,7 @@ class SaleOrderOption(models.Model):
             values = option._get_values_to_add_to_order()
             new_sol = self.env['sale.order.line'].new(values)
             new_sol._compute_price_unit()
-            option.price_unit = option.price_unit
+            option.price_unit = option.price_unit * option.quantity
             # Avoid attaching the new line when called on template change
             new_sol.order_id = False
 
