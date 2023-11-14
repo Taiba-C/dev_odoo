@@ -17,7 +17,13 @@ class AccountMove(models.Model):
             sale_order = self.env['sale.order'].search([('name', '=', source)])
             return sale_order.rfrence_du_dossier.name
             
-            
+    
+    def get_malika_user(self):
+        user = self.env['res.users'].search([('name', 'ilike', 'malika')])
+        if user:
+            return user
+        else:
+            return ''
     def reminder_invoice_of_balance_before(self):
         """
             FACTURE DE SOLDE RAPPEL 1 :  4 JOUR AVANT LA DATE D’ECHEANCE 
