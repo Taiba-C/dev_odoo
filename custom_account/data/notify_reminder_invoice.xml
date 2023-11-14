@@ -14,3 +14,44 @@
         </record>
     </data>
 </odoo>
+
+<!-- Email template for account.move   -->
+<!-- <div style="margin: 0px; padding: 0px;">
+    <p style="box-sizing:border-box;margin: 0px; padding: 0px; font-size: 13px;">
+        Cher
+        <t t-if="object.partner_id.parent_id">
+            <t t-out="object.partner_id.name or ''">Brandon Freeman</t> (<t t-out="object.partner_id.parent_id.name or ''">Azure Interior</t>),
+        </t>
+        <t t-else="">
+            <t t-out="object.partner_id.name or ''">Brandon Freeman</t>,
+        </t>
+        <br><br><br>Veuillez trouver ci-joint&nbsp;votre&nbsp;<t t-if="object.name">
+            facture <span style="font-weight:bold;" t-out="object.name or ''">INV/2021/05/0005</span>
+        </t>
+        <t t-else="">
+            facture
+        </t>
+        <t t-if="object.invoice_origin">
+            (référence : <span style="font-weight:bold;" t-out="object.invoice_origin or ''">SUB003</span>)
+        </t>
+        d'un montant de <span style="font-weight:bold;" t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 143,750.00</span>
+        émise par <t t-out="object.company_id.name or ''">YourCompany</t>.
+</p><p style="box-sizing:border-box;margin: 0px; padding: 0px; font-size: 13px;"><br></p><p style="box-sizing:border-box;margin: 0px; padding: 0px; font-size: 13px;"></p><p style="box-sizing:border-box;margin: 0px; padding: 0px; font-size: 13px;"><br></p><p style="box-sizing:border-box;margin: 0px; padding: 0px; font-size: 13px;"><t t-if="object.payment_state in ('paid', 'in_payment')">
+            Cette facture est déjà payée.
+        </t>
+        <t t-else="">
+            Nous vous prions de bien vouloir procéder au paiement dès que possible.
+            <t t-if="object.payment_reference">
+                <br><br>
+               Merci de rappeler la référence suivante lors du paiement : <span style="font-weight:bold;" t-out="object.payment_reference or ''">INV/2021/05/0005</span>.
+            </t>
+        </t>
+        <br><br>Nous restons bien entendu à votre entière disposition pour tout complément d'information,<br>Bien cordialement,</p><p style="margin:0px 0 12px 0;box-sizing:border-box;"><br>La comptabilité,</p><p style="margin:0px 0 12px 0;box-sizing:border-box;"><br><p style="box-sizing:border-box;margin: 0px; padding: 0px; font-size: 13px;"><br></p>
+        <t t-if="not is_html_empty(object.invoice_user_id.signature)">
+            <t t-if="object.get_malika_user().name == 'Malika RAOUI' ">
+                <t t-out="object.get_malika_user().signature or ''">                                <br/>
+                    MALIKA 
+                </t> 
+            </t> 
+        </t>
+</div> -->

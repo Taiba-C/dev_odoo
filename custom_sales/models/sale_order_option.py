@@ -63,18 +63,18 @@ class SaleOrderOption(models.Model):
     work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')   
     role_id = fields.Many2one('planning.role', string ='Role', ondelete='cascade')
     #consumable = fields.Float('consumable')
-    # @api.depends('product_id', 'uom_id', 'quantity')
-    # def _compute_price_unit(self):
-    #     for option in self:
-    #         if not option.product_id or not option.order_id.pricelist_id:
-    #             continue
-    #         # To compute the price_unit a so line is created in cache
-    #         values = option._get_values_to_add_to_order()
-    #         new_sol = self.env['sale.order.line'].new(values)
-    #         new_sol._compute_price_unit()
-    #         option.price_unit = option.price_unit
-    #         # Avoid attaching the new line when called on template change
-    #         new_sol.order_id = False
+    @api.depends('product_id', 'uom_id', 'quantity')
+    def _compute_price_unit(self):
+        for option in self:
+            if not option.product_id or not option.order_id.pricelist_id:
+                continue
+            # To compute the price_unit a so line is created in cache
+            values = option._get_values_to_add_to_order()
+            new_sol = self.env['sale.order.line'].new(values)
+            new_sol._compute_price_unit()
+            option.price_unit = option.price_unit
+            # Avoid attaching the new line when called on template change
+            new_sol.order_id = False
 
     #  def create_project_task(self,project ,partner_id):
     #     for record in self:
