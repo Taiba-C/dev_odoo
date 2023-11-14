@@ -21,7 +21,7 @@ class AccountMove(models.Model):
     def get_malika_user(self):
         user = self.env['res.users'].search([('name', 'ilike', 'malika')])
         if user:
-            return user
+            return user[0]
         else:
             return ''
     def reminder_invoice_of_balance_before(self):
