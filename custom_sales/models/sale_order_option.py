@@ -62,7 +62,14 @@ class SaleOrderOption(models.Model):
     planning_id = fields.Many2one('planning.slot', string='Plan', ondelete='cascade')
     work_order_id = fields.Many2one('mrp.production', string='Work Order', ondelete='cascade')   
     role_id = fields.Many2one('planning.role', string ='Role', ondelete='cascade')
-    #consumable = fields.Float('consumable')
+    @api.depends('price_unit','quantity')
+    def _compute_subtotal(self):
+        for option in self:
+            if option.quantity and option.price_unit:
+                option.price_subtotal = option.price_unit * option.quantity
+            else:
+                option.price_subtotal = 0
+    price_subtotal = fields.Float(string='sous total',compute='_compute_subtotal')
     @api.depends('product_id', 'uom_id', 'quantity')
     def _compute_price_unit(self):
         for option in self:
@@ -72,10 +79,9 @@ class SaleOrderOption(models.Model):
             values = option._get_values_to_add_to_order()
             new_sol = self.env['sale.order.line'].new(values)
             new_sol._compute_price_unit()
-            option.price_unit = option.price_unit * option.quantity
+            option.price_unit = option.price_unit
             # Avoid attaching the new line when called on template change
             new_sol.order_id = False
-
     #  def create_project_task(self,project ,partner_id):
     #     for record in self:
     #         if record.product_id.type == 'service'and record.product_id.categ_id.name == 'Main d\'oeuvre':
@@ -175,14 +181,20 @@ class SaleOrderOption(models.Model):
 
         values = self._get_values_to_add_to_order()
         values['temp_price_unit'] = self.price_unit
+        values['price_subtotal']:abs((self.price_unit * self.qty))
+        values['qty'] = self.quantity
         order_line = self.env['sale.order.line'].create(values)
-
+        print('### price subtotal')
+        print(self.price_unit * self.quantity)
         nesil_options = self.env['sale.order.option.nesil'].sudo().search([('option_line_id','=',self.id)])
         for nesil_option in nesil_options:
             nesil_option.write({'order_line_id':order_line.id,'option_line_id':None,'line_type':'','updated_id':nesil_option.option_line_id})
         consumable = self.get_consumable(order_line)
-        order_line.write({'consumable':consumable,'temp_price_unit':abs(order_line.price_unit+consumable),'price_subtotal':abs(order_line.price_unit+consumable)})
+        values['temp_price_unit'] += consumable
+        price_subtotal = values['temp_price_unit'] * self.quantity
+        order_line.write({'consumable':consumable,'price_subtotal':price_subtotal,'temp_price_unit':order_line.temp_price_unit+consumable})
         self.price_unit = 0
+        self.quantity = 1
 
         self.write({'line_id': order_line.id})
         if sale_order:
@@ -199,6 +211,7 @@ class SaleOrderOption(models.Model):
             'mrp_bom_line': list(set(mrp_bom_line)),
         }
         return action
+    
     #=== ACTION METHODS ===#
 
     # def _get_values_to_add_to_nesil_option(self):
