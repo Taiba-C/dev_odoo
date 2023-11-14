@@ -46,7 +46,7 @@
                                     </td>
                                     <td>
                                         <strong class="text-end">
-                                            <div t-field="option.price_unit"
+                                            <div t-field="option.price_subtotal"
                                                 t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'
                                                 t-att-style="option.discount and 'text-decoration: line-through' or None"
                                                 t-att-class="option.discount and 'text-danger' or None"/>
