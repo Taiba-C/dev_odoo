@@ -192,9 +192,13 @@ class SaleOrderOption(models.Model):
         consumable = self.get_consumable(order_line)
         values['temp_price_unit'] += consumable
         price_subtotal = values['temp_price_unit'] * self.quantity
-        order_line.write({'consumable':consumable,'price_subtotal':price_subtotal,'temp_price_unit':order_line.temp_price_unit+consumable})
+        discount = (self.discount/100) * (order_line.temp_price_unit+consumable) * self.quantity if self.discount else 0
+        price_subtotal += - discount
+        print('#### discount',discount)
+        order_line.write({'consumable':consumable,'price_subtotal':price_subtotal,'temp_price_unit':order_line.temp_price_unit + consumable})
         self.price_unit = 0
         self.quantity = 1
+        self.discount = 0
 
         self.write({'line_id': order_line.id})
         if sale_order:

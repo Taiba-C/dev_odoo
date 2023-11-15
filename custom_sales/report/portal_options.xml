@@ -11,7 +11,7 @@
                         <thead>
                             <tr>
                                 <th class="text-start">Produit</th>
-                                 <th class="text-start">Quantité</th>
+                                <th class="text-start">Quantité</th>
                                 <th t-if="display_discount" class="text-end">Rem.%
                                 </th>
                                 <th class="text-end">Prix unitaire (hors taxe)</th>

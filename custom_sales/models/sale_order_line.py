@@ -17,6 +17,7 @@ class SaleOrderLine(models.Model):
     @api.onchange('qty', 'temp_price_unit')
     def _onchange_qty(self):
         self.set_price_unit()
+    
         
     def set_price_unit(self):
         self.price_subtotal = self.qty * self.temp_price_unit
@@ -48,39 +49,19 @@ class SaleOrderLine(models.Model):
                     for order_line in self:
                         if order_line.discount > discount.taux_de_remise*100 and not is_user_allowed:
                             raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
+                        else:
+                            order_line.set_price_unit()
+                            discount = order_line.discount/100
+                            print('#### order_line price_subtotal',str(order_line.price_subtotal))
+                            order_line.price_subtotal = order_line.price_subtotal - discount*order_line.price_subtotal
+                            print('#### order_line price_subtotal after',str(order_line.price_subtotal))
+                            
                 else:
                     self.discount = 0
-                    return {
-                        'type': 'ir.actions.client',
-                        'tag': 'display_notification',
-                        'params': {
-                            'type': 'warning',
-                            'message': _("Impossible d'appliquer une remise"),
-                            'sticky': False,
-                            }
-                        }
             else:
                 self.discount = 0
-                return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'type': 'warning',
-                        'message': _("Impossible d'appliquer une remise"),
-                        'sticky': False,
-                        }
-                    }
         else:
             self.discount = 0
-            return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'type': 'warning',
-                        'message': _("Impossible d'appliquer une remise"),
-                        'sticky': False,
-                        }
-                    }
            
     def action_costing(self):
         self.ensure_one()
