@@ -1,6 +1,7 @@
 <odoo>
 <template id="sale_order_portal_content_inherit_nesil" inherit_id="sale.sale_order_portal_content" name="Ajouter option devis portail">
     <xpath expr="//section[@id='signature']" position="after">
+        <t t-if="sale_order.state != 'sale'">
             <t t-if="any((not option.is_present) for option in sale_order.sale_order_option_ids)">
                 <section>
                     <h3>
@@ -66,7 +67,8 @@
                     </table>
                 </section>
             </t>
-        </xpath>
+        </t>
+    </xpath>
 </template>
    
 </odoo>
