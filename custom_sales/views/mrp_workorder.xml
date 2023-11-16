@@ -5,16 +5,42 @@
             <field name="model">mrp.workorder</field>
             <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
             <field name="arch" type="xml">
+                <xpath expr="//group[1]" position="replace">  
+                    <group>
+                    <group attrs="{'invisible': [('date_planned_start', '=', False)]}">
+                        <label for="date_planned_start" string="Planned Date"/>
+                        <div class="oe_inline">
+                            <field name="is_planned" invisible="1"/>
+                            <field name="date_planned_start" class="mr8 oe_inline" attrs="{'required': [('is_planned', '=', True)]}"/>
+                            <strong class="mr8 oe_inline">to</strong>
+                            <field name="date_planned_finished" class="oe_inline" attrs="{'required': [('is_planned', '=', True)]}"/>
+                            <field name="show_json_popover" invisible="1"/>
+                            <field name="json_popover" widget="mrp_workorder_popover" class="oe_inline mx-2" attrs="{'invisible': [('show_json_popover', '=', False)]}"/>
+                        </div>
+                        <label for="duration_expected_hours"/>
+                        <div class="o_row">
+                            <field name="duration_expected_hours" string="Durée attendue" widget="float_time"/>
+                            <span>heures</span>
+                        </div>
+                        <!-- <label for="duration_expected"/>
+                        <div class="o_row">
+                            <field name="duration_expected" widget="float_time"/>
+                            <span>minutes</span>
+                        </div> -->
+                    </group>
+                    <group>
+                        <field name="production_id"/>
+                    </group>
+                </group>
+                </xpath>
                 <xpath expr="//field[@name='production_id']" position="after">  
                     <field name="user_assigned" invisible='1'/> 
-                    <field name="duration_expected_hours" invisible='1'/> 
                     <field name="employee_id"/> 
                     <field name="role" readonly='1' force_save='1'/> 
                     <field name="opportunity" invisible='1'/> 
                     <field name="opportunity_name"/> 
                     <field name="sale_order" invisible='1'/> 
-                    <field name="sale_order_name"/> 
-                    
+                    <field name="sale_order_name"/>  
                 </xpath>
             </field>
         </record>

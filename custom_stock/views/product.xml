@@ -8,6 +8,7 @@
                     <field name="margin_product" readonly="0"/>
                     <field name="margin_product_euro" readonly="1" force_save="1" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                     <field name="is_bom_parent" invisible="1"/>
+                    <field name="is_subcontracted" invisible="1"/>
                 </xpath>
             </field>
         </record>
@@ -20,7 +21,8 @@
                 <xpath expr="//field[@name='default_code']" position="before">
                     <field name="margin_product" readonly="0"/>
                     <field name="margin_product_euro" readonly="1" force_save="1" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                    <field name="is_bom_parent" invisible="1"/>             
+                    <field name="is_bom_parent" invisible="1"/>  
+                    <field name="is_subcontracted" invisible="1"/>           
                 </xpath>
             </field>
         </record>

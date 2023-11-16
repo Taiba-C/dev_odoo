@@ -15,6 +15,7 @@ class Product_template(models.Model):
     margin_product = fields.Float('Ratios', digits=(10, 4))
     margin_product_euro = fields.Float('Margin')
     is_bom_parent = fields.Boolean('Is BOM Parent')
+    is_subcontracted = fields.Boolean('Produit sous-traité')
     list_price = fields.Float(compute='_compute_list_price', string='Prix de vente')
     
     @api.depends('standard_price', 'margin_product')
@@ -52,6 +53,7 @@ class Product_product(models.Model):
     margin_product_euro = fields.Float('Margin', related='product_tmpl_id.margin_product_euro')
     
     is_bom_parent = fields.Boolean('Is BOM Parent',related='product_tmpl_id.is_bom_parent')
+    is_subcontracted = fields.Boolean('Produit sous-traité',related='product_tmpl_id.is_subcontracted')
     
     @api.onchange('margin_product')
     def _onchange_margin_product(self):

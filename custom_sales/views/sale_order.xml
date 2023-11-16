@@ -29,6 +29,64 @@
                 <!-- <xpath expr="//button[@name='action_view_delivery']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath> -->
+                <page name="optional_products" position="before">
+                <page string="Costing table"
+                    name="optional_products_nesil"
+                    attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}">
+                    <field name="sale_order_nesil_option_ids" mode="tree,form">
+                        <form string="Tableau de chiffrage ">
+                            <group>
+                                <!-- <field name="product_id_domain" invisible="1"/> -->
+                                <field name="product_id" options="{'no_create': True, 'no_create_edit':True}" />
+                                <field name="name"/>
+                                <field name="quantity"/>
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <field name="uom_id" groups="uom.group_uom"/>
+                                <field name="price_unit"/>
+                                <field name="discount" groups="product.group_discount_per_so_line"/>
+                                <field name="is_present" />
+                            </group>
+                        </form>
+                        <tree string="Sales Quotation Template Lines"
+                            editable="bottom"
+                            decoration-success="is_present == True">
+                            <control>
+                                <create name="add_product_control" string="Add a product"/>
+                            </control>
+                            <field name="sequence" widget="handle"/>
+                            <!-- <field name="product_id_domain" invisible="1"/> -->
+                            <field name="product_id" domain="[('is_bom_parent', '=', False)]" options="{'no_create': True, 'no_create_edit':True}" />
+                            <field name="name" optional="show"/>
+                            <field name="quantity"/>
+                            <field name="margin_product" string =" Ratios"/>
+                            <field name="total_purchase_price" force_save = "1"/>
+                            <field name="total_sale_price" force_save = "1"/>
+                            <field name="margin" force_save = "1"/>
+                            <field name="margin_percent" widget="percentage" force_save = "1"/>
+
+                            <field name="uom_id" string="UoM" groups="uom.group_uom" optional="show"/>
+                            <field name="product_uom_category_id" invisible="1"/>
+                            <field name="price_unit"/>
+                            <field name="discount"
+                                string="Rem.%"
+                                groups="product.group_discount_per_so_line"
+                                optional="show"/>
+                            <field name="is_present" invisible="1" />
+                            <!-- <button type="object" name="button_add_to_option" string="Add to option" class="oe_stat_button"
+                                attrs="{'invisible': [('is_present', '=', False)]}">
+                            </button> -->
+                            <!-- <button name="button_add_to_option"
+                                type="object"
+                                class="oe_link"
+                                icon="fa-regular fa-shopping-cart"
+                                string=
+                                title="Add to option"
+                                attrs="{'invisible': [('is_present', '=', False)]}"/> -->
+                        </tree>
+                    </field>
+                </page>
+            </page>
+
 
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
 
@@ -64,62 +122,134 @@
 
                 </xpath>
 
+                <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree/field[@name='name']" position="attributes">
 
+                    <attribute name="invisible">1</attribute>
+
+                </xpath>
+
+                <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree/field[@name='uom_id']" position="attributes">
+
+                    <attribute name="invisible">1</attribute>
+
+                </xpath>
+
+                <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree/field[@name='price_unit']" position="attributes">
+
+                    <attribute name="invisible">1</attribute>
+
+                </xpath>
+
+                <!-- <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='uom_id']" position="attributes">
+
+                    <attribute name="invisible">1</attribute>
+
+                </xpath> -->
+                <!-- <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='price_unit']" position="attributes">
+
+                    <attribute name="invisible">1</attribute>
+                </xpath> -->
+
+                <!-- <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='name']" position="attributes">
+
+                    <attribute name="invisible">1</attribute>
+
+                </xpath> -->
+
+                <!-- <xpath expr="//field[@name='sale_order_option_ids']/tree/button[@name='button_add_to_order']" position="replace">
+
+                    <button type="object" name="button_add_to_order" string="Add to numbering" class="oe_stat_button"
+                    >
+                    </button>
+
+                </xpath> -->
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="attributes">
-
-                    <attribute name="domain">[('is_bom_parent', '=', False)]</attribute>
-
+                    <attribute name="domain">[('is_bom_parent', '=', True)]</attribute>
                 </xpath>
 
-                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='name']" position="attributes">
-
-                    <attribute name="invisible">1</attribute>
-
-                </xpath>
-
-                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='uom_id']" position="attributes">
-
-                    <attribute name="invisible">1</attribute>
-
+                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="before">
+                    <!-- <field name="is_subcontracted" invisible="1"/> -->
+                    <field name="state" invisible="1"/>
+                    <!-- <button name="action_costing_option" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|','|',('state', '!=', 'draft'),('is_subcontracted','=',True),('is_present','=',True)] }" /> -->
+                    <button name="action_costing_option" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_present','=',True)] }" />
                 </xpath>
 
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='price_unit']" position="attributes">
 
-                    <attribute name="invisible">1</attribute>
+                    <attribute name="string">Prix unitaire (hors taxe)</attribute>
 
                 </xpath>
 
-                <xpath expr="//field[@name='sale_order_option_ids']/tree/button[@name='button_add_to_order']" position="attributes">
-
-                    <attribute name="invisible">1</attribute>
-
-                </xpath>
-
-                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="before">
-                    <field name="order_line_id" domain="[('order_id', '=', parent.id),('display_type', '=', False)]" options="{'no_create': True, 'no_create_edit':True}" optional="hide"/>
-                    <field name="nomenclature_name" optional="show"/>
-                </xpath>
-
-                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="before">
-                    <field name="purchase_price" />
-
-                </xpath>
-
-                <!-- always show sale_order_option_ids -->
-                <xpath expr="//page[@name='optional_products']" position="attributes">
-                    <attribute name="attrs">{'readonly':[('state','=',['cancel'])]}</attribute>
-                </xpath>
-
-
-                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="after">
+                <!-- <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="replace">
+                        <field name="order_line_id" domain="[('order_id', '=', parent.id),('display_type', '=', False)]" options="{'no_create': True, 'no_create_edit':True}" optional="hide"/>
+                        <field name="nomenclature_name" optional="show"/>
+                        <field name="product_id_domain" invisible="1"/>
+                        <field name="product_id" string='Article' domain="product_id_domain" options="{'no_create': True, 'no_create_edit':True}" />
+                        <field name="purchase_price"/>
+                </xpath> -->
+                <!-- <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='quantity']" position="after">
                     <field name="margin_product" string =" Ratios"/>
                     <field name="total_purchase_price" force_save = "1"/>
                     <field name="total_sale_price" force_save = "1"/>
                     <field name="margin" force_save = "1"/>
                     <field name="margin_percent" widget="percentage" force_save = "1"/>
+                </xpath> -->
+
+
+                <!-- manage action button to transform odoo option to nesil option vice versa -->
+                <xpath expr="//field[@name='sale_order_option_ids']/tree/button[@name='button_add_to_order']" position="replace">
+
+                    <button name="button_add_to_order"
+                        string="Valider option"
+                        title="Add to order lines"
+                        type="object"
+                        attrs="{'invisible': [('is_present', '=', True)]}"/>
+
+                </xpath>
+                <xpath expr="//field[@name='sale_order_option_ids']/tree/button[@name='button_add_to_order']" position="before">
+                    <field name="price_subtotal" readonly="1" force_save="1" optional="show"/>
                 </xpath>
 
-                <xpath expr="//field[@name='sale_order_option_ids']" position="after">
+                <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree/field[@name='product_id']" position="before">
+                    <field name="order_line_id" domain="[('order_id', '=', parent.id),('display_type', '=', False)]" options="{'no_create': True, 'no_create_edit':True}" optional="hide"/>
+                    <field name="nomenclature_name" optional="show"/>
+                </xpath>
+
+                <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree/field[@name='discount']" position="after">
+                    <field name="line_type" widget="selection_badge" optional="show"/>
+                </xpath>
+
+                <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree" position="attributes">
+                    <attribute name="default_order">nomenclature_name asc</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree/field[@name='quantity']" position="before">
+                    <field name="purchase_price" />
+
+                </xpath>
+                <!-- <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                     <button name="button_add_to_nesil_option"
+                        string="Ajouter en option"
+                        type="object"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+
+                </xpath> -->
+
+                <!-- always show sale_order_nesil_option_ids -->
+                <xpath expr="//page[@name='optional_products_nesil']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','=',['cancel'])]}</attribute>
+                </xpath>
+
+
+                <!-- <xpath expr="//field[@name='sale_order_nesil_option_ids']/tree/field[@name='quantity']" position="after">
+                    <field name="margin_product" string =" Ratios"/>
+                    <field name="total_purchase_price" force_save = "1"/>
+                    <field name="total_sale_price" force_save = "1"/>
+                    <field name="margin" force_save = "1"/>
+                    <field name="margin_percent" widget="percentage" force_save = "1"/>
+                </xpath> -->
+
+                <xpath expr="//field[@name='sale_order_nesil_option_ids']" position="after">
                     <group name="note_group" col="6" class="mt-2 mt-md-0">
                         <group colspan="4">
 
@@ -138,8 +268,27 @@
                         </group>
                         <div class="clearfix"/>
                     </group>
+                </xpath>
+                <!-- Calcul de totaux dans les options -->
+                <xpath expr="//field[@name='sale_order_option_ids']" position="after">
+                    <group name="note_group" col="6" class="mt-2 mt-md-0">
+                        <group colspan="4">
 
+                        </group>
 
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+
+                            <field name="total_purchase_option"  widget ="monetary" force_save="1"/>
+
+                            <field name="total_sale_option"  widget ="monetary" force_save="1"/>
+
+                            <field name="margin_option"  widget ="monetary" force_save="1"/>
+
+                            <field name="margin_percent_option" widget ="percentage" force_save="1"/>
+
+                        </group>
+                        <div class="clearfix"/>
+                    </group>
                 </xpath>
 
 
@@ -188,7 +337,7 @@
                 <!-- change name -->
                 <xpath expr="//page[@name='optional_products']" position="attributes">
 
-                    <attribute name="string">Costing table</attribute>
+                    <attribute name="string">Options</attribute>
 
                 </xpath>
                 <xpath expr="//page[@name='order_lines']" position="attributes">
@@ -199,7 +348,9 @@
 
                 <!-- add button for costing table -->
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
-                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': [('state', '!=', 'draft')] }" />
+                    <!-- <field name="is_subcontracted" invisible="1"/> -->
+                    <!-- <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_subcontracted','=',True)] }" /> -->
+                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': [('state', '!=', 'draft')]}" />
                 </xpath>
             </field>
         </record>
@@ -221,7 +372,7 @@
             <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='amount_total']" position="after">
-                     <field name="amount_to_pay" sum="Total reste à payer"/>
+                    <field name="amount_to_pay" sum="Total reste à payer"/>
                 </xpath>
             </field>
         </record>

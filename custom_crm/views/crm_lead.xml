@@ -5,12 +5,12 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.crm_lead_view_form"/>
             <field name="arch" type="xml">
-            <xpath expr="//field[@name='name']" position="after">
+                <xpath expr="//field[@name='name']" position="after">
                     <field name="warning_copy" invisible ="1" />
                     <field name="warning_display_time" invisible ="1" />
-                    <div role="alert" class="alert alert-info text-center o_form_header" attrs="{'invisible': [('warning_copy','!=', True)]}" >
+                    <div role="alert" class="alert alert-info text-center o_form_header" attrs="{'invisible': [('warning_copy','!=', True)]}">
                         <div>
-                         <strong> La date de debut de salon est dépassée </strong>
+                            <strong> La date de debut de salon est dépassée </strong>
                         </div>
                     </div>
                 </xpath>
@@ -26,15 +26,15 @@
                 <xpath expr="//button[@name='%(crm.crm_lead_lost_action)d']" position="attributes">
                     <attribute name="attrs">{'invisible': [('stage_id','not in',[1,2] )]}</attribute>
                 </xpath>
-                    
+
                 <xpath expr="//page[@name='internal_notes']" position="before">
                     <page string="Salon">
                         <group>
                             <group>
-                            <field name="salon" />
-                            <field name="lieu_du_salon" />
-                            <field name="stand_n" />
-                            <field name="hall" />
+                                <field name="salon" />
+                                <field name="lieu_du_salon" />
+                                <field name="stand_n" />
+                                <field name="hall" />
                             </group>
                             <group>
                                 <field name="dbut_salon" widget="daterange" options="{'related_end_date': 'fin_salon'}"/>
@@ -43,34 +43,34 @@
                                 <field name="surface_en_m" />
                             </group>
                         </group>
-                    </page>   
+                    </page>
                     <page string="Remarques">
                         <group>
                             <group>
-                            <field name="remarques" />
+                                <field name="remarques" />
                             </group>
                         </group>
-                    </page>   
+                    </page>
                     <page string="Montage/Démontage ">
                         <group>
                             <group>
-                            <field name="date_de_montage_du" widget="daterange" options="{'related_end_date': 'date_de_montage_au'}"/>
-                            <field name="date_de_montage_au" widget="daterange" options="{'related_start_date': 'date_de_montage_du'}"/>
-                            <field name="remarques_montage" />
+                                <field name="date_de_montage_du" widget="daterange" options="{'related_end_date': 'date_de_montage_au'}"/>
+                                <field name="date_de_montage_au" widget="daterange" options="{'related_start_date': 'date_de_montage_du'}"/>
+                                <field name="remarques_montage" />
                             </group>
                             <group>
-                            <field name="date_de_demontage_du" widget="daterange" options="{'related_end_date': 'date_de_demontage_au'}"/>
-                            <field name="date_de_demontage_au" widget="daterange" options="{'related_start_date': 'date_de_demontage_du'}"/>
+                                <field name="date_de_demontage_du" widget="daterange" options="{'related_end_date': 'date_de_demontage_au'}"/>
+                                <field name="date_de_demontage_au" widget="daterange" options="{'related_start_date': 'date_de_demontage_du'}"/>
 >
                             </group>
                         </group>
-                    </page>  
+                    </page>
                 </xpath>
-                
+
 
             </field>
         </record>
-            <record id="quick_create_opportunity_form_custom" model="ir.ui.view">
+        <record id="quick_create_opportunity_form_custom" model="ir.ui.view">
             <field name="name">crm.lead.oppordtunit.quick.form</field>
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
@@ -80,7 +80,7 @@
                 </xpath>
             </field>
         </record>
-          <record id="quick_create_opportunity_form_custom_budget" model="ir.ui.view">
+        <record id="quick_create_opportunity_form_custom_budget" model="ir.ui.view">
             <field name="name">crm.lead.oppordtunit.quick.form</field>
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
@@ -89,6 +89,16 @@
                     <attribute name="string">Budget</attribute>
                 </xpath>
             </field>
-        </record>      
+        </record>
+        <record id="crm_case_kanban_view_leads_nesil" model="ir.ui.view">
+            <field name="name">crm.lead.nesil.kanban</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+            <field name="arch" type="xml">
+                <kanban position="attributes">
+                    <attribute name="quick_create">false</attribute>
+                </kanban>
+            </field>
+        </record>
     </data>
 </odoo>

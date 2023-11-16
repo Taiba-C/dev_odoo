@@ -8,9 +8,12 @@
                 <form>
                     <field name="product_image" nolabel="1" widget="image" class="oe_avatar" options="{'preview_image': 'image_1920'}" readonly="1"/>
                     <group>
-                        <field name="product_id"/>
-                        <field name="order_line_id" invisible="1"/>
-                        <field name="bom_id" invisible="1"/>
+                        <group>
+                            <field name="product_id"/>
+                            <!-- <field name="bom_product_template_attribute_value_ids" widget="many2many_tags" options="{'no_create': True}" readonly="1"/> -->
+                            <field name="order_line_id" invisible="1"/>
+                            <field name="bom_id" invisible="1"/>
+                        </group>
                     </group>
                         <notebook>
 <!--                            <page name="component" string="Composants">-->
@@ -24,10 +27,10 @@
 <!--                            </page>-->
                             <page name="component_in_options" string="Composants">
                                 <field name="option_ids" widget="one2many_search">
-                                    <tree string="Composants" editable="bottom" create="false" decoration-success="updated==True " >
+                                    <tree string="Composants" editable="bottom" create="false" decoration-success="updated==True " limit="3000">
                                         <field name="selected_product" nolabel="1"/>
                                         <field name="product_id" invisible="1" />
-                                        <field name="product_id_visible" options="{'no_open': True}" readonly="1" />
+                                        <field name="product_id_visible" options="{'no_open': True}" />
                                         <field name="updated" invisible="1"/>
                                         <field name="quantity"/>
                                     </tree>

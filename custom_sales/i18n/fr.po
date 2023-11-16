@@ -65,17 +65,19 @@ msgstr ""
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin_option
 msgid "Margin"
 msgstr "Marge"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin_percent
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__margin_percent
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__margin_percent_option
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__margin_percent
 msgid "Margin %"
 msgstr "Marge %"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__margin
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__margin
 msgid "Margin €"
 msgstr "Marge €"
 
@@ -90,17 +92,17 @@ msgid "Open product"
 msgstr "Ouvrir l'arcticle"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__order_line_id
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__order_line_id
 msgid "Order Line"
 msgstr "Nomenclature parent"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__parent_id
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__parent_id
 msgid "Parent"
 msgstr "Article parent"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__planning_id
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__planning_id
 msgid "Plan"
 msgstr ""
 
@@ -140,7 +142,7 @@ msgid "Projects"
 msgstr "Projets"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__purchase_price
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__purchase_price
 #: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
 msgid "Purchase price"
 msgstr "Prix d'achat"
@@ -158,7 +160,7 @@ msgid "Quotation expired"
 msgstr "Devis expiré"
 
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__margin_product
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__margin_product
 #: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
 #: model_terms:ir.ui.view,arch_db:custom_sales.reference_quote_line_tree_view
 msgid "Ratios"
@@ -171,7 +173,7 @@ msgid "Reference quote"
 msgstr "Referentiel Devis"
 
 #. module: custom_sales
-#: model:ir.model,name:custom_sales.model_sale_order_option
+#: model:ir.model,name:custom_sales.model_sale_order_option_nesil
 msgid "Sale Options"
 msgstr "Options de vente"
 
@@ -203,7 +205,7 @@ msgstr "Ligne de bons de commande"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_planning_slot__task_id
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__task_id
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__task_id
 msgid "Task"
 msgstr "Tache"
 
@@ -219,17 +221,20 @@ msgstr "Taches"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_purchase
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_purchase_option
 msgid "Total puchase price"
 msgstr "Prix total achat"
 
+
 #. module: custom_sales
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__total_purchase_price
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__total_purchase_price
 msgid "Total purchase price"
 msgstr "Prix total d'achat"
 
 #. module: custom_sales
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_sale
-#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option__total_sale_price
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order__total_sale_option
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__total_sale_price
 msgid "Total sale price"
 msgstr "Prix total vente"
 
@@ -247,3 +252,29 @@ msgstr "Consommable"
 #: model:ir.model.fields,field_description:custom_sales.field_sale_order_line__temp_price_unit
 msgid "temp_price_unit"
 msgstr "Prix unitaire"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__product_id
+msgid "Product"
+msgstr "Article"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__quantity
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: custom_sales
+#: model:ir.model.fields,field_description:custom_sales.field_sale_order_option_nesil__discount
+msgid "Discount (%)"
+msgstr "Remise (%)"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Add to option"
+msgstr "Ajouter en option"
+
+#. module: custom_sales
+#: model_terms:ir.ui.view,arch_db:custom_sales.form_sale_order_custom
+msgid "Add to numbering"
+msgstr "Ajouter en chiffrage"
+
