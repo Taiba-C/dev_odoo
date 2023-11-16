@@ -20,7 +20,7 @@ class SaleOrderLine(models.Model):
     
         
     def set_price_subtotal(self):
-        self.price_subtotal = self.qty * self.temp_price_unit
+        self.price_unit = self.qty * self.temp_price_unit
 
 
     @api.model
