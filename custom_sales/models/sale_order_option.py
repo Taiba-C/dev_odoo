@@ -54,8 +54,8 @@ class SaleOrderOption(models.Model):
     
     order_line_id = fields.Many2one('sale.order.line', string='Order Line', ondelete="cascade", copy=True)
 
-    #nomenclature_name = fields.Char('Nomenclature', compute="_compute_nomenclature_name")
-    nomenclature_name = fields.Char('Nomenclature')
+    nomenclature_name = fields.Char('Nomenclature', compute="_compute_nomenclature_name")
+    #nomenclature_name = fields.Char('Nomenclature')
     
     total_sale_price = fields.Float('Total sale price', readonly=True,copy=True)
     task_id = fields.Many2one('project.task', string='Task', ondelete='cascade')
