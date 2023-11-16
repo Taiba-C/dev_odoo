@@ -181,18 +181,19 @@ class SaleOrderOption(models.Model):
 
         values = self._get_values_to_add_to_order()
         values['temp_price_unit'] = self.price_unit
-        values['price_subtotal']:abs((self.price_unit * self.qty))
+        values['price_unit']:abs((self.price_unit * self.qty))
         values['qty'] = self.quantity
+        values['product_uom_qty'] = 1
         order_line = self.env['sale.order.line'].create(values)
         nesil_options = self.env['sale.order.option.nesil'].sudo().search([('option_line_id','=',self.id)])
         for nesil_option in nesil_options:
             nesil_option.write({'order_line_id':order_line.id,'option_line_id':None,'line_type':'','updated_id':nesil_option.option_line_id})
         consumable = self.get_consumable(order_line)
         values['temp_price_unit'] += consumable
-        price_subtotal = values['temp_price_unit'] * self.quantity
+        price_unit = values['temp_price_unit'] * self.quantity
         discount = (self.discount/100) * (order_line.temp_price_unit+consumable) * self.quantity if self.discount else 0
-        price_subtotal += - discount
-        order_line.write({'consumable':consumable,'price_subtotal':price_subtotal,'temp_price_unit':order_line.temp_price_unit + consumable})
+        price_unit += - discount
+        order_line.write({'consumable':consumable,'price_unit':price_unit,'temp_price_unit':order_line.temp_price_unit + consumable})
         self.price_unit = 0
         self.quantity = 1
         self.discount = 0
