@@ -52,9 +52,7 @@ class SaleOrderLine(models.Model):
                         else:
                             order_line.set_price_unit()
                             discount = order_line.discount/100
-                            print('#### order_line price_subtotal',str(order_line.price_subtotal))
                             order_line.price_subtotal = order_line.price_subtotal - discount*order_line.price_subtotal
-                            print('#### order_line price_subtotal after',str(order_line.price_subtotal))
                             
                 else:
                     self.discount = 0
