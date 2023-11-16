@@ -14,7 +14,7 @@ class SaleOrderLine(models.Model):
     #is_subcontracted = fields.Boolean('Produit sous-traité',related='product_template_id.is_subcontracted')
 
     
-    @api.onchange('qty', 'temp_price_unit')
+    @api.onchange('qty','temp_price_unit')
     def _onchange_qty(self):
         self.set_price_subtotal()
     
