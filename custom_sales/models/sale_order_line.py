@@ -49,10 +49,6 @@ class SaleOrderLine(models.Model):
                     for order_line in self:
                         if order_line.discount > discount.taux_de_remise*100 and not is_user_allowed:
                             raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
-                        else:
-                            order_line.set_price_unit()
-                            discount = order_line.discount/100
-                            order_line.price_subtotal = order_line.price_subtotal - discount*order_line.price_subtotal
                             
                 else:
                     self.discount = 0
