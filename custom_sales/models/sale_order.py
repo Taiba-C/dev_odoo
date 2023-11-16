@@ -358,7 +358,7 @@ class Sale_order(models.Model):
                 order_line.consumable = price_recompute - price_unit
             order_line.price_unit = price_recompute
             order_line.temp_price_unit = order_line.price_unit
-            order_line.set_price_unit()
+            order_line.set_price_subtotal()
                           
         
     # def compute_sale_order_option_ids(self):
@@ -463,7 +463,7 @@ class Sale_order(models.Model):
     #             order_line.consumable = price_recompute - price_unit
     #         order_line.price_unit = price_recompute
     #         order_line.temp_price_unit = order_line.price_unit
-    #         order_line.set_price_unit()
+    #         order_line.set_price_subtotalt()
         
         
     #     self.total_purchase = total_purchase

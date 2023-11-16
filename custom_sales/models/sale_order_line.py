@@ -13,31 +13,13 @@ class SaleOrderLine(models.Model):
     is_costed = fields.Boolean('A été chiffré')
     #is_subcontracted = fields.Boolean('Produit sous-traité',related='product_template_id.is_subcontracted')
 
-    @api.depends('qty', 'discount', 'price_unit', 'tax_id')
-    def _compute_amount(self):
-        """
-        Compute the amounts of the SO line.
-        """
-        for line in self:
-            tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict()])
-            totals = list(tax_results['totals'].values())[0]
-            amount_untaxed = totals['amount_untaxed']
-            amount_tax = totals['amount_tax']
-
-            line.update({
-                'price_subtotal': amount_untaxed,
-                'price_tax': amount_tax,
-                'price_total': amount_untaxed + amount_tax,
-            })
-            if self.env.context.get('import_file', False) and not self.env.user.user_has_groups('account.group_account_manager'):
-                line.tax_id.invalidate_recordset(['invoice_repartition_line_ids'])
-
-    @api.onchange('qty', 'temp_price_unit','price_subtotal')
+    
+    @api.onchange('qty', 'temp_price_unit')
     def _onchange_qty(self):
-        self.set_price_unit()
+        self.set_price_subtotal()
     
         
-    def set_price_unit(self):
+    def set_price_subtotal(self):
         self.price_subtotal = self.qty * self.temp_price_unit
 
 
@@ -68,7 +50,7 @@ class SaleOrderLine(models.Model):
                         if order_line.discount > discount.taux_de_remise*100 and not is_user_allowed:
                             raise models.ValidationError("Vous n'avez pas l'autorisation requise pour attribuer une remise supérieure à "+str(discount.taux_de_remise*100)+"%")
                         else:
-                            order_line.set_price_unit()
+                            order_line.set_price_subtotal()
                             discount = order_line.discount/100
                             order_line.price_subtotal = order_line.price_subtotal - discount*order_line.price_subtotal
                             
