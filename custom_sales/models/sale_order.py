@@ -948,35 +948,35 @@ class Sale_order(models.Model):
         for rec in self:
             return rec.amount_to_pay
 
-
     def relaunch_quotation(self):
         template = self.env.ref('custom_sales.email_template_sale_relaunch')
         current_date = fields.Datetime.now().date()
-        
+
         seven_days_ago = (current_date - timedelta(days=7))
         seven_days_ago_begin = datetime(year=seven_days_ago.year, month=seven_days_ago.month, day=seven_days_ago.day,
-                        hour=0, minute=0, second=1)
+                                        hour=0, minute=0, second=1)
         seven_days_ago_end = datetime(year=seven_days_ago.year, month=seven_days_ago.month, day=seven_days_ago.day,
-                        hour=23, minute=59, second=59)
+                                      hour=23, minute=59, second=59)
 
-        confirmed_orders = self.search([
-            ('state', 'in', ['draft', 'sent']),
+        sent_orders = self.search([
+            ('state', 'in', ['sent']),
             ('date_order', '>=', seven_days_ago_begin),
             ('date_order', '<=', seven_days_ago_end)
         ])
 
-        if confirmed_orders:
-            for order in confirmed_orders:
-                template.with_context(proforma=False).send_mail(order.id, force_send=True)
+        if sent_orders:
+            for order in sent_orders:
+                template.with_context(proforma=False).send_mail(
+                    order.id, force_send=True)
         else:
             print("not work")
 
         four_days_from_now = (current_date + timedelta(days=4))
         four_days_from_now_begin = datetime(year=four_days_from_now.year, month=four_days_from_now.month, day=four_days_from_now.day,
-                        hour=0, minute=0, second=1)
+                                            hour=0, minute=0, second=1)
         four_days_from_now_end = datetime(year=four_days_from_now.year, month=four_days_from_now.month, day=four_days_from_now.day,
-                        hour=23, minute=59, second=59)
-        
+                                          hour=23, minute=59, second=59)
+
         expiring_orders = self.search([
             ('state', 'in', ['draft', 'sent']),
             ('date_order', '>=', four_days_from_now_begin),
@@ -986,10 +986,11 @@ class Sale_order(models.Model):
         if expiring_orders:
             for order in expiring_orders:
                 print("four day")
-                template.with_context(proforma=False).send_mail(order.id, force_send=True)
+                template.with_context(proforma=False).send_mail(
+                    order.id, force_send=True)
         else:
             print("not work 2")
-            
+
     def _find_mail_template(self):
         """ Get the appropriate mail template for the current sales order based on its state.
 

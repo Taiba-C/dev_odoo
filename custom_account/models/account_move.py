@@ -47,7 +47,6 @@ class AccountMove(models.Model):
         ])
         print(date_before_date_due)
         print(invoices)
-        
         for invoice in invoices:
             if invoice.invoice_origin:
                 related_quotations = self.env['sale.order'].search([
@@ -184,10 +183,10 @@ class AccountMove(models.Model):
 
         
     def invoice_reminder(self):
-        self.reminder_invoice_of_balance_before()
-        self.reminder_invoice_of_balance_later()
         self.reminder_down_payment_invoice_later_four_day()
         self.reminder_down_payment_invoice_later_twelve_day()
+        self.reminder_invoice_of_balance_later()
+        self.reminder_invoice_of_balance_before()
         
     
     def _get_mail_template(self):

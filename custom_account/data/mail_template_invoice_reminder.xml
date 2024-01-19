@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data>
         <record id="email_template_invoice_of_balance_later" model="mail.template">
             <field name="name">Facturation: MODELE ENVOI RAPPEL FACTURE DE SOLDE APRES</field>
             <field name="model_id" ref="custom_account.model_account_move"/>
-            <field name="email_from">{{ (object.invoice_user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_from">compta@nesilfrance.com</field>
             <field name="partner_to">{{ object.partner_id.id }}</field>
             <field name="subject">{{ object.company_id.name }} Facture (Ref {{ object.name or 'n/a' }}) {{ctx.get('opportunity_name') or ''}} </field>
             <field name="description">4 JOURS APRES LA DATE D’ECHEANCE</field>
@@ -19,6 +19,10 @@
                         <br/>
                         Sauf erreur de notre part nous n’avons pas reçu votre règlement. 
                         <br/>
+                        Nous vous rappelons que celle-ci était à échéance le <span style="font-weight: bold;" t-out="object.invoice_date_due or ''">(date d'echéance de la facture)</span>
+                        <br/>
+                        Aussi nous vous invitions à effectuer le règlement dès que possible.
+                        <br/>
                         Merci de rappeler la référence suivante lors du paiement: <span style="font-weight: bold;" t-out="object.name or ''">FA……</span>
                         <br/>
                         Merci de ne pas tenir compte de ce mail si le règlement a été effectuer entre temps. 
@@ -30,12 +34,9 @@
                         <br/>
                         La comptabilité, 
                         <br/>
-                        <t t-if="not is_html_empty(object.user_id.signature)">
-                            <br/>
-                            <br/>
-                            <t t-out="ctx.get('signature_malika').signature or ''">--                                <br/>
-                                MALIKA 
-                            </t>
+                        <br/>
+                        <t t-out="ctx.get('signature_malika').signature or ''">--                            <br/>
+                            MALIKA 
                         </t>
                         <br/>
                         <br/>
@@ -48,7 +49,7 @@
         <record id="email_template_invoice_of_balance_before" model="mail.template">
             <field name="name">Facturation: MODELE ENVOI RAPPEL FACTURE DE SOLDE </field>
             <field name="model_id" ref="custom_account.model_account_move"/>
-            <field name="email_from">{{ (object.invoice_user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_from">compta@nesilfrance.com</field>
             <field name="partner_to">{{ object.partner_id.id }}</field>
             <field name="subject">{{ object.company_id.name }} Facture (Ref {{ object.name or 'n/a' }}) {{ctx.get('opportunity_name') or ''}} </field>
             <field name="description">4 JOUR AVANT LA DATE D’ECHEANCE</field>
@@ -65,7 +66,7 @@
                         date du <span style="font-weight: bold;" t-out="object.invoice_date or ''">date de la facture</span>
                         <br/>
                         <br/>
-                        Nous vous rappelons que celle-ci est à échéance le <span style="font-weight: bold;" t-out="object.invoice_date_due or ''">date d'echéance de la facture</span> 
+                        Nous vous rappelons que celle-ci est à échéance le <span style="font-weight: bold;" t-out="object.invoice_date_due or ''"> (date d'echéance de la facture)</span> 
                         C’est pourquoi nous vous invitions à effectuer le règlement.
                         <br/>
                         <br/>
@@ -78,12 +79,9 @@
 
                         La comptabilité, 
                         <br/>
-                        <t t-if="not is_html_empty(object.user_id.signature)">
-                            <br/>
-                            <br/>
-                            <t t-out="ctx.get('signature_malika').signature or ''">--                                <br/>
-                                MALIKA 
-                            </t>
+                        <br/>
+                        <t t-out="ctx.get('signature_malika').signature or ''">--                            <br/>
+                            MALIKA 
                         </t>
                         <br/>
                         <br/>
@@ -99,7 +97,7 @@
         <record id="email_template_down_payment_invoice_later" model="mail.template">
             <field name="name">Facture d'acompte  : 4 jours après LA DATE DE CREATION DE LA FACTURE</field>
             <field name="model_id" ref="custom_account.model_account_move"/>
-            <field name="email_from">{{ (object.invoice_user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_from">compta@nesilfrance.com</field>
             <field name="partner_to">{{ object.partner_id.id }}</field>
             <field name="subject">{{ object.company_id.name }} Facture (Ref {{ object.name or 'n/a' }}) </field>
             <field name="description">4 JOURS APRES LA DATE DE CREATION DE LA FACTURE</field>
@@ -122,13 +120,12 @@
                         <br/>
                         La comptabilité, 
                         <br/>
-                        <t t-if="not is_html_empty(object.user_id.signature)">
-                            <br/>
-                            <br/>
-                            <t t-out="ctx.get('signature_malika').signature or ''">--                                <br/>
-                                MALIKA 
-                            </t>
+                        <br/>
+
+                        <t t-out="ctx.get('signature_malika').signature or ''">--                            <br/>
+                            MALIKA 
                         </t>
+
                         <br/>
                         <br/>
 
@@ -146,7 +143,7 @@
         <record id="email_template_out_refund_invoice" model="mail.template">
             <field name="name">Facture d'avoir  : MODELE ENVOI AVOIR</field>
             <field name="model_id" ref="custom_account.model_account_move"/>
-            <field name="email_from">{{ (object.invoice_user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_from">compta@nesilfrance.com</field>
             <field name="partner_to">{{ object.partner_id.id }}</field>
             <field name="subject">{{ object.company_id.name }} AVOIR (Ref {{ object.name or 'n/a' }}) {{object.get_account_move(object.id).get('opportunity_name')}}</field>
             <field name="description">4 JOURS APRES LA DATE DE CREATION DE LA FACTURE</field>
@@ -166,13 +163,12 @@
                         <br/>
                         La comptabilité, 
                         <br/>
-                        <t t-if="not is_html_empty(object.user_id.signature)">
-                            <br/>
-                            <br/>
-                            <t t-out="account_move.get('signature_malika').signature or ''">--                                <br/>
-                                MALIKA 
-                            </t>
+                        <br/>
+
+                        <t t-out="account_move.get('signature_malika').signature or ''">--                            <br/>
+                            MALIKA 
                         </t>
+
                         <br/>
                         <br/>
 
@@ -187,9 +183,9 @@
 
         </record>
 
-        
 
-</data>
+
+    </data>
 
 
 </odoo>
