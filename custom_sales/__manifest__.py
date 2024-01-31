@@ -64,6 +64,7 @@
         'views/remise.xml',
         #'report/options.xml',
         'report/portal_options.xml',
+        'report/sale_order_report_nesil.xml',
         'views/menu.xml',
         'data/data_workcenter.xml',
         

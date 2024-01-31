@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="report_saleorder_custom_costing_inherit_sale_stock" inherit_id="sale.report_saleorder_document">
+        <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[3]" position="replace">
+            <td name="td_priceunit" class="text-end">
+                <span t-field="line.temp_price_unit"/>
+            </td>
+        </xpath>
+    </template>
+
+</odoo>

@@ -16,11 +16,11 @@ class SaleOrderLine(models.Model):
     
     @api.onchange('qty','temp_price_unit')
     def _onchange_qty(self):
+        self.product_uom_qty = self.qty
         self.set_price_unit()
     
-        
     def set_price_unit(self):
-        self.price_unit = self.qty * self.temp_price_unit
+        self.price_unit = self.temp_price_unit
 
 
     @api.model
@@ -95,6 +95,28 @@ class SaleOrderLine(models.Model):
                 # 'order_id':self.order_id.id
             }
         
+    @api.depends('product_id', 'product_uom', 'product_uom_qty', 'temp_price_unit')
+    def _compute_price_unit(self):
+        # re write compute price unit because it must retake temp price unit 
+        for line in self:
+            # check if there is already invoiced amount. if so, the price shouldn't change as it might have been
+            # manually edited
+            if line.qty_invoiced > 0:
+                continue
+            if not line.product_uom or not line.product_id:
+                line.price_unit = 0.0
+            else:
+                price = line.with_company(line.company_id)._get_display_price()
+                
+                line.price_unit = line.product_id._get_tax_included_unit_price(
+                    line.company_id,
+                    line.order_id.currency_id,
+                    line.order_id.date_order,
+                    'sale',
+                    fiscal_position=line.order_id.fiscal_position_id,
+                    product_price_unit=line.temp_price_unit,
+                    product_currency=line.currency_id
+                )
     # def button_add_to_nesil_option(self):
     #     self.button_add_to_option()
 
