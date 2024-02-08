@@ -2,6 +2,8 @@
 
 from odoo import models, fields, api,_
 from datetime import date, timedelta
+from odoo.exceptions import ValidationError
+from odoo.osv import expression
 
 class Lead(models.Model):
     _inherit = "crm.lead"
@@ -44,7 +46,11 @@ class Lead(models.Model):
         res = super(Lead, self).action_sale_quotations_new()
 
         if self.is_quotation_created == False:
-           self.is_quotation_created = True 
+            if len(self.partner_id) == 0:
+                raise ValidationError(
+                    "Veuillez renseigner le champ client")
+            else:
+                self.is_quotation_created = True
 
         return res
     # retroaction fin de salon debut de salon
@@ -89,4 +95,30 @@ class Lead(models.Model):
         res = super(Lead, self).toggle_active()
         if self.order_ids:
             self.order_ids.action_draft()
+        return res      
+        
+    @api.onchange("partner_id")
+    def _onchange_partner_id(self):
+            if len(self.order_ids) == 1 and self.stage_id.name == 'Nouveau':
+                if self.order_ids[0]._origin.partner_id != self.partner_id:
+                    return {
+                        'warning': {
+                            'title': "Attention!",
+                            'message': "En changeant le client, vous modifiez aussi celui du devis..",
+                            'type': 'ir.actions.act_window',
+                            'res_model': 'your.wizard.model',
+                            'view_mode': 'form',
+                            'target': 'new',
+                        }
+                    }
+
+    def write(self, vals):
+        res = super(Lead, self).write(vals)
+        if len(self.order_ids) == 1 and self.stage_id.name == 'Nouveau':
+            # Change partner name in order id in relation in the lead when then change it in lead
+            if self.order_ids[0]._origin.partner_id != self.partner_id:
+                self.order_ids[0]._origin.write({
+                    'partner_id': self.partner_id
+                })
+            
         return res
