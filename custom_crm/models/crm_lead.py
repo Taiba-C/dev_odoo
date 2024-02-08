@@ -99,18 +99,17 @@ class Lead(models.Model):
         
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
-            if len(self.order_ids) == 1 and self.stage_id.name == 'Nouveau':
-                if self.order_ids[0]._origin.partner_id != self.partner_id:
-                    return {
-                        'warning': {
-                            'title': "Attention!",
-                            'message': "En changeant le client, vous modifiez aussi celui du devis..",
-                            'type': 'ir.actions.act_window',
-                            'res_model': 'your.wizard.model',
-                            'view_mode': 'form',
-                            'target': 'new',
-                        }
+        if len(self.order_ids) == 1 and self.stage_id.name == 'Nouveau':
+            if self.order_ids[0]._origin.partner_id != self.partner_id:
+                return {
+                    'warning': {
+                            'title': "Info",
+                            'tag': 'display_notification',
+                            'message': "En changeant le client, vous modifiez aussi celui du devis.", 
+                            'type': 'notification',
+                            },
                     }
+
 
     def write(self, vals):
         res = super(Lead, self).write(vals)
