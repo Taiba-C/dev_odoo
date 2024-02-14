@@ -171,6 +171,8 @@ class StockQuantityLine(models.TransientModel):
         readonly=True,
         store=True
     )
+
+    product_image = fields.Binary('Photo', related="product_id_visible.image_1920")
     quantity = fields.Float(string='Quantité')
 
     updated = fields.Boolean("Modifié")
