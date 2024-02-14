@@ -100,6 +100,8 @@ class ComponentSelectionWizard(models.TransientModel):
                     lines.append((0, 0, {
                         'product_id': bom_line.product_id.id,
                         'quantity': bom_line.product_qty,
+                        'selected_product': True if bom_line.product_qty > 0 else False,
+
                         # Add other fields as needed
                     }))
                 else:
@@ -169,6 +171,8 @@ class StockQuantityLine(models.TransientModel):
         readonly=True,
         store=True
     )
+
+    product_image = fields.Binary('Photo', related="product_id_visible.image_1920")
     quantity = fields.Float(string='Quantité')
 
     updated = fields.Boolean("Modifié")
