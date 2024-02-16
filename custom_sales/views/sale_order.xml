@@ -353,7 +353,7 @@
                     <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|', ('state', '!=', 'draft'), ('partner_id', '!=', False)]}" />
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="after">
-                    <field name="partner_id" domain="[('is_subcontractor', '=', True)]" attrs="{ 'readonly': ['|', ('state', '!=', 'draft'), ('is_costed', '=', True)]}" />
+                    <field name="partner_id" domain="[('is_subcontractors', '=', True)]" attrs="{ 'readonly': ['|', ('state', '!=', 'draft'), ('is_costed', '=', True)]}" />
                 </xpath>
             </field>
         </record>
