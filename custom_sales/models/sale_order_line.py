@@ -9,6 +9,7 @@ class SaleOrderLine(models.Model):
     consumable = fields.Float('consumable')
     qty = fields.Float('Quantity costing', default=1)
     temp_price_unit = fields.Float('temp_price_unit')
+    partner_id = fields.Many2one('res.partner', string='Sous traitant')
     
     is_costed = fields.Boolean('A été chiffré')
     #is_subcontracted = fields.Boolean('Produit sous-traité',related='product_template_id.is_subcontracted')

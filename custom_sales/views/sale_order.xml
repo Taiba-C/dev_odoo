@@ -329,7 +329,7 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
 
                     <field name="qty" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
-                    <field name="temp_price_unit" readonly="1" force_save="1"/>
+                    <field name="temp_price_unit" force_save="1" attrs="{ 'readonly': [('partner_id', '=', False)]}"/>
                     <field name="is_costed" invisible="1" force_save="1"/>
 
                 </xpath>
@@ -350,7 +350,10 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
                     <!-- <field name="is_subcontracted" invisible="1"/> -->
                     <!-- <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_subcontracted','=',True)] }" /> -->
-                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': [('state', '!=', 'draft')]}" />
+                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|', ('state', '!=', 'draft'), ('partner_id', '!=', False)]}" />
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="after">
+                    <field name="partner_id" domain="[('is_subcontractor', '=', True)]" attrs="{ 'readonly': ['|', ('state', '!=', 'draft'), ('is_costed', '=', True)]}" />
                 </xpath>
             </field>
         </record>
