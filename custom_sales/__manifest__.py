@@ -62,6 +62,8 @@
         'views/wizard_component_bom.xml',
         'views/wizard_component_bom_option.xml',
         'views/remise.xml',
+        'views/res_partner_view.xml',
+
         #'report/options.xml',
         'report/portal_options.xml',
         'report/sale_order_report_nesil.xml',
