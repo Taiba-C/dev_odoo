@@ -356,7 +356,7 @@
                     <field name="partner_id" 
                             domain="[('is_subcontractors', '=', True)]" 
                             options="{'no_open': True, 'no_create':True}" 
-                            attrs="{ 'readonly': ['|','|', ('state', '!=', 'draft'), ('is_costed', '=', True), ('price_unit', '>', 0)]}" />
+                            attrs="{ 'readonly': ['|', ('state', '!=', 'draft'), ('is_costed', '=', True)]}" />
                 </xpath>
             </field>
         </record>
