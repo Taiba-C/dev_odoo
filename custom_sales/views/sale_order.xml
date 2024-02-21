@@ -22,9 +22,6 @@
                     <button type="object" name="get_amount_to_pay" class="oe_stat_button" icon="fa-pencil-square-o">
                         <field name="amount_to_pay" widget="statinfo" string="Reste à facturer"/>
                     </button>
-
-                   <button type="object" name="temp_action_confirm" string="temp button" class="oe_stat_button" icon="fa-puzzle-piece">
-                    </button> 
                 </xpath>
                 <!-- <xpath expr="//button[@name='action_view_delivery']" position="attributes">
                     <attribute name="invisible">1</attribute>
