@@ -2,8 +2,8 @@
 <odoo>
     <data>
     
-        <record id="view_partner_for_sale_order" model="ir.ui.view">
-            <field name="name">res.partner.for.sale.order</field>
+        <record id="view_partner_for_sale_order_nesil" model="ir.ui.view">
+            <field name="name">res.partner.for.sale.order.nesil</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
