@@ -11,8 +11,17 @@ class SaleOrderLine(models.Model):
     temp_price_unit = fields.Float('temp_price_unit')
     partner_id = fields.Many2one('res.partner', string='Sous traitant')
     
-    is_costed = fields.Boolean('A été chiffré')
+    is_costed = fields.Boolean('A été chiffré', compute="_compute_is_costed")
     #is_subcontracted = fields.Boolean('Produit sous-traité',related='product_template_id.is_subcontracted')
+
+    @api.depends('order_id.sale_order_nesil_option_ids')
+    def _compute_is_costed(self):
+        for record in self:
+            options = [option.order_line_id.id for option in record.order_id.sale_order_nesil_option_ids]
+            if record.id in options:
+                record.is_costed = True
+            else:
+                record.is_costed = False
 
     
     @api.onchange('qty','temp_price_unit')
