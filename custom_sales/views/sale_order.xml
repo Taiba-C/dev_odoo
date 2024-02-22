@@ -349,7 +349,7 @@
                     <!-- <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_subcontracted','=',True)] }" /> -->
                     <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|', ('state', '!=', 'draft'), ('partner_id', '!=', False)]}" />
                 </xpath>
-                <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="after">
+                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
                     <field name="partner_id" 
                             domain="[('is_subcontractors', '=', True)]" 
                             options="{'no_open': True, 'no_create':True}" 
