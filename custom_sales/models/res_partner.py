@@ -9,3 +9,4 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     is_subcontractors = fields.Boolean('Est un sous-traitant')
+    subcontractor_margin = fields.Float('Taux de marge')

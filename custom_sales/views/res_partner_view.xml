@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='company_registry']" position="after">
                     <field name="is_subcontractors"/>
+                    <field name="subcontractor_margin" widget="percentage" attrs="{ 'invisible': [('is_subcontractors', '=', False)]}"/>
                 </xpath>
             </field>
         </record>
