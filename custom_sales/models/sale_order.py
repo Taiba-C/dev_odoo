@@ -598,7 +598,22 @@ class Sale_order(models.Model):
                     
         return res
 
-        
+    def create_subcontractor_po(self, order_line_id):
+        """
+            Create PO for each line in order line
+            Condition: Partner_id is True
+        """
+        # self.env['purchase.order'].create({
+        #     'partner_id': order_line_id.partner_id.id,
+        #     'date_order': fields.Datetime.now(),
+        #     'origin': self.name,
+        #     'order_line': [(0, 0, {
+        #         'product_id': order_line_id.product_id.id,
+        #         'product_qty': order_line_id.qty,
+        #     })]
+        # })
+        pass
+
 
     def action_confirm(self):
         res = super(Sale_order,self).action_confirm()
@@ -733,6 +748,9 @@ class Sale_order(models.Model):
 
                     move_raw_ids = self.env['stock.move'].create(move_raw_vals)
                     mrp.write({'move_raw_ids': [(6, 0, move_raw_ids.ids)]})
+                
+                if order_line.partner_id:
+                    self.create_subcontractor_po(order_line)
                 
 
         for order in self:
