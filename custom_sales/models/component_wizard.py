@@ -57,7 +57,6 @@ class ComponentSelectionWizard(models.TransientModel):
                 product_boms.append({'id': line.product_id.id, 'quantity': line.quantity})
 
         order_line = self.order_line_id
-        order_line.is_costed = True
         order_line.order_id.generate_bom_order(products=product_boms, order_line=self.order_line_id.id,option_line=None)
 
         return {'type': 'ir.actions.act_window_close'}

@@ -10,18 +10,22 @@ class SaleOrderLine(models.Model):
     qty = fields.Float('Quantity costing', default=1)
     temp_price_unit = fields.Float('temp_price_unit')
     partner_id = fields.Many2one('res.partner', string='Sous traitant')
+
+    action_on_order_line = fields.Selection([
+        ('costed', 'Chiffrée'),
+        ('option', 'Options'),
+        ('subcontracted', 'Sous-traité'),
+    ], string='Action on ORder Line', compute="_compute_action_on_order_line")
     
-    is_costed = fields.Boolean('A été chiffré', compute="_compute_is_costed")
     #is_subcontracted = fields.Boolean('Produit sous-traité',related='product_template_id.is_subcontracted')
 
-    @api.depends('order_id.sale_order_nesil_option_ids')
-    def _compute_is_costed(self):
+    def _compute_action_on_order_line(self):
         for record in self:
-            options = [option.order_line_id.id for option in record.order_id.sale_order_nesil_option_ids]
-            if record.id in options:
-                record.is_costed = True
+            costed_product = [costed.order_line_id.id for costed in record.order_id.sale_order_nesil_option_ids]
+            if record.id in costed_product:
+                record.action_on_order_line = 'costed'
             else:
-                record.is_costed = False
+                record.action_on_order_line = None
 
     
     @api.onchange('qty','temp_price_unit')

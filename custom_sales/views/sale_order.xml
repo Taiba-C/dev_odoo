@@ -327,7 +327,7 @@
 
                     <field name="qty" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
                     <field name="temp_price_unit" force_save="1" attrs="{ 'readonly': [('partner_id', '=', False)]}"/>
-                    <field name="is_costed" invisible="1" force_save="1"/>
+                    <field name="action_on_order_line" invisible="1" force_save="1"/>
 
                 </xpath>
 
@@ -353,7 +353,7 @@
                     <field name="partner_id" 
                             domain="[('is_subcontractors', '=', True)]" 
                             options="{'no_open': True, 'no_create':True}" 
-                            attrs="{ 'readonly': ['|', ('state', '!=', 'draft'), ('is_costed', '=', True)]}" />
+                            attrs="{ 'readonly': ['|', ('state', '!=', 'draft'), ('action_on_order_line', '!=', 'subcontracted')]}" />
                 </xpath>
             </field>
         </record>

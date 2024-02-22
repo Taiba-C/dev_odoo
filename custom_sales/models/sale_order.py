@@ -662,7 +662,7 @@ class Sale_order(models.Model):
             # works = []
             for order_line in record.order_line:
             # for i, order_line in enumerate(record.order_line, start=0):
-                if order_line.product_id.type in ['product', 'consu'] and order_line.is_costed: #and order_line.product_id.is_subcontracted == False   Vérifier le type du produit
+                if order_line.product_id.type in ['product', 'consu'] and order_line.action_on_order_line == 'costed': #and order_line.product_id.is_subcontracted == False   Vérifier le type du produit
                     mrp = self.env['mrp.production'].create({
                         'sale_order': self.id,
                         'product_id': order_line.product_id.id,
