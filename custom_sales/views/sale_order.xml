@@ -326,7 +326,7 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
 
                     <field name="qty" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
-                    <field name="temp_price_unit" force_save="1" attrs="{ 'readonly': [('partner_id', '=', False)]}"/>
+                    <field name="temp_price_unit" force_save="1"/>
                     <field name="action_on_order_line" invisible="1" force_save="1"/>
 
                 </xpath>
@@ -347,13 +347,26 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
                     <!-- <field name="is_subcontracted" invisible="1"/> -->
                     <!-- <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_subcontracted','=',True)] }" /> -->
-                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|', ('state', '!=', 'draft'), ('partner_id', '!=', False)]}" />
+                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': [('state', '!=', 'draft')]}" />
                 </xpath>
-                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
-                    <field name="partner_id" 
-                            domain="[('is_subcontractors', '=', True)]" 
-                            options="{'no_open': True, 'no_create':True}" 
-                            attrs="{ 'readonly': ['|', ('state', '!=', 'draft'), ('action_on_order_line', '!=', 'subcontracted')]}" />
+
+                <xpath expr="//notebook/page[@name='optional_products']" position="after">
+                    <page name="subcontractor" string="Sous-traitant">
+                        <field name="sale_order_subcontractor_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="product_template_id" domain="[('is_bom_parent', '=', True)]"/>
+
+                                <field name="partner_id" domain="[('is_subcontractors', '=', True)]" options="{'no_open': True, 'no_create':True}" />
+
+                                <field name="unit_price"/>
+                                
+                                <field name="order_line_created" invisible="1"/>
+                                
+                                <button name="action_create_order_line" string= "Sous-traiter"  type="object" attrs="{ 'invisible': [('order_line_created', '=', True)]}"/>
+
+                            </tree>
+                        </field>
+                    </page>
                 </xpath>
             </field>
         </record>

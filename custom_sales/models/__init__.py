@@ -11,3 +11,4 @@ from . import component_wizard_option
 from . import remise
 from . import sale_order_option
 from . import res_partner
+from . import sale_order_subcontractor
