@@ -22,6 +22,11 @@ class Sale_order_subcontractor(models.Model):
 
     order_line_created = fields.Boolean('Order LIne Created')
 
+    state = fields.Selection(
+        related='order_id.state',
+        string="Status du devis",
+        copy=False, store=True, precompute=True)
+
     def set_unit_price_with_margin(self):
         result = (self.unit_price * self.partner_id.subcontractor_margin) + self.unit_price
         return result
