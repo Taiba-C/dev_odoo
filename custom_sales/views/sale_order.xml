@@ -326,7 +326,7 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
 
                     <field name="qty" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
-                    <field name="temp_price_unit" force_save="1"/>
+                    <field name="temp_price_unit" force_save="1" readonly="1"/>
                     <field name="action_on_order_line" invisible="1" force_save="1"/>
 
                 </xpath>
@@ -347,7 +347,7 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
                     <!-- <field name="is_subcontracted" invisible="1"/> -->
                     <!-- <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_subcontracted','=',True)] }" /> -->
-                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': [('state', '!=', 'draft')]}" />
+                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|', ('state', '!=', 'draft'), ('action_on_order_line', '!=', 'costed')]}" />
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='optional_products']" position="after">
