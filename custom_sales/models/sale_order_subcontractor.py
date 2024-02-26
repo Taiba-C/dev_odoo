@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
-class Sale_order(models.Model):
+class Sale_order_subcontractor(models.Model):
     _name="sale.order.subcontractor"
     _inherit = ['mail.thread']
     _rec_name = "partner_id"
@@ -47,3 +47,12 @@ class Sale_order(models.Model):
     def _compute_product_id(self):
         for record in self:
             record.product_id = self.env['product.product'].search([('product_tmpl_id', '=', record.product_template_id.id)], limit=1).id
+
+    def unlink(self):
+        """
+            change product template and product product as bom parent
+        """
+        if self.order_line_created:
+            order_line = self.env['sale.order.line'].search([('id', '=', self.order_line_id.id)])
+            order_line.unlink()
+        return super(Sale_order_subcontractor, self).unlink()
