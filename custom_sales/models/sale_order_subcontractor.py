@@ -8,7 +8,7 @@ class Sale_order_subcontractor(models.Model):
     order_id = fields.Many2one('sale.order', string='order id')
 
     partner_id = fields.Many2one('res.partner', string='Sous-traitant', required=True)
-    unit_price = fields.Float('Prix unitaire', required=True)
+    unit_price = fields.Float('Coût unitaire', required=True)
     product_template_id = fields.Many2one('product.template', string='Article')
     
     product_id = fields.Many2one(

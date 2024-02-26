@@ -327,7 +327,7 @@
 
                     <field name="qty" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
                     <field name="temp_price_unit" force_save="1" readonly="1"/>
-                    <field name="action_on_order_line" invisible="1" force_save="1"/>
+                    <field name="action_on_order_line" optional="hide"/>
 
                 </xpath>
 

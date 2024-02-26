@@ -15,15 +15,18 @@ class SaleOrderLine(models.Model):
         ('costed', 'Chiffrée'),
         ('option', 'Options'),
         ('subcontracted', 'Sous-traité'),
-    ], string='Action on ORder Line', compute="_compute_action_on_order_line")
+    ], string='Traitement', compute="_compute_action_on_order_line")
     
     #is_subcontracted = fields.Boolean('Produit sous-traité',related='product_template_id.is_subcontracted')
 
     def _compute_action_on_order_line(self):
         for record in self:
             costed_product = [costed.order_line_id.id for costed in record.order_id.sale_order_nesil_option_ids]
+            subcontracted_product = [subcontract.order_line_id.id for subcontract in record.order_id.sale_order_subcontractor_ids]
             if record.id in costed_product:
                 record.action_on_order_line = 'costed'
+            elif record.id in subcontracted_product:
+                record.action_on_order_line = 'subcontracted'
             else:
                 record.action_on_order_line = None
 
