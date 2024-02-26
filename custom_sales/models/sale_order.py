@@ -175,7 +175,7 @@ class Sale_order(models.Model):
     
    
     
-    picking_id = fields.Many2one('stock.picking', string='Nomenclature du chiffrage')
+    picking_id = fields.Many2one('stock.picking', string='Nomenclature du chiffrage', copy=False)
     
     mrp_order_id = fields.Many2one('mrp.production', string='MRP Order', ondelete='cascade')  
 
@@ -337,8 +337,11 @@ class Sale_order(models.Model):
 
     def compute_order_line_price_unit(self):
         """
+            Odoo recompute automaticly price unit in order line
+            
             for each line in order line
             search in order option to update the price unit
+            search in order subcontractor to update the price unit
         """
         for order_line in self.order_line:
             price_unit = 0
