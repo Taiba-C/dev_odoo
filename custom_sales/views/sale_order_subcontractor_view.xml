@@ -8,10 +8,11 @@
             <field name="model">sale.order.subcontractor</field>
             <field name="arch" type="xml">
                 <tree create="false" delete="false">
-                    <field name="order_id" string="Devis"/>
-                    <field name="partner_id" string="Sous-traitant"/>
-                    <field name="product_template_id" string="Article"/>
-                    <field name="unit_price" string="Coût unitaire"/>
+                    <field name="order_id"/>
+                    <field name="partner_id"/>
+                    <field name="product_template_id"/>
+                    <field name="cost_price"/>
+                    <field name="unit_price"/>
                     <field name="state" decoration-success="state == 'sale' or state == 'done'" decoration-info="state == 'draft'" widget="badge" optional="show" />
                     <field name="order_line_created" invisible="1"/>
                     <field name="order_line_id" invisible="1"/>

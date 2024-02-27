@@ -5,38 +5,39 @@ class Sale_order_subcontractor(models.Model):
     _inherit = ['mail.thread']
     _rec_name = "partner_id"
 
-    order_id = fields.Many2one('sale.order', string='order id')
+    order_id = fields.Many2one('sale.order', string='Devis')
 
     partner_id = fields.Many2one('res.partner', string='Sous-traitant', required=True)
-    unit_price = fields.Float('Coût unitaire', required=True)
+    unit_price = fields.Float('Prix unitaire', compute="_compute_unit_price")
+    cost_price = fields.Float('Coût unitaire', required=True)
     product_template_id = fields.Many2one('product.template', string='Article')
     
     product_id = fields.Many2one(
-        string='product',
+        string='Article',
         comodel_name='product.product',
         compute = "_compute_product_id",
         ondelete='restrict',
     )
     
-    order_line_id = fields.Many2one('sale.order.line', string='order line link', ondelete='cascade')
+    order_line_id = fields.Many2one('sale.order.line', string='Ligne de devis', ondelete='cascade')
 
-    order_line_created = fields.Boolean('Order LIne Created')
+    order_line_created = fields.Boolean('Line sous-traiter')
 
     state = fields.Selection(
         related='order_id.state',
         string="Status du devis",
         copy=False, store=True, precompute=True)
-
-    def set_unit_price_with_margin(self):
-        result = (self.unit_price * self.partner_id.subcontractor_margin) + self.unit_price
-        return result
+    
+    @api.depends("cost_price")
+    def _compute_unit_price(self):
+        for record in self:
+            record.unit_price = (record.cost_price * record.partner_id.subcontractor_margin) + record.cost_price
 
     def action_create_order_line(self):
-        unit_price_with_margin = self.set_unit_price_with_margin()
         # Create a new record for sale order line
         order_line = self.env['sale.order.line'].create({
             'order_id': self.order_id.id,
-            'temp_price_unit': unit_price_with_margin,
+            'temp_price_unit': self.unit_price,
             'name': self.product_template_id.name,
             'product_id': self.product_id.id,
             'product_uom_qty': 1,

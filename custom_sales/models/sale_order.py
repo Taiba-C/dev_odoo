@@ -361,7 +361,7 @@ class Sale_order(models.Model):
             if len(self.sale_order_subcontractor_ids) > 0:
                 for line in self.sale_order_subcontractor_ids:
                     if line.order_line_id.id == order_line._origin.id:
-                        price_unit += line.set_unit_price_with_margin()
+                        price_unit += line.unit_price
             price_recompute = price_unit + (price_unit * percentage / 100.0)
             if price_recompute != price_unit:
                 order_line.consumable = price_recompute - price_unit

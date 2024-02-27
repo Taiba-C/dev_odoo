@@ -358,6 +358,8 @@
 
                                 <field name="partner_id" domain="[('is_subcontractors', '=', True)]" options="{'no_open': True, 'no_create':True}" />
 
+                                <field name="cost_price"/>
+                                
                                 <field name="unit_price"/>
                                 
                                 <field name="order_line_created" invisible="1"/>
