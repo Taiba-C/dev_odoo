@@ -22,9 +22,6 @@
                     <button type="object" name="get_amount_to_pay" class="oe_stat_button" icon="fa-pencil-square-o">
                         <field name="amount_to_pay" widget="statinfo" string="Reste à facturer"/>
                     </button>
-
-                   <button type="object" name="temp_action_confirm" string="temp button" class="oe_stat_button" icon="fa-puzzle-piece">
-                    </button> 
                 </xpath>
                 <!-- <xpath expr="//button[@name='action_view_delivery']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -329,8 +326,8 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
 
                     <field name="qty" attrs="{ 'readonly': [('state', '!=', 'draft')] }" />
-                    <field name="temp_price_unit" readonly="1" force_save="1"/>
-                    <field name="is_costed" invisible="1" force_save="1"/>
+                    <field name="temp_price_unit" force_save="1" readonly="1"/>
+                    <field name="action_on_order_line" optional="hide"/>
 
                 </xpath>
 
@@ -350,7 +347,28 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='qty']" position="before">
                     <!-- <field name="is_subcontracted" invisible="1"/> -->
                     <!-- <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|',('state', '!=', 'draft'),('is_subcontracted','=',True)] }" /> -->
-                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': [('state', '!=', 'draft')]}" />
+                    <button name="action_costing" string=" " type="object" title="Chiffrer" class="fa fa-shopping-cart" attrs="{ 'invisible': ['|', ('state', '!=', 'draft'), ('action_on_order_line', 'in', ['option','subcontracted'])]}" />
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='optional_products']" position="after">
+                    <page name="subcontractor" string="Sous-traitant">
+                        <field name="sale_order_subcontractor_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="product_template_id" domain="[('is_bom_parent', '=', True)]"/>
+
+                                <field name="partner_id" domain="[('is_subcontractors', '=', True)]" options="{'no_open': True, 'no_create':True}" />
+
+                                <field name="cost_price"/>
+                                
+                                <field name="unit_price"/>
+                                
+                                <field name="order_line_created" invisible="1"/>
+                                
+                                <button name="action_create_order_line" string= "Sous-traiter"  type="object" attrs="{ 'invisible': [('order_line_created', '=', True)]}"/>
+
+                            </tree>
+                        </field>
+                    </page>
                 </xpath>
             </field>
         </record>
@@ -373,6 +391,19 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='amount_total']" position="after">
                     <field name="amount_to_pay" sum="Total reste à payer"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_filter_nesil" model="ir.ui.view">
+            <field name="name">sale.order.search.nesil</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='my_quotation']" position="after">
+                    <separator/>
+                    <filter string="Sous-traitant" name="subcontract" domain="[('sale_order_subcontractor_ids','!=', False)]"/>
+                    <separator/>
                 </xpath>
             </field>
         </record>
