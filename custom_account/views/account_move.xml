@@ -12,5 +12,44 @@
                 
             </field>
         </record>
+
+        <menuitem name="Raccourcis" parent="account_accountant.menu_accounting" id="menu_raccourcis_accounting" groups="account.group_account_readonly,account.group_account_invoice" sequence="21"/>
+
+        <menuitem
+            id="sale_order_menu_accounting"
+            name="Devis"
+            action="sale.action_quotations_with_onboarding"
+            groups="account.group_account_readonly,account.group_account_invoice"
+            parent="menu_raccourcis_accounting"
+            sequence="0"
+            />
+
+        <menuitem
+                id="document_menu_accounting"
+                name="Document"
+                action="documents.document_action"
+                groups="account.group_account_readonly,account.group_account_invoice"
+                parent="menu_raccourcis_accounting"
+                sequence="1"
+
+                />
+
+        <menuitem
+            id="crm_menu_accounting"
+            name="CRM"
+            action="crm.action_your_pipeline"
+            groups="account.group_account_readonly,account.group_account_invoice"
+            parent="menu_raccourcis_accounting"
+            sequence="2"
+            />
+
+
+        <menuitem
+            id="sale_order_menu_accounting"
+            name="Planning"
+            action="planning.planning_action_my_calendar"
+            groups="account.group_account_readonly,account.group_account_invoice"
+            parent="menu_raccourcis_accounting"
+            />
     </data>
 </odoo>

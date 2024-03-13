@@ -24,6 +24,11 @@
                 'mail',
                 'contacts',
                 'account',
+                'account_accountant',
+                'sale',
+                'documents',
+                'crm',
+                'planning'
                 ],
 
     'license': 'AGPL-3',
