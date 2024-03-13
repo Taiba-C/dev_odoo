@@ -45,7 +45,7 @@
 
 
         <menuitem
-            id="sale_order_menu_accounting"
+            id="planning_menu_accounting"
             name="Planning"
             action="planning.planning_action_my_calendar"
             groups="account.group_account_readonly,account.group_account_invoice"
