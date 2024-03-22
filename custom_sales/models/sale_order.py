@@ -641,8 +641,11 @@ class Sale_order(models.Model):
                     is_service = True
 
         if is_service:
+            opportunity = ''
+            if self.opportunity_id.name:
+                opportunity = self.opportunity_id.name
             project = self.env['project.project'].create({
-                    'name': self.name+' '+self.opportunity_id.name,
+                    'name': self.name+' '+opportunity,
                     'user_id': self.user_id.id,
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
@@ -676,7 +679,7 @@ class Sale_order(models.Model):
                         'sale_order': self.id,
                         'product_id': order_line.product_id.id,
                         'description_product': order_line.name,
-                        'id_name': record.opportunity_id.name + ' ' + order_line.name,
+                        'id_name': str(record.opportunity_id.name) + ' ' + order_line.name,
                         'id_name_description': order_line.name,
                         'opportunity':record.opportunity_id.id,
                         'product_qty': order_line.qty,
@@ -743,7 +746,7 @@ class Sale_order(models.Model):
                                         'project_id':project.id,
                                         'sale_order': self.id,
                                         'sale_order_name': self.name,
-                                        'order_name': record.opportunity_id.name + ' ' + order_line.name,
+                                        'order_name': str(record.opportunity_id.name) + ' ' + order_line.name,
                                         'role':role,
                                     })
                                     #work_order.duration_expected_hours = workcenter.duration_expected / 60.0
