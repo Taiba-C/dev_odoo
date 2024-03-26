@@ -12,20 +12,14 @@
                 <div style="margin: 0px; padding: 0px;">
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
                         <t t-set="doc_name" t-value="'quotation' if object.state in ('draft', 'sent') else 'order'"/>
-                        Bonjour,
+                        Cher <span t-out="object.partner_id.name or ''">.....</span>,
                         <br/>
                         <br/>
-                        Nous vous avons adressé notre facture <span style="font-weight: bold;" t-out="object.name or ''">FA……</span> (référence: <t t-out="ctx.get('opportunity_name') or ''"></t>)  d'un montant de <span style="font-weight:bold;" t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 143,750.00</span>, en date du    <span style="font-weight: bold;" t-out="object.invoice_date or ''">date de la facture</span>.
+                        Veuillez trouver ci-joint votre facture <span style="font-weight: bold;" t-out="object.name or ''">FA……</span> (référence: <t t-out="ctx.get('opportunity_name') or ''"></t>)  d'un montant de <span style="font-weight:bold;" t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 143,750.00</span>, émise par Nesil France. 
                         <br/>
-                        Sauf erreur de notre part nous n’avons pas reçu votre règlement. 
+                        La date d’échéance de votre facture est le <span style="font-weight: bold;" t-out="object.invoice_date_due or ''">(date d'echéance de la facture)</span>
                         <br/>
-                        Nous vous rappelons que celle-ci était à échéance le <span style="font-weight: bold;" t-out="object.invoice_date_due or ''">(date d'echéance de la facture)</span>
-                        <br/>
-                        Aussi nous vous invitions à effectuer le règlement dès que possible.
-                        <br/>
-                        Merci de rappeler la référence suivante lors du paiement: <span style="font-weight: bold;" t-out="object.name or ''">FA……</span>
-                        <br/>
-                        Merci de ne pas tenir compte de ce mail si le règlement a été effectuer entre temps. 
+                        Merci de rappeler la référence suivante lors du paiement : <span style="font-weight: bold;" t-out="object.name or ''">FA……</span>
                         <br/>
                         Nous restons bien entendu à votre entière disposition pour tout complément d'information,
                         <br/>
@@ -57,26 +51,20 @@
                 <div style="margin: 0px; padding: 0px;">
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
                         <t t-set="doc_name" t-value="'quotation' if object.state in ('draft', 'sent') else 'order'"/>
-                        Bonjour,
+                        Cher <span t-out="object.partner_id.name or ''">.....</span>,
                         <br/>
                         <br/>
-
-                        
-                        Nous vous avons adressé notre facture <span style="font-weight: bold;" t-out="object.name or ''">FA……</span> (référence: <t t-out="ctx.get('opportunity_name') or ''"></t>)  d'un montant de <span style="font-weight:bold;" t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 143,750.00</span>, en
-                        date du <span style="font-weight: bold;" t-out="object.invoice_date or ''">date de la facture</span>
+                        Veuillez trouver ci-joint votre facture <span style="font-weight: bold;" t-out="object.name or ''">FA……</span> (référence: <t t-out="ctx.get('opportunity_name') or ''"></t>)  d'un montant de <span style="font-weight:bold;" t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 143,750.00</span>, émise par Nesil France. 
                         <br/>
+                        La date d’échéance de votre facture est le <span style="font-weight: bold;" t-out="object.invoice_date_due or ''">(date d'echéance de la facture)</span>
                         <br/>
-                        Nous vous rappelons que celle-ci est à échéance le <span style="font-weight: bold;" t-out="object.invoice_date_due or ''"> (date d'echéance de la facture)</span> 
-                        C’est pourquoi nous vous invitions à effectuer le règlement.
+                        Merci de rappeler la référence suivante lors du paiement : <span style="font-weight: bold;" t-out="object.name or ''">FA……</span>
                         <br/>
-                        <br/>
-                        Merci de rappeler la référence suivante lors du paiement <span style="font-weight: bold;" t-out="object.name or ''">FA……</span>
-                        <br/>
-                        <br/>
-
                         Nous restons bien entendu à votre entière disposition pour tout complément d'information,
+                        <br/>
+                        <br/>
                         Bien cordialement,
-
+                        <br/>
                         La comptabilité, 
                         <br/>
                         <br/>
@@ -85,6 +73,7 @@
                         </t>
                         <br/>
                         <br/>
+
                     </p>
                 </div>
             </field>
