@@ -80,12 +80,16 @@ class SaleOrderLine(models.Model):
 
         mrp_bom = self.env['mrp.bom'].sudo().search([('product_tmpl_id', '=', self.product_template_id.id)])
         mrp_bom_line = self.env['mrp.bom.line'].sudo().search([('bom_id', '=', mrp_bom.id)]).ids
-        action['context'] = {
-            'product_id': self.product_id.id,
-            'order_line_id': self.id,
-            'mrp_bom_line': mrp_bom_line,
-        }
-        return action    
+        if mrp_bom and mrp_bom_line:
+            action['context'] = {
+                'product_id': self.product_id.id,
+                'order_line_id': self.id,
+                'mrp_bom_line': mrp_bom_line,
+            }
+            return action    
+        else:
+            raise models.ValidationError(f"Veuillez verifier la nomenclature de {self.product_template_id.name}")
+
     
     def _get_values_to_add_to_nesil_option(self):
             self.ensure_one()
