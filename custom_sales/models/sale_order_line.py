@@ -84,7 +84,7 @@ class SaleOrderLine(models.Model):
             action['context'] = {
                 'product_id': self.product_id.id,
                 'order_line_id': self.id,
-                'mrp_bom_line': mrp_bom_line,
+                'mrp_bom_line': list(set(mrp_bom_line)),
             }
             return action    
         else:
