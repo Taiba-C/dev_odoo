@@ -27,20 +27,15 @@ class Mrp_bom(models.Model):
             Find all BOM with duplicate product in line
         """
         boms = self.env['mrp.bom'].sudo().search([])
-        # import pudb; pudb.set_trace()
 
         has_duplicated_product = []
         for bom in boms:
-            print(bom.product_tmpl_id.name)
-            print(len(bom.bom_line_ids.ids))
-            print(len(list(set(bom.bom_line_ids.ids))))
-            print("******")
-
-            ids = len(bom.bom_line_ids.ids)
-            set_ids = len(list(set(bom.bom_line_ids.ids)))
-            duplicated_product = []
-            if ids != set_ids:
-                duplicated_product.append(bom.product_tmpl_id.name )
+            duplicate_bom_lines = []
+            for line in bom.bom_line_ids:
+                if bom.bom_line_ids.filtered(lambda x: x.product_id.id == line.product_id.id and x.id != line.id):
+                    duplicate_bom_lines.append(line.product_id.name)
+            if duplicate_bom_lines:
+                has_duplicated_product.append(bom.product_tmpl_id.name)
         
         # message = '/n'.join(has_duplicated_product)
         print("####")
