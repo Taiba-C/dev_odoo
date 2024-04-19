@@ -81,12 +81,6 @@ class ComponentSelectionWizard(models.TransientModel):
                 record.bom_id = False
 
     def _get_default_option_ids(self):
-        print("##############")
-        print("##############")
-        print("ato ve")
-        print("##############")
-        print("##############")
-        print("##############")
         boms = self.env.context.get('mrp_bom_line')
         option_line = self.env.context.get('option_line_id')
 
