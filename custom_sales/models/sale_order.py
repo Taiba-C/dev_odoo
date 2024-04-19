@@ -626,6 +626,7 @@ class Sale_order(models.Model):
 
     def action_confirm(self):
         res = super(Sale_order,self).action_confirm()
+        self.search_duplicate_bom_line()
 
         self.delete_option_without_order_line(self.id)
 
@@ -642,16 +643,18 @@ class Sale_order(models.Model):
 
         if is_service:
             opportunity = ''
-            if self.opportunity_id.name:
-                opportunity = self.opportunity_id.name
-            project = self.env['project.project'].create({
+            vals = {
                     'name': self.name+' '+opportunity,
                     'user_id': self.user_id.id,
                     'partner_id': self.partner_id.id,
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.fin_salon,
                     'order_id':self.id,
-                    })
+                    }
+            if self.opportunity_id.name:
+                opportunity = self.opportunity_id.name
+            project = self.env['project.project'].create(vals)
+
             self.project_options_id = project.id
             #project.sale_order = self
         for line in self.sale_order_nesil_option_ids:
@@ -794,6 +797,26 @@ class Sale_order(models.Model):
 
         return res
     
+
+    def search_duplicate_bom_line(self):
+        """
+            search duplicate bom line
+        """
+        option_order_line = set([options.order_line_id.id for options in self.sale_order_nesil_option_ids])
+        duplicated_order_line = []
+        cpt = 0
+        for line in self.order_line:
+            cpt += 1
+            if line.id in option_order_line:
+                options = [option.product_id for option in self.env['sale.order.option.nesil'].search([('order_line_id', '=', line.id)])]
+                set_options = set(options)
+                if len(options) != len(set_options):
+                    duplicated_order_line.append(f"{cpt}, article: {line.product_template_id.name}")
+        if len(duplicated_order_line) > 0:
+            line = ', \n '.join(duplicated_order_line)
+            msg = f"Les lignes suivantes ont des doublons: \n {line}"
+            raise UserError(msg)
+
     def action_view_task_option_ids(self):
         tasks = []
         for line in self.sale_order_nesil_option_ids:

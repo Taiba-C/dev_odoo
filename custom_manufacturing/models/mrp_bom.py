@@ -1,11 +1,50 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
+
 
 class Mrp_bom(models.Model):
     _inherit = 'mrp.bom'    
     
+    @api.onchange('bom_line_ids')
+    def _check_duplicated_bom_line_ids(self):
+        for record in self:
+            existing_product_list = []
+            duplicate_product = []
+            for bom in record.bom_line_ids:
+                if bom.product_id.id in existing_product_list:
+                    duplicate_product.append("* " + bom.product_id.name)
+                elif len(duplicate_product) == 0:
+                    existing_product_list.append(bom.product_id.id)
+            if len(duplicate_product) > 0:
+                products = '\n'.join(duplicate_product)
+                raise UserError(f"Ces articles existent déjà dans la nomenclature de {record.product_tmpl_id.name}: \n"
+                                f"{products}")
+    
+    def find_duplicated(self):
+        """
+            Find all BOM with duplicate product in line
+        """
+        boms = self.env['mrp.bom'].sudo().search([])
+
+        has_duplicated_product = []
+        for bom in boms:
+            duplicate_bom_lines = []
+            for line in bom.bom_line_ids:
+                if bom.bom_line_ids.filtered(lambda x: x.product_id.id == line.product_id.id and x.id != line.id):
+                    duplicate_bom_lines.append(line.product_id.name)
+            if duplicate_bom_lines:
+                has_duplicated_product.append(bom.product_tmpl_id.name)
+        
+        # message = '/n'.join(has_duplicated_product)
+        print("####")
+        print("####")
+        print (has_duplicated_product)
+        print("####")
+        print("####")
+
+
     @api.model_create_multi
     def create(self, val_lists):
         """
