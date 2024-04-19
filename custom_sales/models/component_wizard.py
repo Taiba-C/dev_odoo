@@ -47,6 +47,13 @@ class ComponentSelectionWizard(models.TransientModel):
                                  default=lambda self: self._get_default_option_ids())
 
     def action_confirm(self):
+        product_boms = self.set_product_boms()
+        order_line = self.order_line_id
+        order_line.order_id.generate_bom_order(products=product_boms, order_line=self.order_line_id.id,option_line=None)
+
+        return {'type': 'ir.actions.act_window_close'}
+    
+    def set_product_boms(self):
         product_boms = []
 
         order_options = self.env['sale.order.option.nesil'].search([('order_line_id', '=', self.order_line_id.id)])
@@ -55,11 +62,7 @@ class ComponentSelectionWizard(models.TransientModel):
         for line in self.option_ids:
             if line.selected_product:
                 product_boms.append({'id': line.product_id.id, 'quantity': line.quantity})
-
-        order_line = self.order_line_id
-        order_line.order_id.generate_bom_order(products=product_boms, order_line=self.order_line_id.id,option_line=None)
-
-        return {'type': 'ir.actions.act_window_close'}
+        return product_boms
 
     def _get_default_product(self):
         return self._context.get('product_id')
@@ -78,23 +81,30 @@ class ComponentSelectionWizard(models.TransientModel):
                 record.bom_id = False
 
     def _get_default_option_ids(self):
-        boms = self.env.context.get('mrp_bom_line')
+        ctx_mrp_bom_line = self.env.context.get('mrp_bom_line')
+        mrp_bom_line = self._bom_line_without_duplicated_product(ctx_mrp_bom_line)
         order_line = self.env.context.get('order_line_id')
-
-        options = self.env['sale.order.option.nesil'].search([('order_line_id', '=', order_line)])
-
         lines = []
+        options = self.env['sale.order.option.nesil'].search([('order_line_id', '=', order_line)])
+        products = []
+        lst_options = []
+
+        for option in options:
+            if option.product_id.id not in products:
+                products.append(option.product_id.id)
+                lst_options.append(option)
+                
 
         options_info = []
         if len(options) > 0:
-            for option in options:
+            for option in lst_options:
                 options_info.append({
                     'product_id': option.product_id.id,
                     'quantity': option.quantity,
                 })
 
-        for bom in boms:
-            bom_lines = self.env['mrp.bom.line'].search([('id', '=', bom)])
+        for bom in mrp_bom_line:
+            bom_lines = bom
             for bom_line in bom_lines:
                 if len(options) == 0:
                     lines.append((0, 0, {
@@ -131,7 +141,19 @@ class ComponentSelectionWizard(models.TransientModel):
                             'quantity': bom_line.product_qty,
                             # Add other fields as needed
                         }))
+
         return lines
+    
+    def _bom_line_without_duplicated_product(self, bom_line_ids):
+        bom_lines = self.env['mrp.bom.line'].search([('id', 'in', bom_line_ids)])
+        result = []
+        products = []
+        for line in bom_lines:
+            if line.product_id.id not in products:
+                products.append(line.product_id.id)
+                result.append(line)
+
+        return result
 
     # @api.onchange('order_line_id')
     # def _onchange_order_line_id(self):
