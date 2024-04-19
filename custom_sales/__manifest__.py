@@ -37,6 +37,7 @@
                 'mrp',
                 'one2many_search_widget',
                 'web_domain_field',
+                'project'
                 ],
 
     # always loaded
