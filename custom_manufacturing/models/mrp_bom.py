@@ -37,12 +37,9 @@ class Mrp_bom(models.Model):
             if duplicate_bom_lines:
                 has_duplicated_product.append(bom.product_tmpl_id.name)
         
-        # message = '/n'.join(has_duplicated_product)
-        print("####")
-        print("####")
-        print (has_duplicated_product)
-        print("####")
-        print("####")
+        message = '\n'.join(has_duplicated_product)
+        
+        raise UserError(message)
 
 
     @api.model_create_multi
