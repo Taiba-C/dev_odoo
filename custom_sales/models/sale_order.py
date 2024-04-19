@@ -626,6 +626,7 @@ class Sale_order(models.Model):
 
     def action_confirm(self):
         res = super(Sale_order,self).action_confirm()
+        project = self.env['project.project']
 
         self.delete_option_without_order_line(self.id)
 
@@ -633,6 +634,7 @@ class Sale_order(models.Model):
         if self.is_bom_generated == False:
             raise UserError("Vous avez oublié de faire un chiffrage")
 
+        self.search_duplicate_bom_line()
 
         is_service = bool
         for line in self.sale_order_nesil_option_ids:
@@ -644,7 +646,7 @@ class Sale_order(models.Model):
             opportunity = ''
             if self.opportunity_id.name:
                 opportunity = self.opportunity_id.name
-            project = self.env['project.project'].create({
+            project.create({
                     'name': self.name+' '+opportunity,
                     'user_id': self.user_id.id,
                     'partner_id': self.partner_id.id,
@@ -794,6 +796,24 @@ class Sale_order(models.Model):
 
         return res
     
+
+    def search_duplicate_bom_line(self):
+        """
+            search duplicate bom line
+        """
+        option_order_line = set([options.order_line_id.id for options in self.sale_order_nesil_option_ids])
+        for line in self.order_line:
+            if line.id in option_order_line:
+                options = [option.product_id for option in self.env['sale.order.option.nesil'].search([('order_line_id', '=', line.id)])]
+                set_options = set(options)
+                print(line.product_template_id.name)
+                print(line.name)
+                print(len(options))
+                print(len(set_options))
+                print("######")
+        # import pudb; pudb.set_trace()
+        raise UserError("Duplicate bom line")
+
     def action_view_task_option_ids(self):
         tasks = []
         for line in self.sale_order_nesil_option_ids:
