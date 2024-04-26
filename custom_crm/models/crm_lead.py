@@ -8,7 +8,7 @@ from odoo.osv import expression
 class Lead(models.Model):
     _inherit = "crm.lead"
     
-    order_ids = fields.One2many('sale.order', 'opportunity_id',copy=True, string='Orders')
+    order_ids = fields.One2many('sale.order', 'opportunity_id', string='Orders')
     is_quotation_created = fields.Boolean('Is quotation created')
     # champs de l'onglet salon
     salon = fields.Char(string="Salon")
@@ -69,16 +69,75 @@ class Lead(models.Model):
         default = dict(default or {},
                        name=_('%s (copy)', self.name),)
         res = super(Lead, self).copy(default)
-        if not res.active:
-            res.toggle_active()
-        if res.order_ids:
-            if res.order_ids.state == "sale":
-                res.order_ids.action_cancel()
-        if res.dbut_salon:
-            if res.dbut_salon - date.today() < timedelta(0):
-                res.warning_copy = True
-                res.warning_display_time = 0
-        return res
+        if self.order_ids and len(self.order_ids) == 1:
+            # TODO: create new order
+            order_id = self.order_ids[0].copy()
+            order_id.rfrence_du_dossier = res.id
+            order_id.opportunity_id = res.id
+            order_id.origin = res.name
+            
+            # prepare orderline and sale order nesil options
+            order_id.order_line.unlink()
+            order_id.sale_order_nesil_option_ids.unlink()
+
+            for line in self.order_ids[0].order_line:
+                option_ids = self.order_ids[0].sale_order_nesil_option_ids.search([('order_line_id', '=', line.id)])
+                subcontractor_ids = self.order_ids[0].sale_order_nesil_option_ids.search([('order_line_id', '=', line.id)])
+                
+                if line.display_type in ['line_section', 'line_note']:
+                    new_order_line = order_id.order_line.create({
+                        'name': line.name,
+                        'display_type': line.display_type,
+                        'sequence': line.sequence,
+                        'order_id': order_id.id,
+                    })
+
+                elif option_ids:
+                    new_order_line = order_id.order_line.create({
+                        'product_id': line.product_id.id,
+                        'product_template_id': line.product_template_id.id,
+                        'name': line.name,
+                        'product_uom_qty': line.product_uom_qty,
+                        'product_uom': line.product_uom.id,
+                        'price_unit': line.price_unit,
+                        'temp_price_unit': line.temp_price_unit,
+                        'discount': line.discount,
+                        'order_id': order_id.id,
+                        'sequence': line.sequence,
+                        'action_on_order_line': line.action_on_order_line,
+                    })
+                    for option in option_ids:
+                        op=option.copy()
+                        op.order_line_id = new_order_line.id
+                        op.order_id = new_order_line.order_id.id
+            if len(self.order_ids[0].sale_order_subcontractor_ids) > 0:
+                for line in self.order_ids[0].sale_order_subcontractor_ids:
+                    if line.order_line_created:
+                        new_subcontractor = line.copy()
+                        new_subcontractor.order_id = order_id.id
+                        new_subcontractor.action_create_order_line()
+                    else:
+                        new_subcontractor = line.copy()
+                        new_subcontractor.order_id = order_id.id
+                                                       
+            
+            if not res.active:
+                res.toggle_active()
+            if res.order_ids:
+                if res.order_ids.state == "sale":
+                    res.order_ids.action_cancel()
+            if res.dbut_salon:
+                if res.dbut_salon - date.today() < timedelta(0):
+                    res.warning_copy = True
+                    res.warning_display_time = 0
+            return res
+        else:
+            raise ValidationError("Ce CRM contient plusieurs devis, veuillez supprimer les devis en trop avant de le dupliquer.")
+
+    def duplicate_for_new_order(self, crm_lead_id):
+        pass
+
+    
     
     def action_set_lost(self, **additional_values):
         """ Lost semantic: probability = 0 or active = False """
