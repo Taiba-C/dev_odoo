@@ -284,6 +284,7 @@ class SaleOrderOptionNesil(models.Model):
     def copy(self, default=None):
         self.ensure_one()
         res = super(SaleOrderOptionNesil, self).copy(default)
+        res.order_line_id = self.order_line_id.id if self.order_line_id.id else None
         res.parent_id = self.parent_id.id if self.parent_id else None
         res.purchase_price = self.purchase_price if self.purchase_price else 0
         res.margin = self.margin if self.margin else 0
