@@ -40,7 +40,7 @@ class Sale_order(models.Model):
     total_sale_option = fields.Float('Total sale price', readonly = True,compute="_compute_total_infos")
     margin_option = fields.Float('Margin', readonly = True, compute="_compute_total_infos")
     margin_percent_option = fields.Float('Margin %', readonly = True, compute="_compute_total_infos")
-    sale_order_subcontractor_ids = fields.One2many('sale.order.subcontractor', 'order_id', string='sale order subcontractor ids')
+    sale_order_subcontractor_ids = fields.One2many('sale.order.subcontractor', 'order_id', string='sale order subcontractor ids', copy=False)
 
     @api.depends('origin')
     def get_ref_dossier(self):
