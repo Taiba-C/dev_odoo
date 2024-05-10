@@ -8,7 +8,7 @@ class SaleOrderLine(models.Model):
     
     consumable = fields.Float('consumable')
     qty = fields.Float('Quantity costing', default=1)
-    temp_price_unit = fields.Float('temp_price_unit')
+    temp_price_unit = fields.Float('temp_price_unit', store=True)
     partner_id = fields.Many2one('res.partner', string='Sous traitant')
 
     action_on_order_line = fields.Selection([
