@@ -1,6 +1,52 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <template id="report_saleorder_custom_costing_inherit_sale_stock" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//table[@name='table_optional_products']" position="replace">
+            <table name="table_optional_products" class="table table-sm">
+                <thead>
+                    <tr>
+                        <th name="th_option_name" class="text-start">Description</th>
+                        <th t-if="has_option_discount" name="th_option_discount" groups="product.group_discount_per_so_line" class="text-start">Disc.%</th>
+                        <th name="th_option_qty" class="text-end">Quantité</th>
+                        <th name="th_option_price_unit" class="text-end">Prix unitaire (hors taxe)</th>
+                        <th name="th_option_price_subtotal" class="text-end">Sous total</th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                    <tr t-foreach="doc.sale_order_option_ids" t-as="option">
+                        <td name="td_option_name">
+                            <span t-field="option.name"/>
+                        </td>
+                        <td t-if="has_option_discount" name="td_option_discount" groups="product.group_discount_per_so_line">
+                            <strong t-if="option.discount != 0.0" class="text-info">
+                                <t t-out="((option.discount % 1) and '%s' or '%d') % option.discount"/>
+%
+                            </strong>
+                        </td>
+                        <td name="td_option_qty">
+                            <strong class="text-end">
+                                <div t-field="option.quantity" t-att-style="option.discount and 'text-decoration: line-through' or None" t-att-class="option.discount and 'text-danger' or None"/>
+
+                            </strong>
+                        </td>
+                        <td name="td_option_price_unit">
+                            <strong class="text-end">
+                                <div t-field="option.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" t-att-style="option.discount and 'text-decoration: line-through' or None" t-att-class="option.discount and 'text-danger' or None"/>
+                                <div t-if="option.discount">
+                                    <t t-out="'%.2f' % ((1-option.discount / 100.0) * option.price_unit)"/>
+                                </div>
+                            </strong>
+                        </td>
+                        <td name="td_option_price_subtotal">
+                            <strong class="text-end">
+                                <div t-field="option.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" t-att-style="option.discount and 'text-decoration: line-through' or None" t-att-class="option.discount and 'text-danger' or None"/>
+
+                            </strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </xpath>
         <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[3]" position="replace">
             <td name="td_priceunit" class="text-end">
                 <span t-field="line.temp_price_unit"/>
