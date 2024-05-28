@@ -553,9 +553,14 @@ class Sale_order(models.Model):
     
     @api.onchange('order_line')
     def _onchange_order_line(self):
+        order_option_nesil_ids = set([line.order_line_id.id for line in self.sale_order_nesil_option_ids])
         for value in self.order_line:
             if value.product_template_id and value.product_template_id.detailed_type == 'service':
                 value.price_subtotal = 0
+            if value.display_type not in ['line_section', 'line_note']:
+                if value._origin.id in order_option_nesil_ids and value.price_subtotal != 0:
+                    raise UserError(
+                        _('Vous ne pouvez pas changer le produit d\'une ligne de commande qui a déjà été chiffrée.'))
 
    
     @api.onchange('date_of_exhibition')
@@ -1059,7 +1064,6 @@ class Work_Order(models.Model):
             })
         return timesheet_id.id
         
-    #@api.onchange('employee_id')
     def notification_employee_id(self):
         message = ""
         if self.sale_order:
