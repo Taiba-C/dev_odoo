@@ -98,6 +98,7 @@ class Lead(models.Model):
                         'product_template_id': line.product_template_id.id,
                         'name': line.name,
                         'product_uom_qty': line.product_uom_qty,
+                        'qty': line.product_uom_qty,
                         'product_uom': line.product_uom.id,
                         'price_unit': line.price_unit,
                         'temp_price_unit': line.temp_price_unit,
