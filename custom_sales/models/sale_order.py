@@ -557,11 +557,6 @@ class Sale_order(models.Model):
         for value in self.order_line:
             if value.product_template_id and value.product_template_id.detailed_type == 'service':
                 value.price_subtotal = 0
-            if value.display_type not in ['line_section', 'line_note']:
-                if value._origin.id in order_option_nesil_ids and value.price_subtotal != 0:
-                    raise UserError(
-                        _('Vous ne pouvez pas changer le produit d\'une ligne de commande qui a déjà été chiffrée.'))
-
    
     @api.onchange('date_of_exhibition')
     def _onchange_date_of_exhibition(self):

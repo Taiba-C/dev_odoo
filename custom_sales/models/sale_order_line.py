@@ -161,4 +161,15 @@ class SaleOrderLine(models.Model):
         #self.write({'line_id': order_line.id})
         # if sale_order:
         #     sale_order.add_option_to_order_with_taxcloud()
-    
+    @api.onchange('product_template_id')
+    def _onchange_product_template_id_costed(self):
+        if self.product_template_id:
+            order_option_nesil_ids = set(
+                [line.order_line_id.id for line in self.order_id.sale_order_nesil_option_ids])
+            
+            if self._origin.id in order_option_nesil_ids:
+                raise UserError(
+                    _('Vous ne pouvez pas changer le produit d\'une ligne de commande qui a déjà été chiffrée.'))
+
+            else:
+                self.consumable = 0
