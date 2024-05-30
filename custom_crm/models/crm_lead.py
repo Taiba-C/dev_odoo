@@ -106,6 +106,7 @@ class Lead(models.Model):
                         'order_id': order_id.id,
                         'sequence': line.sequence,
                         'action_on_order_line': line.action_on_order_line,
+                        'consumable': line.consumable,
                     })
                     for option in option_ids:
                         op=option.copy()
