@@ -84,7 +84,24 @@ class Lead(models.Model):
                 option_ids = self.order_ids[0].sale_order_nesil_option_ids.search([('order_line_id', '=', line.id)])
                 subcontractor_ids = self.order_ids[0].sale_order_nesil_option_ids.search([('order_line_id', '=', line.id)])
                 
-                if line.display_type in ['line_section', 'line_note']:
+                if line.display_type not in ['line_section', 'line_note'] and not option_ids:
+                    new_order_line = order_id.order_line.create({
+                        'product_id': line.product_id.id,
+                        'product_template_id': line.product_template_id.id,
+                        'name': line.name,
+                        'product_uom_qty': line.product_uom_qty,
+                        'qty': line.product_uom_qty,
+                        'product_uom': line.product_uom.id,
+                        'price_unit': line.price_unit,
+                        'temp_price_unit': line.temp_price_unit,
+                        'discount': line.discount,
+                        'order_id': order_id.id,
+                        'sequence': line.sequence,
+                        'action_on_order_line': line.action_on_order_line,
+                        'consumable': line.consumable,
+                    })
+
+                elif line.display_type in ['line_section', 'line_note']:
                     new_order_line = order_id.order_line.create({
                         'name': line.name,
                         'display_type': line.display_type,
@@ -112,6 +129,7 @@ class Lead(models.Model):
                         op=option.copy()
                         op.order_line_id = new_order_line.id
                         op.order_id = new_order_line.order_id.id
+                
             if len(self.order_ids[0].sale_order_subcontractor_ids) > 0:
                 for line in self.order_ids[0].sale_order_subcontractor_ids:
                     if line.order_line_created:
