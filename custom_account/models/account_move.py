@@ -201,6 +201,7 @@ class AccountMove(models.Model):
         
     def get_account_move(self, account_move_id):
         account_move = self.env['account.move'].search([('id','=', account_move_id)], limit=1)
+        
         if account_move.invoice_origin:
             related_quotations = self.env['sale.order'].search([
                                             ('name', 'in', account_move.invoice_origin.split(', ')),  # Split if multiple references are stored
