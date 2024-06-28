@@ -167,7 +167,7 @@ class SaleOrderLine(models.Model):
             order_option_nesil_ids = set(
                 [line.order_line_id.id for line in self.order_id.sale_order_nesil_option_ids])
             
-            if self._origin.id in order_option_nesil_ids:
+            if self.action_on_order_line == 'costed' and self._origin.id in order_option_nesil_ids:
                 raise UserError(
                     _('Vous ne pouvez pas changer le produit d\'une ligne de commande qui a déjà été chiffrée.'))
 
