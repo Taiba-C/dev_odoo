@@ -22,6 +22,7 @@
     # any module necessary for this one to work correctly
     'depends': ['base',
                 'mail',
+                'account_followup',
                 'contacts',
                 'account',
                 'account_accountant',
@@ -42,6 +43,7 @@
         
         'data/mail_template_invoice_reminder.xml',
         'data/notify_reminder_invoice.xml',
+        'data/account_followup_data.xml',
         
         # report
         'report/report_invoice_with_payments.xml',
