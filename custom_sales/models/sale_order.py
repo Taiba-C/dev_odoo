@@ -44,6 +44,17 @@ class Sale_order(models.Model):
 
     @api.depends('origin')
     def get_ref_dossier(self):
+        """
+        Retrieves the reference dossier for the sale order.
+
+        This method checks if the sale order is associated with an opportunity.
+        If an opportunity is found, it sets the reference dossier to the opportunity's ID.
+        If no opportunity is found, it sets the reference dossier to None.
+        Additionally, it searches for related sale order lines and updates the order option's order line ID if necessary.
+
+        Returns:
+            None
+        """
         for rec in self:
             if rec.opportunity_id:
                 if rec.opportunity_id.ensure_one():
