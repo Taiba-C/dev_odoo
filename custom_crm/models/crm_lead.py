@@ -65,6 +65,15 @@ class Lead(models.Model):
                                    'date_de_demontage_au':crm_lead.x_studio_au_1})
     
     def copy(self, default=None):
+        """
+        Duplicate the current record with optional default values.
+
+        :param default: A dictionary of default values for the duplicated record.
+        :type default: dict
+        :return: The duplicated record.
+        :rtype: odoo.models.Model
+        :raises: ValidationError if the CRM contains multiple quotes.
+        """
         self.ensure_one()
         default = dict(default or {},
                        name=_('%s (copy)', self.name),)
@@ -85,21 +94,22 @@ class Lead(models.Model):
                 subcontractor_ids = self.order_ids[0].sale_order_nesil_option_ids.search([('order_line_id', '=', line.id)])
                 
                 if line.display_type not in ['line_section', 'line_note'] and not option_ids:
-                    new_order_line = order_id.order_line.create({
-                        'product_id': line.product_id.id,
-                        'product_template_id': line.product_template_id.id,
-                        'name': line.name,
-                        'product_uom_qty': line.product_uom_qty,
-                        'qty': line.product_uom_qty,
-                        'product_uom': line.product_uom.id,
-                        'price_unit': line.price_unit,
-                        'temp_price_unit': line.temp_price_unit,
-                        'discount': line.discount,
-                        'order_id': order_id.id,
-                        'sequence': line.sequence,
-                        'action_on_order_line': line.action_on_order_line,
-                        'consumable': line.consumable,
-                    })
+                    if line.action_on_order_line not in ['subcontracted','option']:
+                        new_order_line = order_id.order_line.create({
+                            'product_id': line.product_id.id,
+                            'product_template_id': line.product_template_id.id,
+                            'name': line.name,
+                            'product_uom_qty': line.product_uom_qty,
+                            'qty': line.product_uom_qty,
+                            'product_uom': line.product_uom.id,
+                            'price_unit': line.price_unit,
+                            'temp_price_unit': line.temp_price_unit,
+                            'discount': line.discount,
+                            'order_id': order_id.id,
+                            'sequence': line.sequence,
+                            'action_on_order_line': line.action_on_order_line,
+                            'consumable': line.consumable,
+                        })
 
                 elif line.display_type in ['line_section', 'line_note']:
                     new_order_line = order_id.order_line.create({
