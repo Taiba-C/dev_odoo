@@ -182,7 +182,7 @@ class Sale_order(models.Model):
     is_bom_generated = fields.Boolean('Is BOm Generated')
     task_option_counts = fields.Float(compute='_get_task_counts')
     project_option_counts = fields.Float(compute='_get_project_counts')
-    project_options_id = fields.Many2one('project.project', string='Project option', ondelete='cascade')
+    project_options_id = fields.Many2one('project.project', string='Project option', ondelete='cascade', copy=False)
     
    
     
@@ -637,6 +637,10 @@ class Sale_order(models.Model):
 
     def action_confirm(self):
         res = super(Sale_order,self).action_confirm()
+
+        if self.project_options_id:
+            self.project_options_id = False
+            
         self.search_duplicate_bom_line()
 
         self.delete_option_without_order_line(self.id)
