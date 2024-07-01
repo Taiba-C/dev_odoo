@@ -182,7 +182,7 @@ class Sale_order(models.Model):
     is_bom_generated = fields.Boolean('Is BOm Generated')
     task_option_counts = fields.Float(compute='_get_task_counts')
     project_option_counts = fields.Float(compute='_get_project_counts')
-    project_options_id = fields.Many2one('project.project', string='Project option', ondelete='cascade')
+    project_options_id = fields.Many2one('project.project', string='Project option', ondelete='cascade', copy=False)
     
    
     
@@ -634,9 +634,15 @@ class Sale_order(models.Model):
         # })
         pass
 
+    def retro_act_delete_project_duplicated_project(self):
+        all = self.env['sale.order'].search([('project_options_id','!=',False),('state','in',['draft','sent'])])
+        for order in all:
+            order.project_options_id = False
+        
 
     def action_confirm(self):
         res = super(Sale_order,self).action_confirm()
+
         self.search_duplicate_bom_line()
 
         self.delete_option_without_order_line(self.id)
