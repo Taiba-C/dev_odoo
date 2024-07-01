@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "custom_stock",
+    'name': "nesil_base",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -10,9 +10,8 @@
         Long description of module's purpose
     """,
 
-    'author': "ranoarison rajoniaina tsiky",
-    'website': "https://tsikydev.odoo.com/",
-    'license': 'AGPL-3',
+    'author': "My Company",
+    'website': "https://www.yourcompany.com",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/16.0/odoo/addons/base/data/ir_module_category_data.xml
@@ -21,17 +20,21 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['nesil_base','stock','product','custom_manufacturing'],
+    'depends': ['base'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'views/product.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
+
+    'auto_install': True,
+    'sequence': -1,
+    'installable': True,
+    'application': True,
 }
