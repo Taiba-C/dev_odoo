@@ -667,9 +667,11 @@ class Sale_order(models.Model):
                     'date_start': self.date_of_exhibition,
                     'date': self.opportunity_id.fin_salon,
                     'order_id':self.id,
+                    'tag_ids': False
                     }
             if self.opportunity_id.name:
                 opportunity = self.opportunity_id.name
+
             project = self.env['project.project'].create(vals)
 
             self.project_options_id = project.id
