@@ -46,31 +46,6 @@ class ProjectProject(models.Model):
             else:
                 record.show_dates = f"{start} {end}"
 
-
-    def _inverse_show_name(self):
-        pass
-
-    def _inverse_show_dates(self):
-        pass
-
-    def _inverse_show_localisation(self):
-        pass
-
-    def _inverse_show_hall_name(self):
-        pass
-
-    def _inverse_show_stand_name(self):
-        pass
-
-    def _inverse_show_surface(self):
-        pass
-
-    def _inverse_show_commercials(self):
-        pass
-
-    def _inverse_order_id(self):
-        pass
-
     def _compute_order_id(self):
         for record in self:
             order_id = self.env['sale.order'].search([('project_options_id', '=', record.id)], limit=1)
@@ -199,3 +174,30 @@ class ProjectProject(models.Model):
                         record.work_order_percentage_in_progress = 0.0
             else:
                 record.work_order_percentage_in_progress = 0.0
+
+    
+
+
+    def _inverse_show_name(self):
+        pass
+
+    def _inverse_show_dates(self):
+        pass
+
+    def _inverse_show_localisation(self):
+        pass
+
+    def _inverse_show_hall_name(self):
+        pass
+
+    def _inverse_show_stand_name(self):
+        pass
+
+    def _inverse_show_surface(self):
+        pass
+
+    def _inverse_show_commercials(self):
+        pass
+
+    def _inverse_order_id(self):
+        pass
