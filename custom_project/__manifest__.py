@@ -29,6 +29,7 @@
         'views/views.xml',
         'views/templates.xml',
         'views/project_views.xml',
+        'views/site_planning_gantt.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

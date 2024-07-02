@@ -158,7 +158,7 @@
     </record>
 
     <record id="action_open_view_project_progress" model="ir.actions.act_window">
-        <field name="name">Progression des projets</field>
+        <field name="name">Project progress</field>
         <field name="res_model">project.project</field>
         <field name="context">{'search_default_groupby_stage_project_progress': 1}</field>
         <field name="view_mode">kanban</field>

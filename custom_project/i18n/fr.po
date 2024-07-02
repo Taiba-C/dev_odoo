@@ -1,0 +1,265 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* custom_project
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-02 14:56+0000\n"
+"PO-Revision-Date: 2024-07-02 14:56+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "<i class=\"fa fa-long-arrow-right\" title=\"Arrow\"/>"
+msgstr "<i class=\"fa fa-long-arrow-right\" title=\"Flèche\"/>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "<span class=\"fa fa-clock-o me-2\" title=\"Dates\"/>"
+msgstr "<span class=\"fa fa-clock-o me-2\" title=\"Dates\"/>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid ""
+"<span class=\"fa fa-envelope-o me-2\" aria-label=\"Domain Alias\" "
+"title=\"Domain Alias\"/>"
+msgstr "<span class=\"fa fa-envelope-o me-2\" aria-label=\"Alias de domaine\" title=\"Alias de domaine\"/>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "<span class=\"fa fa-user me-2\" aria-label=\"Partner\" title=\"Partner\"/>"
+msgstr "<span class=\"fa fa-user me-2\" aria-label=\"Partenaire\" title=\"Partenaire\"/>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "<span>En cours: </span>"
+msgstr "<span>En cours: </span>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "<span>Nombre ordres de fabrication: </span>"
+msgstr "<span>Nombre d'ordres de fabrication: </span>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "<span>Non commencé: </span>"
+msgstr "<span>Non commencé: </span>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "<span>Terminé: </span>"
+msgstr "<span>Terminé: </span>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "<strong>Customer — </strong>"
+msgstr "<strong>Client — </strong>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "<strong>Hall — </strong>"
+msgstr "<strong>Hall — </strong>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "<strong>Localisation — </strong>"
+msgstr "<strong>Localisation — </strong>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "<strong>Project Manager — </strong>"
+msgstr "<strong>Chef de projet — </strong>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "<strong>Show dates — </strong>"
+msgstr "<strong>Dates du salon — </strong>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "<strong>Show name — </strong>"
+msgstr "<strong>Nom du salon — </strong>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "<strong>Stand N — </strong>"
+msgstr "<strong>Stand N — </strong>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "<strong>Surface — </strong>"
+msgstr "<strong>Surface — </strong>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "<strong>Vendor — </strong>"
+msgstr "<strong>Vendeur — </strong>"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "Arrow"
+msgstr "Flèche"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "Arrow icon"
+msgstr "Icône de flèche"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "Average Rating: Dissatisfied"
+msgstr "Note moyenne : Insatisfait"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "Average Rating: Okay"
+msgstr "Note moyenne : Correct"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "Average Rating: Satisfied"
+msgstr "Note moyenne : Satisfait"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "Etat des ordres de travail"
+msgstr "État des ordres de travail"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_project_progress_filter
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_site_planning_gantt
+msgid "Group By"
+msgstr "Regrouper par"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "Happy face"
+msgstr "Visage heureux"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "Neutral face"
+msgstr "Visage neutre"
+
+#. module: custom_project
+#: model:ir.actions.act_window,help:custom_project.action_open_view_project_progress
+#: model_terms:ir.actions.act_window,help:custom_project.action_open_view_project_site_planning
+msgid "No projects found. Let's create one!"
+msgstr "Aucun projet trouvé. Créons-en un !"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.project_site_plannging_gantt
+msgid "Planning"
+msgstr "Planification"
+
+#. module: custom_project
+#: model:ir.ui.menu,name:custom_project.menu_site_planning_gantt
+msgid "Planning lié aux chantiers"
+msgstr "Planification liée aux chantiers"
+
+#. module: custom_project
+#: model:ir.actions.act_window,name:custom_project.action_open_view_project_progress
+#: model:ir.ui.menu,name:custom_project.menu_project_progress
+msgid "Project progress"
+msgstr "Progression des projets"
+
+#. module: custom_project
+#: model:ir.model,name:custom_project.model_project_project
+msgid "Project"
+msgstr "Projet"
+
+#. module: custom_project
+#: model:ir.actions.act_window,help:custom_project.action_open_view_project_progress
+#: model_terms:ir.actions.act_window,help:custom_project.action_open_view_project_site_planning
+msgid "Projects contain tasks on the same topic, and each has its own dashboard."
+msgstr "Les projets contiennent des tâches sur le même sujet, et chacun a son propre tableau de bord."
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_progress_kanban
+msgid "Sad face"
+msgstr "Visage triste"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__bon_de_commande
+#: model:ir.model.fields,field_description:custom_project.field_project_project__order_id
+msgid "Sale Order"
+msgstr "Bon de commande"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_project_progress_filter
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_site_planning_gantt
+msgid "Search Project"
+msgstr "Rechercher un projet"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__show_commercials
+msgid "Show Commercials"
+msgstr "Vendeur"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__show_dates
+msgid "Show Dates"
+msgstr "Dates des salons"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__show_hall_name
+msgid "Hall Name"
+msgstr "Hall"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__show_localisation
+msgid "Localisation"
+msgstr "Localisation"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__show_name
+msgid "Show Name"
+msgstr "Nom du salon"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__show_stand_name
+msgid "Stand Name"
+msgstr "Stand"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__show_surface
+msgid "Show Surface"
+msgstr "Salon la surface"
+
+#. module: custom_project
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_project_progress_filter
+#: model_terms:ir.ui.view,arch_db:custom_project.view_project_site_planning_gantt
+msgid "Stage"
+msgstr "Phase"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__work_order_percentage_done
+msgid "Work ORder Percent done"
+msgstr "Pourcentage d'ordres de travail terminés"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__work_order_percentage_in_progress
+msgid "Work ORder Percent in progress"
+msgstr "Pourcentage d'ordres de travail en cours"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__work_order_percentage_not_done
+msgid "Work ORder Percent not done"
+msgstr "Pourcentage d'ordres de travail non réalisés"
+
+#. module: custom_project
+#: model:ir.model.fields,field_description:custom_project.field_project_project__work_order_qty
+msgid "Work ORder Qty"
+msgstr "Quantité d'ordres de travail"
+
+#. module: custom_project
+#: model:ir.actions.act_window,name:custom_project.action_open_view_project_site_planning
+msgid "site_planningion des projets"
+msgstr "Planification des projets"

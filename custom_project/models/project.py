@@ -4,13 +4,79 @@ from odoo import models, fields, api, _
 class ProjectProject(models.Model):                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     _inherit = 'project.project'
     
-    order_id = fields.Many2one('sale.order', string="Sale Order")
-    bon_de_commande = fields.Many2one('sale.order', string="Sale Order")
+    order_id = fields.Many2one('sale.order', string="Sale Order", compute="_compute_order_id", inverse="_inverse_order_id")
+    bon_de_commande = fields.Many2one('sale.order', string="Sale Order", store=True)
     work_order_qty = fields.Float('Work ORder Qty', compute="_compute_work_order_qty", store=True)
     work_order_percentage_done = fields.Float('Work ORder Percent done', compute="_compute_work_order_percentage_done")
     work_order_percentage_not_done = fields.Float('Work ORder Percent not done', compute="_compute_work_order_percentage_not_done")
     work_order_percentage_in_progress = fields.Float('Work ORder Percent in progress', compute="_compute_work_order_percentage_in_progress")
 
+    # salon
+    show_name = fields.Char('Show Name', compute="_compute_show_informations", inverse='_inverse_show_name')
+    # date de salon
+    show_dates = fields.Char('Show Dates', compute="_compute_show_informations", inverse="_inverse_show_dates")
+    # localisation
+    show_localisation = fields.Char('Localisation', compute="_compute_show_informations", inverse="_inverse_show_localisation")
+    # hall
+    show_hall_name = fields.Char('Hall Name', compute="_compute_show_informations", inverse="_inverse_show_hall_name")
+    # stand
+    show_stand_name = fields.Char('Stand Name', compute="_compute_show_informations", inverse="_inverse_show_stand_name")    
+    # surface
+    show_surface = fields.Float('Surface', compute="_compute_show_informations", inverse="_inverse_show_surface")
+    # commerciaux
+    show_commercials = fields.Char('Commercials', compute="_compute_show_informations", inverse="_inverse_show_commercials")
+   
+    @api.depends('order_id')
+    def _compute_show_informations(self):
+        """
+        Compute and update the show information fields based on the order's opportunity information.
+        """
+        for record in self:
+            start = record.order_id.opportunity_id.dbut_salon
+            end = record.order_id.opportunity_id.fin_salon
+
+            record.show_name = record.order_id.opportunity_id.name
+            record.show_commercials = record.order_id.opportunity_id.user_id.name
+            record.show_surface = record.order_id.opportunity_id.surface_en_m
+            record.show_stand_name = record.order_id.opportunity_id.stand_n
+            record.show_hall_name = record.order_id.opportunity_id.hall
+            record.show_localisation = record.order_id.opportunity_id.lieu_du_salon
+            if start and end:
+                record.show_dates = f"{start.strftime('%d')} au {end.strftime('%d %B %Y')}"
+            else:
+                record.show_dates = f"{start} {end}"
+
+
+    def _inverse_show_name(self):
+        pass
+
+    def _inverse_show_dates(self):
+        pass
+
+    def _inverse_show_localisation(self):
+        pass
+
+    def _inverse_show_hall_name(self):
+        pass
+
+    def _inverse_show_stand_name(self):
+        pass
+
+    def _inverse_show_surface(self):
+        pass
+
+    def _inverse_show_commercials(self):
+        pass
+
+    def _inverse_order_id(self):
+        pass
+
+    def _compute_order_id(self):
+        for record in self:
+            order_id = self.env['sale.order'].search([('project_options_id', '=', record.id)], limit=1)
+            record.order_id = order_id.id
+    
+    
     @api.depends('order_id')
     def _compute_work_order_qty(self):
         """
