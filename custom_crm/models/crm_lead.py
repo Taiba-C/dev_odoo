@@ -26,6 +26,11 @@ class Lead(models.Model):
     date_de_demontage_du = fields.Date(string='Date de démontage Du')
     date_de_demontage_au = fields.Date(string='Au')
     warning_copy = fields.Boolean(copy=False)
+
+    tag_ids = fields.Many2many(
+        'crm.tag', 'crm_tag_rel', 'lead_id', 'tag_id', string='Tags',
+        help="Classify and analyze your lead/opportunity categories like: Training, Service", copy=False)   
+
     @api.depends("warning_copy")
     def check_if_display_warning(self):
         for rec in self:
