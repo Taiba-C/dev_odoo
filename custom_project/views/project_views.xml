@@ -101,7 +101,7 @@
                                                 <field name="work_order_qty"/>
                                             </div>
                                             <hr/>
-                                            <h4>Etat des ordres de travail</h4>
+                                            <h4>Ordres de travail</h4>
                                             <div style="border-bottom: 2px solid green; width:100%; border-radius: 5px;"  class="mt-1">
                                                 <span>Terminé: </span>
                                                 <field name="work_order_percentage_done" widget="percentage"/>
