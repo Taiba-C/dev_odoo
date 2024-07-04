@@ -33,6 +33,7 @@
         <field name="arch" type="xml">
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
                     create="false" 
+                    records_draggable="0"
                     quick_create="false"
                     type="object" 
                     sample="1" 
@@ -96,21 +97,22 @@
                                             </div>
                                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                                             <div>
-                                                <span>Nombre ordres de fabrication: </span>
+                                                atoe
+                                                <field name="work_order_qty"/>
+                                                <span>Ordres de fabrication: </span>
                                                 <field name="work_order_qty"/>
                                             </div>
                                             <hr/>
                                             <h4>Etat des ordres de travail</h4>
-                                            <div>
-                                                
+                                            <div style="border-bottom: 2px solid green; width:100%; border-radius: 5px;"  class="mt-1">
                                                 <span>Terminé: </span>
                                                 <field name="work_order_percentage_done" widget="percentage"/>
                                             </div>
-                                            <div>
+                                            <div style="border-bottom: 2px solid blue; width:100%; border-radius: 5px;" class="mt-1">
                                                 <span>En cours: </span>
                                                 <field name="work_order_percentage_in_progress" widget="percentage"/>
                                             </div>
-                                            <div>
+                                            <div style="border-bottom: 2px solid grey; width:100%; border-radius: 5px;" class="mt-1">
                                                 <span>Non commencé: </span>
                                                 <field name="work_order_percentage_not_done" widget="percentage"/>
                                             </div>
@@ -163,7 +165,7 @@
         <field name="context">{'search_default_groupby_stage_project_progress': 1}</field>
         <field name="view_mode">kanban</field>
         <field name="view_id" ref="view_project_progress_kanban"/>
-        <field name="domain">[('order_id', '!=', False),('work_order_qty', '&gt;', 0)]</field>
+        <field name="domain">[('order_id', '!=', False),('order_id.invoice_status', '!=', 'invoiced'),('work_order_qty', '&gt;', 0)]</field>
         <field name="search_view_id" ref="view_project_project_progress_filter"/>
         <field name="target">main</field>
         <field name="help" type="html">
