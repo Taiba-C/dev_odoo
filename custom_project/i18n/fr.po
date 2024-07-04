@@ -162,13 +162,13 @@ msgstr "Planification"
 #. module: custom_project
 #: model:ir.ui.menu,name:custom_project.menu_site_planning_gantt
 msgid "Planning lié aux chantiers"
-msgstr "Planification liée aux chantiers"
+msgstr "Planning chantiers"
 
 #. module: custom_project
 #: model:ir.actions.act_window,name:custom_project.action_open_view_project_progress
 #: model:ir.ui.menu,name:custom_project.menu_project_progress
 msgid "Project progress"
-msgstr "Progression des projets"
+msgstr "Avancement projets"
 
 #. module: custom_project
 #: model:ir.model,name:custom_project.model_project_project

@@ -179,7 +179,7 @@
     <!-- <menuitem id="menu_project_progress" name="Project progress" parent="project.menu_main_pm" sequence="10" action="action_open_view_project_progress"/> -->
 
     <menuitem id="menu_project_progress"
-                name="Progression des projets"   
+                name="Project progress"   
                 web_icon="custom_project,static/description/project.png" 
                 action="action_open_view_project_progress"/>
 
