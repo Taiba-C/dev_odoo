@@ -97,8 +97,6 @@
                                             </div>
                                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                                             <div>
-                                                atoe
-                                                <field name="work_order_qty"/>
                                                 <span>Ordres de fabrication: </span>
                                                 <field name="work_order_qty"/>
                                             </div>
