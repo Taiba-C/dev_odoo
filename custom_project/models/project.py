@@ -22,7 +22,7 @@ class ProjectProject(models.Model):
     # stand
     show_stand_name = fields.Char('Stand Name', compute="_compute_show_informations", inverse="_inverse_show_stand_name")    
     # surface
-    show_surface = fields.Float('Surface', compute="_compute_show_informations", inverse="_inverse_show_surface")
+    show_surface = fields.Char('Surface', compute="_compute_show_informations", inverse="_inverse_show_surface")
     # commerciaux
     show_commercials = fields.Char('Commercials', compute="_compute_show_informations", inverse="_inverse_show_commercials")
    
