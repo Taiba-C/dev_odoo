@@ -11,23 +11,22 @@ class Lead(models.Model):
     order_ids = fields.One2many('sale.order', 'opportunity_id', string='Orders')
     is_quotation_created = fields.Boolean('Is quotation created')
     # champs de l'onglet salon
-    salon = fields.Char(string="Salon")
-    lieu_du_salon = fields.Char(string="Lieu du salon")
-    stand_n = fields.Char(string='Stand N°')
-    hall = fields.Char(string="Hall")
-    allee = fields.Char(string="Allée")
-    surface_en_m = fields.Char(string="Surface (en m²)")
-    dbut_salon = fields.Date(string='Début Salon',required=True)
-    fin_salon = fields.Date(string='Fin Salon',required=True)
-    remarques = fields.Text(string='Remarques')
-    date_de_montage_du = fields.Date(string='Date de montage Du')
-    date_de_montage_au = fields.Date(string='Au')
-    remarques_montage = fields.Text(string='Remarques')
-    date_de_demontage_du = fields.Date(string='Date de démontage Du')
-    date_de_demontage_au = fields.Date(string='Au')
+    salon = fields.Char(string="Salon", tracking=True)
+    lieu_du_salon = fields.Char(string="Lieu du salon", tracking=True)
+    stand_n = fields.Char(string='Stand N°', tracking=True)
+    hall = fields.Char(string="Hall", tracking=True)
+    allee = fields.Char(string="Allée", tracking=True)
+    surface_en_m = fields.Char(string="Surface (en m²)", tracking=True)
+    dbut_salon = fields.Date(string='Début Salon',required=True, tracking=True)
+    fin_salon = fields.Date(string='Fin Salon',required=True, tracking=True)
+    remarques = fields.Text(string='Remarques', tracking=True)
+    date_de_montage_du = fields.Date(string='Date de montage Du', tracking=True)
+    date_de_montage_au = fields.Date(string='Au', tracking=True)
+    remarques_montage = fields.Text(string='Remarques', tracking=True)
+    date_de_demontage_du = fields.Date(string='Date de démontage Du', tracking=True)
+    date_de_demontage_au = fields.Date(string='Au', tracking=True)
     warning_copy = fields.Boolean(copy=False)
- 
-
+    
     @api.depends("warning_copy")
     def check_if_display_warning(self):
         for rec in self:

@@ -11,6 +11,12 @@ class ProjectProject(models.Model):
     work_order_percentage_not_done = fields.Float('Work ORder Percent not done', compute="_compute_work_order_percentage_not_done")
     work_order_percentage_in_progress = fields.Float('Work ORder Percent in progress', compute="_compute_work_order_percentage_in_progress")
 
+    assembly_date_start = fields.Date('assembly_date_start', compute="_compute_date_assembly_desassembly", inverse="_inverse_assembly_date_start")
+    assembly_date_end = fields.Date('assembly_date_end', compute="_compute_date_assembly_desassembly", inverse="_inverse_assembly_date_start")
+
+    disassembly_date_start = fields.Date('Disassembly Date start', compute="_compute_date_assembly_desassembly", inverse="_inverse_assembly_date_start")
+    disassembly_date_end = fields.Date('Disassembly Date end', compute="_compute_date_assembly_desassembly", inverse="_inverse_assembly_date_start")
+
     # salon
     show_name = fields.Char('Show Name', compute="_compute_show_informations", inverse='_inverse_show_name')
     # date de salon
@@ -25,7 +31,7 @@ class ProjectProject(models.Model):
     show_surface = fields.Char('Surface', compute="_compute_show_informations", inverse="_inverse_show_surface")
     # commerciaux
     show_commercials = fields.Char('Commercials', compute="_compute_show_informations", inverse="_inverse_show_commercials")
-   
+
     @api.depends('order_id')
     def _compute_show_informations(self):
         """
@@ -164,8 +170,17 @@ class ProjectProject(models.Model):
             else:
                 record.work_order_percentage_in_progress = 0.0
 
+    @api.depends('order_id')
+    def _compute_date_assembly_desassembly(self):
+        for record in self:
+            if record.order_id:
+                record.assembly_date_start = record.order_id.opportunity_id.date_de_montage_du
+                record.assembly_date_end = record.order_id.opportunity_id.date_de_montage_au
+                record.disassembly_date_start = record.order_id.opportunity_id.date_de_demontage_du
+                record.disassembly_date_end = record.order_id.opportunity_id.date_de_demontage_au
     
-
+    def _inverse_assembly_date_start(self):
+        pass
 
     def _inverse_show_name(self):
         pass
