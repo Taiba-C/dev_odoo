@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+    
+        <record id="view_project_project_progress_filter" model="ir.ui.view">
+            <field name="name">project.project.select</field>
+            <field name="model">project.project</field>
+            <field name="arch" type="xml">
+                <search string="Search Project">
+                    <field name="name" string="Project"/>
+                    <field name="tag_ids"/>
+                    <field name="user_id" string="Project Manager"/>
+                    <field name="partner_id" string="Customer" filter_domain="[('partner_id', 'child_of', self)]"/>
+                    <field name="analytic_account_id"/>
+                    <field name="stage_id" groups="project.group_project_stages"/>
+                    <filter string="My Projects" name="own_projects" domain="[('user_id', '=', uid)]"/>
+                    <filter string="My Favorites" name="my_projects" domain="[('favorite_user_ids', 'in', uid)]"/>
+                    <filter string="Followed" name="followed_by_me" domain="[('message_is_follower', '=', True)]"/>
+                    <filter string="Unassigned" name="unassigned_projects" domain="[('user_id', '=', False)]"/>
+                    <separator/>
+                    <filter string="Late Milestones" name="late_milestones" domain="[('is_milestone_exceeded', '=', True)]" groups="project.group_project_milestone"/>
+                    <separator/>
+                    <filter string="Open" name="open_project" domain="[('stage_id.fold', '=', False)]" groups="project.group_project_stages"/>
+                    <filter string="Closed" name="closed_project" domain="[('stage_id.fold', '=', True)]" groups="project.group_project_stages"/>
+                    <separator/>
+                    <filter string="Start Date" name="start_date" date="date_start"/>
+                    <filter string="End Date" name="end_date" date="date"/>
+                    <separator/>
+                    <filter name="rating_satisfied" string="Satisfied" domain="[('rating_active', '=', True), ('rating_avg', '&gt;=', 3.66)]" groups="project.group_project_rating"/>
+                    <filter name="rating_okay" string="Okay" domain="[('rating_active', '=', True), ('rating_avg', '&lt;', 3.66), ('rating_avg', '&gt;=', 2.33)]" groups="project.group_project_rating"/>
+                    <filter name="dissatisfied" string="Dissatisfied" domain="[('rating_active', '=', True), ('rating_avg', '&lt;', 2.33), ('rating_avg', '&gt;', 0)]" groups="project.group_project_rating"/>
+                    <filter name="no_rating" string="No Rating" domain="['|', ('rating_active', '=', False), ('rating_avg', '=', 0)]" groups="project.group_project_rating"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+
+
+                    <group expand="0" string="Group By">
+                        <filter string="Stage" name="groupby_stage_project_progress" context="{'group_by': 'stage_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_project_progress_kanban">
+            <field name="name">project.project.kanban</field>
+            <field name="model">project.project</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" create="false" records_draggable="0" quick_create="false" type="object" sample="1" default_order="sequence, name, id">
+                    <field name="display_name"/>
+                    <field name="partner_id"/>
+                    <field name="commercial_partner_id"/>
+                    <field name="color"/>
+                    <field name="task_count"/>
+                    <field name="milestone_count_reached"/>
+                    <field name="milestone_count"/>
+                    <field name="allow_milestones"/>
+                    <field name="label_tasks"/>
+                    <field name="alias_id"/>
+                    <field name="alias_name"/>
+                    <field name="alias_domain"/>
+                    <field name="is_favorite"/>
+                    <field name="rating_count" />
+                    <field name="rating_avg"/>
+                    <field name="rating_status"/>
+                    <field name="rating_active" />
+                    <field name="analytic_account_id"/>
+                    <field name="date"/>
+                    <field name="privacy_visibility"/>
+                    <field name="last_update_color"/>
+                    <field name="last_update_status"/>
+                    <field name="tag_ids"/>
+                    <progressbar field="last_update_status" colors='{"on_track": "success", "at_risk": "warning", "off_track": "danger", "on_hold": "info"}'/>
+                    <field name="sequence" widget="handle"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon oe_kanban_content oe_kanban_card">
+                                <div class="o_project_kanban_main ">
+                                    <div class="o_kanban_card_content mw-100">
+                                        <div class="o_kanban_primary_left">
+                                            <div class="o_primary">
+                                                <span class="o_text_overflow" t-att-title="record.display_name.value">
+                                                    <t t-esc="record.display_name.value"/>
+                                                </span>
+                                                <span class="o_text_overflow text-muted" t-if="record.partner_id.value">
+                                                    <span class="fa fa-user me-2" aria-label="Partner" title="Partner"></span>
+                                                    <t t-esc="record.partner_id.value"/>
+                                                </span>
+                                                <div t-if="record.date.raw_value or record.date_start.raw_value" class="text-muted o_row">
+                                                    <span class="fa fa-clock-o me-2" title="Dates"></span>
+                                                    <field name="date_start"/>
+                                                    <i t-if="record.date.raw_value and record.date_start.raw_value" class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow"/>
+                                                    <field name="date"/>
+                                                </div>
+                                                <div t-if="record.alias_name.value and record.alias_domain.value" class="text-muted">
+                                                    <span class="fa fa-envelope-o me-2" aria-label="Domain Alias" title="Domain Alias"></span>
+                                                    <t t-esc="record.alias_id.value"/>
+                                                </div>
+                                                <div t-if="record.rating_active.raw_value and record.rating_count.raw_value &gt; 0" class="text-muted" groups="project.group_project_rating">
+                                                    <b class="me-1">
+                                                        <span style="font-weight:bold;" class="fa mt4 fa-smile-o text-success" t-if="record.rating_avg.raw_value &gt;= 3.66" title="Average Rating: Satisfied" role="img" aria-label="Happy face"/>
+                                                        <span style="font-weight:bold;" class="fa mt4 fa-meh-o text-warning" t-elif="record.rating_avg.raw_value &gt;= 2.33" title="Average Rating: Okay" role="img" aria-label="Neutral face"/>
+                                                        <span style="font-weight:bold;" class="fa mt4 fa-frown-o text-danger" t-else="" title="Average Rating: Dissatisfied" role="img" aria-label="Sad face"/>
+                                                    </b>
+                                                    <field name="rating_avg_percentage" widget="percentage"/>
+                                                </div>
+                                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                                <div>
+                                                    <span>Ordres de fabrication: </span>
+                                                    <field name="work_order_qty"/>
+                                                </div>
+                                                <hr/>
+                                                <h4>Ordres de travail</h4>
+                                                <div style="border-bottom: 2px solid green; width:100%; border-radius: 5px;" class="mt-1">
+                                                    <span>Terminé: </span>
+                                                    <field name="work_order_percentage_done" widget="percentage"/>
+                                                </div>
+                                                <div style="border-bottom: 2px solid blue; width:100%; border-radius: 5px;" class="mt-1">
+                                                    <span>En cours: </span>
+                                                    <field name="work_order_percentage_in_progress" widget="percentage"/>
+                                                </div>
+                                                <div style="border-bottom: 2px solid grey; width:100%; border-radius: 5px;" class="mt-1">
+                                                    <span>Non commencé: </span>
+                                                    <field name="work_order_percentage_not_done" widget="percentage"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <span>
+                                        <field name="is_favorite" widget="boolean_favorite" nolabel="1" force_save="1" />
+                                    </span>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="action_open_view_project_progress" model="ir.actions.act_window">
+            <field name="name">Project progress</field>
+            <field name="res_model">project.project</field>
+            <field name="context">{'search_default_groupby_stage_project_progress': 1}</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_project_progress_kanban"/>
+            <field name="domain">[('order_id', '!=', False),('order_id.invoice_status', '!=', 'invoiced'),('work_order_qty', '&gt;', 0)]</field>
+            <field name="search_view_id" ref="view_project_project_progress_filter"/>
+            <field name="target">main</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                        No projects found. Let's create one!
+                </p>
+                <p>
+                        Projects contain tasks on the same topic, and each has its own dashboard.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_project_progress" name="Project progress" web_icon="custom_project,static/description/project.png" action="action_open_view_project_progress"/>
+
+    
+    </data>
+    
+</odoo>
