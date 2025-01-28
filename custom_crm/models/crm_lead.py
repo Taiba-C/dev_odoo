@@ -211,3 +211,18 @@ class Lead(models.Model):
                 })
             
         return res
+
+    def write(self, vals):
+        res = super(Lead, self).write(vals)
+        if any(field in vals for field in ['dbut_salon', 'fin_salon', 'date_de_montage_du', 'date_de_montage_au', 'date_de_demontage_du', 'date_de_demontage_au']):
+            related_project = self.env['project.project'].search([('opportunity_id', '=', self.id)], limit=1)
+            if related_project:
+                related_project.write({
+                    'date_start': self.dbut_salon,
+                    'date': self.fin_salon,
+                    'assembly_date_start': self.date_de_montage_du,
+                    'assembly_date_end': self.date_de_montage_au,
+                    'disassembly_date_start': self.date_de_demontage_du,
+                    'disassembly_date_end': self.date_de_demontage_au,
+                })
+        return res
