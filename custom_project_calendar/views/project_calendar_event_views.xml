@@ -1,0 +1,101 @@
+<odoo>
+    <record id="view_project_calendar_event_calendar" model="ir.ui.view">
+        <field name="name">project.calendar.event.calendar</field>
+        <field name="model">project.calendar.event</field>
+        <field name="arch" type="xml">
+            <calendar string="Project Events"
+                      date_start="date_start"
+                      date_stop="date_stop"
+                      color="color"
+                      mode="month"
+                      scales="week,month,year"
+                      event_open_popup="true"
+                      quick_add="false">
+                <field name="name"/>
+                <field name="type_of_event"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_project_calendar_event_gantt" model="ir.ui.view">
+        <field name="name">project.calendar.event.gantt</field>
+        <field name="model">project.calendar.event</field>
+        <field name="arch" type="xml">
+            <gantt string="Project Events"
+                   date_start="date_start"
+                   date_stop="date_stop"
+                   color="color"
+                   default_scale="week"
+                   scales="day,week,month,year"
+                   create="false" 
+                   delete="false" 
+                   edit="false"
+                   default_group_by="show_commercials">
+                <templates>
+                    <div t-name="gantt-popover">
+                        <div class="o_gantt_popup_content">
+                            <div t-if="partner_id">
+                                <i class="fa fa-user"/> <strong> Customer: </strong> <t t-esc="partner_id[1]"/>
+                            </div>
+                            <div t-if="show_name">
+                                <i class="fa fa-calendar"/> <strong> Show Name: </strong> <t t-esc="show_name"/>
+                            </div>
+                            <div t-if="show_dates">
+                                <i class="fa fa-clock"/> <strong> Dates: </strong> <t t-esc="show_dates"/>
+                            </div>
+                            <div t-if="show_localisation">
+                                <i class="fa fa-map-marker"/> <strong> Localisation: </strong> <t t-esc="show_localisation"/>
+                            </div>
+                            <div t-if="show_hall_name">
+                                <i class="fa fa-building"/> <strong> Hall: </strong> <t t-esc="show_hall_name"/>
+                            </div>
+                            <div t-if="show_stand_name">
+                                <i class="fa fa-map-signs"/> <strong> Stand: </strong> <t t-esc="show_stand_name"/>
+                            </div>
+                            <div t-if="show_surface">
+                                <i class="fa fa-arrows-alt"/> <strong> Surface: </strong> <t t-esc="show_surface"/>
+                            </div>
+                            <div t-if="show_commercials">
+                                <i class="fa fa-user-tie"/> <strong> Vendor: </strong> <t t-esc="show_commercials"/>
+                            </div>
+                        </div>
+                    </div>
+                </templates>
+                <field name="name" string="Event Name"/>
+                <field name="type_of_event" widget="statusbar"/>
+                <field name="show_name"/>
+                <field name="show_dates"/>
+                <field name="show_localisation"/>
+                <field name="show_hall_name"/>
+                <field name="show_stand_name"/>
+                <field name="show_surface"/>
+                <field name="show_commercials"/>
+            </gantt>
+        </field>
+    </record>
+
+    <record id="view_project_calendar_event_tree" model="ir.ui.view">
+        <field name="name">project.calendar.event.tree</field>
+        <field name="model">project.calendar.event</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_stop"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_project_calendar_event" model="ir.actions.act_window">
+        <field name="name">Project Calendar</field>
+        <field name="res_model">project.calendar.event</field>
+        <field name="view_mode">gantt,calendar,tree</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_project_calendar_root"
+              name="Project Calendar"
+              action="action_project_calendar_event"
+              web_icon="custom_project_calendar,static/description/icon.png"
+              sequence="10"/>
+</odoo>

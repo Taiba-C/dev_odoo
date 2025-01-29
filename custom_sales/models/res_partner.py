@@ -10,3 +10,12 @@ class ResPartner(models.Model):
 
     is_subcontractors = fields.Boolean('Est un sous-traitant')
     subcontractor_margin = fields.Float('Taux de marge')
+    is_coa_installed = fields.Boolean(
+        string="COA Installed",
+        default=False,
+        compute="_compute_is_coa_installed",
+    )
+
+    def _compute_is_coa_installed(self):
+        for partner in self:
+            partner.is_coa_installed = bool(self.env['account.account'].search([], limit=1))

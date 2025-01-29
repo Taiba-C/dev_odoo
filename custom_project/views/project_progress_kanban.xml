@@ -46,6 +46,7 @@
             <field name="model">project.project</field>
             <field name="arch" type="xml">
                 <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" create="false" records_draggable="0" quick_create="false" type="object" sample="1" default_order="sequence, name, id">
+                    <field name="origin"/>
                     <field name="display_name"/>
                     <field name="partner_id"/>
                     <field name="commercial_partner_id"/>
@@ -78,6 +79,9 @@
                                     <div class="o_kanban_card_content mw-100">
                                         <div class="o_kanban_primary_left">
                                             <div class="o_primary">
+                                                <span class="o_text_overflow" t-att-title="record.origin and record.origin.raw_value or 'No Origin Available'">
+                                                    <t t-esc="record.origin and record.origin.raw_value or 'No Origin Available'"/>
+                                                </span>
                                                 <span class="o_text_overflow" t-att-title="record.display_name.value">
                                                     <t t-esc="record.display_name.value"/>
                                                 </span>
@@ -109,18 +113,17 @@
                                                     <field name="work_order_qty"/>
                                                 </div>
                                                 <hr/>
-                                                <h4>Ordres de travail</h4>
+                                                <div t-if="record.is_late and record.is_late.raw_value" class="badge badge-danger">
+                                                    En retard
+                                                </div>
+                                                <hr/>
+                                                <h5>Détails des ordres de travail</h5>
                                                 <div style="border-bottom: 2px solid green; width:100%; border-radius: 5px;" class="mt-1">
-                                                    <span>Terminé: </span>
-                                                    <field name="work_order_percentage_done" widget="percentage"/>
+                                                    <field name="work_order_details" widget="html" readonly="1"/>
+                                                    <!-- <field name="work_order_percentage_done" widget="progressbar" options="{'max_value': 100}"/>-->
                                                 </div>
-                                                <div style="border-bottom: 2px solid blue; width:100%; border-radius: 5px;" class="mt-1">
-                                                    <span>En cours: </span>
-                                                    <field name="work_order_percentage_in_progress" widget="percentage"/>
-                                                </div>
-                                                <div style="border-bottom: 2px solid grey; width:100%; border-radius: 5px;" class="mt-1">
-                                                    <span>Non commencé: </span>
-                                                    <field name="work_order_percentage_not_done" widget="percentage"/>
+                                                <div>
+                                                    <field name="workorder_type_progression" widget="html" readonly="1"/>
                                                 </div>
                                             </div>
                                         </div>

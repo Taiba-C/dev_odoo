@@ -185,6 +185,7 @@
                         <field name="opportunity_name"/> 
                         <field name="sale_order" invisible='1'/> 
                         <field name="sale_order_name"/> 
+                        <button name="action_view_workload" type="object" string="Disponibilités" class="btn-primary"/>
                     </group>
                 </group>
                 <notebook>

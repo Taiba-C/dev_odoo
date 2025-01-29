@@ -1,0 +1,15 @@
+/* Couleurs pour les différents types d'événements */
+.o_calendar_color_assembly {
+    background-color: #28a745 !important; /* Vert */
+    color: white !important;
+}
+
+.o_calendar_color_disassembly {
+    background-color: #dc3545 !important; /* Rouge */
+    color: white !important;
+}
+
+.o_calendar_color_main {
+    background-color: #007bff !important; /* Bleu */
+    color: white !important;
+}

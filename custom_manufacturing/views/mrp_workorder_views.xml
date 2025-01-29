@@ -29,6 +29,11 @@
                     <field name="duration_hour" widget="float_time"/>
 
                 </xpath>
+                <xpath expr="//field[@name='duration_hour']" position="after">
+
+                    <field name="efficiency_percentage" widget="float_time"/>
+
+                </xpath>
 
             </field>
         </record>
