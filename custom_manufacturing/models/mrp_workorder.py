@@ -4,6 +4,10 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from odoo.exceptions import ValidationError
 from datetime import timedelta
+import logging
+import json
+
+_logger = logging.getLogger(__name__)
 
 
 class Mrp_workorder(models.Model):
@@ -34,6 +38,17 @@ class Mrp_workorder(models.Model):
         string="Sequence",
         help="Détermine l'ordre de planification des ordres de travail.",
         default=0
+    )
+
+    show_json_popover = fields.Boolean(
+        string="Show JSON Popover",
+        compute="_compute_json_popover",
+        store=True
+    )
+    json_popover = fields.Char(
+        string="JSON Popover",
+        compute="_compute_json_popover",
+        store=True
     )
 
 
@@ -119,29 +134,7 @@ class Mrp_workorder(models.Model):
 
     
 
-    def _check_employee_schedule(self):
-        """
-        Vérifie les conflits d'horaires pour l'employé et envoie une notification si nécessaire.
-        """
-        for workorder in self:
-            if workorder.employee_id:
-                # Rechercher les ordres de travail en conflit avec l'horaire
-                overlapping_workorders = self.env['mrp.workorder'].search([
-                    ('id', '!=', workorder.id),
-                    ('employee_id', '=', workorder.employee_id.id),
-                    ('state', '!=', 'done'),
-                    ('date_planned_start', '<', workorder.date_planned_finished),
-                    ('date_planned_finished', '>', workorder.date_planned_start),
-                ])
-                if overlapping_workorders:
-                    conflict_names = ", ".join(overlapping_workorders.mapped('name'))
-                    message = _(
-                        "Conflit détecté : L'employé %s est déjà affecté aux tâches suivantes durant cette période : %s."
-                    ) % (workorder.employee_id.name, conflict_names)
-                    
-                    # Ajouter un message dans le journal de l'ordre de fabrication
-                    if workorder.production_id:
-                        workorder.production_id.message_post(body=message)
+
 
 
     @api.depends('duration', 'duration_expected')
@@ -150,3 +143,66 @@ class Mrp_workorder(models.Model):
             workorder.efficiency_percentage = (
                 (workorder.duration_expected / workorder.duration) * 100 if workorder.duration else 0
             )
+
+    def action_replan(self):
+        """Replanifie les ordres de travail en respectant la séquence définie."""
+        # Récupérer la production associée
+        production = self.production_id
+        
+        # Appeler la méthode de replanification de la production
+        production._plan_workorders(replan=True)
+        
+        # Forcer la fermeture du popover
+        self.write({
+            'show_json_popover': False,
+            'json_popover': False
+        })
+        
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }
+
+    @api.depends('date_planned_start', 'date_planned_finished', 'user_id')
+    def _compute_json_popover(self):
+        """Calcule les informations à afficher dans le popover."""
+        for workorder in self:
+            infos = []
+            
+            # Vérifier les conflits d'emploi du temps
+            if workorder.date_planned_start and workorder.date_planned_finished and workorder.user_id:
+                # Ne vérifier les conflits que pour les enregistrements existants
+                if not isinstance(workorder.id, models.NewId):
+                    overlapping_workorders = self.env['mrp.workorder'].search([
+                        ('id', '!=', workorder.id),
+                        ('user_id', '=', workorder.user_id.id),
+                        ('date_planned_start', '<', workorder.date_planned_finished),
+                        ('date_planned_finished', '>', workorder.date_planned_start),
+                    ])
+
+                    if overlapping_workorders:
+                        infos.append({
+                            'color': 'text-danger',
+                            'msg': _("Conflit d'emploi du temps pour l'utilisateur %s avec l'ordre de travail %s") % (
+                                workorder.user_id.name,
+                                overlapping_workorders[0].name
+                            )
+                        })
+
+            # Vérifier si l'ordre est en retard
+            if workorder.date_planned_finished and workorder.date_planned_finished < fields.Datetime.now():
+                infos.append({
+                    'color': 'text-warning',
+                    'msg': _("L'ordre de travail est en retard")
+                })
+
+            # Mettre à jour le popover
+            color_icon = infos and infos[-1]['color'] or False
+            workorder.show_json_popover = bool(color_icon)
+            workorder.json_popover = json.dumps({
+                'popoverTemplate': 'mrp.workorderPopover',
+                'infos': infos,
+                'color': color_icon,
+                'icon': 'fa-exclamation-triangle' if color_icon in ['text-warning', 'text-danger'] else 'fa-info-circle',
+                'replan': color_icon not in [False, 'text-primary']
+            })

@@ -33,38 +33,32 @@ class Mrp_production(models.Model):
         for record in self:
             record.production_real_duration_hour = record.production_real_duration / 60
             
-    def _plan_workorders(self):
-        """Plan or reschedule work orders respecting the defined sequence and adjust dates."""
-        sequence_order = {
-            'MO Etude de fabrication': 1,
-            'MO DECOUPE': 2,
-            'MO USINAGE': 3,
-            'MO PLAQUAGE DE CHANTS': 3,
-            'MO ASSEMBLAGE': 4
-        }
-
     def _plan_workorders(self, replan=False):
         """Planifie ou reprogramme les ordres de travail en respectant un séquencement spécifique
         et ajuste les dates pour respecter les heures de travail.
         """
+        # Définition de la séquence avec les priorités
         sequence_order = {
-            'MO Etude de fabrication': 1,
+            'MO ETUDE DE FABRICATION': 1,
             'MO DECOUPE': 2,
             'MO USINAGE': 3,
-            'MO PLAQUAGE DE CHANTS': 3,
-            'MO ASSEMBLAGE': 4
+            'MO PLAQUAGE DE CHANTS': 4,
+            'MO ASSEMBLAGE': 5
         }
 
         for production in self:
             # Récupérer les ordres de travail selon le contexte de replanification
             if replan:
-                workorders = production.workorder_ids.filtered(lambda w: w.state in ['ready', 'pending'])
+                # En mode replanification, on prend tous les ordres non terminés
+                workorders = production.workorder_ids.filtered(
+                    lambda w: w.state not in ['done', 'cancel']
+                )
             else:
                 workorders = production.workorder_ids
 
             # Trier les ordres de travail selon la séquence
             sorted_workorders = workorders.sorted(
-                key=lambda w: sequence_order.get(w.workcenter_id.name, 99)
+                key=lambda w: sequence_order.get(w.workcenter_id.name.upper(), 99)
             )
 
             # Vérifier si un calendrier est assigné à chaque centre de travail
@@ -77,10 +71,10 @@ class Mrp_production(models.Model):
             # Initialiser la date de début pour la planification
             next_start_date = production.date_planned_start or fields.Datetime.now()
 
-            from itertools import groupby
             # Regrouper les ordres de travail par séquence
+            from itertools import groupby
             groups = []
-            for _, group in groupby(sorted_workorders, key=lambda w: sequence_order.get(w.workcenter_id.name, 99)):
+            for _, group in groupby(sorted_workorders, key=lambda w: sequence_order.get(w.workcenter_id.name.upper(), 99)):
                 groups.append(list(group))
 
             # Planifier les groupes séquentiellement
@@ -99,8 +93,11 @@ class Mrp_production(models.Model):
                     date_planned_finished = calendar.plan_hours(work_duration, next_start_date)
 
                     # Mettre à jour les dates planifiées de l'ordre de travail
-                    workorder.date_planned_start = next_start_date
-                    workorder.date_planned_finished = date_planned_finished
+                    workorder.write({
+                        'date_planned_start': next_start_date,
+                        'date_planned_finished': date_planned_finished,
+                        'is_planned': True
+                    })
 
                     # Mettre à jour le prochain créneau disponible
                     if date_planned_finished > group_max_end:
@@ -108,4 +105,26 @@ class Mrp_production(models.Model):
 
                 # Définir la prochaine date de début pour le groupe suivant
                 next_start_date = group_max_end
+
+            # Mettre à jour la date de fin planifiée de la production
+            if sorted_workorders:
+                production.write({
+                    'date_planned_finished': max(wo.date_planned_finished for wo in sorted_workorders)
+                })
+
+    def action_replan(self):
+        """Replanifie les ordres de travail en respectant la séquence définie."""
+        self._plan_workorders(replan=True)
+        
+        # Mettre à jour le champ show_json_popover pour fermer le popover
+        for workorder in self.workorder_ids:
+            workorder.write({
+                'show_json_popover': False,
+                'json_popover': False
+            })
+        
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }
 

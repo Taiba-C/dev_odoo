@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Catégorie Main d'oeuvre -->
+    <record id="product_category_main_oeuvre" model="product.category">
+        <field name="name">Main d'oeuvre</field>
+        <field name="parent_id" ref="product.product_category_all"/>
+    </record>
+
+    <!-- Produits de main d'œuvre -->
+    <record id="product_mo_usinage" model="product.product">
+        <field name="name">MO USINAGE</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_main_oeuvre"/>
+        <field name="uom_id" ref="uom.product_uom_hour"/>
+        <field name="uom_po_id" ref="uom.product_uom_hour"/>
+    </record>
+
+    <record id="product_mo_decoupe" model="product.product">
+        <field name="name">MO DECOUPE</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_main_oeuvre"/>
+        <field name="uom_id" ref="uom.product_uom_hour"/>
+        <field name="uom_po_id" ref="uom.product_uom_hour"/>
+    </record>
+
+    <record id="product_mo_plaquage" model="product.product">
+        <field name="name">MO PLAQUAGE DE CHANTS</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_main_oeuvre"/>
+        <field name="uom_id" ref="uom.product_uom_hour"/>
+        <field name="uom_po_id" ref="uom.product_uom_hour"/>
+    </record>
+
+    <record id="product_mo_assemblage" model="product.product">
+        <field name="name">MO ASSEMBLAGE</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_main_oeuvre"/>
+        <field name="uom_id" ref="uom.product_uom_hour"/>
+        <field name="uom_po_id" ref="uom.product_uom_hour"/>
+    </record>
+
+    <record id="product_mo_etude" model="product.product">
+        <field name="name">MO Etude de fabrication</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_main_oeuvre"/>
+        <field name="uom_id" ref="uom.product_uom_hour"/>
+        <field name="uom_po_id" ref="uom.product_uom_hour"/>
+    </record>
+</odoo> 

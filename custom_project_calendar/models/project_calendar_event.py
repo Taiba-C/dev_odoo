@@ -6,8 +6,8 @@ class ProjectCalendarEvent(models.Model):
     _description = 'Project Calendar Event'
 
     name = fields.Char(string="Event Name", required=True)
-    date_start = fields.Datetime(string="Start Date", required=True)
-    date_stop = fields.Datetime(string="End Date", required=True)
+    date_start = fields.Date(string="Start Date", required=True)
+    date_stop = fields.Date(string="End Date", required=True)
     type_of_event = fields.Selection([
         ('main', 'Main Event'),
         ('assembly', 'Montage'),

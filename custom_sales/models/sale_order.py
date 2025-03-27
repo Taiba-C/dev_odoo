@@ -5,6 +5,9 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from odoo.addons.sale.models.sale_order import READONLY_FIELD_STATES
 import json
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class Sale_order(models.Model):
@@ -727,29 +730,29 @@ class Sale_order(models.Model):
                                         'raw_material_production_id': mrp.id,
                                     })
 
-                            if option.product_id.categ_id.name == 'Main d\'oeuvre':
-                                if option.product_id.name == 'MO USINAGE':
-                                    work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO USINAGE')], limit=1)
-                                    role = "USINAGE"
+                            if option.product_id.categ_id.name.upper().strip() == 'MAIN D\'OEUVRE':
+                                # Dictionnaire de correspondance entre les noms de produits et les rôles
+                                work_centers = {
+                                    'MO USINAGE': 'USINAGE',
+                                    'MO DECOUPE': 'DECOUPE',
+                                    'MO PLAQUAGE DE CHANTS': 'PLAQUAGE DE CHANTS',
+                                    'MO ASSEMBLAGE': 'ASSEMBLAGE',
+                                    'MO ETUDE DE FABRICATION': 'ETUDE DE FABRICATION'
+                                }
 
-                                elif option.product_id.name == 'MO DECOUPE':
-                                    work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO DECOUPE')], limit=1)
-                                    role = "DECOUPE"
+                                # Normalisation du nom du produit
+                                product_name = option.product_id.name.upper().strip()
 
-                                elif option.product_id.name == 'MO PLAQUAGE DE CHANTS':
-                                    work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO PLAQUAGE DE CHANTS')], limit=1)
-                                    role = "PLAQUAGE DE CHANTS"
-
-                                elif option.product_id.name == 'MO ASSEMBLAGE':
-                                    work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO ASSEMBLAGE')], limit=1)
-                                    role = "ASSEMBLAGE"
-
-
-                                elif option.product_id.name == 'MO Etude de fabrication':
-                                    work_center = self.env['mrp.workcenter'].search([('name', '=', 'MO Etude de fabrication')], limit=1)
-                                    role = "ETUDE DE FABRICATION"
-
-
+                                # Recherche de correspondance
+                                for wc_name, wc_role in work_centers.items():
+                                    if product_name == wc_name:
+                                        work_center = self.env['mrp.workcenter'].search(
+                                            ['|',
+                                             ('name', '=ilike', wc_name),
+                                             ('name', '=ilike', wc_name.lower())
+                                            ], limit=1)
+                                        role = wc_role
+                                        break
 
                                 if work_center :
                                     work_order = self.env['mrp.workorder'].create({
