@@ -344,6 +344,7 @@
                 color="workcenter_id"
                 display_unavailability="1"
                 sample="1"
+                default_scale="week"
                 form_view_id="%(mrp_production_workorder_form_view_inherit_nesil)d">
 
                 <field name="date_planned_start"/>
@@ -383,6 +384,7 @@
                 color="production_id"
                 display_unavailability="1"
                 progress_bar="workcenter_id"
+                default_scale="week"
                 form_view_id="mrp_production_workorder_form_view_inherit_nesil">
 
                 <field name="date_planned_start"/>

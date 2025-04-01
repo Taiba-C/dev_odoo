@@ -112,7 +112,11 @@ class Mrp_workorder(models.Model):
             'view_mode': 'gantt',
             'res_model': 'mrp.workorder',
             'domain': [('employee_id', '=', self.employee_id.id), ('state', '!=', 'done')],
-            'context': {'group_by': 'employee_id'},
+            'context': {
+                'group_by': 'employee_id',
+                'default_scale': 'week',
+                'gantt_display': 'fit',  # Ajuste la taille automatiquement
+            },
             'target': 'new',
         }
 
@@ -141,7 +145,7 @@ class Mrp_workorder(models.Model):
     def _compute_efficiency_percentage(self):
         for workorder in self:
             workorder.efficiency_percentage = (
-                (workorder.duration_expected / workorder.duration) * 100 if workorder.duration else 0
+                (workorder.duration / workorder.duration_expected) * 100 if workorder.duration_expected else 0
             )
 
     def action_replan(self):
